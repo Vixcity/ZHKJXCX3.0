@@ -1,0 +1,26 @@
+/* components/orderCard.wxss */
+@import "../../app.wxss";
+
+.image {
+	border-radius: 0;
+	overflow: hidden;
+	width: 144rpx;
+	height: 114rpx;
+	border-radius: 8rpx;
+}
+
+.check {
+	color: #229CFB
+}
+
+.cornerStyle{
+	right: -2%;
+	bottom: -2%;
+}
+
+.popup{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+}

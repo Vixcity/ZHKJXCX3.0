@@ -1,0 +1,49 @@
+<!--components/orderCard.wxml-->
+<!-- wx:if="{{detailInfo.bigThan30}}" -->
+<view wx:if="{{smallThan24h}}" bindtap="changeCheck" class="ml20 mr20 mt20 bgColorWhite vw90 jcsb flexWarp borderRadius16 shadow borderBox pl10 pr10 pt10 pb10 colorBlack por overfh">
+	<view class="flex jcsb aic">
+		<view class="fz35 flex blod aic" bind:click="someFunction" catchtap="changeShow">
+			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;" wx:if="{{detailInfo.display === 0}}">{{detailInfo.title || detailInfo.code}}</view>
+			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;" wx:elif="{{detailInfo.display === 1}}">{{detailInfo.code || detailInfo.title}}</view>
+			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;" wx:else>{{detailInfo.title || detailInfo.code}}</view>
+			<t-icon wx:if="{{showChangeIcon}}" class="ml10 color8D9F" name=swap" size="xl"> </t-icon>
+		</view>
+		<view class="flex h90">
+			<view class="autoLogos pl10 pr10">{{detailInfo.processName}}</view>
+		</view>
+	</view>
+	<view class="fz30 mt20 mb20 flex jcsb">
+		<text>{{detailInfo.customer}}</text>
+		<view wx:if="{{detailInfo.status !== 3}}">
+			<text wx:if="{{detailInfo.dateDiff > 0}}" class="color8D9F">剩余{{detailInfo.dateDiff}}天</text>
+			<text wx:if="{{detailInfo.dateDiff === 0}}" class="colorFDA9">今日截止交付</text>
+			<text wx:if="{{detailInfo.dateDiff < 0 && (detailInfo.nowNumber-detailInfo.allNumber<0)}}" class="colorE800">逾期{{0-detailInfo.dateDiff}}天</text>
+		</view>
+	</view>
+	<view class="flex aic">
+		<image class="size-l radius-m image" catchtap="showImage" src="{{detailInfo.imgSrc}}" mode="aspectFill" />
+		<view class="por ml10 fz30 flex jcsa fdc w100" style="height: 144rpx;">
+			<view class="flex w100">
+				<view class="{{(showEnterPrice && (enterPricce !== '0.00'))?'w70':'w100'}}">生产进度：{{detailInfo.allNumber}}({{detailInfo.nowNumber-detailInfo.allNumber<0?(detailInfo.nowNumber-detailInfo.allNumber):((detailInfo.nowNumber-detailInfo.allNumber)===0?0:'+'+(detailInfo.nowNumber-detailInfo.allNumber))}})</view>
+				<view class="w30 tc" wx:if="{{showEnterPrice && (enterPricce !== '0.00')}}">{{enterPricce}} 元</view>
+				<view class="w30 tc colorRed" wx:if="{{showEnterPrice && isLeader && (enterPricce === '0.00')}}" bindtap="toOrderDetail">点击定价</view>
+			</view>
+			<view>交付时间：{{detailInfo.time}}</view>
+			<view wx:if="{{showPrice}}" class="poa fz30 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
+		</view>
+		<t-icon name="check-circle-filled" size="xl" class="{{detailInfo.isBind?'check':'color9E'}} poa" style="right: 20rpx;bottom: 20rpx;" wx:if="{{showIcon}}"></t-icon>
+		<view wx:if="{{detailInfo.status === 1}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待定价</view>
+		<view wx:if="{{detailInfo.status === 2}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">生产中</view>
+		<view wx:if="{{detailInfo.status === 3}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">已完成</view>
+		<view wx:if="{{detailInfo.status === 4}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">新派单</view>
+	</view>
+	<!-- 弹出框 -->
+	<t-popup catchtap visible="{{showPopup}}" placement="center" bindtap="closePopup">
+      <view slot="content" class="overfh por">
+        <view class="tc vw100 h100">
+          <image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{detailInfo.imgSrc}}"></image>
+        </view>
+      </view>
+    </t-popup>
+	<slot name="after"></slot>
+</view>
