@@ -1,42 +1,45 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/manage/manage",
-    "pages/noLogin/noLogin"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle": "black"
-  },
-  "usingComponents": {
-    "i-card": "/dist/card/index",
-    "i-button": "/dist/button/index",
-    "l-card": "/miniprogram_npm/lin-ui/card/index",
-    "t-message": "tdesign-miniprogram/message/message",
-    "t-button": "tdesign-miniprogram/button/button",
-    "van-button": "@vant/weapp/button/index",
-
-    "order-card": "./components/orderCard/orderCard",
+	"pages": [
+		"pages/index/index",
+		"pages/signUp/signUp",
+		"pages/manage/manage",
+		"pages/noLogin/noLogin",
+		"pages/productPlan/productPlan",
+		"pages/outputEntry/outputEntry"
+	],
+	"window": {
+		"backgroundTextStyle": "light",
+		"navigationBarTitleText": "织为云外协用工",
+		"navigationBarBackgroundColor": "#3BB1FF",
+		"navigationBarTextStyle": "white",
+		"backgroundColor": "#f3f3f3"
+	},
+	"usingComponents": {
+		"i-card": "/dist/card/index",
+		"i-button": "/dist/button/index",
+		"l-card": "/miniprogram_npm/lin-ui/card/index",
+		"t-message": "tdesign-miniprogram/message/message",
+		"t-button": "tdesign-miniprogram/button/button",
+		"van-button": "@vant/weapp/button/index",
+		"order-card": "./components/orderCard/orderCard",
 		"list-card": "./components/listCard/listCard"
-  },
-  "tabBar": {
-    "custom": true,
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/manage/manage",
-        "text": "管理"
-      }
-    ]
-  },
-  "sitemapLocation": "sitemap.json"
+	},
+	"tabBar": {
+		"custom": true,
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/manage/manage",
+				"text": "管理"
+			}
+		]
+	},
+	"sitemapLocation": "sitemap.json"
 }

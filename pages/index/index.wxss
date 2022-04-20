@@ -1,4 +1,7 @@
 /**index.wxss**/
+#index {
+  padding-bottom: 60px;
+}
 #index .userinfo {
   display: flex;
   flex-direction: column;

@@ -1,15 +1,22 @@
 // index.js
-// 获取应用实例
-const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    canIUseGetUserProfile: false,
-    canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl') && wx.canIUse('open-data.type.userNickName') // 如需尝试获取用户信息可改为false
+    list: [{
+      title: '本厂生产中',
+      number: 1800,
+      plusNumber: 3,
+      minusNumber: 5,
+    }, {
+      title: '外协进行中',
+      number: 1800,
+      plusNumber: 3,
+      minusNumber: 5,
+    }, {
+      title: '已完成',
+      number: 1800,
+      plusNumber: 5,
+    }]
   },
   onShow() {
     wx.hideHomeButton()

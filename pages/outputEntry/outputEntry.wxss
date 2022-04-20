@@ -1,0 +1,4 @@
+/* pages/outputEntry/outputEntry.wxss */
+.submit .t-button {
+  margin: 0 auto;
+}

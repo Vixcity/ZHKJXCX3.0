@@ -1,0 +1,59 @@
+<view class="container">
+	<view class="signUp noPad">
+		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
+			<view class="tc h40 flex jcc aic h50 fz30">
+				<t-image class="size-l radius-m" src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" mode="aspectFill"></t-image>
+			</view>
+			<view class="tc h40 flex mt30 jcc aic h50 blod fz40">织为云-协同制造云平台</view>
+		</view>
+		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc" style="position: relative;">
+			<view class="flex jcsb aic mt10">
+				<text>微信昵称：</text><input value="{{userInfo.wechat_data.nickName}}" disabled />
+			</view>
+			<view class="flex jcsb aic mt10">
+				<text>姓名：</text><input placeholder="输入真实姓名" value="{{userInfo.wechat_data.realName}}" bindinput="changeName" />
+			</view>
+			<view class="flex jcsb aic mt10">
+				<text>手机号：</text>
+				<button class="{{userInfo.phoneNumber?'colorBlack getPhoneNumber':'getPhoneNumber color8D9F'}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">{{userInfo.phoneNumber?userInfo.phoneNumber:'点击获取手机号'}}</button>
+			</view>
+			<view class="flex jcsb aic mt10">
+				<text>工序：</text><input bindtap="chooseProcedure" placeholder="点击选择" value="{{selectedWorkProcedureValue}}" disabled />
+			</view>
+			<view wx:if="{{showPick}}" class="pof bgColorTransBlack" bindtap="cancelChoose" style="left: 0;top: 0;bottom:0;z-index: 999;">
+				<view catchtap class="por bgColorWhite colorBlack" style="top: 60%;padding-bottom: 30rpx;">
+					<view class="flex aic pt20 pb10 jcsa">
+						<view></view>
+						<view></view>
+						<view class="blod">
+							请选择工序
+						</view>
+						<view catchtap="confirmChoose">确定</view>
+					</view>
+					<view class="line" style="margin-bottom: 0;"></view>
+					<checkbox-group bindchange="changeProcess" class="flex flexWarp pl20 pr20" style="overflow-y: scroll;height: 30vh;">
+						<label wx:for="{{workProcedure}}" class="mt20 mr40 mb10" wx:for-item="item" wx:for-index="index" wx:key="{{item.value}}">
+							<view class="flex aic">
+								<view>
+									<checkbox value="{{item.value}}" checked="{{item.checked}}" />
+								</view>
+								<view class="ml10">{{item.label}}</view>
+							</view>
+						</label>
+					</checkbox-group>
+				</view>
+			</view>
+			<!-- <t-picker visible="{{showPick}}" title="请选择工序" bindconfirm="onPicker1Confirm" bindcancel="onPicker1Cancel" bindtap="clickPicker">
+				<t-picker-column options="{{workProcedure}}" value="{{selectedWorkProcedureValue}}"></t-picker-column>
+			</t-picker> -->
+		</view>
+		<view class="tc vw80 ma fz30 mt10 flex" bindtap="iRead">
+			<t-icon class="{{isRead?'color8D9F':'color9E'}}" name="check-circle-filled" size="small"> </t-icon>
+			<view class="{{isRead?'color8D9F':'color9E'}}">我已阅读并同意<text catchtap="toArgument">《织为云外协用工平台用户注册与服务协议》</text></view>
+		</view>
+		<view class="mt20 submit">
+			<t-button theme="primary" size="large" variant="plain" bindtap="postSignUp">提交注册</t-button>
+		</view>
+	</view>
+	<t-message id="t-message" />
+</view>

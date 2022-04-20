@@ -1,0 +1,42 @@
+.container {
+  background-color: #27a2fd;
+}
+.signUp {
+  background-color: white;
+  overflow: hidden;
+  border-top-left-radius: 120rpx;
+  border-top-right-radius: 120rpx;
+}
+.signUpBanner {
+  height: 70px;
+}
+input {
+  border: 1px solid #e2e2e2;
+  border-radius: 500000px;
+  text-align: left;
+  padding: 10rpx;
+  padding-left: 30rpx;
+  color: black;
+  width: 68%;
+}
+.getPhoneNumber {
+  border: 1px solid #e2e2e2;
+  background-color: white;
+  font-size: 30rpx;
+  border-radius: 50px;
+  overflow: hidden;
+  width: 75%;
+  text-align: left;
+  margin-left: 30rpx;
+  padding-left: 30rpx;
+  position: relative;
+  line-height: 32px;
+  z-index: 999;
+}
+.getPhoneNumber::after {
+  border: none;
+}
+.size-l .t-image {
+  width: 188rpx;
+  height: 144rpx;
+}

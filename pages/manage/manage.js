@@ -10,7 +10,7 @@ Component({
     showImage: '',
     pageList: [{
       title: '生产计划',
-      path: '../orderControl/orderControl',
+      path: '../productPlan/productPlan',
       icon: 'https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86-01.png',
       index: 1
     }, {
@@ -170,19 +170,19 @@ Component({
 
       return {
         pageList: [{
-          title: '订单管理',
-          path: '../orderControl/orderControl?isLeader=' + isLeader,
+          title: '生产计划',
+          path: '../productPlan/productPlan?isLeader=' + isLeader,
           icon: 'https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86-01.png',
           index: 1
+        }, {
+          title: '外协绑定',
+          path: '../userManagement/userManagement?isLeader=' + isLeader,
+          icon: 'https://file.zwyknit.com/%E5%AE%A2%E6%88%B7%E7%AE%A1%E7%90%86-01.png',
+          index: 2
         }, {
           title: '数据统计',
           path: '../statistics/statistics?isLeader=' + isLeader,
           icon: 'https://file.zwyknit.com/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1-01.png',
-          index: 2
-        }, {
-          title: '客户管理',
-          path: '../userManagement/userManagement?isLeader=' + isLeader,
-          icon: 'https://file.zwyknit.com/%E5%AE%A2%E6%88%B7%E7%AE%A1%E7%90%86-01.png',
           index: 3
         }, {
           title: '员工管理',

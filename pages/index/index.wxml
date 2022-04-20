@@ -1,35 +1,17 @@
 <!--index.wxml-->
-<view class="container" id="index" style="padding-bottom:60px">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <l-card  type="primary" 
-           l-img-class="right-card" 
-           position="left" 
-           title="做一个热爱生活的人！"
-           image="/images/3.png">
-    <view class="content">
-      很简单，豆瓣现在这样就给大家指了一条明路:以后凡是这种国产的风口浪尖的的片子...
+<view class="container" id="index">
+  <view class="card" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+    <view>{{item.title}}</view>
+    <view class="tc bold vh12" style="line-height: 12vh;">
+      {{item.number}}
     </view>
-  </l-card>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+    <view class="tr">
+      昨日：
+      <span wx:if="{{item.minusNumber}}">
+        <span class="color27A2">-{{item.minusNumber}}</span>
+        ，
+      </span>
+      {{item.plusNumber}}
+    </view>
   </view>
-  <van-button type="primary">按钮</van-button>
-
-  <i-button bind:click="handleClick">默认按钮</i-button>
 </view>
