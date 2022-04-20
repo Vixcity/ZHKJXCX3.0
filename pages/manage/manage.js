@@ -9,19 +9,19 @@ Component({
     showPopup: false,
     showImage: '',
     pageList: [{
-      title: '订单管理',
+      title: '生产计划',
       path: '../orderControl/orderControl',
       icon: 'https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86-01.png',
       index: 1
     }, {
+      title: '外协绑定',
+      path: '../userManagement/userManagement',
+      icon: 'https://file.zwyknit.com/%E5%AE%A2%E6%88%B7%E7%AE%A1%E7%90%86-01.png',
+      index: 2
+    }, {
       title: '数据统计',
       path: '../statistics/statistics',
       icon: 'https://file.zwyknit.com/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1-01.png',
-      index: 2
-    }, {
-      title: '客户管理',
-      path: '../userManagement/userManagement',
-      icon: 'https://file.zwyknit.com/%E5%AE%A2%E6%88%B7%E7%AE%A1%E7%90%86-01.png',
       index: 3
     }, {
       title: '员工管理',

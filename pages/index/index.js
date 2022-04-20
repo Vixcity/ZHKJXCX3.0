@@ -35,7 +35,6 @@ Page({
       orderList: [],
       isLeader: wx.getStorageSync('userInfo')?.userinfo?.role === 3
     })
-    this.reviewpage()
   },
   // 事件处理函数
   bindViewTap() {

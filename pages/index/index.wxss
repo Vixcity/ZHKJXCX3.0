@@ -1,19 +1,27 @@
 /**index.wxss**/
-.userinfo {
+#index .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #aaa;
 }
-
-.userinfo-avatar {
+#index .userinfo-avatar {
   overflow: hidden;
   width: 128rpx;
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
 }
-
-.usermotto {
-  margin-top: 200px;
+#index .usermotto {
+  margin-top: 50px;
+}
+#index .content {
+  margin-top: 10rpx;
+  color: #666;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
 }

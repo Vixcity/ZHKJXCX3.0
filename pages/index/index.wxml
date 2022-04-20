@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container" id="index" style="padding-bottom:60px">
   <view class="userinfo">
     <block wx:if="{{canIUseOpenData}}">
       <view class="userinfo-avatar" bindtap="bindViewTap">
@@ -17,10 +17,19 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
+  <l-card  type="primary" 
+           l-img-class="right-card" 
+           position="left" 
+           title="做一个热爱生活的人！"
+           image="/images/3.png">
+    <view class="content">
+      很简单，豆瓣现在这样就给大家指了一条明路:以后凡是这种国产的风口浪尖的的片子...
+    </view>
+  </l-card>
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>
   <van-button type="primary">按钮</van-button>
-  
-<i-button bind:click="handleClick">默认按钮</i-button>
+
+  <i-button bind:click="handleClick">默认按钮</i-button>
 </view>

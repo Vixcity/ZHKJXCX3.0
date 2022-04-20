@@ -2,27 +2,22 @@
   padding-bottom: 48px !important;
   height: 100vh;
 }
-
 .bg {
   background: url(https://file.zwyknit.com/20220113151412.jpg) no-repeat;
   background-size: 100% 100%;
 }
-
 .manage-list {
   height: 90px;
 }
-
 .userInfo {
   align-items: center;
 }
-
 .sonContainer {
   width: 100rpx;
   height: 100rpx;
   border-radius: 5px;
 }
-
-.image{
+.image {
   overflow: hidden;
   height: 120rpx;
   width: 120rpx;

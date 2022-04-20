@@ -1,19 +1,20 @@
 // app.js
 App({
   onLaunch() {
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    const accountInfo = wx.getAccountInfoSync();
 
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
+    const env = accountInfo.miniProgram.envVersion;
+
+    const baseApi = {
+      // 开发版
+      develop: "https://knit-m-beta.zwyknit.com/api",
+      // 体验版
+      trial: "https://knit-m-beta.zwyknit.com/api",
+      // 正式版
+      release: "https://knit-m-api.zwyknit.com/api"
+    };
+    this.globalData.api = baseApi[env] || 'https://knit-m-beta.zwyknit.com/api'
+    // this.globalData.api = 'https://knit-m-api.zwyknit.com/api'
   },
-  globalData: {
-    userInfo: null
-  }
+  globalData: {}
 })
