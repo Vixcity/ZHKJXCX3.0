@@ -26,6 +26,6 @@
 		</view>
 	</view>
 	<view class="color91 flex jcc {{isShort?'':'mt20'}}" bindtap="changeShortOrLong" wx:if="{{showShort}}">
-		{{isShort?'查看更多':'收起'}}<t-icon name="{{isShort?'caret-down-small':'caret-up-small'}}" size="xl" bind:click="someFunction"></t-icon>
+		{{isShort?'查看更多':'收起'}}<van-icon name="{{isShort?'arrow-down':'arrow-up'}}" size="14px" bind:click="someFunction"></van-icon>
 	</view>
 </view>

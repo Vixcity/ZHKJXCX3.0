@@ -2,7 +2,7 @@
 	<view class="signUp noPad">
 		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
 			<view class="tc h40 flex jcc aic h50 fz30">
-				<t-image class="size-l radius-m" src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" mode="aspectFill"></t-image>
+				<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix"></van-image>
 			</view>
 			<view class="tc h40 flex mt30 jcc aic h50 blod fz40">织为云-协同制造云平台</view>
 		</view>
@@ -43,17 +43,14 @@
 					</checkbox-group>
 				</view>
 			</view>
-			<!-- <t-picker visible="{{showPick}}" title="请选择工序" bindconfirm="onPicker1Confirm" bindcancel="onPicker1Cancel" bindtap="clickPicker">
-				<t-picker-column options="{{workProcedure}}" value="{{selectedWorkProcedureValue}}"></t-picker-column>
-			</t-picker> -->
 		</view>
 		<view class="tc vw80 ma fz30 mt10 flex" bindtap="iRead">
-			<t-icon class="{{isRead?'color8D9F':'color9E'}}" name="check-circle-filled" size="small"> </t-icon>
+			<van-icon class="{{isRead?'color8D9F':'color9E'}}" name="checked" size="16px"> </van-icon>
 			<view class="{{isRead?'color8D9F':'color9E'}}">我已阅读并同意<text catchtap="toArgument">《织为云外协用工平台用户注册与服务协议》</text></view>
 		</view>
 		<view class="mt20 submit">
-			<t-button theme="primary" size="large" variant="plain" bindtap="postSignUp">提交注册</t-button>
+			<van-button type="primary" size="small" bindtap="postSignUp">提交注册</van-button>
 		</view>
 	</view>
-	<t-message id="t-message" />
+	<van-notify id="van-notify" />
 </view>

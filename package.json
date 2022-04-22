@@ -9,9 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.10.2",
-    "lin-ui": "^0.9.8",
-    "tdesign-miniprogram": "^0.8.0",
-    "wux-weapp": "^3.8.8"
+    "@vant/weapp": "^1.10.2"
   }
 }

@@ -11,7 +11,7 @@
     </view>
   </view>
   <view class="usermotto">
-    <t-button theme="primary" size="large" bindtap="getUserProfile">我要加入</t-button>
+    <van-button type="primary" size="small" bindtap="getUserProfile">我要加入</van-button>
   </view>
-  <t-message id="t-message" />
+  <van-notify id="van-notify" />
 </view>

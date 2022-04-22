@@ -1,0 +1,60 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "本厂生产中",
+          "pathName": "pages/ourFactory/ourFactory",
+          "query": "type=1",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "外协进行中",
+          "pathName": "pages/ourFactory/ourFactory",
+          "query": "type=2",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "已完成",
+          "pathName": "pages/ourFactory/ourFactory",
+          "query": "type=3",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "登录界面",
+          "pathName": "pages/noLogin/noLogin",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "注册界面",
+          "pathName": "pages/signUp/signUp",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "管理页",
+          "pathName": "pages/manage/manage",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  }
+}

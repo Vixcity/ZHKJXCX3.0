@@ -1,4 +1,4 @@
-import Message from 'tdesign-miniprogram/message/index';
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 import {
   verifyTel,
   wxReq
@@ -248,11 +248,7 @@ Page({
         }
       })
     } else {
-      Message.error({
-        offset: [20, 32],
-        duration: 2000,
-        content: '获取手机号失败',
-      });
+      Notify({ type: 'danger', message: '获取手机号失败', duration: 2000, });
     }
     // this.data.userInfo.phoneNumber = e.detail.value
   },
@@ -262,43 +258,23 @@ Page({
     let _this = this
 
     if (!this.data.isRead) {
-      Message.error({
-        offset: [20, 32],
-        duration: 2000,
-        content: '请阅读并勾选协议',
-      });
+      Notify({ type: 'danger', message: '请阅读并勾选协议', duration: 2000, });
       return
     }
     if (this.data.selectedWorkProcedureValue === "") {
-      Message.error({
-        offset: [20, 32],
-        duration: 2000,
-        content: '请选择工序',
-      });
+      Notify({ type: 'danger', message: '请选择工序', duration: 2000, });
       return
     }
     if (this.data.userInfo.realName === undefined) {
-      Message.error({
-        offset: [20, 32],
-        duration: 2000,
-        content: '请输入真实姓名',
-      });
+      Notify({ type: 'danger', message: '请输入真实姓名', duration: 2000, });
       return
     }
     if (this.data.userInfo.phoneNumber === undefined) {
-      Message.error({
-        offset: [20, 32],
-        duration: 2000,
-        content: '请填写手机号',
-      });
+      Notify({ type: 'danger', message: '请填写手机号', duration: 2000, });
       return
     } else {
       if (!verifyTel(this.data.userInfo.phoneNumber)) {
-        Message.error({
-          offset: [20, 32],
-          duration: 2000,
-          content: '手机号格式不正确，请重新填写或者获取',
-        });
+        Notify({ type: 'danger', message: '手机号格式不正确，请重新填写或者获取', duration: 2000, });
         this.changeSelectItem("", "phoneNumber")
         return
       }
@@ -329,11 +305,7 @@ Page({
               wx.setStorageSync('userInfo', allUserinfo)
               
               if (_this.data.company_id) {
-                Message.success({
-                  offset: [20, 32],
-                  duration: 2000,
-                  content: '注册成功,三秒后返回绑定工厂页面',
-                });
+                Notify({ type: 'success', message: '注册成功,三秒后返回绑定工厂页面', duration: 2000, });
                 setTimeout(() => {
                   wx.navigateTo({
                     url: '../bindCompany/bindCompany?company_id=' + _this.data.company_id,
@@ -343,11 +315,7 @@ Page({
               }
 
               if (_this.data.time && _this.data.uuid) {
-                Message.success({
-                  offset: [20, 32],
-                  duration: 2000,
-                  content: '注册成功,三秒后返回添加作坊页面',
-                });
+                Notify({ type: 'success', message: '注册成功,三秒后返回添加作坊页面', duration: 2000, });
                 setTimeout(() => {
                   wx.navigateTo({
                     url: '../addWorkShop/addWorkShop?time=' + _this.data.time + '&uuid=' + _this.data.uuid,
@@ -357,11 +325,7 @@ Page({
               }
               
               if (_this.data.showPopup) {
-                Message.success({
-                  offset: [20, 32],
-                  duration: 2000,
-                  content: '注册成功,三秒后返回员工管理页面',
-                });
+                Notify({ type: 'success', message: '注册成功,三秒后返回员工管理页面', duration: 2000, });
                 setTimeout(() => {
                   wx.navigateTo({
                     url: '../workerManage/workerManage?showPopup=' + _this.data.showPopup,
@@ -371,11 +335,7 @@ Page({
               }
 
               if (_this.data.order) {
-                Message.success({
-                  offset: [20, 32],
-                  duration: 2000,
-                  content: '注册成功,三秒后返回订单管理页面',
-                });
+                Notify({ type: 'success', message: '注册成功,三秒后返回订单管理页面', duration: 2000, });
                 setTimeout(() => {
                   wx.navigateTo({
                     url: '../orderControl/orderControl?isLeader=true&order=' + _this.data.order,
@@ -384,11 +344,7 @@ Page({
                 return
               }
 
-              Message.success({
-                offset: [20, 32],
-                duration: 2000,
-                content: '注册成功，三秒后返回首页',
-              });
+              Notify({ type: 'success', message: '注册成功,注册成功，三秒后返回首页', duration: 2000, });
               setTimeout(() => {
                 _this.toManage()
               }, 3000)
@@ -396,11 +352,7 @@ Page({
             }
           })
         } else {
-          Message.error({
-            offset: [20, 32],
-            duration: 2000,
-            content: res.data.data,
-          });
+          Notify({ type: 'danger', message: res.data.data, duration: 2000, });
         }
       }
     })

@@ -3,7 +3,7 @@ import {
 } from '../../utils/util';
 // 获取应用实例
 const app = getApp()
-import Message from 'tdesign-miniprogram/message/index';
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 
 Page({
   data: {
@@ -117,17 +117,16 @@ Page({
                     }
                   })
                 } else {
-                  Message.error({
-                    offset: [20, 32],
-                    duration: 2000,
-                    content: res.data.data || res.data.message,
-                  });
+                  Notify({ type: 'danger', message: res.data.data || res.data.message, duration: 2000, });
                   return
                 }
               }
             })
           }
         })
+      },
+      fail: () => {
+        Notify({ type: 'danger', message: '请授权以获取更好的用户体验', duration: 2000, });
       }
     })
   }

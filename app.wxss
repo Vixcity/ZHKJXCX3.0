@@ -506,6 +506,12 @@ page{
 .h100{
   height: 100%;
 }
+.vh2{
+  height: 2vh;
+}
+.vh5{
+  height: 5vh;
+}
 .vh10{
   height: 10vh;
 }
@@ -625,8 +631,11 @@ page{
 .boderSolid1{
   border: 1px solid;
 }
-.borderColorD8{
-  border-color:#D8D8D8;
+.borderColorFDA9{
+  border-color:#FDA947;
+}
+.borderColor27A2{
+  border-color:#27A2FD;
 }
 .borderRadius5{
   border-radius: 5rpx;
@@ -735,71 +744,12 @@ page{
 
 
 
-/* t-image 组件样式 */
-t-image {
-  border-radius: 0;
-  overflow: hidden;
-}
-
+/* image 样式 */
 .image{
   width: 200rpx;
   height: 150rpx;
 }
 
-.t-image__mask {
-  background-color: #f2f2f2;
-}
-
-.radius-l .t-image {
-  border-radius: 16rpx;
-}
-
-.radius-m .t-image {
-  border-radius: 8rpx;
-}
-
-.radius-s .t-image {
-  border-radius: 4rpx;
-}
-
-.radius-round .t-image {
-  border-radius: 999px;
-}
-
-.size-xl .t-image {
-  width: 240rpx;
-  height: 240rpx;
-}
-
-.size-l .t-image {
-  width: 144rpx;
-  height: 144rpx;
-}
-
-.size-m .t-image {
-  width: 112rpx;
-  height: 112rpx;
-}
-
-.size-s .t-image {
-  width: 96rpx;
-  height: 96rpx;
-}
-
-.size-xs .t-image {
-  width: 64rpx;
-  height: 64rpx;
-}
-
-.size-xss .t-image {
-  width: 48rpx;
-  height: 48rpx;
-}
-
-.size-xsss .t-image {
-  width: 38rpx;
-  height: 38rpx;
-}
 
 
 
@@ -807,20 +757,22 @@ t-image {
 
 
 
-
-/* t-button */
-.submit .t-button {
+/* van-button */
+.submit .van-button {
   background-image: linear-gradient( #52C0FF, #008AD8);
   color: #ffffff!important;
   border: none;
   width: 80vw;
+  display: flex;
+  justify-content: center;
   border-top-left-radius: 37rpx;
   border-top-right-radius: 37rpx;
   border-bottom-left-radius: 37rpx;
   border-bottom-right-radius: 37rpx;
-  margin: 0 auto;
+  font-size: 28rpx;
+  padding:18px 0;
 }
-.half .t-button {
+.half .van-button {
   color: #ffffff!important;
   border: none;
   width: 40%;
@@ -830,39 +782,11 @@ t-image {
   border-bottom-right-radius: 37rpx;
   margin: 0 auto;
 }
-.half .t-button.submit {
+.half .van-button.submit {
   background-image: linear-gradient( #52C0FF, #008AD8);
 }
-.half .t-button.refuse {
+.half .van-button.refuse {
   background-image: linear-gradient( #c7c7c7, #797979);
-}
-
-
-
-
-
-
-
-
-/* t-tabs */
-.t-tabs__scroll .t-is-active{
-  color:#008df9!important;
-}
-.t-tabs__track{
-  background-color:#008df9!important;
-}
-
-
-
-
-
-
-
-
-
-/* t-picker */
-.t-picker .t-picker__confirm{
-  color: #008df9;
 }
 
 
@@ -907,17 +831,6 @@ t-image {
 }
 .overfsy{
   overflow-y: auto;
-}
-
-
-
-
-
-
-
-
-.dialogConfirm .t-dialog__footer .t-button{
-  color: #229cfb
 }
 
 

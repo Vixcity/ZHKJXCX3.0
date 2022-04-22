@@ -7,15 +7,18 @@ Page({
       number: 1800,
       plusNumber: 3,
       minusNumber: 5,
+      src:'/pages/ourFactory/ourFactory?type=1'
     }, {
       title: '外协进行中',
       number: 1800,
       plusNumber: 3,
       minusNumber: 5,
+      src:'/pages/ourFactory/ourFactory?type=2'
     }, {
       title: '已完成',
       number: 1800,
       plusNumber: 5,
+      src:'/pages/ourFactory/ourFactory?type=3'
     }]
   },
   onShow() {
@@ -55,6 +58,12 @@ Page({
         canIUseGetUserProfile: true
       })
     }
+  },
+  toDetailPage(e){
+    let {src} = e.currentTarget.dataset
+    wx.navigateTo({
+      url: src,
+    })
   },
   getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗

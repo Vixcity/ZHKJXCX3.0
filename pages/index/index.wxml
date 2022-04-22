@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container" id="index">
-  <view class="card" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+  <view class="card" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index" data-src="{{item.src}}" bindtap="toDetailPage">
     <view>{{item.title}}</view>
     <view class="tc bold vh12" style="line-height: 12vh;">
       {{item.number}}

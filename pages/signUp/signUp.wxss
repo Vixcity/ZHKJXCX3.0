@@ -36,7 +36,3 @@ input {
 .getPhoneNumber::after {
   border: none;
 }
-.size-l .t-image {
-  width: 188rpx;
-  height: 144rpx;
-}
