@@ -53,6 +53,12 @@ Page({
 	 */
 	onLoad: function (options) {
 		// this.setData(options)
+		wx.request({
+			url: 'http://192.168.124.12:8080/api/user/info?phone=17602103060',
+			success: (res => {
+				console.log(res.data.data)
+			})
+		})
 	},
 
 	/**
