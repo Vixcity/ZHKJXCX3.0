@@ -16,6 +16,10 @@ Component({
 			type: Boolean,
 			value: false
 		},
+		isBig: {
+			type: Boolean,
+			value: false
+		},
 		smallThan24h: {
 			type: Boolean,
 			value: true

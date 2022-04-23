@@ -51,6 +51,13 @@
           "name": "管理页",
           "pathName": "pages/manage/manage",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "外协验收",
+          "pathName": "pages/outsourcingAcceptance/outsourcingAcceptance",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

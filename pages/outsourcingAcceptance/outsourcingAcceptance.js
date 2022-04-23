@@ -1,6 +1,6 @@
-const { urlParams } = require("../../utils/util")
+const { reloadThisPage } = require("../../utils/util")
 
-// pages/ourFactory/ourFactory.js
+// pages/outsourcingAcceptance/outsourcingAcceptance.js
 Page({
 
 	/**
@@ -45,14 +45,14 @@ Page({
 				['圈圈围脖纱', '均码/灰色组', '3000/5000', '2600（包装） 200（吊牌）']
 			]
 		},
-		type: '2'
+		isCheck:true
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		// this.setData(options)
+		console.log(1)
 	},
 
 	/**
@@ -104,26 +104,7 @@ Page({
 
 	},
 
-	GetSandCode() {
-		wx.scanCode({
-			scanType: 'qrCode',
-			success: (res) => {
-				if(res.result.slice(0,40) === "https://knit-m-api.zwyknit.com/bindOrder"){
-					let {company_id,hash,id} = urlParams(res.result)
-				} else {
-
-				}
-			},
-			fail: (res) => {
-				console.log(res)
-			}
-		})
-	},
-
-	toOutsourcingAcceptance(e){
-		console.log(e)
-		wx.navigateTo({
-			url: '/pages/outsourcingAcceptance/outsourcingAcceptance',
-		})
+	buttonCommit: function() {
+		reloadThisPage()
 	}
 })

@@ -8,48 +8,14 @@
 		</view>
 		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc" style="position: relative;">
 			<view class="flex jcsb aic mt10">
-				<text>微信昵称：</text><input value="{{userInfo.wechat_data.nickName}}" disabled />
+				<text>账号</text><input placeholder="请输入账号" value="{{userInfo.accountNumber}}" />
 			</view>
 			<view class="flex jcsb aic mt10">
-				<text>姓名：</text><input placeholder="输入真实姓名" value="{{userInfo.wechat_data.realName}}" bindinput="changeName" />
+				<text>密码</text><input placeholder="请输入密码" type="password" value="{{userInfo.password}}" />
 			</view>
-			<view class="flex jcsb aic mt10">
-				<text>手机号：</text>
-				<button class="{{userInfo.phoneNumber?'colorBlack getPhoneNumber':'getPhoneNumber color8D9F'}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">{{userInfo.phoneNumber?userInfo.phoneNumber:'点击获取手机号'}}</button>
-			</view>
-			<view class="flex jcsb aic mt10">
-				<text>工序：</text><input bindtap="chooseProcedure" placeholder="点击选择" value="{{selectedWorkProcedureValue}}" disabled />
-			</view>
-			<view wx:if="{{showPick}}" class="pof bgColorTransBlack" bindtap="cancelChoose" style="left: 0;top: 0;bottom:0;z-index: 999;">
-				<view catchtap class="por bgColorWhite colorBlack" style="top: 60%;padding-bottom: 30rpx;">
-					<view class="flex aic pt20 pb10 jcsa">
-						<view></view>
-						<view></view>
-						<view class="blod">
-							请选择工序
-						</view>
-						<view catchtap="confirmChoose">确定</view>
-					</view>
-					<view class="line" style="margin-bottom: 0;"></view>
-					<checkbox-group bindchange="changeProcess" class="flex flexWarp pl20 pr20" style="overflow-y: scroll;height: 30vh;">
-						<label wx:for="{{workProcedure}}" class="mt20 mr40 mb10" wx:for-item="item" wx:for-index="index" wx:key="{{item.value}}">
-							<view class="flex aic">
-								<view>
-									<checkbox value="{{item.value}}" checked="{{item.checked}}" />
-								</view>
-								<view class="ml10">{{item.label}}</view>
-							</view>
-						</label>
-					</checkbox-group>
-				</view>
-			</view>
-		</view>
-		<view class="tc vw80 ma fz30 mt10 flex" bindtap="iRead">
-			<van-icon class="{{isRead?'color8D9F':'color9E'}}" name="checked" size="16px"> </van-icon>
-			<view class="{{isRead?'color8D9F':'color9E'}}">我已阅读并同意<text catchtap="toArgument">《织为云外协用工平台用户注册与服务协议》</text></view>
 		</view>
 		<view class="mt20 submit">
-			<van-button type="primary" size="small" bindtap="postSignUp">提交注册</van-button>
+			<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
 		</view>
 	</view>
 	<van-notify id="van-notify" />

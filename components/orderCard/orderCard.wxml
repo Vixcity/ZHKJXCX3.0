@@ -1,6 +1,6 @@
 <!--components/orderCard.wxml-->
 <!-- wx:if="{{detailInfo.bigThan30}}" -->
-<view wx:if="{{smallThan24h}}" bindtap="changeCheck" class="ml20 mr20 mt20 bgColorWhite vw90 jcsb flexWarp borderRadius16 shadow borderBox pl10 pr10 pt10 pb10 colorBlack por overfh">
+<view wx:if="{{smallThan24h}}" bindtap="changeCheck" class="ml20 mr20 mt20 bgColorWhite jcsb flexWarp borderRadius16 borderBox pt10 pb10 colorBlack por overfh {{isBig?'':'vw90 shadow pl10 pr10'}}">
 	<view class="flex jcsb aic">
 		<view class="fz35 flex blod aic" bind:click="someFunction" catchtap="changeShow">
 			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;" wx:if="{{detailInfo.display === 0}}">{{detailInfo.title || detailInfo.code}}</view>
@@ -30,26 +30,26 @@
 		<view class="por ml10 fz30 flex jcsa fdc w100" style="height: 144rpx;">
 			<view class="flex w100">
 				<view class="{{(showEnterPrice && (enterPricce !== '0.00'))?'w70':'w100'}}">生产进度：{{detailInfo.allNumber}}({{detailInfo.nowNumber-detailInfo.allNumber<0?(detailInfo.nowNumber-detailInfo.allNumber):((detailInfo.nowNumber-detailInfo.allNumber)===0?0:'+'+(detailInfo.nowNumber-detailInfo.allNumber))}}) </view>
-				<view class="w30 tc" wx:if="{{showEnterPrice && (enterPricce !== '0.00')}}">{{enterPricce}} 元</view>
-				<view class="w30 tc colorRed" wx:if="{{showEnterPrice && isLeader && (enterPricce === '0.00')}}" bindtap="toOrderDetail">点击定价</view>
+						<view class="w30 tc" wx:if="{{showEnterPrice && (enterPricce !== '0.00')}}">{{enterPricce}} 元</view>
+						<view class="w30 tc colorRed" wx:if="{{showEnterPrice && isLeader && (enterPricce === '0.00')}}" bindtap="toOrderDetail">点击定价</view>
+				</view>
+				<view>交付时间：{{detailInfo.time}}</view>
+				<view wx:if="{{showPrice}}" class="poa fz30 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
 			</view>
-			<view>交付时间：{{detailInfo.time}}</view>
-			<view wx:if="{{showPrice}}" class="poa fz30 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
+			<van-icon name="checked" size="16px" class="{{detailInfo.isBind?'check':'color9E'}} poa" style="right: 20rpx;bottom: 20rpx;" wx:if="{{showIcon}}"></van-icon>
+			<view wx:if="{{detailInfo.status === 1}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待定价</view>
+			<view wx:if="{{detailInfo.status === 2}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">生产中</view>
+			<view wx:if="{{detailInfo.status === 3}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">已完成</view>
+			<view wx:if="{{detailInfo.status === 4}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">新派单</view>
+			<view wx:if="{{detailInfo.status === 5}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待验收</view>
 		</view>
-		<van-icon name="checked" size="16px" class="{{detailInfo.isBind?'check':'color9E'}} poa" style="right: 20rpx;bottom: 20rpx;" wx:if="{{showIcon}}"></van-icon>
-		<view wx:if="{{detailInfo.status === 1}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待定价</view>
-		<view wx:if="{{detailInfo.status === 2}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">生产中</view>
-		<view wx:if="{{detailInfo.status === 3}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">已完成</view>
-		<view wx:if="{{detailInfo.status === 4}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">新派单</view>
-		<view wx:if="{{detailInfo.status === 5}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待验收</view>
+		<!-- 弹出框 -->
+		<van-popup catchtap show="{{showPopup}}" bindtap="closePopup">
+			<view class="overfh por">
+				<view class="tc vw100 h100">
+					<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{detailInfo.imgSrc}}" style="display:block"></image>
+				</view>
+			</view>
+		</van-popup>
+		<slot name="after"></slot>
 	</view>
-	<!-- 弹出框 -->
-	<van-popup catchtap show="{{showPopup}}"  bindtap="closePopup">
-		<view class="overfh por">
-			<view class="tc vw100 h100">
-				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{detailInfo.imgSrc}}" style="display:block"></image>
-			</view>
-		</view>
-	</van-popup>
-	<slot name="after"></slot>
-</view>

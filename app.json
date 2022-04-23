@@ -1,46 +1,48 @@
 {
-  "pages": [
-    "pages/ourFactory/ourFactory",
-    "pages/manage/manage",
-    "pages/index/index",
-    "pages/signUp/signUp",
-    "pages/noLogin/noLogin",
-    "pages/productPlan/productPlan"
-  ],
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarTitleText": "织为云外协用工",
-    "navigationBarBackgroundColor": "#3BB1FF",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#f3f3f3"
-  },
-  "usingComponents": {
-    "list-card": "./components/listCard/listCard",
-    "order-card": "./components/orderCard/orderCard",
-    "van-button": "@vant/weapp/button/index",
-    "van-icon": "@vant/weapp/icon/index",
-    "van-image": "@vant/weapp/image/index",
-    "van-notify": "@vant/weapp/notify/index",
-    "van-popup": "@vant/weapp/popup/index",
-    "van-tab": "@vant/weapp/tab/index",
-    "van-tabs": "@vant/weapp/tabs/index"
-  },
-  "tabBar": {
-    "custom": true,
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
-    "borderStyle": "black",
-    "backgroundColor": "#ffffff",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/manage/manage",
-        "text": "管理"
-      }
-    ]
-  },
-  "sitemapLocation": "sitemap.json"
+	"pages": [
+		"pages/ourFactory/ourFactory",
+		"pages/manage/manage",
+		"pages/index/index",
+		"pages/signUp/signUp",
+		"pages/noLogin/noLogin",
+		"pages/productPlan/productPlan",
+		"pages/outsourcingAcceptance/outsourcingAcceptance"
+	],
+	"window": {
+		"backgroundTextStyle": "light",
+		"navigationBarTitleText": "织为云外协用工",
+		"navigationBarBackgroundColor": "#3BB1FF",
+		"navigationBarTextStyle": "white",
+		"backgroundColor": "#f3f3f3"
+	},
+	"usingComponents": {
+		"list-card": "./components/listCard/listCard",
+		"order-card": "./components/orderCard/orderCard",
+		"van-button": "@vant/weapp/button/index",
+		"van-field": "@vant/weapp/field/index",
+		"van-icon": "@vant/weapp/icon/index",
+		"van-image": "@vant/weapp/image/index",
+		"van-notify": "@vant/weapp/notify/index",
+		"van-popup": "@vant/weapp/popup/index",
+		"van-tab": "@vant/weapp/tab/index",
+		"van-tabs": "@vant/weapp/tabs/index"
+	},
+	"tabBar": {
+		"custom": true,
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/manage/manage",
+				"text": "管理"
+			}
+		]
+	},
+	"sitemapLocation": "sitemap.json"
 }
