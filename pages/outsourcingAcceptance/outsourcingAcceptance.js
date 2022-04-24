@@ -105,6 +105,7 @@ Page({
 	},
 
 	buttonCommit: function() {
-		reloadThisPage()
+		this.setData({isCheck:false})
+		// reloadThisPage()
 	}
 })

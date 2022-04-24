@@ -2,11 +2,13 @@
 <view id="ourFactory" class="pb20">
 	<van-tabs wx:if="{{ type === '2' }}" bind:disabled="onClickDisabled" animated swipeable sticky active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
 		<van-tab title="生产中">
+			<view class="tc color91 mt10">共1条数据</view>
 			<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
 				<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
 			</order-card>
 		</van-tab>
 		<van-tab title="待验收">
+			<view class="tc color91 mt10">共1条数据</view>
 			<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
 				<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
 			</order-card>
