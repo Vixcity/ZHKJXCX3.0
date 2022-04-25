@@ -14,8 +14,16 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
+const isIfLogin = () => {
+	 return getApp().globalData.isLogin
+}
+
 // 封装请求
 const wxReq = data => {
+	if(isIfLogin()){
+		
+		return
+	}
   const openid = wx.getStorageSync("userInfo").openid.openid
   // 作坊主
   // 王
@@ -36,7 +44,8 @@ const wxReq = data => {
     success: data.success,
     header: {
       // Authorization:'Bearer ' + 6666
-      Authorization: 'Bearer ' + openid // 员工ID
+			Authorization: 'Bearer ' + openid, // 员工ID
+			token: getApp().globalData.token
     }
   })
 }
@@ -159,5 +168,6 @@ module.exports = {
   getTimestamp,
   dateDiff,
   urlParams,
-  reloadThisPage
+	reloadThisPage,
+	isIfLogin
 }

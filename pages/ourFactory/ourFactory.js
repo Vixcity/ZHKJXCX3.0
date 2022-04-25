@@ -1,4 +1,7 @@
-const { urlParams } = require("../../utils/util")
+const {
+	urlParams,
+	isIfLogin
+} = require("../../utils/util")
 
 // pages/ourFactory/ourFactory.js
 Page({
@@ -52,13 +55,20 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		// this.setData(options)
-		wx.request({
-			url: 'http://192.168.124.12:8080/api/user/info?phone=17602103060',
-			success: (res => {
-				console.log(res.data.data)
+		const isLogin = isIfLogin()
+
+		if (isLogin) {
+			// this.setData(options)
+			wx.request({
+				url: 'http://192.168.124.12:8080/api/user/info?phone=17602103060',
+				success: (res => {
+					console.log(res.data.data)
+				})
 			})
-		})
+		} else {
+			
+		}
+
 	},
 
 	/**
@@ -114,8 +124,12 @@ Page({
 		wx.scanCode({
 			scanType: 'qrCode',
 			success: (res) => {
-				if(res.result.slice(0,40) === "https://knit-m-api.zwyknit.com/bindOrder"){
-					let {company_id,hash,id} = urlParams(res.result)
+				if (res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder") {
+					let {
+						company_id,
+						hash,
+						id
+					} = urlParams(res.result)
 				} else {
 
 				}
@@ -126,7 +140,7 @@ Page({
 		})
 	},
 
-	toOutsourcingAcceptance(e){
+	toOutsourcingAcceptance(e) {
 		console.log(e)
 		wx.navigateTo({
 			url: '/pages/outsourcingAcceptance/outsourcingAcceptance',

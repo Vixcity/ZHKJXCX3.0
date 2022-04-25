@@ -8,10 +8,10 @@
 		</view>
 		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc" style="position: relative;">
 			<view class="flex jcsb aic mt10">
-				<text>账号</text><input placeholder="请输入账号" value="{{userInfo.accountNumber}}" />
+				<text>账号</text><input placeholder="请输入账号" bindinput="bindKeyInput" data-type="{{1}}" value="{{user_name}}" />
 			</view>
 			<view class="flex jcsb aic mt10">
-				<text>密码</text><input placeholder="请输入密码" type="password" value="{{userInfo.password}}" />
+				<text>密码</text><input placeholder="请输入密码" bindinput="bindKeyInput" data-type="{{2}}" type="password" value="{{password}}" />
 			</view>
 		</view>
 		<view class="mt20 submit">
