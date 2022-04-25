@@ -1,6 +1,6 @@
 <!--pages/outsourcingAcceptance/outsourcingAcceptance.wxml-->
 <view id="outsourcingAcceptance">
-	<view class="bgColorWhite overfh">
+	<view class="bgColorWhite overfh pl10 pr10">
 		<order-card isBig="{{true}}" showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance"></order-card>
 		<view class="line"></view>
 	</view>

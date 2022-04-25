@@ -1,6 +1,6 @@
 <!--components/orderCard.wxml-->
 <!-- wx:if="{{detailInfo.bigThan30}}" -->
-<view wx:if="{{smallThan24h}}" bindtap="changeCheck" class="ml20 mr20 mt20 bgColorWhite jcsb flexWarp borderRadius16 borderBox pt10 pb10 colorBlack por overfh {{isBig?'':'vw90 shadow pl10 pr10'}}">
+<view wx:if="{{smallThan24h}}" bindtap="changeCheck" class="ml10 mr10 mt20 bgColorWhite jcsb flexWarp borderRadius16 borderBox pt10 pb10 colorBlack por overfh {{isBig?'':'vw98 shadow pl10 pr10'}}">
 	<view class="flex jcsb aic">
 		<view class="fz35 flex blod aic" bind:click="someFunction" catchtap="changeShow">
 			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;" wx:if="{{detailInfo.display === 0}}">{{detailInfo.title || detailInfo.code}}</view>
