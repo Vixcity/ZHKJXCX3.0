@@ -3,7 +3,8 @@ import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 const {
 	urlParams,
 	isIfLogin,
-	wxReq
+	wxReq,
+	debounce
 } = require("../../utils/util")
 
 // pages/ourFactory/ourFactory.js
@@ -77,22 +78,22 @@ Page({
 		}
 	},
 
-	pullUpLoad: function () {
-		var _this = this;
-		console.log(111)
-		wxReq({
-			url: '/order/lists',
-			method: 'GET',
-			data: {
-				page: this.data.page,
-				limit: this.data.limit
-			},
-			success: (res) => {
-				console.log(res.data.data)
-			}
-		})
-
-	},
+	pullUpLoad: debounce (
+		() => {
+			console.log(this)
+			wxReq({
+				url: '/order/lists',
+				method: 'GET',
+				data: {
+					page: _this.data.page,
+					limit: _this.data.limit
+				},
+				success: (res) => {
+					console.log(res.data.data)
+				}
+			})
+		}, 1000
+	),	
 
 	GetSandCode() {
 		wx.scanCode({
