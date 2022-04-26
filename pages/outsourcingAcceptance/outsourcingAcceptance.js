@@ -1,4 +1,7 @@
-const { reloadThisPage } = require("../../utils/util")
+const app = getApp()
+const {
+	reloadThisPage
+} = require("../../utils/util")
 
 // pages/outsourcingAcceptance/outsourcingAcceptance.js
 Page({
@@ -45,67 +48,19 @@ Page({
 				['圈圈围脖纱', '均码/灰色组', '3000/5000', '2600（包装） 200（吊牌）']
 			]
 		},
-		isCheck:true
+		isCheck: true,
+		userInfo: app.globalData.userInfo
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
-	onLoad: function (options) {
-		console.log(1)
-	},
+	onLoad: function (options) {},
 
-	/**
-	 * 生命周期函数--监听页面初次渲染完成
-	 */
-	onReady: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面显示
-	 */
-	onShow: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面隐藏
-	 */
-	onHide: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面卸载
-	 */
-	onUnload: function () {
-
-	},
-
-	/**
-	 * 页面相关事件处理函数--监听用户下拉动作
-	 */
-	onPullDownRefresh: function () {
-
-	},
-
-	/**
-	 * 页面上拉触底事件的处理函数
-	 */
-	onReachBottom: function () {
-
-	},
-
-	/**
-	 * 用户点击右上角分享
-	 */
-	onShareAppMessage: function () {
-
-	},
-
-	buttonCommit: function() {
-		this.setData({isCheck:false})
+	buttonCommit: function () {
+		this.setData({
+			isCheck: false
+		})
 		// reloadThisPage()
 	}
 })

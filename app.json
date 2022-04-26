@@ -18,6 +18,9 @@
 	"usingComponents": {
 		"list-card": "./components/listCard/listCard",
 		"order-card": "./components/orderCard/orderCard",
+
+		"l-loadmore":"/miniprogram_npm/lin-ui/loadmore/index",
+
 		"van-button": "@vant/weapp/button/index",
 		"van-field": "@vant/weapp/field/index",
 		"van-icon": "@vant/weapp/icon/index",

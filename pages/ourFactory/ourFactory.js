@@ -2,7 +2,8 @@ import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 const {
 	urlParams,
-	isIfLogin
+	isIfLogin,
+	wxReq
 } = require("../../utils/util")
 
 // pages/ourFactory/ourFactory.js
@@ -51,27 +52,46 @@ Page({
 				['圈圈围脖纱', '均码/灰色组', '3000/5000', '2600（包装） 200（吊牌）']
 			]
 		},
-		type: '2'
+		type: '2',
+		showLoading: false,
+		isEnd: false,
+		page: 1,
+		limit: 10
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		const isLogin = isIfLogin()
-		this.setData({isLogin})
+		// const isLogin = isIfLogin()
+		let isLogin = true
+
+		this.setData({
+			isLogin
+		})
 
 		if (isLogin) {
-			// this.setData(options)
-			wx.request({
-				url: 'http://192.168.124.12:8080/api/user/info?phone=17602103060',
-				success: (res => {
-					console.log(res.data.data)
-				})
-			})
+			this.pullUpLoad()
 		} else {
 			this.toLogin()
 		}
+	},
+
+	pullUpLoad: function () {
+		var _this = this;
+		console.log(111)
+		wxReq({
+			url: '/order/lists',
+			method: 'GET',
+			data: {
+				page: this.data.page,
+				limit: this.data.limit
+			},
+			success: (res) => {
+				console.log(res.data.data)
+			}
+		})
+
 	},
 
 	GetSandCode() {
@@ -95,26 +115,26 @@ Page({
 	},
 
 	toLogin(e) {
-		if(e){
+		if (e) {
 			this.toSignUp()
 		} else {
 			Dialog.confirm({
-				title: '您还未登录',
-				message: '点击确认前往登录界面',
-			})
-			.then(() => {
-				this.toSignUp()
-			})
-			.catch(() => {
-				Notify({
-					type: 'danger',
-					message: '您已取消，请登录以获得更好的用户体验'
+					title: '您还未登录',
+					message: '点击确认前往登录界面',
+				})
+				.then(() => {
+					this.toSignUp()
+				})
+				.catch(() => {
+					Notify({
+						type: 'danger',
+						message: '您已取消，请登录以获得更好的用户体验'
+					});
 				});
-			});
 		}
 	},
 
-	toSignUp(){
+	toSignUp() {
 		wx.reLaunch({
 			url: '/pages/signUp/signUp?path=ourFactory',
 		})

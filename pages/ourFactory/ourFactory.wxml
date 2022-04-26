@@ -1,14 +1,47 @@
 <!--pages/ourFactory/ourFactory.wxml-->
-<view id="ourFactory" class="pb20">
+<view id="ourFactory">
 	<van-tabs wx:if="{{ type === '2'}}" bind:disabled="onClickDisabled" animated swipeable sticky active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
 		<van-tab title="生产中">
 			<view wx:if="{{isLogin}}">
-				<view>
-					<view class="tc color91 mt10">共1条数据</view>
+				<view class="tc color91 mt10 mb10">共1条数据</view>
+				<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 95px)">
 					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
 						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
 					</order-card>
-				</view>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+					<view style="height: 20px;"></view>
+					<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+					<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" loading-text="我也是有底线的"></l-loadmore>
+				</scroll-view>
 			</view>
 		</van-tab>
 		<van-tab title="待验收">

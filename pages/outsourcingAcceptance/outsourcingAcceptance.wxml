@@ -7,7 +7,7 @@
 	<van-tabs bind:disabled="onClickDisabled" animated swipeable active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
 		<van-tab title="验收">
 			<view class="bgColorWhite pb10">
-				<van-field value="{{ username }}" disabled clearable label="用户名" placeholder="请输入用户名" />
+				<van-field value="{{ userInfo.username }}" disabled clearable label="用户名" placeholder="请输入用户名" />
 				<van-field value="{{ username }}" type="number" clearable label="合格数" placeholder="请输入合格数" />
 				<van-field value="{{ username }}" type="number" clearable label="次品数" placeholder="请输入次品数" />
 				<view wx:if="{{!isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
