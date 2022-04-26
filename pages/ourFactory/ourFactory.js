@@ -1,3 +1,5 @@
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 const {
 	urlParams,
 	isIfLogin
@@ -10,6 +12,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+
 		detailInfo: {
 			title: '111',
 			time: '2022-04-30',
@@ -56,6 +59,7 @@ Page({
 	 */
 	onLoad: function (options) {
 		const isLogin = isIfLogin()
+		this.setData({isLogin})
 
 		if (isLogin) {
 			// this.setData(options)
@@ -66,58 +70,8 @@ Page({
 				})
 			})
 		} else {
-			
+			this.toLogin()
 		}
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面初次渲染完成
-	 */
-	onReady: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面显示
-	 */
-	onShow: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面隐藏
-	 */
-	onHide: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面卸载
-	 */
-	onUnload: function () {
-
-	},
-
-	/**
-	 * 页面相关事件处理函数--监听用户下拉动作
-	 */
-	onPullDownRefresh: function () {
-
-	},
-
-	/**
-	 * 页面上拉触底事件的处理函数
-	 */
-	onReachBottom: function () {
-
-	},
-
-	/**
-	 * 用户点击右上角分享
-	 */
-	onShareAppMessage: function () {
-
 	},
 
 	GetSandCode() {
@@ -137,6 +91,32 @@ Page({
 			fail: (res) => {
 				console.log(res)
 			}
+		})
+	},
+
+	toLogin(e) {
+		if(e){
+			this.toSignUp()
+		} else {
+			Dialog.confirm({
+				title: '您还未登录',
+				message: '点击确认前往登录界面',
+			})
+			.then(() => {
+				this.toSignUp()
+			})
+			.catch(() => {
+				Notify({
+					type: 'danger',
+					message: '您已取消，请登录以获得更好的用户体验'
+				});
+			});
+		}
+	},
+
+	toSignUp(){
+		wx.reLaunch({
+			url: '/pages/signUp/signUp?path=ourFactory',
 		})
 	},
 

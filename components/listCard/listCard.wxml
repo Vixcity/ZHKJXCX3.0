@@ -1,5 +1,6 @@
 <!--components/listCard.wxml-->
-<view class="{{isSlot?'fz25 mt20':'bgColorWhite pl10 pr10 pt20 pb20 fz25 mt20 borderRadius16 shadow borderBox vw90 ma'}} {{classStyle}}">
+<view class="{{isSlot?'fz25 mt20':'bgColorWhite pl10 pr10 pt10 pb20 fz25 mt20 borderRadius16 shadow borderBox vw90 ma'}} {{classStyle}}">
+	<view class="mb10 fz30 color91">{{title}}</view>
 	<view style="{{isShort?'height:0;overflow:hidden;':'height:100%'}}">
 		<view class="flex jcsb color91">
 			<view wx:for="{{cardInfoData.cardTitle}}" wx:for-item="item" wx:for-index="index" style="width:{{item.width+'%'}};" wx:key="item">
@@ -9,20 +10,30 @@
 		<view wx:for="{{cardInfoData.cardData}}" wx:for-item="item" wx:for-index="index" wx:key="item" bindtap="clickLine" data-item="{{item}}" data-index="{{index}}" class="flex jcsb color4D pb10 mt10 borderItem">
 			<view wx:for="{{item.length}}" wx:for-item="itemSon" wx:key="itemSon" style="width: {{cardInfoData.cardTitle[itemSon].width+'%'}};">
 				<block wx:if="{{cardInfoData.hasBr}}">
-					<view>
+					<view wx:if="{{!cardInfoData.cardTitle[index].isImg}}">
 						<view wx:for="{{item[itemSon]}}" wx:for-item="itemGrandSon" wx:key="itemGrandSon">{{itemGrandSon}}</view>
+					</view>
+					<view wx:if="{{cardInfoData.cardTitle[index].isImg}}">
+						<view wx:for="{{item[itemSon]}}" wx:for-item="itemGrandSon" wx:key="itemGrandSon">
+							<image class="size-l radius-m image" bindtap="showImage" data-src="{{itemGrandSon}}" src="{{itemGrandSon}}" mode="aspectFill" />
+						</view>
 					</view>
 				</block>
 				<block wx:else>
-					<view>
+					<view wx:if="{{!cardInfoData.cardTitle[index].isImg}}">
 						<view>{{item[itemSon]}}</view>
+					</view>
+					<view wx:if="{{cardInfoData.cardTitle[index].isImg}}">
+						<view>
+							<image class="size-l radius-m image" bindtap="showImage" data-src="{{item[itemSon]}}" src="{{item[itemSon]}}" mode="aspectFill" />
+						</view>
 					</view>
 				</block>
 			</view>
 		</view>
 		<view wx:if="{{cardInfoData.cardData.length===0}}" class="mt40 tc color91">
-				<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png"></image>
-				<view class="mt20">没有符合条件的数据</view>
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png"></image>
+			<view class="mt20">没有符合条件的数据</view>
 		</view>
 	</view>
 	<view class="color91 flex jcc {{isShort?'':'mt20'}}" bindtap="changeShortOrLong" wx:if="{{showShort}}">

@@ -23,6 +23,7 @@
 		"van-icon": "@vant/weapp/icon/index",
 		"van-image": "@vant/weapp/image/index",
 		"van-notify": "@vant/weapp/notify/index",
+		"van-dialog": "@vant/weapp/dialog/index",
 		"van-popup": "@vant/weapp/popup/index",
 		"van-tab": "@vant/weapp/tab/index",
 		"van-tabs": "@vant/weapp/tabs/index"

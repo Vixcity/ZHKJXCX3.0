@@ -20,22 +20,9 @@ const isIfLogin = () => {
 
 // 封装请求
 const wxReq = data => {
-	if(isIfLogin()){
-		
+	if(!isIfLogin()){
 		return
 	}
-  const openid = wx.getStorageSync("userInfo").openid.openid
-  // 作坊主
-  // 王
-  // const openid = "oFr0i5M55SwKUlQ7WwbzaMOIar9Q"
-  // 王-小号
-  // const openid = "oFr0i5GHdONuAU0MI5cV1HJX1vs4"
-  // 周
-  // const openid = "oFr0i5Jhj6w5N5Oj_BEP6w-b1Lr4"
-  // 员工
-  // const openid = "oFr0i5FlAmENiYwaoEk75GcL8I5Y"
-  // 注册用户未绑定作坊主↓
-  // const openid = "yyy"
 
   wx.request({
     url: getApp().globalData.api + data.url,
@@ -43,8 +30,6 @@ const wxReq = data => {
     method: data.method,
     success: data.success,
     header: {
-      // Authorization:'Bearer ' + 6666
-			Authorization: 'Bearer ' + openid, // 员工ID
 			token: getApp().globalData.token
     }
   })

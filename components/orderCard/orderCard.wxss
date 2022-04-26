@@ -17,10 +17,3 @@
 	right: -2%;
 	bottom: -2%;
 }
-
-.popup{
-	position: absolute;
-	top: 0;
-	left: 0;
-	background-color: rgba(0, 0, 0, 0.6);
-}

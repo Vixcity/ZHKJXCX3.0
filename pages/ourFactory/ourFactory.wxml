@@ -1,42 +1,52 @@
 <!--pages/ourFactory/ourFactory.wxml-->
 <view id="ourFactory" class="pb20">
-	<van-tabs wx:if="{{ type === '2' }}" bind:disabled="onClickDisabled" animated swipeable sticky active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
+	<van-tabs wx:if="{{ type === '2'}}" bind:disabled="onClickDisabled" animated swipeable sticky active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
 		<van-tab title="生产中">
-			<view class="tc color91 mt10">共1条数据</view>
-			<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
-				<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
-			</order-card>
+			<view wx:if="{{isLogin}}">
+				<view>
+					<view class="tc color91 mt10">共1条数据</view>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}" catchtap></list-card>
+					</order-card>
+				</view>
+			</view>
 		</van-tab>
 		<van-tab title="待验收">
-			<view class="tc color91 mt10">共1条数据</view>
-			<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
-				<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-			</order-card>
+			<view wx:if="{{isLogin}}">
+				<view>
+					<view class="tc color91 mt10">共1条数据</view>
+					<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
+						<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
+					</order-card>
+				</view>
+			</view>
 		</van-tab>
 	</van-tabs>
-	<view wx:elif="{{ type === '3'}}">
-		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
-		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
+	<view wx:elif="{{ type === '3' && isLogin}}">
 		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
 			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
 		</order-card>
 	</view>
-	<view wx:else="{{ type === '1'}}">
-		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
-		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
+	<view wx:elif="{{ type === '1' && isLogin}}">
 		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
 			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
 		</order-card>
 	</view>
-	<view wx:if="{{ type === '2' }}" class="pof bgColor27A2 colorWhite tc" style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
+	<view wx:if="{{ type === '2' && isLogin }}" class="pof bgColor27A2 colorWhite tc" style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
 		<van-icon name="scan" size="18px" />
 	</view>
+	<!-- 第一次查询无数据 -->
+	<view class="flex fdc vh60 color91 w100 jcc aic" wx:if="{{!isLogin || noData}}">
+		<view class="tc size-xl">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png"></image>
+			<view class="mt20">没有符合条件的数据</view>
+		</view>
+	</view>
+	<view wx:if="{{!isLogin}}">
+		<view class="mt20 submit">
+			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
+		</view>
+	</view>
+	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+	<van-notify id="van-notify" />
 </view>

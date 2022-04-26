@@ -5,6 +5,14 @@
 	border-bottom: 1px solid #D4D4D4;
 }
 
+.image {
+	border-radius: 0;
+	overflow: hidden;
+	width: 144rpx;
+	height: 114rpx;
+	border-radius: 8rpx;
+}
+
 .borderItem:last-child {
 	border: none;
 }

@@ -17,6 +17,6 @@ App({
 		// this.globalData.api = 'https://knit-m-api.zwyknit.com/api'
 	},
 	globalData: {
-		isLogin: false
+		isLogin: false,
 	}
 })
