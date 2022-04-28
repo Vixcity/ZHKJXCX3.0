@@ -14,7 +14,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-
+		orderList: [],
 		detailInfo: {
 			title: '111',
 			time: '2022-04-30',
@@ -64,8 +64,8 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		// const isLogin = isIfLogin()
-		let isLogin = true
+		const isLogin = isIfLogin()
+		// let isLogin = true
 
 		this.setData({
 			isLogin
@@ -78,22 +78,66 @@ Page({
 		}
 	},
 
-	pullUpLoad: debounce (
-		() => {
-			console.log(this)
+	pullUpLoad: function () {
+		if(this.data.isEnd){
+			return
+		}
+		this.setData({
+			showLoading: true
+		})
+		this.reqOrder()
+	},
+
+	reqOrder: debounce(
+		function () {
+			let orderList = this.data.orderList
+			
 			wxReq({
 				url: '/order/lists',
 				method: 'GET',
 				data: {
-					page: _this.data.page,
-					limit: _this.data.limit
+					page: this.data.page,
+					limit: this.data.limit
 				},
 				success: (res) => {
-					console.log(res.data.data)
-				}
+					if (res.data.code === 200) {
+						console.log(res.data.data)
+
+						if (res.data.data.length < 10) {
+							this.setData({
+								isEnd: true,
+								showLoading: false
+							})
+						}
+
+						this.data.page += 1
+
+						let arr = res.data.data.map(item => {
+							return {
+								id: item.id,
+								customer: '订单号：' + item.code,
+								title: item.client.name,
+								time: '2022-04-30',
+								nowNumber: 20,
+								allNumber: 50,
+								customer: '订单号：asdasd',
+								imgSrc: 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png',
+								display: 0,
+								code: '222',
+							}
+						})
+						orderList = orderList.concat(arr)
+						console.log(orderList)
+
+						this.setData({
+							showLoading: false,
+							orderList
+						})
+					}
+				},
 			})
 		}, 1000
-	),	
+	),
 
 	GetSandCode() {
 		wx.scanCode({

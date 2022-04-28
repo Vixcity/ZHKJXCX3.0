@@ -31,6 +31,7 @@ const wxReq = data => {
 		success: data.success,
 		header: {
 			token: getApp().globalData.token
+			// token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTBlMTdkNjVlNTBlMTFlYjg0MzY3Y2QzMGFjNGU5MzAiLCJjb21wYW55X2lkIjoieHgxIiwidXNlcl9uYW1lIjoiMTc2MDIxMDMwNjAiLCJwaG9uZSI6IjE3NjAyMTAzMDYwIiwiZXhwIjoxNjUxNzEyNzQyLCJpc3MiOiJ6aCIsIm5iZiI6MTY1MTEwNjk0Mn0.6e6PcnMjsWNvdVHzq0JYeG25mGOedx2F1oebRyx81rI'
 		}
 	})
 }

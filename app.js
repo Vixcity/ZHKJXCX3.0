@@ -18,5 +18,6 @@ App({
 	},
 	globalData: {
 		isLogin: false,
+		// isLogin: true,
 	}
 })

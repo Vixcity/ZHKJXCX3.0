@@ -42,6 +42,7 @@
 		<view wx:if="{{detailInfo.status === 3}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">已完成</view>
 		<view wx:if="{{detailInfo.status === 4}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">新派单</view>
 		<view wx:if="{{detailInfo.status === 5}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">待验收</view>
+		<view wx:if="{{detailInfo.status === 6}}" class="poa bgColor8D9F colorWhite borderRadius16 pl10 pb8 pr15 pt5 cornerStyle">已验收</view>
 	</view>
 	<!-- 弹出框 -->
 	<van-popup catchtap show="{{showPopup}}" bindtap="closePopup">

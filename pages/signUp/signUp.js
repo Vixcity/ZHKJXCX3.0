@@ -36,7 +36,7 @@ Page({
 		let _this = this
 
 		wx.request({
-			url: 'https://knit-m2-beta.zwyknit.com/auth/login',
+			url: getApp().globalData.api.slice(0, -4)+'/auth/login',
 			data: {
 				password: this.data.password,
 				user_name: this.data.user_name
@@ -60,7 +60,7 @@ Page({
 
 								setTimeout(function () {
 									_this.toOtherPage()
-								}, 3000)
+								}, 2500)
 							}
 						}
 					})
