@@ -14,9 +14,10 @@
 		</van-tab>
 		<van-tab title="待验收">
 			<view wx:if="{{isLogin}}">
-				<view class="tc color91 mt10">共{{orderList.length}}条数据</view>
+				<view class="tc color91 mt10 mb10">共{{orderList.length}}条数据</view>
 				<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 105px)">
 					<order-card wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index" showChangeIcon="{{true}}" detailInfo="{{detailInfo}}"></order-card>
+					<view style="height: 20px;"></view>
 					<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 					<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
 				</scroll-view>
@@ -50,4 +51,12 @@
 	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<van-notify id="van-notify" />
+	<van-popup show="{{ showRightPopup }}" bind:click-overlay="closePopup" position="right" custom-style="width: 50%;">
+		<view class="vh20">1</view>
+		<view class="vh20">1</view>
+		<view class="vh20">1</view>
+		<view class="vh20">1</view>
+		<view class="vh20">1</view>
+		<view class="vh20">1</view>
+	</van-popup>
 </view>

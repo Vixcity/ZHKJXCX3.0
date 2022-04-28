@@ -57,18 +57,19 @@ Page({
 		showLoading: false,
 		isEnd: false,
 		page: 1,
-		limit: 10
+		limit: 10,
+		showRightPopup: false
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		const isLogin = isIfLogin()
-		// let isLogin = true
+		// const isLogin = isIfLogin()
+		let isLogin = true
 
 		this.setData({
-			isLogin
+			isLogin,
 		})
 
 		if (isLogin) {
@@ -78,8 +79,14 @@ Page({
 		}
 	},
 
+	closePopup() {
+		this.setData({
+			showRightPopup: false
+		})
+	},
+
 	pullUpLoad: function () {
-		if(this.data.isEnd){
+		if (this.data.isEnd) {
 			return
 		}
 		this.setData({
@@ -88,10 +95,23 @@ Page({
 		this.reqOrder()
 	},
 
+	getProcessList() {
+		wxReq({
+			url: '/process/lists',
+			data: {
+				type: 2
+			},
+			method: "GET",
+			success: (res) => {
+				console.log(res)
+			}
+		})
+	},
+
 	reqOrder: debounce(
 		function () {
 			let orderList = this.data.orderList
-			
+
 			wxReq({
 				url: '/order/lists',
 				method: 'GET',

@@ -51,9 +51,7 @@ Component({
 
 	lifetimes: {
 		ready: function () {
-			this.setData({
-				isLeader: wx.getStorageSync('userInfo').userinfo?.role === 3
-			})
+			
 		},
 	},
 
