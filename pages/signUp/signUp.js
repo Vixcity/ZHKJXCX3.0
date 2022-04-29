@@ -1,7 +1,5 @@
 const app = getApp()
-import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 import {
-	verifyTel,
 	wxReq
 } from '../../utils/util';
 // index.js
@@ -53,10 +51,12 @@ Page({
 							if (res.data.status) {
 								app.globalData.userInfo = ress.data.data
 
-								Notify({
+								wx.lin.showMessage({
 									type: 'success',
-									message: '登录成功，即将返回刚才的页面'
-								});
+									duration: 3000,
+									content: '登录成功，即将返回刚才的页面',
+									top: getApp().globalData.navH
+								})
 
 								setTimeout(function () {
 									_this.toOtherPage()

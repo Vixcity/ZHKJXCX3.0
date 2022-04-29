@@ -1,29 +1,20 @@
 <!--pages/ourFactory/ourFactory.wxml-->
 <view id="ourFactory">
-	<van-tabs wx:if="{{ type === '2'}}" bind:disabled="onClickDisabled" animated swipeable sticky active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
-		<van-tab title="生产中">
-			<view wx:if="{{isLogin}}">
-				<view class="tc color91 mt10 mb10">共{{orderList.length}}条数据</view>
-				<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 105px)">
-					<order-card wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index" showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance"></order-card>
-					<view style="height: 20px;"></view>
-					<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
-					<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-				</scroll-view>
-			</view>
-		</van-tab>
-		<van-tab title="待验收">
-			<view wx:if="{{isLogin}}">
-				<view class="tc color91 mt10 mb10">共{{orderList.length}}条数据</view>
-				<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 105px)">
-					<order-card wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index" showChangeIcon="{{true}}" detailInfo="{{detailInfo}}"></order-card>
-					<view style="height: 20px;"></view>
-					<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
-					<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-				</scroll-view>
-			</view>
-		</van-tab>
-	</van-tabs>
+	<nav-content showHome="{{false}}" showBack="{{false}}">
+		<view slot="after">
+			<van-search value="{{ value }}" placeholder="搜索" />
+		</view>
+	</nav-content>
+
+	<view wx:if="{{type === '2' && isLogin}}">
+		<view class="tc color91 mt10 mb10">共检索到{{orderList.length}}条数据</view>
+		<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 105px)">
+			<order-card wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index" showChangeIcon="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance"></order-card>
+			<view style="height: 20px;"></view>
+			<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+			<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		</scroll-view>
+	</view>
 	<view wx:elif="{{ type === '3' && isLogin}}">
 		<order-card showChangeIcon="{{true}}" detailInfo="{{detailInfo}}">
 			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
@@ -50,13 +41,5 @@
 		</view>
 	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
-	<van-notify id="van-notify" />
-	<van-popup show="{{ showRightPopup }}" bind:click-overlay="closePopup" position="right" custom-style="width: 50%;">
-		<view class="vh20">1</view>
-		<view class="vh20">1</view>
-		<view class="vh20">1</view>
-		<view class="vh20">1</view>
-		<view class="vh20">1</view>
-		<view class="vh20">1</view>
-	</van-popup>
+	<l-message content="{{content}}"/>
 </view>

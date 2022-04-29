@@ -18,6 +18,7 @@ App({
 	},
 	globalData: {
 		isLogin: false,
+		homePage:'/pages/ourFactory/ourFactory'
 		// isLogin: true,
 	}
 })

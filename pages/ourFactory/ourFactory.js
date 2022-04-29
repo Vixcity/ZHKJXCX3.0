@@ -1,8 +1,7 @@
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
-import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 const {
 	urlParams,
-	isIfLogin,
+	formatDate,
 	wxReq,
 	debounce
 } = require("../../utils/util")
@@ -58,7 +57,7 @@ Page({
 		isEnd: false,
 		page: 1,
 		limit: 10,
-		showRightPopup: false
+		process_name: '针织织造'
 	},
 
 	/**
@@ -77,12 +76,6 @@ Page({
 		} else {
 			this.toLogin()
 		}
-	},
-
-	closePopup() {
-		this.setData({
-			showRightPopup: false
-		})
 	},
 
 	pullUpLoad: function () {
@@ -113,11 +106,12 @@ Page({
 			let orderList = this.data.orderList
 
 			wxReq({
-				url: '/order/lists',
+				url: '/weave/plan/lists',
 				method: 'GET',
 				data: {
 					page: this.data.page,
-					limit: this.data.limit
+					page_size: this.data.limit,
+					process_name: this.data.process_name,
 				},
 				success: (res) => {
 					if (res.data.code === 200) {
@@ -135,16 +129,35 @@ Page({
 						let arr = res.data.data.map(item => {
 							return {
 								id: item.id,
-								customer: '订单号：' + item.code,
-								title: item.client.name,
-								time: '2022-04-30',
+								customer: item.client.name,
+								title: item.product_info.product.name,
+								time: formatDate(item.end_time),
 								nowNumber: 20,
 								allNumber: 50,
-								customer: '订单号：asdasd',
+								customer: item.client.name,
 								imgSrc: 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png',
 								display: 0,
-								code: '222',
+								code: item.product_info.product.product_code,
+								processName: item.process_name,
 							}
+							// {
+							// 	time: '2022-04-30',
+							// 	nowNumber: 20,
+							// 	allNumber: 50,
+							// 	customer: '订单号：asdasd',
+							// 	imgSrc: 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png',
+							// 	display: 0,
+							// 	pid: 132,
+							// 	// order_type: 1,
+							// 	// status:3,
+							// 	id: 187,
+							// 	product_id: 391,
+							// 	code: '222',
+							// 	dateDiff: 0,
+							// 	processName: '工序',
+							// 	bigThan30: true,
+							// 	smallThan24h: true	
+							// }
 						})
 						orderList = orderList.concat(arr)
 						console.log(orderList)
@@ -191,16 +204,18 @@ Page({
 					this.toSignUp()
 				})
 				.catch(() => {
-					Notify({
-						type: 'danger',
-						message: '您已取消，请登录以获得更好的用户体验'
-					});
+					wx.lin.showMessage({
+						type: 'error',
+						duration: 4000,
+						content: '您已取消，请登录以获取更好的用户体验',
+						top: getApp().globalData.navH
+					})
 				});
 		}
 	},
 
 	toSignUp() {
-		wx.reLaunch({
+		wx.navigateTo({
 			url: '/pages/signUp/signUp?path=ourFactory',
 		})
 	},

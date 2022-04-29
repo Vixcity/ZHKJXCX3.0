@@ -147,6 +147,48 @@ const dateDiff = function (nowTime, compairTime) {
 	return iDays; //返回相差天数
 }
 
+// 格式化时间
+const formatDate = function (time, format = 'yyyy-MM-DD') {
+	let t = new Date(time);
+	let tf = function (i) {
+		return (i < 10 ? '0' : '') + i
+	};
+	return format.replace(/yyyy|YYYY|MM|dd|DD|HH|hh|mm|ss|SS/g, function (a) {
+		switch (a) {
+			case 'yyyy':
+				return tf(t.getFullYear());
+				break;
+			case 'YYYY':
+				return tf(t.getFullYear());
+				break;
+			case 'MM':
+				return tf(t.getMonth() + 1);
+				break;
+			case 'dd':
+				return tf(t.getDate());
+				break;
+			case 'DD':
+				return tf(t.getDate());
+				break;
+			case 'hh':
+				return tf(t.getHours());
+				break;
+			case 'HH':
+				return tf(t.getHours());
+				break;
+			case 'mm':
+				return tf(t.getMinutes());
+				break;
+			case 'ss':
+				return tf(t.getSeconds());
+				break;
+			case 'SS':
+				return tf(t.getSeconds());
+				break;
+		}
+	})
+}
+
 // 获取Url参数
 const urlParams = function (url) {
 	let obj = {}
@@ -170,5 +212,6 @@ module.exports = {
 	urlParams,
 	reloadThisPage,
 	isIfLogin,
-	debounce
+	debounce,
+	formatDate
 }

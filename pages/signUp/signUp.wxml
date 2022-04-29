@@ -1,5 +1,8 @@
 <view class="container">
-	<view class="signUp noPad">
+	<nav-content color='#27a2fd' white>
+		<view slot="after">登录</view>
+	</nav-content>
+	<view class="signUp noPad pt20">
 		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
 			<view class="tc h40 flex jcc aic h50 fz30">
 				<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix"></van-image>
@@ -18,5 +21,5 @@
 			<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
 		</view>
 	</view>
-	<van-notify id="van-notify" />
+	<l-message content="{{content}}"/>
 </view>
