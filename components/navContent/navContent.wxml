@@ -1,0 +1,13 @@
+<!--components/navContent.wxml-->
+<view style='height:{{navH}}px; background: {{color}};'>
+	<view class="nav {{white ? 'white':''}}" style="height:{{navH}}px; background: {{color}};">
+		<view wx:if="{{showBack || showHome}}" class='title_icon'>
+			<van-icon wx:if="{{showBack}}" name="arrow-left" bindtap='navBack' />
+			<view wx:if="{{showBack && showHome}}" class="borderLeft"></view>
+			<van-icon wx:if="{{showHome}}" name="wap-home-o" bindtap='navHome' />
+		</view>
+		<view class="{{(showBack || showHome)?'title_text':'title_text_big'}}">
+			<slot name="after"></slot>
+		</view>
+	</view>
+</view>
