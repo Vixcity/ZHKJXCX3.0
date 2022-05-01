@@ -66,25 +66,25 @@ Page({
 			}],
 			value: ['0', '0-0']
 		},
-		groupList:{
+		groupList: {
 			options: [{
-				text:'选项1',
-				value:0
-			},{
-				text:'选项2',
-				value:1
+				text: '选项1',
+				value: 0
+			}, {
+				text: '选项2',
+				value: 1
 			}],
-			value:0
+			value: 0
 		},
-		userList:{
+		userList: {
 			options: [{
-				text:'选项1',
-				value:0
-			},{
-				text:'选项2',
-				value:1
+				text: '选项1',
+				value: 0
+			}, {
+				text: '选项2',
+				value: 1
 			}],
-			value:0
+			value: 0
 		},
 		type: '2',
 		searchType: 1,
@@ -169,22 +169,22 @@ Page({
 		this.data.page = 1
 		this.reqOrder()
 	},
-	
+
 	changeGroup(e) {
 		this.setData({
 			'groupList.value': e.detail.value,
 		});
-		
+
 		this.data.group_id = e.detail.value
 		this.data.page = 1
 		this.reqOrder()
 	},
-	
+
 	changeUser(e) {
 		this.setData({
 			'userList.value': e.detail.value,
 		});
-		
+
 		this.data.user_id = e.detail.value
 		this.data.page = 1
 		this.reqOrder()
@@ -220,7 +220,7 @@ Page({
 			let orderList = this.data.orderList
 
 			let params = {}
-			if(this.data.searchType === 1){
+			if (this.data.searchType === 1) {
 				params = {
 					page: this.data.page,
 					page_size: this.data.limit,
@@ -230,7 +230,7 @@ Page({
 					user_id: this.data.user_id,
 					order_code: this.data.keyWord
 				}
-			} else if(this.data.searchType === 2){
+			} else if (this.data.searchType === 2) {
 				params = {
 					page: this.data.page,
 					page_size: this.data.limit,
@@ -262,27 +262,26 @@ Page({
 
 						let arr = []
 						res.data.data.forEach(item => {
-							item.product_info.forEach(itemPro => {
-								arr.push({
-									id: item.id,
-									customer: item.client.name,
-									title: itemPro.product.name,
-									time: formatDate(item.end_time),
-									nowNumber: itemPro.real_number,
-									allNumber: itemPro.number,
-									customer: item.code,
-									imgSrc: itemPro.product.image_data.length > 0 ? itemPro.product.image_data[0].image_url : 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png',
-									display: 0,
-									code: itemPro.product.product_code,
-									processName: item.process_name,
-								})
+							arr.push({
+								id: item.id,
+								customer: item.client.name,
+								title: item.client.name,
+								time: formatDate(item.end_time),
+								nowNumber: item.total_real_number,
+								allNumber: item.total_number,
+								customer: item.code,
+								productLen: item.product_info.length,
+								imgSrc: item.product_info[0].product.image_data.length > 0 ? item.product_info[0].product.image_data[0].image_url : 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png',
+								display: 0,
+								processName: item.process_name,
+								item: item
 							})
 						})
 						orderList = orderList.concat(arr)
 
 						this.setData({
 							showLoading: false,
-							orderList
+							orderList,
 						})
 					}
 				},
@@ -340,7 +339,9 @@ Page({
 	},
 
 	toOutsourcingAcceptance(e) {
-		console.log(e)
+		wx.setStorageSync('outsourcing', {
+			selectCardInfo: this.data.orderList[e.currentTarget.dataset.index],
+		})
 		wx.navigateTo({
 			url: '/pages/outsourcingAcceptance/outsourcingAcceptance',
 		})
