@@ -1,4 +1,3 @@
-const app = getApp()
 const {
 	reloadThisPage
 } = require("../../utils/util")
@@ -49,7 +48,7 @@ Page({
 			]
 		},
 		isCheck: true,
-		userInfo: app.globalData.userInfo
+		userInfo: wx.getStorageSync('userInfo')
 	},
 
 	/**

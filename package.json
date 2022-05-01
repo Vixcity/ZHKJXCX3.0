@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@vant/weapp": "^1.10.2",
-    "lin-ui": "^0.9.8"
+    "lin-ui": "^0.9.8",
+    "tdesign-miniprogram": "^0.10.0"
   }
 }

@@ -1,5 +1,8 @@
-const app = getApp()
 import {
+	getClientList,
+	getProcessList,
+	getGroupList,
+	getUserList,
 	wxReq
 } from '../../utils/util';
 // index.js
@@ -34,22 +37,23 @@ Page({
 		let _this = this
 
 		wx.request({
-			url: getApp().globalData.api.slice(0, -4)+'/auth/login',
+			url: getApp().globalData.api.slice(0, -4) + '/auth/login',
 			data: {
 				password: this.data.password,
 				user_name: this.data.user_name
 			},
 			method: 'POST',
 			success: res => {
-				if (res.data.status) {
-					app.globalData.isLogin = true
-					app.globalData.token = res.data.data.token
+				if (res.data) {
+					wx.setStorageSync('isLogin', true)
+					wx.setStorageSync('token', res.data.data.token)
+
 					wxReq({
 						url: '/user/info',
 						method: 'GET',
 						success: ress => {
-							if (res.data.status) {
-								app.globalData.userInfo = ress.data.data
+							if (res.data) {
+								wx.setStorageSync('userInfo', ress.data.data)
 
 								wx.lin.showMessage({
 									type: 'success',
@@ -57,6 +61,11 @@ Page({
 									content: '登录成功，即将返回刚才的页面',
 									top: getApp().globalData.navH
 								})
+
+								getClientList()
+								getProcessList()
+								getGroupList()
+								getUserList()
 
 								setTimeout(function () {
 									_this.toOtherPage()

@@ -15,14 +15,14 @@ const formatNumber = n => {
 }
 
 const isIfLogin = () => {
-	return getApp().globalData.isLogin
+	return wx.getStorageSync('isLogin')
 }
 
 // 封装请求
 const wxReq = data => {
-	// if(!isIfLogin()){
-	// 	return
-	// }
+	if (!isIfLogin()) {
+		return
+	}
 
 	wx.request({
 		url: getApp().globalData.api + data.url,
@@ -30,8 +30,7 @@ const wxReq = data => {
 		method: data.method,
 		success: data.success,
 		header: {
-			token: getApp().globalData.token
-			// token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZTBlMTdkNjVlNTBlMTFlYjg0MzY3Y2QzMGFjNGU5MzAiLCJjb21wYW55X2lkIjoieHgxIiwidXNlcl9uYW1lIjoiMTc2MDIxMDMwNjAiLCJwaG9uZSI6IjE3NjAyMTAzMDYwIiwiZXhwIjoxNjUxNzEyNzQyLCJpc3MiOiJ6aCIsIm5iZiI6MTY1MTEwNjk0Mn0.6e6PcnMjsWNvdVHzq0JYeG25mGOedx2F1oebRyx81rI'
+			token: wx.getStorageSync('token')
 		}
 	})
 }
@@ -82,7 +81,6 @@ const getTimestamp = n => {
 	// console.log(timestamp);
 	return timestamp
 }
-
 
 // 获取时间差，时间戳传入
 const getTimeDiff = (time1, time2, type = 'hours') => {
@@ -201,6 +199,150 @@ const urlParams = function (url) {
 	return obj
 }
 
+const getClientList = function () {
+	wxReq({
+		url: '/client/type/lists',
+		method: 'GET',
+		success: (res) => {
+			let arr = []
+			res.data.data.forEach((item, index) => {
+				let arr1 = []
+				if (item.rel_tag) {
+					item.rel_tag.forEach((itemSon, indexSon) => {
+						let arr2 = []
+						if (itemSon.client) {
+							itemSon.client.forEach((itemClient) => {
+								arr2.push({
+									label: itemClient.name,
+									value: '' + index + '-' + indexSon + '-' + itemClient.id
+								})
+							})
+							arr1.push({
+								label: itemSon.name,
+								value: '' + index + '-' + indexSon,
+								options: arr2
+							})
+						}
+					});
+				}
+				if (item.public_tag) {
+					item.public_tag.forEach((itemSon, indexSon) => {
+						let arr2 = []
+						if (itemSon.client) {
+							itemSon.client.forEach((itemClient) => {
+								arr2.push({
+									label: itemClient.name,
+									value: '' + index + '-' + indexSon + '-' + itemClient.id
+								})
+							})
+							arr1.push({
+								label: itemSon.name,
+								value: '' + index + '-' + indexSon,
+								options: arr2
+							})
+						}
+					});
+				}
+				arr.push({
+					label: item.name,
+					value: '' + index,
+					options: arr1
+				})
+			});
+			wx.setStorageSync("clientList", arr)
+		}
+	})
+}
+
+const getProcessList = function () {
+	wxReq({
+		url: '/process/lists',
+		data: {
+			type: 2
+		},
+		method: 'GET',
+		success: (res) => {
+			wxReq({
+				url: '/process/lists',
+				data: {
+					type: 3
+				},
+				method: 'GET',
+				success: (ress) => {
+					let arr1 = res.data.data.map(item => {
+						return {
+							label: item.name,
+							value: item.name
+						}
+					})
+					let arr2 = ress.data.data.map(item => {
+						return {
+							label: item.name,
+							value: item.name
+						}
+					})
+
+					wx.setStorageSync('processList', [{
+						label: '织造工序',
+						value: 0,
+						options: [{
+							label: '针织织造',
+							value: '针织织造',
+						}, {
+							label: '梭织织造',
+							value: '梭织织造',
+						}, {
+							label: '制版费',
+							value: '制版费'
+						}]
+					}, {
+						label: '半成品加工工序',
+						value: 2,
+						options: arr1
+					}, {
+						label: '成品加工工序',
+						value: 3,
+						options: arr2
+					}])
+				}
+			})
+		}
+	})
+}
+
+const getGroupList = function () {
+	wxReq({
+		url: '/group/lists',
+		method: 'GET',
+		success: (res) => {
+			let arr = res.data.data.map(item => {
+				return {
+					label: item.name,
+					value: item.id
+				}
+			})
+			wx.setStorageSync('groupList', arr)
+		}
+	})
+}
+
+const getUserList = function () {
+	wxReq({
+		url: '/user/lists',
+		method: 'GET',
+		success: (res) => {
+			let arr = res.data.data.map(item => {
+				return {
+					label: item.name,
+					value: item.user_id,
+					allUesrInfo: item
+				}
+			})
+			wx.setStorageSync('userList', arr)
+		}
+	})
+}
+
 module.exports = {
 	formatTime,
 	wxReq,
@@ -213,5 +355,9 @@ module.exports = {
 	reloadThisPage,
 	isIfLogin,
 	debounce,
-	formatDate
+	formatDate,
+	getClientList,
+	getProcessList,
+	getGroupList,
+	getUserList
 }
