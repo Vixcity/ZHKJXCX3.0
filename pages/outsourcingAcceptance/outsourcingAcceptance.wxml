@@ -9,29 +9,65 @@
 		<order-card isBig="{{true}}" detailInfo="{{detailInfo}}" bindtap="toOutsourcingAcceptance"></order-card>
 	</view>
 	<view class="bgColorWhite pb10">
-		<van-field value="{{ userInfo.name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
-		<view class="flex pt10 pb10">
-			<view class="pl10 mr30 fz35" style="color:#646566">验收类型</view>
-			<van-radio-group value="{{ type }}" bind:change="onChange">
-				<van-radio name="{{1}}">半成品检验入库</van-radio>
-				<van-radio name="{{2}}">半成品加工出库</van-radio>
-			</van-radio-group>
-		</view>
-		<view class="flex pt10 pb10">
-			<view class="pl10 mr30 fz35" style="color:#646566">验收日期</view>
-			<view bindtap="showChooseDate">{{date?date:'点击选择日期'}}</view>
-		</view>
-		<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}" bind:select="selectDate" bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
-		<view wx:for="{{detailInfo.item.product_info}}" wx:for-item="item" wx:key="item" wx:for-index="index">
-			<view class="pl10 mr30 fz35 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}</view>
-			<van-field value="{{ item.hegeNumber }}" data-index="{{index}}" bind:change="getNumber" type="number" clearable label="合格数" placeholder="请输入合格数" />
-			<van-field value="{{ item.cipinNumber }}" data-index="{{index}}" bind:change="getCiPinNumber" type="number" clearable label="次品数" placeholder="请输入次品数" />
-			<van-field value="{{ item.cipinReason }}" data-index="{{index}}" bind:change="getCiPinReason" clearable label="次品原因" placeholder="请输入次品原因" />
-		</view>
-		<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
-		<view wx:if="{{!isCheck}}" class="vh10"></view>
-		<view wx:if="{{!isCheck}}" class="tc mt10 color91 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index: 99999999;">
-			<van-button type="primary" size="small" bindtap="buttonCommit">录入验收信息</van-button>
+		<van-tabs bind:change="onChangeTabs" wx:if="{{isCodeIn}}" animated swipeable active="{{ 0 }}" color="#27A2FD" title-active-color="#27A2FD">
+			<van-tab title="验收">
+				<van-field value="{{ userInfo.name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
+				<view class="flex pt10 pb10">
+					<view class="pl10 mr30 fz35" style="color:#646566">验收类型</view>
+					<van-radio-group value="{{ type }}" bind:change="onChange">
+						<van-radio name="{{1}}">半成品检验入库</van-radio>
+						<van-radio name="{{2}}">半成品加工出库</van-radio>
+						<van-radio name="{{3}}">成品加工出库</van-radio>
+					</van-radio-group>
+				</view>
+				<view class="flex pt10 pb10">
+					<view class="pl10 mr30 fz35" style="color:#646566">验收日期</view>
+					<view bindtap="showChooseDate">{{date?date:'点击选择日期'}}</view>
+				</view>
+				<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}" bind:select="selectDate" bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
+				<view wx:for="{{detailInfo.item.product_info}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+					<view class="pl10 mr30 fz35 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}</view>
+					<van-field value="{{ item.hegeNumber }}" data-index="{{index}}" bind:change="getNumber" type="number" clearable label="合格数" placeholder="请输入合格数" />
+					<van-field value="{{ item.cipinNumber }}" data-index="{{index}}" bind:change="getCiPinNumber" type="number" clearable label="次品数" placeholder="请输入次品数" />
+					<van-field value="{{ item.cipinReason }}" data-index="{{index}}" bind:change="getCiPinReason" clearable label="次品原因" placeholder="请输入次品原因" />
+				</view>
+				<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
+				<view wx:if="{{!isCheck}}" class="vh10"></view>
+				<view wx:if="{{!isCheck}}" class="tc mt10 color91 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index: 99999999;">
+					<van-button type="primary" size="small" bindtap="buttonCommit">录入验收信息</van-button>
+				</view>
+			</van-tab>
+			<van-tab title="生产记录">
+				<view class="bgColorWhite vw100 pl10 pr10 borderBox overfh">
+					<list-card isSlot="{{true}}" showShort="{{false}}" cardInfoData="{{cardInfoData}}"></list-card>
+				</view>
+			</van-tab>
+		</van-tabs>
+		<view wx:if="{{!isCodeIn}}">
+			<van-field value="{{ userInfo.name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
+			<view class="flex pt10 pb10">
+				<view class="pl10 mr30 fz35" style="color:#646566">验收类型</view>
+				<van-radio-group value="{{ type }}" bind:change="onChange">
+					<van-radio name="{{1}}">半成品检验入库</van-radio>
+					<van-radio name="{{2}}">半成品加工出库</van-radio>
+				</van-radio-group>
+			</view>
+			<view class="flex pt10 pb10">
+				<view class="pl10 mr30 fz35" style="color:#646566">验收日期</view>
+				<view bindtap="showChooseDate">{{date?date:'点击选择日期'}}</view>
+			</view>
+			<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}" bind:select="selectDate" bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
+			<view wx:for="{{detailInfo.item.product_info}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+				<view class="pl10 mr30 fz35 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}</view>
+				<van-field value="{{ item.hegeNumber }}" data-index="{{index}}" bind:change="getNumber" type="number" clearable label="合格数" placeholder="请输入合格数" />
+				<van-field value="{{ item.cipinNumber }}" data-index="{{index}}" bind:change="getCiPinNumber" type="number" clearable label="次品数" placeholder="请输入次品数" />
+				<van-field value="{{ item.cipinReason }}" data-index="{{index}}" bind:change="getCiPinReason" clearable label="次品原因" placeholder="请输入次品原因" />
+			</view>
+			<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
+			<view wx:if="{{!isCheck}}" class="vh10"></view>
+			<view wx:if="{{!isCheck}}" class="tc mt10 color91 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index: 99999999;">
+				<van-button type="primary" size="small" bindtap="buttonCommit">录入验收信息</van-button>
+			</view>
 		</view>
 	</view>
 	<l-message content="{{content}}" />

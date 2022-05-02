@@ -1,6 +1,6 @@
 {
 	"setting": {
-		"compileHotReLoad": true
+		"compileHotReLoad": false
 	},
 	"condition": {
 		"miniprogram": {
@@ -51,6 +51,13 @@
 					"name": "外协验收",
 					"pathName": "pages/outsourcingAcceptance/outsourcingAcceptance",
 					"query": "",
+					"launchMode": "default",
+					"scene": null
+				},
+				{
+					"name": "生产验收（扫码进）",
+					"pathName": "pages/outsourcingAcceptance/outsourcingAcceptance",
+					"query": "isCodeIn=true",
 					"launchMode": "default",
 					"scene": null
 				}

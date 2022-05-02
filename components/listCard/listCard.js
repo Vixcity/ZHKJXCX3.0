@@ -29,9 +29,7 @@ Component({
 	/**
 	 * 组件的初始数据
 	 */
-	data: {
-		isShort: true
-	},
+	data: {},
 
 	/**
 	 * 组件的生命周期
@@ -41,6 +39,10 @@ Component({
 			if (!this.data.showShort) {
 				this.setData({
 					isShort: false
+				})
+			} else {
+				this.setData({
+					isShort: true
 				})
 			}
 		}
