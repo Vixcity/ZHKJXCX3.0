@@ -11,7 +11,6 @@ const {
   getUserList,
 } = require("../../utils/util");
 
-// pages/ourFactory/ourFactory.js
 Page({
   /**
    * 页面的初始数据
@@ -37,10 +36,7 @@ Page({
           width: 27,
         },
       ],
-      cardData: [
-        ["圈圈纱围脖", "均码/浅色组", "3000/2800", "2600（包装） 200（吊牌）"],
-        ["圈圈围脖纱", "均码/灰色组", "3000/5000", "2600（包装） 200（吊牌）"],
-      ],
+      cardData: [],
     },
     clientList: {
       options: [
@@ -106,7 +102,6 @@ Page({
       ],
       value: 0,
     },
-    type: "2",
     searchType: 1,
     showSearch: false,
     showLoading: false,
@@ -125,10 +120,12 @@ Page({
    */
   onLoad: function (options) {
     const isLogin = isIfLogin();
-    // let isLogin = true
-
+		// let isLogin = true
+		let {type} = options
+		
     this.setData({
-      isLogin,
+			isLogin,
+			type
     });
 
     if (isLogin) {
@@ -348,7 +345,7 @@ Page({
             type: "error",
             duration: 4000,
             content: "您已取消，请登录以获取更好的用户体验",
-            top: getApp().globalData.navH + 110,
+            top: getApp().globalData.navH,
           });
         });
     }
@@ -356,7 +353,7 @@ Page({
 
   toSignUp() {
     wx.navigateTo({
-      url: "/pages/signUp/signUp?path=ourFactory",
+      url: "/pages/signUp/signUp?path=ourFactory&params1=type%3D2",
     });
   },
 

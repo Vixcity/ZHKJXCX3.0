@@ -21,7 +21,7 @@ const formatNumber = (n) => {
 };
 
 const isIfLogin = () => {
-  return wx.getStorageSync("isLogin");
+  return !!wx.getStorageSync("isLogin");
 };
 
 // 封装请求

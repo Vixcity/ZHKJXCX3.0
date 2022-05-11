@@ -1,8 +1,8 @@
 {
 	"pages": [
+		"pages/index/index",
 		"pages/ourFactory/ourFactory",
 		"pages/manage/manage",
-		"pages/index/index",
 		"pages/signUp/signUp",
 		"pages/noLogin/noLogin",
 		"pages/productPlan/productPlan",

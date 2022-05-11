@@ -1,9 +1,9 @@
 <!--pages/ourFactory/ourFactory.wxml-->
 <view id="ourFactory">
-	<nav-content showHome="{{false}}" showBack="{{false}}">
+	<nav-content showBack="{{false}}">
 		<view slot="after">
 			<!-- <van-search value="{{ keyWord }}" placeholder="搜索" bind:change="onSearch" /> -->
-			<view class="poa" style=" left:8%;top:15%;border-right: 1px solid #eaeaea;padding-right:10rpx;" bindtap="showChangeSearch">{{searchType===1?'订单':'计划单'}}</view>
+			<view class="poa" style="left:12%;border-right: 1px solid #eaeaea;padding-right:10rpx;height:35px;line-height:35px;overflow: hidden;" bindtap="showChangeSearch">{{searchType===1?'订单':'计划单'}}</view>
 			<input wx:if="{{isLogin}}" style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%" type="text" bindinput="onSearch" placeholder="搜索" />
 			<input wx:else disabled style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%" type="text" bindinput="onSearch" placeholder="搜索" />
 			<view class="poa bgColorWhite tl" wx:if="{{showSearch}}" style="left:8%;top:80%;z-index: 999999;border:1px solid #eaeaea;padding: 20rpx 40rpx;">
