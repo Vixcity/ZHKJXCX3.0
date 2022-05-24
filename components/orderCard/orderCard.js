@@ -16,6 +16,10 @@ Component({
 			type: Boolean,
 			value: false
 		},
+		notShowProLen: {
+			type: Boolean,
+			value: false
+		},
 		isBig: {
 			type: Boolean,
 			value: false

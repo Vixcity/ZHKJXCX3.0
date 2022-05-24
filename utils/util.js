@@ -38,7 +38,7 @@ const wxReq = (data) => {
     header: {
       token: wx.getStorageSync("token"),
     },
-  });
+  })
 };
 
 /*函数防抖（定时器）：如果interval不传，则默认1000ms*/

@@ -2,7 +2,7 @@ import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   urlParams,
   formatDate,
-  isIfLogin,
+	isIfLogin,
   wxReq,
   debounce,
   getClientList,
@@ -263,6 +263,7 @@ Page({
       method: "GET",
       data: params,
       success: (res) => {
+
         if (res.data.code === 200) {
           if ((this.data.page = 1)) {
             orderList = [];
@@ -304,7 +305,12 @@ Page({
             showLoading: false,
             orderList,
           });
-        }
+				}
+
+				if(res.data.status === -1) {
+					wx.setStorageSync('isLogin',false)
+					toSignUp()
+				}
       },
     });
   }, 1000),

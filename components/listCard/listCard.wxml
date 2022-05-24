@@ -1,6 +1,5 @@
 <!--components/listCard.wxml-->
 <view class="{{isSlot?'fz25 mt20':'bgColorWhite pl10 pr10 pt10 pb20 fz25 mt20 borderRadius16 shadow borderBox vw90 ma'}} {{classStyle}}">
-{{isShort}}
 	<view class="mb10 fz30 color91">{{title}}</view>
 	<view style="{{isShort?'height:0;overflow:hidden;':'height:100%'}}">
 		<view class="flex jcsb color91">

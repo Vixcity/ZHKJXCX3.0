@@ -1,56 +1,73 @@
 {
-	"pages": [
-		"pages/index/index",
-		"pages/ourFactory/ourFactory",
-		"pages/manage/manage",
-		"pages/signUp/signUp",
-		"pages/noLogin/noLogin",
-		"pages/productPlan/productPlan",
-		"pages/outsourcingAcceptance/outsourcingAcceptance"
-	],
-	"window": {
-		"navigationStyle": "custom"
-	},
-	"usingComponents": {
-		"list-card": "./components/listCard/listCard",
-		"order-card": "./components/orderCard/orderCard",
-		"nav-content": "./components/navContent/navContent",
-		"l-loadmore": "/miniprogram_npm/lin-ui/loadmore/index",
-		"l-capsule-bar": "/miniprogram_npm/lin-ui/capsule-bar/index",
-		"l-message": "/miniprogram_npm/lin-ui/message/index",
-		"t-dropdown-menu": "tdesign-miniprogram/dropdown-menu/dropdown-menu",
-		"t-dropdown-item": "tdesign-miniprogram/dropdown-menu/dropdown-item",
-		"van-action-sheet": "@vant/weapp/action-sheet/index",
-		"van-button": "@vant/weapp/button/index",
-		"van-field": "@vant/weapp/field/index",
-		"van-icon": "@vant/weapp/icon/index",
-		"van-image": "@vant/weapp/image/index",
-		"van-notify": "@vant/weapp/notify/index",
-		"van-dialog": "@vant/weapp/dialog/index",
-		"van-popup": "@vant/weapp/popup/index",
-		"van-radio": "@vant/weapp/radio/index",
-		"van-radio-group": "@vant/weapp/radio-group/index",
-		"van-search": "@vant/weapp/search/index",
-		"van-tab": "@vant/weapp/tab/index",
-		"van-tabs": "@vant/weapp/tabs/index",
-		"van-tree-select": "@vant/weapp/tree-select/index"
-	},
-	"tabBar": {
-		"custom": true,
-		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/manage/manage",
-				"text": "管理"
-			}
-		]
-	},
-	"sitemapLocation": "sitemap.json"
+  "pages": [
+    "pages/ourFactory/ourFactory",
+    "pages/index/index",
+    "pages/manage/manage",
+    "pages/signUp/signUp",
+    "pages/noLogin/noLogin",
+    "pages/productPlan/productPlan",
+    "pages/outsourcingAcceptance/outsourcingAcceptance",
+    "pages/quotedPrice/quotedPrice",
+    "pages/quotedPrice/quotedPriceDetail"
+  ],
+  "window": {
+    "navigationStyle": "custom"
+  },
+  "usingComponents": {
+    "list-card": "./components/listCard/listCard",
+    "order-card": "./components/orderCard/orderCard",
+    "nav-content": "./components/navContent/navContent",
+    "l-album": "/miniprogram_npm/lin-ui/album/index",
+    "l-button": "/miniprogram_npm/lin-ui/button/index",
+    "l-capsule-bar": "/miniprogram_npm/lin-ui/capsule-bar/index",
+    "l-checkbox": "/miniprogram_npm/lin-ui/checkbox/index",
+    "l-checkbox-group": "/miniprogram_npm/lin-ui/checkbox-group/index",
+    "l-collapse": "/miniprogram_npm/lin-ui/collapse/index",
+    "l-collapse-item": "/miniprogram_npm/lin-ui/collapse-item/index",
+    "l-icon": "/miniprogram_npm/lin-ui/icon/index",
+    "l-loadmore": "/miniprogram_npm/lin-ui/loadmore/index",
+    "l-mask": "/miniprogram_npm/lin-ui/mask/index",
+    "l-message": "/miniprogram_npm/lin-ui/message/index",
+    "l-radio": "/miniprogram_npm/lin-ui/radio/index",
+    "l-radio-group": "/miniprogram_npm/lin-ui/radio-group/index",
+    "l-tabs": "/miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel": "/miniprogram_npm/lin-ui/tabpanel/index",
+    "l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
+    "t-dropdown-menu": "tdesign-miniprogram/dropdown-menu/dropdown-menu",
+    "t-dropdown-item": "tdesign-miniprogram/dropdown-menu/dropdown-item",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-checkbox": "@vant/weapp/checkbox/index",
+    "van-checkbox-group": "@vant/weapp/checkbox-group/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-image": "@vant/weapp/image/index",
+    "van-notify": "@vant/weapp/notify/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-tree-select": "@vant/weapp/tree-select/index"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/manage/manage",
+        "text": "管理"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
 }

@@ -538,8 +538,16 @@ page {
 	width: 100vw;
 }
 
+.vw95 {
+	width: 95vw;
+}
+
 .vw90 {
 	width: 90vw;
+}
+
+.vw85 {
+	width: 85vw;
 }
 
 .vw80 {
@@ -672,6 +680,10 @@ page {
 
 .vh70 {
 	height: 70vh;
+}
+
+.vh75 {
+	height: 75vh;
 }
 
 .vh80 {
@@ -1044,6 +1056,10 @@ page {
 	color: black;
 }
 
+.card>.title {
+	font-weight: bold;
+}
+
 
 
 
@@ -1055,8 +1071,9 @@ page {
 .t-dropdown-item .t-mask {
 	height: 4000px !important
 }
-.t-dropdown-item .t-dropdown-item__content{
-	bottom:unset
+
+.t-dropdown-item .t-dropdown-item__content {
+	bottom: unset
 }
 
 
