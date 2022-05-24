@@ -1,0 +1,30 @@
+/* pages/quotedPrice/quotedPriceDetail.wxss */
+#quotedPriceDetail {
+  .submit .van-button {
+    width: 40vw;
+  }
+
+  .card {
+    width: 95vw;
+    margin-left: 10px;
+  }
+
+  .card > view {
+    margin-top: 10px;
+  }
+
+  .l-title-class {
+    padding-left: 0;
+  }
+
+  .l-body-class {
+    .title {
+      font-weight: bold;
+      color: black;
+    }
+  }
+
+  .sonMt10 > view {
+    margin-top: 10px;
+  }
+}
