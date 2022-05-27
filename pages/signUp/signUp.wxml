@@ -5,21 +5,24 @@
 	<view class="signUp noPad pt20">
 		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
 			<view class="tc h40 flex jcc aic h50 fz30">
-				<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix"></van-image>
+				<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix">
+				</van-image>
 			</view>
 			<view class="tc h40 flex mt30 jcc aic h50 blod fz40">织为云-协同制造云平台</view>
 		</view>
-		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc" style="position: relative;">
+		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc"
+			style="position: relative;">
 			<view class="flex jcsb aic mt10">
 				<text>账号</text><input placeholder="请输入账号" bindinput="bindKeyInput" data-type="{{1}}" value="{{user_name}}" />
 			</view>
 			<view class="flex jcsb aic mt10">
-				<text>密码</text><input placeholder="请输入密码" bindinput="bindKeyInput" data-type="{{2}}" type="password" value="{{password}}" />
+				<text>密码</text><input placeholder="请输入密码" bindinput="bindKeyInput" data-type="{{2}}" type="password"
+					value="{{password}}" />
 			</view>
 		</view>
 		<view class="mt20 submit">
 			<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
 		</view>
 	</view>
-	<l-message content="{{content}}"/>
+	<l-message content="{{content}}" />
 </view>

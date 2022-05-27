@@ -1,17 +1,17 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo colorWhite">
-    <view class="fz60">织为云-协同制造云平台</view>
-    <view class='tc fz30 mt20'>
-      <view class="mt5">织为云是先进的纺织业数字化平台</view>
-      <view class="mt5">已助力<text class="fz40" style="color: #FFEB52;">100+工厂、500+作坊</text>全面上云</view>
-      <view class="mt5">外协用工小程序作为纺织小商品制造最后一公里</view>
-      <view class="mt5">旨在帮助企业补足半成品生产环节</view>
-      <view class="mt5">让生产可视可控可量化</view>
-    </view>
-  </view>
-  <view class="usermotto">
-    <van-button type="primary" size="small" bindtap="getUserProfile">我要加入</van-button>
-  </view>
-  <van-notify id="van-notify" />
+	<view class="userinfo colorWhite">
+		<view class="fz60">织为云-协同制造云平台</view>
+		<view class='tc fz30 mt20'>
+			<view class="mt5">织为云是先进的纺织业数字化平台</view>
+			<view class="mt5">已助力<text class="fz40" style="color: #FFEB52;">100+工厂、500+作坊</text>全面上云</view>
+			<view class="mt5">外协用工小程序作为纺织小商品制造最后一公里</view>
+			<view class="mt5">旨在帮助企业补足半成品生产环节</view>
+			<view class="mt5">让生产可视可控可量化</view>
+		</view>
+	</view>
+	<view class="usermotto">
+		<van-button type="primary" size="small" bindtap="getUserProfile">我要加入</van-button>
+	</view>
+	<van-notify id="van-notify" />
 </view>

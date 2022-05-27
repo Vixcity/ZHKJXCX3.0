@@ -3,10 +3,17 @@
 	<nav-content showBack="{{false}}">
 		<view slot="after">
 			<!-- <van-search value="{{ keyWord }}" placeholder="搜索" bind:change="onSearch" /> -->
-			<view class="poa" style="left:12%;border-right: 1px solid #eaeaea;padding-right:10rpx;height:35px;line-height:35px;overflow: hidden;" bindtap="showChangeSearch">{{searchType===1?'订单':'计划单'}}</view>
-			<input wx:if="{{isLogin}}" style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%" type="text" bindinput="onSearch" placeholder="搜索" />
-			<input wx:else disabled style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%" type="text" bindinput="onSearch" placeholder="搜索" />
-			<view class="poa bgColorWhite tl" wx:if="{{showSearch}}" style="left:8%;top:80%;z-index: 999999;border:1px solid #eaeaea;padding: 20rpx 40rpx;">
+			<view class="poa"
+				style="left:12%;border-right: 1px solid #eaeaea;padding-right:10rpx;height:35px;line-height:35px;overflow: hidden;"
+				bindtap="showChangeSearch">{{searchType===1?'订单':'计划单'}}</view>
+			<input wx:if="{{isLogin}}"
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%"
+				type="text" bindinput="onSearch" placeholder="搜索" />
+			<input wx:else disabled
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 150rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%"
+				type="text" bindinput="onSearch" placeholder="搜索" />
+			<view class="poa bgColorWhite tl" wx:if="{{showSearch}}"
+				style="left:8%;top:80%;z-index: 999999;border:1px solid #eaeaea;padding: 20rpx 40rpx;">
 				<view bindtap="changeSearchType" data-index="{{1}}">订单</view>
 				<view class="line"></view>
 				<view bindtap="changeSearchType" data-index="{{2}}">计划单</view>
@@ -16,35 +23,36 @@
 	<view wx:if="{{type === '2' && isLogin}}">
 		<view class="tc color91 mt10 mb10">共检索到{{orderList.length}}条数据</view>
 		<t-dropdown-menu>
-			<t-dropdown-item label="工序" optionsLayout="tree" options="{{processList.options}}" value="{{processList.value}}" bindchange="changeProcess" />
-			<t-dropdown-item label="小组" options="{{groupList.options}}" value="{{groupList.value}}" bindchange="changeGroup" />
+			<t-dropdown-item label="工序" optionsLayout="tree" options="{{processList.options}}" value="{{processList.value}}"
+				bindchange="changeProcess" bindconfirm="confirmProcess" />
+			<t-dropdown-item label="小组" options="{{groupList.options}}" value="{{groupList.value}}"
+				bindchange="changeGroup" />
 			<t-dropdown-item label="创建人" options="{{userList.options}}" value="{{userList.value}}" bindchange="changeUser" />
-			<t-dropdown-item label="单位" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}" bindchange="changeClient" />
+			<t-dropdown-item label="单位" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
+				bindchange="changeClient" bindconfirm="confirmClient" />
 		</t-dropdown-menu>
 		<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 155px)">
-			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index" detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>
+			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index"
+				detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>
 			<view style="height: 20px;"></view>
 			<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 			<l-loadmore show="{{isEnd}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
 		</scroll-view>
-	</view>
-	<view wx:elif="{{ type === '3' && isLogin}}">
-		<order-card detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
 	</view>
 	<view wx:elif="{{ type === '1' && isLogin}}">
 		<order-card detailInfo="{{detailInfo}}">
 			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
 		</order-card>
 	</view>
-	<view wx:if="{{ type === '2' && isLogin }}" class="pof bgColor27A2 colorWhite tc" style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
+	<view wx:if="{{ type === '2' && isLogin }}" class="pof bgColor27A2 colorWhite tc"
+		style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
 		<van-icon name="scan" size="18px" />
 	</view>
 	<!-- 第一次查询无数据 -->
 	<view class="flex fdc vh60 color91 w100 jcc aic" wx:if="{{!isLogin || noData}}">
 		<view class="tc size-xl">
-			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png"></image>
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
 			<view class="mt20">没有符合条件的数据</view>
 		</view>
 	</view>

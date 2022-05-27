@@ -2,7 +2,7 @@ import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   urlParams,
   formatDate,
-	isIfLogin,
+  isIfLogin,
   wxReq,
   debounce,
   getClientList,
@@ -113,6 +113,7 @@ Page({
     group_id: "",
     user_id: "",
     keyWord: "",
+    type: "2",
   },
 
   /**
@@ -120,12 +121,12 @@ Page({
    */
   onLoad: function (options) {
     const isLogin = isIfLogin();
-		// let isLogin = true
-		let {type} = options
-		
+    // let isLogin = true
+    // let { type } = options;
+
     this.setData({
-			isLogin,
-			type
+      isLogin,
+      // type,
     });
 
     if (isLogin) {
@@ -169,19 +170,25 @@ Page({
     this.setData({
       "clientList.value": e.detail.value,
     });
-    if (e.detail.value[2]) {
+  },
+
+	confirmClient(e){
+		if (e.detail.value[2]) {
       this.data.client_id = e.detail.value[2].split("-")[2];
     } else {
       this.data.client_id = "";
     }
     this.data.page = 1;
     this.reqOrder();
-  },
+	},
 
   changeProcess(e) {
     this.setData({
       "processList.value": e.detail.value,
     });
+  },
+	
+	confirmProcess(e) {
     this.data.process_name = e.detail.value[1];
     this.data.page = 1;
     this.reqOrder();
@@ -263,7 +270,6 @@ Page({
       method: "GET",
       data: params,
       success: (res) => {
-
         if (res.data.code === 200) {
           if ((this.data.page = 1)) {
             orderList = [];
@@ -279,7 +285,6 @@ Page({
 
           let arr = [];
           res.data.data.forEach((item, index) => {
-            console.log(index);
             arr.push({
               id: item.id,
               customer: item.client.name,
@@ -305,12 +310,12 @@ Page({
             showLoading: false,
             orderList,
           });
-				}
+        }
 
-				if(res.data.status === -1) {
-					wx.setStorageSync('isLogin',false)
-					toSignUp()
-				}
+        if (res.data.status === -1) {
+          wx.setStorageSync("isLogin", false);
+          toSignUp();
+        }
       },
     });
   }, 1000),

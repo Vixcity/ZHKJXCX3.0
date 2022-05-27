@@ -9,6 +9,8 @@ import {
 Page({
   data: {
     user_name: "17602103060",
+    // user_name: "",
+    // password: "",
     password: "123456",
   },
 
@@ -83,7 +85,7 @@ Page({
 		let url = ''
 
     if(this.data.params1){
-			url = "../" + this.data.path + "/" + this.data.path + "?" + this.data.params1
+			url = "../" + this.data.path + "/" + this.data.path + "?" + decodeURIComponent(this.data.params1)
 		} else {
 			url = "../" + this.data.path + "/" + this.data.path
 		}

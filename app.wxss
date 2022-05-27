@@ -514,6 +514,10 @@ page {
 	width: 50%;
 }
 
+.w45 {
+	width: 45%;
+}
+
 .w40 {
 	width: 40%;
 }
@@ -839,6 +843,10 @@ page {
 
 .bgColorTransBlack {
 	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.bgColorF5 {
+	background-color: #F5F5F5;
 }
 
 .bgColorD8 {

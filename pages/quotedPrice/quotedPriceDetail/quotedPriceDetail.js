@@ -1,6 +1,6 @@
 // pages/quotedPrice/quotedPriceDetail.js
-import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { isIfLogin, debounce, wxReq } = require("../../utils/util");
+import Dialog from "../../../miniprogram_npm/@vant/weapp/dialog/dialog";
+const { isIfLogin, debounce, wxReq } = require("../../../utils/util");
 
 Page({
   /**

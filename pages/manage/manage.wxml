@@ -1,47 +1,52 @@
 <!--manage.wxml-->
 <view class="container noPad">
-  <view class="h100 bg">
-    <view class="pb50">
-      <view class="flex pr20 pl20 jcsb aic borderBox colorWhite w100 manage-list">
-        <view class="flex userInfo vw60" bindtap="bindViewTap">
-          <image class="image" src="{{userInfo.wechat_data.avatarUrl || userInfo.userinfo.wechat_data.avatarUrl}}" mode="aspectFill" />
-          <view class="fz40 ml20">
-            <block wx:if="{{showNoLogin}}">
-              <view bindtap="toLogin">暂未登录</view>
-              <view bindtap="toLogin" class="fz28 mt5">点击立即登录</view>
-            </block>
-            <block wx:elif="{{userInfo === null || userInfo.userinfo === null}}">
-              <view bindtap="toSignUp">{{userInfo.wechat_data.nickName}}</view>
-              <view bindtap="toSignUp" class="fz28 mt5">未完善资料，请填写</view>
-            </block>
-            <block wx:else>
-              <view>{{userInfo.userinfo.name + '(' + userInfo.userinfo.wechat_data.nickName +')'}}</view>
-              <view class="fz28 mt5">{{userInfo.userinfo.user_name}}</view>
-            </block>
-          </view>
-        </view>
-        <view class="vw30">
-          <view class="fr">
-            <!-- 二维码 -->
-            <view wx:if="{{!showNoLogin && userInfo.userinfo.role === 3}}" class="tr" bindtap="openPopup">
-              <image src="https://file.zwyknit.com/erweima.png" style="width: 80rpx;height: 80rpx;"></image>
-            </view>
-            <block wx:if="{{ourUser !== null && userInfo.userinfo !== null}}">
-              <view class="flex fz30 h40 colorBlack">
-                <view class="autoLogos pl5 pr5" style="background-color: white; color: #229CFB;">{{ userInfo.userinfo.process[0] }}</view>
-              </view>
-            </block>  
-          </view>
-        </view>
-      </view>
-    </view>
+	<view class="h100 bg">
+		<view class="pb50">
+			<view class="flex pr20 pl20 jcsb aic borderBox colorWhite w100 manage-list">
+				<view class="flex userInfo vw60" bindtap="bindViewTap">
+					<image class="image" src="{{userInfo.wechat_data.avatarUrl || userInfo.userinfo.wechat_data.avatarUrl}}"
+						mode="aspectFill" />
+					<view class="fz40 ml20">
+						<block wx:if="{{showNoLogin}}">
+							<view bindtap="toLogin">暂未登录</view>
+							<view bindtap="toLogin" class="fz28 mt5">点击立即登录</view>
+						</block>
+						<block wx:elif="{{userInfo === null || userInfo.userinfo === null}}">
+							<view bindtap="toSignUp">{{userInfo.wechat_data.nickName}}</view>
+							<view bindtap="toSignUp" class="fz28 mt5">未完善资料，请填写</view>
+						</block>
+						<block wx:else>
+							<view>{{userInfo.userinfo.name + '(' + userInfo.userinfo.wechat_data.nickName +')'}}</view>
+							<view class="fz28 mt5">{{userInfo.userinfo.user_name}}</view>
+						</block>
+					</view>
+				</view>
+				<view class="vw30">
+					<view class="fr">
+						<!-- 二维码 -->
+						<view wx:if="{{!showNoLogin && userInfo.userinfo.role === 3}}" class="tr" bindtap="openPopup">
+							<image src="https://file.zwyknit.com/erweima.png" style="width: 80rpx;height: 80rpx;"></image>
+						</view>
+						<block wx:if="{{ourUser !== null && userInfo.userinfo !== null}}">
+							<view class="flex fz30 h40 colorBlack">
+								<view class="autoLogos pl5 pr5" style="background-color: white; color: #229CFB;">
+									{{ userInfo.userinfo.process[0] }}</view>
+							</view>
+						</block>
+					</view>
+				</view>
+			</view>
+		</view>
 
-    <!-- 菜单 -->
-    <view class="ml20 mr20 mt40 bgColorWhite vw90 flex flexWarp borderBox pl20 pr20 pt20 pb20 color9E fz30 tc borderRadius16 shadow" style="transform: translateY(-60%);">
-      <view class="{{item.index===1?'':'ml18'}}" wx:for="{{pageList}}" wx:for-item="item" wx:key="title" data-path="{{item.path}}" bindtap="toWitchPage">
-        <image class="sonContainer" src="{{item.icon}}" mode="aspectFill" />
-        <view class="mt5">{{item.title}}</view>
-      </view>
-    </view>
-  </view>
+		<!-- 菜单 -->
+		<view
+			class="ml20 mr20 mt40 bgColorWhite vw90 flex flexWarp borderBox pl20 pr20 pt20 pb20 color9E fz30 tc borderRadius16 shadow"
+			style="transform: translateY(-60%);">
+			<view class="{{item.index===1?'':'ml18'}}" wx:for="{{pageList}}" wx:for-item="item" wx:key="title"
+				data-path="{{item.path}}" bindtap="toWitchPage">
+				<image class="sonContainer" src="{{item.icon}}" mode="aspectFill" />
+				<view class="mt5">{{item.title}}</view>
+			</view>
+		</view>
+	</view>
 </view>

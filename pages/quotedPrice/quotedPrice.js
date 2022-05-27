@@ -210,7 +210,13 @@ Page({
   toDetail(e) {
     let { item } = e.currentTarget.dataset;
     wx.navigateTo({
-      url: "/pages/quotedPrice/quotedPriceDetail?id=" + item.id,
+      url: "/pages/quotedPrice/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
     });
-  },
+	},
+	
+	toCreate(){
+		wx.navigateTo({
+      url: "/pages/quotedPrice/quotedPriceCreate/quotedPriceCreate",
+    });
+	}
 });

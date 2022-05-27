@@ -24,15 +24,18 @@
 			<view>起订数量</view>
 		</view>
 		<l-collapse type="accordion" bind:linfold="showShort" bind:linexpand="showBig">
-			<l-collapse-item wx:for="{{listCard}}" wx:for-item="item" wx:key="item" wx:for-index="index" item-id="{{index}}" l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
+			<l-collapse-item wx:for="{{listCard}}" wx:for-item="item" wx:key="item" wx:for-index="index" item-id="{{index}}"
+				l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
 				<!--自定义标题-->
 				<view slot="title">
 					<view class="flex jcsb vw85">
 						<view>AP12092138217</view>
 						<view>围巾/梭织/长巾</view>
 						<view class="flex">5000
-							<l-icon size="30" wx:if="{{item.showContent}}" name="up" color="#34BFA3" style="margin-left:10rpx;margin-top:5rpx" />
-							<l-icon size="30" wx:if="{{!item.showContent}}" name="down" color="#34BFA3" style="margin-left:10rpx;margin-top:5rpx" />
+							<l-icon size="30" wx:if="{{item.showContent}}" name="up" color="#34BFA3"
+								style="margin-left:10rpx;margin-top:5rpx" />
+							<l-icon size="30" wx:if="{{!item.showContent}}" name="down" color="#34BFA3"
+								style="margin-left:10rpx;margin-top:5rpx" />
 						</view>
 					</view>
 				</view>
@@ -141,7 +144,8 @@
 			<view class="flex">
 				<view class="bold w30">驳回理由</view>
 				<van-checkbox-group value="{{ result }}" bind:change="checkBoxChange">
-					<van-checkbox icon-size="17" class="fz35" wx:for-items="{{reasonList}}" wx:key="{{item.value}}" name="{{item.value}}">{{item.value}}</van-checkbox>
+					<van-checkbox icon-size="17" class="fz35" wx:for-items="{{reasonList}}" wx:key="{{item.value}}"
+						name="{{item.value}}">{{item.value}}</van-checkbox>
 				</van-checkbox-group>
 			</view>
 			<view class="flex">

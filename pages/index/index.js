@@ -7,22 +7,34 @@ Page({
     list: [
       {
         title: "本厂生产中",
-        number: 1800,
-        plusNumber: 3,
-        minusNumber: 5,
         src: "/pages/ourFactory/ourFactory?type=1",
       },
       {
-        title: "外协进行中",
-        number: 1800,
-        plusNumber: 3,
-        minusNumber: 5,
+        title: "外协生产中",
         src: "/pages/ourFactory/ourFactory?type=2",
       },
       {
-        title: "已完成",
-        number: 1800,
-        plusNumber: 5,
+        title: "报价单管理",
+        src: "/pages/ourFactory/ourFactory?type=3",
+      },
+      {
+        title: "样单管理",
+        src: "/pages/ourFactory/ourFactory?type=3",
+      },
+      {
+        title: "订单管理",
+        src: "/pages/ourFactory/ourFactory?type=3",
+      },
+      {
+        title: "订单管理",
+        src: "/pages/ourFactory/ourFactory?type=3",
+      },
+      {
+        title: "单据管理",
+        src: "/pages/ourFactory/ourFactory?type=3",
+      },
+      {
+        title: "检验管理",
         src: "/pages/ourFactory/ourFactory?type=3",
       },
     ],
