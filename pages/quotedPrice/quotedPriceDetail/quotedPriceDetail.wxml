@@ -6,66 +6,46 @@
 		</view>
 	</nav-content>
 	<view class="card fz30">
-		<view class="title">报价单号：121312311231313</view>
-		<view class="flex mt10">
-			<view style="width:40%">创建人：王先生</view>
-			<view style="width:60%">更新时间：2022-01-01</view>
-		</view>
-		<view class="mt10">客户信息：公司名-联系人名</view>
-		<view class="mt10">币种汇率：人民币/100</view>
+		<view class="title">报价单标题</view>
+		<view>报价单号：121312311231313</view>
+		<view>询价公司：公司名-联系人名</view>
+		<view>报价金额：<text class="color27A2">38599.59</text>元</view>
+		<view>创建人：王先生</view>
+		<view>更新时间：2022-01-01 12:12:12</view>
+		<view>审核人：王先生</view>
+		<view>更新时间：2022-01-01 12:12:12</view>
+		<view>审核说明：</view>
+		<view>审核通过时显示审核通过，驳回时显示驳回理由+备注信息，换行最多三行。审核通过时显示审核通过，驳回时显示驳回理由+备注信息，换行最多三行。</view>
 	</view>
 	<view class="card fz30">
-		<view class="title">产品需求：</view>
-		<view>这款产品要认真做，严格一点，不要出现任何瑕疵。这款产品要认真做，严格一点，不要出现任何瑕疵。这款产品要认真做，严格一点，不要出现任何瑕疵。</view>
-		<view class="title">起订数量：5000件</view>
-		<view class="flex vw85 jcsb title" style="margin: 10px auto 0;">
-			<view>产品编号</view>
-			<view>产品类型</view>
-			<view>起订数量</view>
+		<view class="title">产品信息：</view>
+		<view class="flex jcsb" wx:for="{{4}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}">
+			<view class="flex aic">
+				<view class="bgColor27A2 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 500px;">{{index+1}}</view>
+				<view class="ml10 flex">
+					<van-image width="100" height="100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+					<view class="flex fdc jcsa ml10">
+						<view>1111</view>
+						<view>2222</view>
+						<view>3333 元</view>
+					</view>
+				</view>
+			</view>
+			<view class="flex fdc jcsa aie">
+				<view>A12093381</view>
+				<view></view>
+				<view>2件</view>
+			</view>
 		</view>
-		<l-collapse type="accordion" bind:linfold="showShort" bind:linexpand="showBig">
-			<l-collapse-item wx:for="{{listCard}}" wx:for-item="item" wx:key="item" wx:for-index="index" item-id="{{index}}"
-				l-body-class="l-body-class" l-title-class="l-title-class" customTitle="{{true}}">
-				<!--自定义标题-->
-				<view slot="title">
-					<view class="flex jcsb vw85">
-						<view>AP12092138217</view>
-						<view>围巾/梭织/长巾</view>
-						<view class="flex">5000
-							<l-icon size="30" wx:if="{{item.showContent}}" name="up" color="#34BFA3"
-								style="margin-left:10rpx;margin-top:5rpx" />
-							<l-icon size="30" wx:if="{{!item.showContent}}" name="down" color="#34BFA3"
-								style="margin-left:10rpx;margin-top:5rpx" />
-						</view>
-					</view>
-				</view>
-				<view class="sonMt10">
-					<view class="title flex jcsb">
-						<view>飞泰圈圈纱围脖</view>
-						<view>花型：豹纹</view>
-					</view>
-					<view class="title">产品信息：</view>
-					<view>1. S码 - 180cm*80cm*120cm*120cm - 300g</view>
-					<view>2. S码 - 180cm*80cm*120cm*120cm - 300g</view>
-					<view>3. S码 - 180cm*80cm*120cm*120cm - 300g</view>
-					<view>黑色；白色；红色</view>
-					<view class="title">产品描述：</view>
-					<view>这款产品要认真做，严格一点，不要出现任何瑕疵。这款产品要认真做，严格一点，不要出现任何瑕疵。这款产品要认真做，严格一点，不要出现任何瑕疵。</view>
-					<view class="title">产品图片：</view>
-					<view>
-						<l-album urls='{{item.urls}}' key='newUrl'></l-album>
-					</view>
-				</view>
-			</l-collapse-item>
-		</l-collapse>
 	</view>
 	<view class="card fz30">
 		<view class="title">报价信息</view>
 		<l-tabs bind:linchange="changeTabs" animated>
-			<l-tabpanel tab="产品 1" key="one" slot="one">
+			<l-tabpanel tab="产品 1" key="{{'one'+index}}" slot="{{'one'+index}}" wx:for="{{4}}">
 				<view class="sonMt10">
-					<view class="bold">原辅料费用</view>
 					<view wx:for="{{4}}">
+						<view>原</view>
+						<view>辅</view>
 						<view>纱线/腈纶/36支单股腈纶</view>
 						<view class="flex jcsb">
 							<view>11000 kg</view>
@@ -74,46 +54,54 @@
 							<view>38000.00 元</view>
 						</view>
 					</view>
-					<view class="bold">织造加工费用</view>
 					<view wx:for="{{4}}">
+						<view>织</view>
 						<view class="flex jcsb">
 							<view>针织织造</view>
 							<view>38000.00 元</view>
 						</view>
 						<view>这里是织造说明</view>
 					</view>
-					<view class="flex jcsb fz35 color27A2">
-						<view class="bold">合计</view>
-						<view class="bold">38000.00 元</view>
-					</view>
-					<view wx:for="{{4}}">
-						<view class="flex jcsb">
-							<view>针织织造</view>
-							<view>38000.00 元</view>
+					<view class="flex jcsb fz35">
+						<view>
+							<text>合</text>
+							合计产品费用
 						</view>
-						<view>基本佣金</view>
-					</view>
-					<view class="flex jcsb fz35 color27A2">
-						<view class="bold">合计</view>
-						<view class="bold">38000.00 元</view>
+						<view>
+							<text class="color27A2">38000.00</text> 元
+						</view>
 					</view>
 				</view>
 			</l-tabpanel>
-			<l-tabpanel tab="品牌" key="two" slot="two">
-				<view class="tab-content">品牌</view>
-			</l-tabpanel>
-			<l-tabpanel tab="接口" key="three" slot="three">
-				<view class="tab-content">接口</view>
-			</l-tabpanel>
-			<l-tabpanel tab="面板" key="four" slot="four">
-				<view class="tab-content">面板</view>
-			</l-tabpanel>
 		</l-tabs>
 	</view>
+	<view class="card fz35">
+		<view wx:for="{{4}}">
+			<view>织</view>
+			<view class="flex jcsb">
+				<view>针织织造</view>
+				<view>38000.00 元</view>
+			</view>
+			<view>15%</view>
+		</view>
+		<view class="flex jcsb">
+			<view>
+				<text>合</text>
+				合计产品费用
+			</view>
+			<view>
+				<text class="color27A2">38000.00</text> 元
+			</view>
+		</view>
+	</view>
 	<view class="card">
-		<view class="flex jcsb fz35 color27A2">
-			<view class="bold">报价总额</view>
-			<view class="bold">38000.00 元</view>
+		<view class="title">订单费用</view>
+		<view class="flex jcsb fz35">
+			<view>报价总额</view>
+			<view class="flex">
+				<view class="color27A2 mr5">￥38000.00</view>
+				<view class="color27A2 pl5" style="border-left: 1px solid #e7e7e7;">$38000.00</view>
+			</view>
 		</view>
 	</view>
 	<view class="vh12"></view>

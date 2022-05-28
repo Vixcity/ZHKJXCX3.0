@@ -15,7 +15,7 @@ Page({
       },
       {
         title: "报价单管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
+        src: "/pages/quotedPrice/quotedPrice",
       },
       {
         title: "样单管理",

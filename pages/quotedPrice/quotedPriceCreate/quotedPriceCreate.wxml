@@ -17,9 +17,7 @@
 				<view class="title">产品描述{{index+1}}</view>
 				<view class="colorRed">删除该产品</view>
 			</view>
-			<l-textarea indicator="{{true}}" border="{{false}}" maxlength="200" auto-height="{{true}}"
-				placeholder="点击输入产品描述信息" />
-			<view class="flex jcsb mb10">
+			<view class="flex jcsb mb10 mt10">
 				<view class="bgColorF5">
 					<view>产品品类</view>
 					<view>点击选择</view>
@@ -33,6 +31,8 @@
 					<view>点击输入</view>
 				</view>
 			</view>
+			<l-textarea indicator="{{true}}" border="{{false}}" maxlength="200" auto-height="{{true}}"
+				placeholder="点击输入产品描述信息" />
 			<van-uploader file-list="{{fileList}}" bind:before-read="beforeRead" bind:after-read="afterRead" />
 		</view>
 		<view class="color27A2 tc mt10">新增产品描述</view>
@@ -43,11 +43,10 @@
 			<van-tabs animated swipeable lazy-render ellipsis="{{false}}" swipe-threshold="{{4}}">
 				<van-tab wx:for="{{9}}" wx:key="item" wx:for-index="index" wx:for-item="item" title="产品 {{index+1}}"
 					class="fz30">
-					<view class="bold mt10">原料</view>
 					<view class="mt10" wx:for="{{5}}" wx:key="item" wx:for-index="index" wx:for-item="item">
 						<view class="flex jcsb">
 							<view class="flex fz25">
-								<view>纱线/腈纶/36支单股腈纶</view>
+								<view>原 纱线/腈纶/36支单股腈纶</view>
 								<view class="ml20 color27A2">点击变更</view>
 							</view>
 							<view class="flex">
@@ -74,11 +73,10 @@
 							</view>
 						</view>
 					</view>
-					<view class="bold mt10">辅料</view>
 					<view class="mt10" wx:for="{{3}}" wx:key="item" wx:for-index="index" wx:for-item="item">
 						<view class="flex jcsb">
 							<view class="flex fz25">
-								<view>纱线/腈纶/36支单股腈纶</view>
+								<view>辅 纱线/腈纶/36支单股腈纶</view>
 								<view class="ml20 color27A2">点击变更</view>
 							</view>
 							<view class="flex">
@@ -105,11 +103,10 @@
 							</view>
 						</view>
 					</view>
-					<view class="bold mt10">加工工序</view>
 					<view class="mt10" wx:for="{{3}}" wx:key="item" wx:for-index="index" wx:for-item="item">
 						<view class="flex jcsb">
 							<view class="flex fz25">
-								<view>纱线/腈纶/36支单股腈纶</view>
+								<view>织 纱线/腈纶/36支单股腈纶</view>
 								<view class="ml20 color27A2">点击变更</view>
 							</view>
 							<view class="flex">
@@ -120,29 +117,6 @@
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 w60">
 								<view>加工说明</view>
-								<view>点击选择</view>
-							</view>
-							<view class="bgColorF5 w30">
-								<view>小计</view>
-								<view>点击输入</view>
-							</view>
-						</view>
-					</view>
-					<view class="bold mt10">原材料及其它</view>
-					<view class="mt10" wx:for="{{3}}" wx:key="item" wx:for-index="index" wx:for-item="item">
-						<view class="flex jcsb">
-							<view class="flex fz25">
-								<view>纱线/腈纶/36支单股腈纶</view>
-								<view class="ml20 color27A2">点击变更</view>
-							</view>
-							<view class="flex">
-								<view class="color27A2 pr5">添加</view>
-								<view class="colorE800 pl5" style="border-left:1px solid #999999">删除</view>
-							</view>
-						</view>
-						<view class="flex jcsb mb10">
-							<view class="bgColorF5 w60">
-								<view>费用说明</view>
 								<view>点击选择</view>
 							</view>
 							<view class="bgColorF5 w30">

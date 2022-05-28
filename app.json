@@ -12,7 +12,8 @@
 		"pages/quotedPrice/quotedPriceCreate/quotedPriceCreate"
 	],
 	"window": {
-		"navigationStyle": "custom"
+		"navigationStyle": "custom",
+		"navigationBarTextStyle":"black"
 	},
 	"usingComponents": {
 		"list-card": "./components/listCard/listCard",

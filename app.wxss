@@ -150,6 +150,10 @@ page {
 	align-items: center;
 }
 
+.aie {
+	align-items: flex-end;
+}
+
 /* float */
 .fr {
 	float: right;
@@ -295,6 +299,10 @@ page {
 
 .mr10 {
 	margin-right: 10px;
+}
+
+.mr5 {
+	margin-right: 5px;
 }
 
 /* margin-bottom */
@@ -842,6 +850,10 @@ page {
 }
 
 .bgColorTransBlack {
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.bgColorBlack {
 	background-color: rgba(0, 0, 0, 0.6);
 }
 
