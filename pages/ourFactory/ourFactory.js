@@ -113,7 +113,7 @@ Page({
     group_id: "",
     user_id: "",
     keyWord: "",
-    type: "2",
+    // type: "2",
   },
 
   /**
@@ -122,11 +122,11 @@ Page({
   onLoad: function (options) {
     const isLogin = isIfLogin();
     // let isLogin = true
-    // let { type } = options;
+    let { type } = options;
 
     this.setData({
       isLogin,
-      // type,
+      type,
     });
 
     if (isLogin) {

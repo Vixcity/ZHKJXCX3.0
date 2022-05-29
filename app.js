@@ -13,9 +13,8 @@ App({
       // 正式版
       release: "https://knit-m2-api.zwyknit.com/api",
     };
-    // this.globalData.api =
-      // baseApi[env] || "https://knit-m2-beta.zwyknit.com/api";
-    this.globalData.api = 'https://knit-m2-api.zwyknit.com/api'
+    this.globalData.api = baseApi[env] || "https://knit-m2-beta.zwyknit.com/api";
+    // this.globalData.api = 'https://knit-m2-api.zwyknit.com/api'
   },
   globalData: {
     isLogin: false,

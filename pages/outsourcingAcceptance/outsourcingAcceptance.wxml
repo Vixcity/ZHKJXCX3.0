@@ -14,7 +14,7 @@
 			<van-tab title="验收">
 				<van-field value="{{ userInfo.name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
 				<view class="flex pt10 pb10">
-					<view class="pl10 mr30 fz35" style="color:#646566">验收类型</view>
+					<view class="pl10 mr30 fz30" style="color:#646566">验收类型</view>
 					<van-radio-group value="{{ type }}" bind:change="onChange">
 						<van-radio name="{{1}}">半成品检验入库</van-radio>
 						<van-radio name="{{2}}">半成品加工出库</van-radio>
@@ -22,13 +22,13 @@
 					</van-radio-group>
 				</view>
 				<view class="flex pt10 pb10">
-					<view class="pl10 mr30 fz35" style="color:#646566">验收日期</view>
+					<view class="pl10 mr30 fz30" style="color:#646566">验收日期</view>
 					<view bindtap="showChooseDate">{{date?date:'点击选择日期'}}</view>
 				</view>
 				<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}"
 					bind:select="selectDate" bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
 				<view wx:for="{{detailInfo.item.product_info}}" wx:for-item="item" wx:key="item" wx:for-index="index">
-					<view class="pl10 mr30 fz35 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}
+					<view class="pl10 mr30 fz30 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}
 					</view>
 					<van-field value="{{ item.hegeNumber }}" data-index="{{index}}" bind:change="getNumber" type="number"
 						clearable label="合格数" placeholder="请输入合格数" />
@@ -53,20 +53,20 @@
 		<view wx:if="{{!isCodeIn}}">
 			<van-field value="{{ userInfo.name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
 			<view class="flex pt10 pb10">
-				<view class="pl10 mr30 fz35" style="color:#646566">验收类型</view>
+				<view class="pl10 mr30 fz30" style="color:#646566">验收类型</view>
 				<van-radio-group value="{{ type }}" bind:change="onChange">
 					<van-radio name="{{1}}">半成品检验入库</van-radio>
 					<van-radio name="{{2}}">半成品加工出库</van-radio>
 				</van-radio-group>
 			</view>
 			<view class="flex pt10 pb10">
-				<view class="pl10 mr30 fz35" style="color:#646566">验收日期</view>
+				<view class="pl10 mr30 fz30" style="color:#646566">验收日期</view>
 				<view bindtap="showChooseDate">{{date?date:'点击选择日期'}}</view>
 			</view>
 			<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}"
 				bind:select="selectDate" bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
 			<view wx:for="{{detailInfo.item.product_info}}" wx:for-item="item" wx:key="item" wx:for-index="index">
-				<view class="pl10 mr30 fz35 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}
+				<view class="pl10 mr30 fz30 mt30" style="color:#646566">{{item.size.size_name}} / {{item.color.color_name}}
 				</view>
 				<van-field value="{{ item.hegeNumber }}" data-index="{{index}}" bind:change="getNumber" type="number" clearable
 					label="合格数" placeholder="请输入合格数" />
