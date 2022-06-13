@@ -9,11 +9,15 @@
 		"pages/outsourcingAcceptance/outsourcingAcceptance",
 		"pages/quotedPrice/quotedPrice",
 		"pages/quotedPrice/quotedPriceDetail/quotedPriceDetail",
-		"pages/quotedPrice/quotedPriceCreate/quotedPriceCreate"
+		"pages/quotedPrice/quotedPriceCreate/quotedPriceCreate",
+		"pages/order/order",
+		"pages/sampleOrder/sampleOrder",
+		"pages/order/orderDetail/orderDetail",
+		"pages/sampleOrder/sampleOrderDetail/sampleOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
-		"navigationBarTextStyle":"black"
+		"navigationBarTextStyle": "black"
 	},
 	"usingComponents": {
 		"list-card": "./components/listCard/listCard",
@@ -38,10 +42,12 @@
 		"l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
 		"t-dropdown-menu": "tdesign-miniprogram/dropdown-menu/dropdown-menu",
 		"t-dropdown-item": "tdesign-miniprogram/dropdown-menu/dropdown-item",
+		"t-icon": "tdesign-miniprogram/icon/icon",
 		"van-action-sheet": "@vant/weapp/action-sheet/index",
 		"van-button": "@vant/weapp/button/index",
 		"van-checkbox": "@vant/weapp/checkbox/index",
 		"van-checkbox-group": "@vant/weapp/checkbox-group/index",
+		"van-datetime-picker": "@vant/weapp/datetime-picker/index",
 		"van-field": "@vant/weapp/field/index",
 		"van-icon": "@vant/weapp/icon/index",
 		"van-image": "@vant/weapp/image/index",
