@@ -9,8 +9,10 @@ import {
 Page({
   data: {
     user_name: "17602103060",
+    // user_name: "15068715652",
     // user_name: "",
     // password: "",
+    // password: "15068715652",
     password: "123456",
   },
 
@@ -39,7 +41,7 @@ Page({
     let _this = this;
 
     wx.request({
-      url: getApp().globalData.api.slice(0, -4) + "/auth/login",
+      url: getApp().globalData.api.slice(0, -4) + "/api/auth/login",
       data: {
         password: this.data.password,
         user_name: this.data.user_name,
@@ -48,13 +50,18 @@ Page({
       success: (res) => {
         if (res.data) {
           wx.setStorageSync("isLogin", true);
-          wx.setStorageSync("token", res.data.data.token);
+          // wx.setStorageSync("token", res.data.data.token);
 
           wxReq({
             url: "/user/info",
             method: "GET",
             success: (ress) => {
-              if (res.data) {
+              if (res.data.status) {
+                var cookie = res.header["Set-Cookie"];
+                if (cookie != null) {
+                  wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
+                }
+
                 wx.setStorageSync("userInfo", ress.data.data);
 
                 wx.lin.showMessage({
@@ -82,16 +89,22 @@ Page({
 
   // 去其他界面
   toOtherPage() {
-		let url = ''
+    let url = "";
 
-    if(this.data.params1){
-			url = "../" + this.data.path + "/" + this.data.path + "?" + decodeURIComponent(this.data.params1)
-		} else {
-			url = "../" + this.data.path + "/" + this.data.path
-		}
+    if (this.data.params1) {
+      url =
+        "../" +
+        this.data.path +
+        "/" +
+        this.data.path +
+        "?" +
+        decodeURIComponent(this.data.params1);
+    } else {
+      url = "../" + this.data.path + "/" + this.data.path;
+    }
 
     wx.reLaunch({
-      url
+      url,
     });
   },
 });
