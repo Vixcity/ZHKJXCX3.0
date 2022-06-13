@@ -38,6 +38,20 @@ Page({
     type: 1,
     isCheck: false,
     chooseDate: false,
+    showChooseCiPinReason: false,
+    reasonArr: [
+      "织造原因",
+      "捻须原因",
+      "拉毛原因",
+      "刺毛原因",
+      "水洗原因",
+      "车缝原因",
+      "套口原因",
+      "整烫原因",
+      "手工原因",
+      "其它原因",
+    ],
+    cipinReasonArr: [],
     userInfo: wx.getStorageSync("userInfo"),
     date: "",
   },
@@ -46,6 +60,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // options.isCodeIn = "true"
+
+    this.setData({
+      detailInfo: wx.getStorageSync("outsourcing").selectCardInfo,
+      isCodeIn: !!options.isCodeIn,
+    });
+
     if (options.isCodeIn === "true") {
       wxReq({
         url: "/weave/plan/hash",
@@ -76,17 +97,26 @@ Page({
               title: data.client.name,
               item: data,
             },
-            isCodeIn: options.isCodeIn,
+            isCodeIn: !!options.isCodeIn,
           });
         },
       });
       return;
+    } else {
+      wxReq({
+        url: "/weave/plan/detail",
+        data: {
+          id: this.data.detailInfo.id,
+        },
+        method: "GET",
+        success: (res) => {
+          this.data.detailInfo.item = res.data.data;
+          this.setData({
+            detailInfo: this.data.detailInfo,
+          });
+        },
+      });
     }
-
-    this.setData({
-      detailInfo: wx.getStorageSync("outsourcing").selectCardInfo,
-      isCodeIn: options.isCodeIn,
-    });
   },
 
   getWeavePlanProductList(id) {
@@ -96,18 +126,19 @@ Page({
         duration: 4000,
         content: "该计划单没有绑定产品，即将返回首页",
         top: getApp().globalData.navH,
-			});
-			
+      });
+
       setTimeout(function () {
         wx.reLaunch({
           url: getApp().globalData.homePage,
         });
-			}, 4000);
-			
+      }, 4000);
+
       return;
     }
+
     wxReq({
-      url: "/weave/plan/product/lists",
+      url: "/weave/plan/product/detail",
       data: {
         product_id: id,
       },
@@ -156,25 +187,40 @@ Page({
     }
 
     let array = [];
-    this.data.detailInfo.item.product_info.forEach((item) => {
+    this.data.detailInfo.item.product_info_data.forEach((item) => {
+      console.log(item);
       array.push({
-        order_id: this.data.detailInfo.item.order_id,
-        doc_info_id: item.id,
         type: this.data.type,
+        order_id: this.data.detailInfo.item.order_id,
         complete_time: this.data.date,
-        client: "",
+        code: item.code,
+        doc_info_id: item.id,
+        doc_info:
+          item.product_code +
+          "/" +
+          item.part_name +
+          "/" +
+          (item.color_name || "无配色") +
+          "/" +
+          (item.size_name || "无尺码"),
         number: item.hegeNumber,
+        production_number: null,
+        deduct_price: null,
+        part_shoddy_number: null,
+        client: "",
         shoddy_number: item.cipinNumber,
-        shoddy_reason: item.cipinReason,
+        shoddy_reason: item.cipinReason.toString(),
       });
     });
 
     wxReq({
-      url: "/create/inspection",
-      data: array,
+      url: "/inspection/save",
+      data: {
+        data: array,
+      },
       method: "POST",
       success: (res) => {
-        if (res.data.msg === "保存成功") {
+        if (res.data.status) {
           wx.lin.showMessage({
             type: "success",
             duration: 3000,
@@ -190,21 +236,15 @@ Page({
   },
 
   getNumber(e) {
-    this.data.detailInfo.item.product_info[
+    this.data.detailInfo.item.product_info_data[
       e.currentTarget.dataset.index
     ].hegeNumber = +e.detail;
   },
 
   getCiPinNumber(e) {
-    this.data.detailInfo.item.product_info[
+    this.data.detailInfo.item.product_info_data[
       e.currentTarget.dataset.index
     ].cipinNumber = +e.detail;
-  },
-
-  getCiPinReason(e) {
-    this.data.detailInfo.item.product_info[
-      e.currentTarget.dataset.index
-    ].cipinReason = e.detail;
   },
 
   showChooseDate() {
@@ -221,6 +261,36 @@ Page({
   changeTabs(e) {
     this.setData({
       isCheck: e.detail.index === 1,
+    });
+  },
+
+  chooseCiPinReason(e) {
+    let index = e.currentTarget.dataset.index;
+    this.data.detailInfo.item.product_info_data[
+      index
+    ].showChooseCiPinReason = true;
+    this.setData({
+      detailInfo: this.data.detailInfo,
+      showChooseCiPinReason: true,
+    });
+  },
+
+  closePopup(e) {
+    let index = e.currentTarget.dataset.index;
+    this.data.detailInfo.item.product_info_data[
+      index
+    ].showChooseCiPinReason = false;
+    this.setData({
+      detailInfo: this.data.detailInfo,
+      showChooseCiPinReason: false,
+    });
+  },
+
+  changeCiPinReason(e) {
+    let index = e.currentTarget.dataset.index;
+    this.data.detailInfo.item.product_info_data[index].cipinReason = e.detail;
+    this.setData({
+      detailInfo: this.data.detailInfo,
     });
   },
 
