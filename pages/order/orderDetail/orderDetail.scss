@@ -1,0 +1,18 @@
+/* pages/order/orderDetail/orderDetail.wxss */
+#orderDetail {
+  .card > view {
+    margin-top: 10px;
+  }
+
+  .card {
+    .flexTitle {
+			display: flex;
+			color: #666666;
+    }
+	}
+	
+	.van-checkbox{
+		align-items: unset;
+		margin-top: 10px;
+	}
+}

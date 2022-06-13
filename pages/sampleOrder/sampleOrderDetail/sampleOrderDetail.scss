@@ -1,0 +1,21 @@
+/* pages/sampleOrder/sampleOrderDetail/sampleOrderDetail.wxss */
+#sampleOrderDetail {
+  .card > view {
+    margin-top: 10px;
+  }
+
+  .card {
+    .flexTitle {
+			margin-top: 10px;
+      display: flex;
+      color: #666666;
+    }
+	}
+	
+	.submit{
+		z-index: 2;
+		.van-button {
+			width: 40vw;
+		}
+	}
+}
