@@ -28,3 +28,9 @@
   width: 120rpx;
   border-radius: 1000000rpx;
 }
+
+@keyframes example {
+  0%   {transform: scale(0.8);}
+  50%  {transform: scale(1);}
+  100% {transform: scale(0.8);}
+}

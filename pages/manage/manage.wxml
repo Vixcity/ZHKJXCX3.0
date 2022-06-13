@@ -1,5 +1,10 @@
 <!--manage.wxml-->
 <view class="container noPad">
+	<nav-content showBack="{{false}}" showHome="{{false}}">
+		<view slot="after">
+			<view class="vw100 tc vh4"></view>
+		</view>
+	</nav-content>
 	<view class="h100 bg">
 		<view class="pb50">
 			<view class="flex pr20 pl20 jcsb aic borderBox colorWhite w100 manage-list">
@@ -16,7 +21,7 @@
 							<view bindtap="toSignUp" class="fz28 mt5">未完善资料，请填写</view>
 						</block>
 						<block wx:else>
-							<view>{{userInfo.userinfo.name + '(' + userInfo.userinfo.wechat_data.nickName +')'}}</view>
+							<view>{{userInfo.name + '(' + userInfo.user_name +')'}}</view>
 							<view class="fz28 mt5">{{userInfo.userinfo.user_name}}</view>
 						</block>
 					</view>
@@ -48,5 +53,10 @@
 				<view class="mt5">{{item.title}}</view>
 			</view>
 		</view>
+
+		<!-- <view class="flex ml50" style="animation: example 1.4s linear 0s infinite alternate;">
+			<view class="bgColorRed vw20 vh20" style="border-radius:50px 50px 0 0;transform:translateX(28px) rotate(-45deg);"></view>
+			<view class="bgColorRed vw20 vh20" style="border-radius:50px 50px 0 0;transform: rotate(45deg);"></view>
+		</view> -->
 	</view>
 </view>
