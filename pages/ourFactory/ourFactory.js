@@ -79,11 +79,11 @@ Page({
     groupList: {
       options: [
         {
-          text: "选项1",
+          label: "选项1",
           value: 0,
         },
         {
-          text: "选项2",
+          label: "选项2",
           value: 1,
         },
       ],
@@ -92,11 +92,11 @@ Page({
     userList: {
       options: [
         {
-          text: "选项1",
+          label: "选项1",
           value: 0,
         },
         {
-          text: "选项2",
+          label: "选项2",
           value: 1,
         },
       ],
@@ -113,7 +113,7 @@ Page({
     group_id: "",
     user_id: "",
     keyWord: "",
-    // type: "2",
+    type: "2",
   },
 
   /**
@@ -122,11 +122,11 @@ Page({
   onLoad: function (options) {
     const isLogin = isIfLogin();
     // let isLogin = true
-    let { type } = options;
+    // let { type } = options;
 
     this.setData({
       isLogin,
-      type,
+      // type,
     });
 
     if (isLogin) {
@@ -172,23 +172,23 @@ Page({
     });
   },
 
-	confirmClient(e){
-		if (e.detail.value[2]) {
+  confirmClient(e) {
+    if (e.detail.value[2]) {
       this.data.client_id = e.detail.value[2].split("-")[2];
     } else {
       this.data.client_id = "";
     }
     this.data.page = 1;
     this.reqOrder();
-	},
+  },
 
   changeProcess(e) {
     this.setData({
       "processList.value": e.detail.value,
     });
   },
-	
-	confirmProcess(e) {
+
+  confirmProcess(e) {
     this.data.process_name = e.detail.value[1];
     this.data.page = 1;
     this.reqOrder();
@@ -246,7 +246,7 @@ Page({
     if (this.data.searchType === 1) {
       params = {
         page: this.data.page,
-        page_size: this.data.limit,
+        limit: this.data.limit,
         process_name: this.data.process_name,
         client_id: this.data.client_id,
         group_id: this.data.group_id,
@@ -256,7 +256,7 @@ Page({
     } else if (this.data.searchType === 2) {
       params = {
         page: this.data.page,
-        page_size: this.data.limit,
+        limit: this.data.limit,
         process_name: this.data.process_name,
         client_id: this.data.client_id,
         group_id: this.data.group_id,
@@ -284,21 +284,22 @@ Page({
           this.data.page += 1;
 
           let arr = [];
-          res.data.data.forEach((item, index) => {
+          res.data.data.items.forEach((item, index) => {
             arr.push({
               id: item.id,
-              customer: item.client.name,
-              title: item.client.name,
+              customer: item.client_name,
+              title: item.client_name,
               time: formatDate(item.end_time),
               nowNumber: item.total_real_number,
               allNumber: item.total_number,
               customer: item.code,
               productLen: item.product_info.length,
               imgSrc:
-                item.product_info[0].product.image_data !== null &&
-                item.product_info[0].product.image_data.length > 0
-                  ? item.product_info[0].product.image_data[0].image_url
+                item.product_info[0].image_data !== null &&
+                item.product_info[0].image_data.length > 0
+                  ? item.product_info[0].image_data[0]
                   : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
+
               display: 0,
               processName: item.process_name,
               item: item,
