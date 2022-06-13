@@ -1,0 +1,23 @@
+<!--pages/order/order.wxml-->
+<view id="order">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			<input wx:if="{{isLogin}}"
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
+				type="text" bindinput="onSearch" placeholder="单据编号/产品编号" />
+			<input wx:else disabled
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
+				type="text" bindinput="onSearch" placeholder="单据编号/产品编号" />
+		</view>
+	</nav-content>
+	
+	<t-dropdown-menu>
+		<t-dropdown-item label="状态" options="{{singleSelect.options}}" defaultValue="option_3" />
+		<t-dropdown-item label="公司" options="{{singleSelect.options2}}" defaultValue="option_3" />
+		<t-dropdown-item label="创建人" options="{{singleSelect.options3}}" defaultValue="option_3" />
+		<t-dropdown-item label="小组" options="{{singleSelect.options}}" defaultValue="option_3" />
+	</t-dropdown-menu>
+
+	<order-card wx:for="{{orderList}}" notShowProLen data-item="{{item}}" wx:for-item="item" wx:key="item"
+	wx:for-index="index" detailInfo="{{item}}" bindtap="toDetail"></order-card>
+</view>

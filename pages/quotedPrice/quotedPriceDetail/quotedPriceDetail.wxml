@@ -6,76 +6,123 @@
 		</view>
 	</nav-content>
 	<view class="card fz30">
-		<view class="title">报价单标题</view>
-		<view>报价单号：121312311231313</view>
-		<view>询价公司：公司名-联系人名</view>
-		<view>报价金额：<text class="color27A2">38599.59</text>元</view>
-		<view>创建人：王先生</view>
-		<view>更新时间：2022-01-01 12:12:12</view>
-		<view>审核人：王先生</view>
-		<view>更新时间：2022-01-01 12:12:12</view>
-		<view>审核说明：</view>
-		<view>审核通过时显示审核通过，驳回时显示驳回理由+备注信息，换行最多三行。审核通过时显示审核通过，驳回时显示驳回理由+备注信息，换行最多三行。</view>
+		<view class="title">{{detailData.title}}</view>
+		<view>报价单号：{{detailData.code}}</view>
+		<view>询价公司：{{detailData.client.name}}{{detailData.contacts.name?('-'+detailData.contacts.name):''}}</view>
+		<view>客户报价：
+			<text wx:if="{{detailData.real_quote_price}}">
+				<text class="color27A2">{{detailData.real_quote_price}}</text>{{detailData.settle_unit}}
+			</text>
+			<text wx:else>
+				<text>无</text>
+			</text>
+		</view>
+		<view>系统报价：
+			<text wx:if="{{detailData.system_total_price}}">
+				<text class="color27A2">{{detailData.system_total_price}}</text>{{detailData.settle_unit}}
+			</text>
+			<text wx:else>
+				<text>无</text>
+			</text>
+		</view>
+		<view>创建人：{{detailData.user.user_name || '无'}}</view>
+		<view>更新时间：{{detailData.updated_at}}</view>
 	</view>
 	<view class="card fz30">
 		<view class="title">产品信息：</view>
-		<view class="flex jcsb" wx:for="{{4}}" wx:for-item="item" wx:for-index="index" wx:key="{{index}}">
+		<view class="flex jcsb" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
+			wx:key="product-{{index}}">
 			<view class="flex aic">
 				<view class="bgColor27A2 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 500px;">{{index+1}}</view>
 				<view class="ml10 flex">
-					<van-image width="100" height="100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+					<van-image width="100" height="100" fit="cover"
+						src="{{item.image || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+						bind:click='clickImage'
+						data-img="{{item.image || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 					<view class="flex fdc jcsa ml10">
-						<view>1111</view>
-						<view>2222</view>
-						<view>3333 元</view>
+						<view>{{item.category.name}}/{{item.secondary_category.name}}</view>
+						<view class="color27A2">查看描述</view>
+						<view>{{item.client_target_price}} 元</view>
 					</view>
 				</view>
 			</view>
 			<view class="flex fdc jcsa aie">
-				<view>A12093381</view>
+				<view wx:if="{{item.product_id>0}}">{{item.product_id}}</view>
+				<view wx:else>A12093381</view>
 				<view></view>
-				<view>2件</view>
+				<view>{{item.start_order_number}}件</view>
 			</view>
 		</view>
 	</view>
 	<view class="card fz30">
 		<view class="title">报价信息</view>
 		<l-tabs bind:linchange="changeTabs" animated>
-			<l-tabpanel tab="产品 1" key="{{'one'+index}}" slot="{{'one'+index}}" wx:for="{{4}}">
+			<l-tabpanel wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
+				wx:key="product2-{{index}}" tab="产品 1" key="{{'one'+index}}" slot="{{'one'+index}}">
 				<view class="sonMt10">
-					<view wx:for="{{4}}">
-						<view>原</view>
-						<view>辅</view>
-						<view>纱线/腈纶/36支单股腈纶</view>
-						<view class="flex jcsb">
-							<view>11000 kg</view>
-							<view>12%</view>
-							<view>3.88元/kg</view>
-							<view>38000.00 元</view>
+					<view wx:for="{{item.material_data}}" wx:for-item="itemMaterial" wx:for-index="indexMaterial"
+						wx:key="material-{{indexMaterial}}">
+						<view class="flex aic">
+							<view class="bgColorOrange pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">原</view>
+							<view class="ml20">{{itemMaterial.decorate.name}}</view>
+						</view>
+						<view class="mt10 flex jcsb">
+							<view>{{itemMaterial.weight}}{{itemMaterial.unit}}</view>
+							<view>{{itemMaterial.loss}}%</view>
+							<view>单价：{{itemMaterial.price}}元</view>
+							<view>总价：{{itemMaterial.total_price}}元</view>
 						</view>
 					</view>
-					<view wx:for="{{4}}">
-						<view>织</view>
-						<view class="flex jcsb">
-							<view>针织织造</view>
-							<view>38000.00 元</view>
+					<view wx:for="{{item.assist_material_data}}" wx:for-item="itemDecorateMaterial" wx:for-index="indexMaterial"
+						wx:key="material-{{indexMaterial}}">
+						<view class="flex aic">
+							<view class="bgColor03d0 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">辅</view>
+							<view class="ml20">{{itemDecorateMaterial.decorate.name}}</view>
 						</view>
-						<view>这里是织造说明</view>
+						<view class="mt10 flex jcsb">
+							<view>{{itemDecorateMaterial.number}}{{itemDecorateMaterial.unit}}</view>
+							<view>{{itemDecorateMaterial.loss}}%</view>
+							<view>单价：{{itemDecorateMaterial.price}}元</view>
+							<view>总价：{{itemDecorateMaterial.total_price}}元</view>
+						</view>
 					</view>
-					<view class="flex jcsb fz35">
-						<view>
-							<text>合</text>
-							合计产品费用
+				</view>
+				<view wx:for="{{item.weave_data}}" wx:for-item="itemWeave" wx:for-index="indexWeave"
+					wx:key="itemWeave-{{indexWeave}}">
+					<view class="flex aic jcsb mt10">
+						<view class="flex aic">
+							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">织</view>
+							<view class="ml20">{{itemWeave.name}}</view>
 						</view>
-						<view>
-							<text class="color27A2">38000.00</text> 元
+						<view>总价：{{itemWeave.total_price}}元</view>
+					</view>
+					<view class="mt10">织造说明：{{itemWeave.desc || '无'}}</view>
+				</view>
+				<view wx:for="{{item.semi_product_data}}" wx:for-item="itemHalfProcess" wx:for-index="indexWeave"
+					wx:key="itemHalfProcess-{{indexWeave}}">
+					<view class="flex aic jcsb mt10">
+						<view class="flex aic">
+							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">半</view>
+							<view class="ml20">{{itemHalfProcess.name}}</view>
 						</view>
+						<view>总价：{{itemHalfProcess.total_price}}元</view>
+					</view>
+					<view class="mt10">织造说明：{{itemHalfProcess.desc || '无'}}</view>
+				</view>
+				<view class="flex jcsb fz35 mt10">
+					<view>
+						<text>合</text>
+						合计产品费用
+					</view>
+					<view>
+						<text class="color27A2">38000.00</text> 元
 					</view>
 				</view>
 			</l-tabpanel>
 		</l-tabs>
 	</view>
 	<view class="card fz35">
+		<view class="title">订单费用</view>
 		<view wx:for="{{4}}">
 			<view>织</view>
 			<view class="flex jcsb">
@@ -95,8 +142,7 @@
 		</view>
 	</view>
 	<view class="card">
-		<view class="title">订单费用</view>
-		<view class="flex jcsb fz35">
+		<view class="flex jcsb fz35" style="margin-top: 0;">
 			<view>报价总额</view>
 			<view class="flex">
 				<view class="color27A2 mr5">￥38000.00</view>
@@ -151,4 +197,13 @@
 	</l-mask>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<l-message content="{{content}}" />
+	<!-- 弹出框 -->
+	<van-popup catchtap show="{{showPopup}}" bindtap="closePopup">
+		<view class="overfh por">
+			<view class="tc vw100 h100">
+				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{clickImg}}" style="display:block">
+				</image>
+			</view>
+		</view>
+	</van-popup>
 </view>

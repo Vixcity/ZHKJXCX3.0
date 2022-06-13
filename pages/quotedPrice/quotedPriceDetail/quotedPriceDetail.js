@@ -1,6 +1,11 @@
 // pages/quotedPrice/quotedPriceDetail.js
 import Dialog from "../../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { isIfLogin, debounce, wxReq } = require("../../../utils/util");
+const {
+  isIfLogin,
+  debounce,
+  wxReq,
+  formatDate,
+} = require("../../../utils/util");
 
 Page({
   /**
@@ -49,6 +54,7 @@ Page({
     ],
     result: ["物料成本偏低", "加工成本偏低"],
     showShenHe: false,
+    showPopup: false,
   },
 
   /**
@@ -59,43 +65,47 @@ Page({
 
     this.setData({
       isLogin,
+      id: options.id,
+    });
+
+    this.getDetail();
+  },
+
+  getDetail() {
+    wxReq({
+      url: "/quote/detail",
+      method: "GET",
+      data: {
+        id: this.data.id,
+      },
+      success: (res) => {
+        let data = res.data.data;
+				data.updated_at = formatDate(data.updated_at, "YYYY-MM-DD");
+				data.product_data.forEach(item => {
+					if(item.image.length === 0){
+						item.image = ''
+					}
+				});
+
+        this.setData({
+          detailData: data,
+        });
+      },
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {},
+  clickImage(e) {
+    this.setData({
+			showPopup: true,
+			clickImg: e.currentTarget.dataset.img,
+    });
+	},
+	
+	closePopup(){
+		this.setData({
+			showPopup:false
+		})
+	},
 
   toLogin(e) {
     if (e) {
