@@ -34,11 +34,11 @@ const wxReq = (data) => {
     url: getApp().globalData.api + data.url,
     data: data.data,
     method: data.method,
-    success: data.success,
     header: {
-      token: wx.getStorageSync("token"),
+      cookie: wx.getStorageSync("sessionid"), //读取本地保存好的上⼀次cookie
     },
-  })
+    success: data.success,
+  });
 };
 
 /*函数防抖（定时器）：如果interval不传，则默认1000ms*/
@@ -217,25 +217,10 @@ const getClientList = function () {
       res.data.data.forEach((item, index) => {
         let arr1 = [];
         if (item.rel_tag) {
+          if (item.public_tag) {
+            item.rel_tag = item.rel_tag.concat(item.public_tag);
+          }
           item.rel_tag.forEach((itemSon, indexSon) => {
-            let arr2 = [];
-            if (itemSon.client) {
-              itemSon.client.forEach((itemClient) => {
-                arr2.push({
-                  label: itemClient.name,
-                  value: "" + index + "-" + indexSon + "-" + itemClient.id,
-                });
-              });
-              arr1.push({
-                label: itemSon.name,
-                value: "" + index + "-" + indexSon,
-                options: arr2,
-              });
-            }
-          });
-        }
-        if (item.public_tag) {
-          item.public_tag.forEach((itemSon, indexSon) => {
             let arr2 = [];
             if (itemSon.client) {
               itemSon.client.forEach((itemClient) => {
@@ -259,6 +244,9 @@ const getClientList = function () {
         });
       });
       wx.setStorageSync("clientList", arr);
+    },
+    fail: (res) => {
+      console.log(111);
     },
   });
 };
@@ -328,10 +316,16 @@ const getProcessList = function () {
   });
 };
 
+const getChineseStatus = function (number) {
+  if (number === 0) return "待审核";
+  if (number === 1) return "已审核";
+  if (number === 2) return "已驳回";
+};
+
 // 获取小组列表
 const getGroupList = function () {
   wxReq({
-    url: "/group/lists",
+    url: "/user/group/list",
     method: "GET",
     success: (res) => {
       let arr = res.data.data.map((item) => {
@@ -354,7 +348,7 @@ const getUserList = function () {
       let arr = res.data.data.map((item) => {
         return {
           label: item.name,
-          value: item.user_id,
+          value: item.id,
           allUesrInfo: item,
         };
       });
@@ -453,4 +447,5 @@ module.exports = {
   getDay,
   doHandleMonth,
   getDateList,
+  getChineseStatus,
 };
