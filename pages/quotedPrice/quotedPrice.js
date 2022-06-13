@@ -1,64 +1,86 @@
 // pages/quotedPrice/quotedPrice.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { isIfLogin, debounce, wxReq } = require("../../utils/util");
+const {
+  isIfLogin,
+  debounce,
+  wxReq,
+  getChineseStatus,
+  formatDate,
+  getUserList,
+  getClientList,
+} = require("../../utils/util");
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    singleSelect: {
-      value: "option_3",
+    userList: {
       options: [
-        { label: "选项 1", value: "option_1" },
-        { label: "选项 2", value: "option_2" },
-        { label: "选项 3", value: "option_3" },
-        { label: "选项 4", value: "option_4" },
-        { label: "选项 5", value: "option_5" },
-        { label: "选项 6", value: "option_6" },
-        { label: "选项 7", value: "option_7" },
-        { label: "选项 8", value: "option_8" },
+        {
+          label: "选项1",
+          value: 0,
+        },
+        {
+          label: "选项2",
+          value: 1,
+        },
       ],
-      options2: [
-        { label: "选项 12", value: "option_1" },
-        { label: "选项 22", value: "option_2" },
-        { label: "选项 32", value: "option_3" },
-        { label: "选项 42", value: "option_4" },
-        { label: "选项 52", value: "option_5" },
-        { label: "选项 62", value: "option_6" },
-        { label: "选项 72", value: "option_7" },
-        { label: "选项 82", value: "option_8" },
-      ],
-      options3: [
-        { label: "选项 13", value: "option_1" },
-        { label: "选项 23", value: "option_2" },
-        { label: "选项 33", value: "option_3" },
-        { label: "选项 43", value: "option_4" },
-        { label: "选项 53", value: "option_5" },
-        { label: "选项 63", value: "option_6" },
-        { label: "选项 73", value: "option_7" },
-        { label: "选项 83", value: "option_8" },
-      ],
+      value: 0,
     },
-    orderList: [
+    statusList: {
+      options: [
+        {
+          label: "全部",
+          value: 999999,
+        },
+        {
+          label: "待审核",
+          value: 0,
+        },
+        {
+          label: "已审核",
+          value: 1,
+        },
+        {
+          label: "已驳回",
+          value: 2,
+        },
+      ],
+      value: 999999,
+    },
+    clientList: {
+      options: [
+        {
+          label: "选项1",
+          options: [
+            {
+              label: "选项1",
+              value: "0-0",
+            },
+            {
+              label: "选项2",
+              value: "0-1",
+            },
+          ],
+          value: "0",
+        },
+      ],
+      value: ["0", "0-0"],
+    },
+    currentDate: new Date().getTime(),
+    minDate: new Date(2018, 0, 1).getTime(),
+    maxDate: new Date().getTime(),
+    orderList: [],
+    tabList: [
       {
-        id: 1,
-        customer: "item.client.name",
-        title: "item.client.name",
-        time: "2022-01-02",
-        nowNumber: 20,
-        allNumber: 50,
-        customer: "asdasd",
-        productLen: 5,
-        imgSrc:
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        display: 0,
-        status: 7,
-        processName: "织造",
+        label: "123",
       },
-		],
-		tabList:[{
-			label:'123',
-		}]
+    ],
+    page: 1,
+    status: "",
+    user_id: "",
+    keyword: "",
+    client_id: [],
   },
 
   /**
@@ -70,42 +92,115 @@ Page({
     this.setData({
       isLogin,
     });
+
+    getUserList();
+    getClientList();
+    this.setData({
+      clientList: {
+        options: wx.getStorageSync("clientList").slice(0, 2),
+        value: ["0", "0-0", ""],
+      },
+      userList: {
+        options: wx.getStorageSync("userList"),
+        value: wx.getStorageSync("userList")[0].value,
+      },
+    });
+    this.getList();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {},
+  getList() {
+    wxReq({
+      url: "/quote/lists",
+      method: "GET",
+      data: {
+				keyword:this.data.keyword,
+				is_check: this.data.status,
+				user_id: this.data.user_id,
+				client_id: this.data.client_id.length>2?this.data.client_id[2].split('-')[2]:'',
+        page: this.data.page,
+        limit: 10,
+      },
+      success: (res) => {
+        if (res.data.status === -1) {
+          wx.setStorageSync("isLogin", false);
+          toSignUp();
+          return;
+        }
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {},
+        let data = res.data.data.items;
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {},
+        data.forEach((item,index) => {
+          this.data.orderList.push({
+            id: item.id,
+            customer: item.client_name,
+            title: item.title,
+            quoteCode: item.code,
+            date: formatDate(item.created_at),
+            systemPrice: item.system_total_price,
+            customer: item.client_name,
+            unit: item.settle_unit,
+            user: item.user_name,
+            imgSrc:
+              item.product_data[0].image[0] ||
+              "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
+            processName: getChineseStatus(item.is_check),
+          });
+        });
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {},
+        this.setData({
+          page: this.data.page + 1,
+          orderList: this.data.orderList,
+        });
+      },
+    });
+  },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {},
+  onInput(event) {
+    this.setData({
+      currentDate: event.detail,
+    });
+  },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {},
+  onConfirm(e) {
+    this.data.page = 1;
+    this.onCancel();
+    this.getList();
+  },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {},
+  onCancel(e) {
+    this.setData({
+      show: false,
+    });
+  },
+
+  changeUser(e) {
+    this.setData({
+      "userList.value": e.detail.value,
+    });
+
+    this.data.user_id = e.detail.value;
+    this.data.page = 1;
+    this.reqOrder();
+  },
+
+  changeClient(e) {
+    this.setData({
+      "clientList.value": e.detail.value,
+    });
+    this.data.client_id = e.detail.value;
+    this.data.page = 1;
+    this.reqOrder();
+  },
+
+  changeStatus(e) {
+    this.setData({
+      "statusList.value": e.detail.value,
+    });
+
+    this.data.status = e.detail.value;
+    this.data.page = 1;
+    this.reqOrder();
+  },
 
   handleSingleSelect(e) {
     this.setData({
@@ -115,73 +210,18 @@ Page({
 
   onSearch(e) {
     this.data.keyWord = e.detail.value;
-    this.data.page = 1;
-    // this.reqOrder();
-	},
-	
-	addTab(){
-		let tabList = this.data.tabList
-		tabList.push({label:'456'})
-		this.setData({tabList})
-	},
+		this.data.page = 1;
+    this.reqOrder();
+  },
+
+  showDatePick() {
+    this.setData({
+      show: true,
+    });
+  },
 
   reqOrder: debounce(function () {
-    let orderList = this.data.orderList;
-
-    wxReq({
-      url: "/weave/plan/lists",
-      method: "GET",
-      data: params,
-      success: (res) => {
-        if (res.data.code === 200) {
-          if ((this.data.page = 1)) {
-            orderList = [];
-          }
-          if (res.data.data.length < 10) {
-            this.setData({
-              isEnd: true,
-              showLoading: false,
-            });
-          }
-
-          this.data.page += 1;
-
-          let arr = [];
-          res.data.data.forEach((item, index) => {
-            console.log(index);
-            arr.push({
-              id: item.id,
-              customer: item.client.name,
-              title: item.client.name,
-              time: formatDate(item.end_time),
-              nowNumber: item.total_real_number,
-              allNumber: item.total_number,
-              customer: item.code,
-              productLen: item.product_info.length,
-              imgSrc:
-                item.product_info[0].product.image_data !== null &&
-                item.product_info[0].product.image_data.length > 0
-                  ? item.product_info[0].product.image_data[0].image_url
-                  : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-              display: 0,
-              processName: item.process_name,
-              item: item,
-            });
-          });
-          orderList = orderList.concat(arr);
-
-          this.setData({
-            showLoading: false,
-            orderList,
-          });
-        }
-
-        if (res.data.status === -1) {
-          wx.setStorageSync("isLogin", false);
-          toSignUp();
-        }
-      },
-    });
+    this.getList();
   }, 1000),
 
   toLogin(e) {
@@ -205,18 +245,19 @@ Page({
           });
         });
     }
-	},
-	
+  },
+
   toDetail(e) {
     let { item } = e.currentTarget.dataset;
     wx.navigateTo({
-      url: "/pages/quotedPrice/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
+      url:
+        "/pages/quotedPrice/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
     });
-	},
-	
-	toCreate(){
-		wx.navigateTo({
+  },
+
+  toCreate() {
+    wx.navigateTo({
       url: "/pages/quotedPrice/quotedPriceCreate/quotedPriceCreate",
     });
-	}
+  },
 });
