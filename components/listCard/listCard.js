@@ -5,7 +5,7 @@ Component({
 	 */
 	properties: {
 		cardInfoData: {
-			cardTitleInfo: Array,
+			cardTitle: Array,
 			cardData: Array,
 			hasBr: {
 				type: Boolean,
