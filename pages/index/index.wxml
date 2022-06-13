@@ -1,13 +1,14 @@
 <!--index.wxml-->
 <view class="container" id="index">
-	<nav-content showBack="{{false}}">
+	<nav-content showBack="{{false}}" showHome="{{false}}">
 		<view slot="after">
-			首页
+			<view class="vw100 tc vh4">首页</view>
 		</view>
 	</nav-content>
-	<view class="flex flexWarp">
-		<view wx:if="{{isLogin}}" class="card" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index"
+	<view class="flex flexWarp jcsa">
+		<view wx:if="{{isLogin}}" class="card tc" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index"
 			data-src="{{item.src}}" bindtap="toDetailPage">
+			<view class="vh8"></view>
 			<view>{{item.title}}</view>
 		</view>
 	</view>

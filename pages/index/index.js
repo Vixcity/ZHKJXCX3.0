@@ -19,14 +19,14 @@ Page({
       },
       {
         title: "样单管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
+        src: "/pages/sampleOrder/sampleOrder",
       },
       {
         title: "订单管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
+        src: "/pages/order/order",
       },
       {
-        title: "订单管理",
+        title: "报销单管理",
         src: "/pages/ourFactory/ourFactory?type=3",
       },
       {
