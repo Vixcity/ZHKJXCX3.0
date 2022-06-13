@@ -7,18 +7,18 @@ App({
 
     const baseApi = {
       // 开发版
-      develop: "https://knit-m2-beta.zwyknit.com/api",
+      develop: "https://knit-beta.zwyknit.com/api",
       // 体验版
-      trial: "https://knit-m2-beta.zwyknit.com/api",
+      trial: "https://knit-beta.zwyknit.com/api",
       // 正式版
-      release: "https://knit-m2-api.zwyknit.com/api",
+      release: "https://knit-api.zwyknit.com/api",
     };
-    this.globalData.api = baseApi[env] || "https://knit-m2-beta.zwyknit.com/api";
+    this.globalData.api = baseApi[env] || "https://knit-beta.zwyknit.com/api";
     // this.globalData.api = 'https://knit-m2-api.zwyknit.com/api'
   },
   globalData: {
     isLogin: false,
-    homePage: "/pages/index/index",
+    homePage: "/pages/ourFactory/ourFactory",
     // isLogin: true,
   },
 });
