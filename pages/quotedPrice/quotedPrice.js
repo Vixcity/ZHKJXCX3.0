@@ -8,6 +8,7 @@ const {
   formatDate,
   getUserList,
   getClientList,
+  getSomeDateList,
 } = require("../../utils/util");
 Page({
   /**
@@ -67,9 +68,19 @@ Page({
       ],
       value: ["0", "0-0"],
     },
-    currentDate: new Date().getTime(),
-    minDate: new Date(2018, 0, 1).getTime(),
-    maxDate: new Date().getTime(),
+    someDateList: {
+      options: [
+        {
+          label: "选项1",
+          value: 0,
+        },
+        {
+          label: "选项2",
+          value: 1,
+        },
+      ],
+      value: 0,
+    },
     orderList: [],
     tabList: [
       {
@@ -81,6 +92,10 @@ Page({
     user_id: "",
     keyword: "",
     client_id: [],
+    chooseDate: ["", ""],
+    isEnd: false,
+    showLoading: false,
+    noData: false,
   },
 
   /**
@@ -95,6 +110,7 @@ Page({
 
     getUserList();
     getClientList();
+    getSomeDateList();
     this.setData({
       clientList: {
         options: wx.getStorageSync("clientList").slice(0, 2),
@@ -104,72 +120,81 @@ Page({
         options: wx.getStorageSync("userList"),
         value: wx.getStorageSync("userList")[0].value,
       },
+      someDateList: {
+        options: wx.getStorageSync("someDateList"),
+        value: wx.getStorageSync("someDateList")[0].value,
+      },
     });
     this.getList();
   },
 
   getList() {
+    if (this.data.isEnd) {
+      return;
+    }
+
+    this.setData({
+      showLoading: true,
+    });
+
     wxReq({
       url: "/quote/lists",
       method: "GET",
       data: {
-				keyword:this.data.keyword,
-				is_check: this.data.status,
-				user_id: this.data.user_id,
-				client_id: this.data.client_id.length>2?this.data.client_id[2].split('-')[2]:'',
+        keyword: this.data.keyword,
+        is_check: this.data.status === 999999 ? "" : this.data.status,
+        user_id: this.data.user_id,
+        client_id:
+          this.data.client_id.length > 2
+            ? this.data.client_id[2].split("-")[2]
+            : "",
         page: this.data.page,
+        group_id: "",
+        contacts_id: "",
+        min_price: "",
+        max_price: "",
+        start_time: this.data.chooseDate[0],
+        end_time: this.data.chooseDate[1],
         limit: 10,
       },
-      success: (res) => {
-        if (res.data.status === -1) {
-          wx.setStorageSync("isLogin", false);
-          toSignUp();
-          return;
-        }
+    }).then((res) => {
+      let data = res.data.data.items;
 
-        let data = res.data.data.items;
-
-        data.forEach((item,index) => {
-          this.data.orderList.push({
-            id: item.id,
-            customer: item.client_name,
-            title: item.title,
-            quoteCode: item.code,
-            date: formatDate(item.created_at),
-            systemPrice: item.system_total_price,
-            customer: item.client_name,
-            unit: item.settle_unit,
-            user: item.user_name,
-            imgSrc:
-              item.product_data[0].image[0] ||
-              "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-            processName: getChineseStatus(item.is_check),
-          });
-        });
-
+      if (data.length < 10) {
         this.setData({
-          page: this.data.page + 1,
-          orderList: this.data.orderList,
+          isEnd: true,
+          showLoading: false,
         });
-      },
-    });
-  },
+      }
 
-  onInput(event) {
-    this.setData({
-      currentDate: event.detail,
-    });
-  },
+      if (this.data.page === 1 && data.length === 0) {
+        this.setData({
+          noData: true,
+        });
+      }
 
-  onConfirm(e) {
-    this.data.page = 1;
-    this.onCancel();
-    this.getList();
-  },
+      data.forEach((item, index) => {
+        this.data.orderList.push({
+          id: item.id,
+          customer: item.client_name,
+          title: item.title,
+          quoteCode: item.code,
+          date: formatDate(item.created_at),
+          systemPrice: item.system_total_price,
+          customer: item.client_name,
+          unit: item.settle_unit,
+          user: item.user_name,
+          imgSrc:
+            item.product_data[0].image[0] ||
+            "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
+          processName: getChineseStatus(item.is_check),
+        });
+      });
 
-  onCancel(e) {
-    this.setData({
-      show: false,
+      this.setData({
+        page: this.data.page + 1,
+        orderList: this.data.orderList,
+      });
     });
   },
 
@@ -180,6 +205,32 @@ Page({
 
     this.data.user_id = e.detail.value;
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+			isEnd: false,
+			noData: false
+    });
+    this.reqOrder();
+  },
+
+  changeDate(e) {
+    this.setData({
+      "someDateList.value": e.detail.value,
+    });
+
+    this.data.chooseDate = this.data.someDateList.options[
+      e.detail.value
+    ].someDate;
+
+    this.data.page = 1;
+    this.setData({
+      orderList: [],
+			isEnd: false,
+			noData: false
+    });
+
+    console.log(this.data.chooseDate);
+
     this.reqOrder();
   },
 
@@ -188,7 +239,22 @@ Page({
       "clientList.value": e.detail.value,
     });
     this.data.client_id = e.detail.value;
+    // this.data.page = 1;
+    // this.setData({
+    //   orderList: [],
+		// 	isEnd: false,
+		// 	noData: false
+    // });
+    // this.reqOrder();
+  },
+	
+	confirmClient(e) {
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+			isEnd: false,
+			noData: false
+    });
     this.reqOrder();
   },
 
@@ -199,6 +265,11 @@ Page({
 
     this.data.status = e.detail.value;
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+			isEnd: false,
+			noData: false
+    });
     this.reqOrder();
   },
 
@@ -210,7 +281,12 @@ Page({
 
   onSearch(e) {
     this.data.keyWord = e.detail.value;
-		this.data.page = 1;
+    this.data.page = 1;
+    this.setData({
+      orderList: [],
+			isEnd: false,
+			noData: false
+    });
     this.reqOrder();
   },
 

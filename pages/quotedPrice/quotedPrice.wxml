@@ -11,33 +11,31 @@
 		</view>
 	</nav-content>
 
-	<view class="flex aic">
-		<t-dropdown-menu>
-			<t-dropdown-item label="状态" options="{{statusList.options}}" value="{{statusList.value}}"
-				bindchange="changeStatus" />
-			<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
-				bindchange="changeClient" bindconfirm="confirmClient" />
-			<t-dropdown-item label="创建人" options="{{userList.options}}" value="{{userList.value}}" bindchange="changeUser" />
-			<!-- <t-dropdown-item label="日期" bindtap="showDatePick" disabled/> -->
-		</t-dropdown-menu>
-		<view class="vw20 tc bgColorWhite flex aic"
-			style="height: 48px;line-height: 48px;border-bottom: 1px solid #e6e6e699;" bindtap="showDatePick">
-			<view style="font-size: 32rpx;">日期</view>
-			<t-icon name='caret-down-small' size="20px"></t-icon>
-		</view>
-	</view>
+
+	<t-dropdown-menu>
+		<t-dropdown-item label="状态" options="{{statusList.options}}" value="{{statusList.value}}"
+			bindchange="changeStatus" />
+		<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
+			bindchange="changeClient" bindconfirm="confirmClient" />
+		<t-dropdown-item label="创建人" options="{{userList.options}}" value="{{userList.value}}" bindchange="changeUser" />
+		<t-dropdown-item label="日期" options="{{someDateList.options}}" value="{{someDateList.value}}"
+			bindchange="changeDate" />
+	</t-dropdown-menu>
 
 	<scroll-view scroll-y class="vh75" bindscrolltolower="getList">
 		<order-card wx:for="{{orderList}}" notShowProLen data-item="{{item}}" wx:for-item="item" wx:key="item"
 			wx:for-index="index" detailInfo="{{item}}" bindtap="toDetail"></order-card>
-		<view style="height: 5vh;"></view>
+		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20 color91">暂无数据</view>
+		</view>
+		<view class="vh60" wx:if="{{showLoading && orderList.length === 0}}"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view style="height: 6vh;"></view>
 	</scroll-view>
 
-	<view wx:if="{{!isLogin}}">
-		<view class="mt20 submit">
-			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
-		</view>
-	</view>
 	<view wx:if="{{!isLogin}}">
 		<view class="mt20 submit">
 			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
@@ -52,6 +50,6 @@
 	<l-message content="{{content}}" />
 	<van-popup show="{{ show }}" bind:close="onClose" position="bottom" close-on-click-overlay="{{true}}" round>
 		<van-datetime-picker type="date" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}"
-			bind:input="onInput" bind:confirm="onConfirm" bind:cancel="onCancel"/>
+			bind:input="onInput" bind:confirm="onConfirm" bind:cancel="onCancel" />
 	</van-popup>
 </view>

@@ -4,7 +4,8 @@ const {
   isIfLogin,
   debounce,
   wxReq,
-  formatDate,
+	formatDate,
+	getStatusImage
 } = require("../../../utils/util");
 
 Page({
@@ -54,7 +55,8 @@ Page({
     ],
     result: ["物料成本偏低", "加工成本偏低"],
     showShenHe: false,
-    showPopup: false,
+		showPopup: false,
+		statusList:getStatusImage()
   },
 
   /**
@@ -78,34 +80,34 @@ Page({
       data: {
         id: this.data.id,
       },
-      success: (res) => {
-        let data = res.data.data;
-				data.updated_at = formatDate(data.updated_at, "YYYY-MM-DD");
-				data.product_data.forEach(item => {
-					if(item.image.length === 0){
-						item.image = ''
-					}
-				});
+    }).then((res) => {
+      let data = res.data.data;
+			data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
+      data.product_data.forEach((item) => {
+        if (item.image_data.length === 0) {
+          item.image_data = "";
+        }
+			});
+			data.allPrice = (Number(data.commission_price) + Number(data.profit_price) + Number(data.rate_price)).toFixed(2)
 
-        this.setData({
-          detailData: data,
-        });
-      },
+      this.setData({
+        detailData: data,
+      });
     });
   },
 
   clickImage(e) {
     this.setData({
-			showPopup: true,
-			clickImg: e.currentTarget.dataset.img,
+      showPopup: true,
+      clickImg: e.currentTarget.dataset.img,
     });
-	},
-	
-	closePopup(){
-		this.setData({
-			showPopup:false
-		})
-	},
+  },
+
+  closePopup() {
+    this.setData({
+      showPopup: false,
+    });
+  },
 
   toLogin(e) {
     if (e) {
