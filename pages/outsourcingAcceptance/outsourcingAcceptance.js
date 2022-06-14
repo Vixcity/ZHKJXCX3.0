@@ -74,32 +74,31 @@ Page({
           hash: wx.getStorageSync("isCodeIn").hash,
         },
         method: "GET",
-        success: (res) => {
-          let data = res.data.data;
-          this.getWeavePlanProductList(
-            data.product_info ? data.product_info[0].product_id : ""
-          );
-          this.setData({
-            detailInfo: {
-              allNumber: data.total_number,
-              customer: data.code,
-              display: 0,
-              id: data.id,
-              imgSrc:
-                data.product_info[0].product.image_data !== null &&
-                data.product_info[0].product.image_data.length > 0
-                  ? data.product_info[0].product.image_data[0].image_url
-                  : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-              nowNumber: data.total_real_number,
-              processName: data.process_name,
-              productLen: data.product_info.length,
-              time: formatDate(data.end_time),
-              title: data.client.name,
-              item: data,
-            },
-            isCodeIn: !!options.isCodeIn,
-          });
-        },
+      }).then((res) => {
+        let data = res.data.data;
+        this.getWeavePlanProductList(
+          data.product_info ? data.product_info[0].product_id : ""
+        );
+        this.setData({
+          detailInfo: {
+            allNumber: data.total_number,
+            customer: data.code,
+            display: 0,
+            id: data.id,
+            imgSrc:
+              data.product_info[0].product.image_data !== null &&
+              data.product_info[0].product.image_data.length > 0
+                ? data.product_info[0].product.image_data[0].image_url
+                : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
+            nowNumber: data.total_real_number,
+            processName: data.process_name,
+            productLen: data.product_info.length,
+            time: formatDate(data.end_time),
+            title: data.client.name,
+            item: data,
+          },
+          isCodeIn: !!options.isCodeIn,
+        });
       });
       return;
     } else {
@@ -109,12 +108,11 @@ Page({
           id: this.data.detailInfo.id,
         },
         method: "GET",
-        success: (res) => {
-          this.data.detailInfo.item = res.data.data;
-          this.setData({
-            detailInfo: this.data.detailInfo,
-          });
-        },
+      }).then((res) => {
+        this.data.detailInfo.item = res.data.data;
+        this.setData({
+          detailInfo: this.data.detailInfo,
+        });
       });
     }
   },
@@ -143,30 +141,29 @@ Page({
         product_id: id,
       },
       method: "GET",
-      success: (res) => {
-        let data = res.data.data;
-        let arr = [];
+    }).then((res) => {
+      let data = res.data.data;
+      let arr = [];
 
-        data.forEach((item) => {
-          arr.push([
-            item.product.name || "无数据",
-            (item.size.size_name || "无数据") +
-              "/" +
-              (item.color.color_name || "无数据"),
-            (item.number || "无数据") + "/" + (item.real_number || "无数据"),
-            item.weave_plan.total_real_number +
-              "（" +
-              item.weave_plan.process_name +
-              ")",
-          ]);
-        });
+      data.forEach((item) => {
+        arr.push([
+          item.product.name || "无数据",
+          (item.size.size_name || "无数据") +
+            "/" +
+            (item.color.color_name || "无数据"),
+          (item.number || "无数据") + "/" + (item.real_number || "无数据"),
+          item.weave_plan.total_real_number +
+            "（" +
+            item.weave_plan.process_name +
+            ")",
+        ]);
+      });
 
-        this.data.cardInfoData.cardData = arr;
+      this.data.cardInfoData.cardData = arr;
 
-        this.setData({
-          cardInfoData: this.data.cardInfoData,
-        });
-      },
+      this.setData({
+        cardInfoData: this.data.cardInfoData,
+      });
     });
   },
 
@@ -219,19 +216,18 @@ Page({
         data: array,
       },
       method: "POST",
-      success: (res) => {
-        if (res.data.status) {
-          wx.lin.showMessage({
-            type: "success",
-            duration: 3000,
-            content: "提交成功,即将刷新页面",
-            top: getApp().globalData.navH,
-          });
-          setTimeout(() => {
-            reloadThisPage();
-          }, 3000);
-        }
-      },
+    }).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 3000,
+          content: "提交成功,即将刷新页面",
+          top: getApp().globalData.navH,
+        });
+        setTimeout(() => {
+          reloadThisPage();
+        }, 3000);
+      }
     });
   },
 

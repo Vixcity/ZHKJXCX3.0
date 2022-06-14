@@ -26,18 +26,53 @@ const isIfLogin = () => {
 
 // 封装请求
 const wxReq = (data) => {
-  if (!isIfLogin()) {
-    return;
-  }
-
-  wx.request({
-    url: getApp().globalData.api + data.url,
-    data: data.data,
-    method: data.method,
-    header: {
-      cookie: wx.getStorageSync("sessionid"), //读取本地保存好的上⼀次cookie
-    },
-    success: data.success,
+  return new Promise((resolve, reject) => {
+    // wx.request()  小程序发送请求
+    wx.request({
+      // 把调用axios时传过来的所有参数解构赋值
+      ...data,
+      // 把地址和请求的地址拼接起来
+      url: getApp().globalData.api + data.url,
+      header: {
+        cookie: wx.getStorageSync("sessionid"), //读取本地保存好的cookie,
+      },
+      // 请求成功之后调用的函数
+      success: (result) => {
+        if (result.data.code === 200) {
+          resolve(result);
+        } else if (result.data.code === 401) {
+          // 未登录，返回登录界面
+          wx.lin.showMessage({
+            type: "error",
+            duration: 3000,
+            content: result.data.msg,
+            top: getApp().globalData.navH,
+          });
+          wx.reLaunch({
+            url: getApp().globalData.homePage,
+          });
+        } else if (result.data.code === 406) {
+          wx.lin.showMessage({
+            type: "error",
+            duration: 3000,
+            content: result.data.msg,
+            top: getApp().globalData.navH,
+          });
+        } else {
+          // 其它错误
+          wx.lin.showMessage({
+            type: "error",
+            duration: 3000,
+            content: result.data.msg,
+            top: getApp().globalData.navH,
+          });
+        }
+      },
+      // 请求失败之后调用的函数
+      fail: (error) => {
+        reject(error);
+      },
+    });
   });
 };
 
@@ -212,42 +247,44 @@ const getClientList = function () {
   wxReq({
     url: "/client/type/lists",
     method: "GET",
-    success: (res) => {
-      let arr = [];
-      res.data.data.forEach((item, index) => {
-        let arr1 = [];
-        if (item.rel_tag) {
-          if (item.public_tag) {
-            item.rel_tag = item.rel_tag.concat(item.public_tag);
-          }
-          item.rel_tag.forEach((itemSon, indexSon) => {
-            let arr2 = [];
-            if (itemSon.client) {
-              itemSon.client.forEach((itemClient) => {
-                arr2.push({
-                  label: itemClient.name,
-                  value: "" + index + "-" + indexSon + "-" + itemClient.id,
-                });
-              });
-              arr1.push({
-                label: itemSon.name,
-                value: "" + index + "-" + indexSon,
-                options: arr2,
-              });
-            }
-          });
+  }).then((res) => {
+    let arr = [];
+    res.data.data.forEach((item, index) => {
+      let arr1 = [];
+      if (item.rel_tag || item.public_tag) {
+				let tagList = [];
+				
+        if (item.public_tag) {
+          tagList = tagList.concat(item.public_tag);
         }
-        arr.push({
-          label: item.name,
-          value: "" + index,
-          options: arr1,
+        if (item.rel_tag) {
+          tagList = tagList.concat(item.rel_tag);
+				}
+				
+        tagList.forEach((itemSon, indexSon) => {
+          let arr2 = [];
+          if (itemSon.rel_client) {
+            itemSon.rel_client.forEach((itemClient) => {
+              arr2.push({
+                label: itemClient.name,
+                value: "" + index + "-" + indexSon + "-" + itemClient.id,
+              });
+            });
+            arr1.push({
+              label: itemSon.name,
+              value: "" + index + "-" + indexSon,
+              options: arr2,
+            });
+          }
         });
+      }
+      arr.push({
+        label: item.name,
+        value: "" + index,
+        options: arr1,
       });
-      wx.setStorageSync("clientList", arr);
-    },
-    fail: (res) => {
-      console.log(111);
-    },
+    });
+    wx.setStorageSync("clientList", arr);
   });
 };
 
@@ -259,67 +296,71 @@ const getProcessList = function () {
       type: 2,
     },
     method: "GET",
-    success: (res) => {
-      wxReq({
-        url: "/process/lists",
-        data: {
-          type: 3,
-        },
-        method: "GET",
-        success: (ress) => {
-          let arr1 = res.data.data.map((item) => {
-            return {
-              label: item.name,
-              value: item.name,
-            };
-          });
-          let arr2 = ress.data.data.map((item) => {
-            return {
-              label: item.name,
-              value: item.name,
-            };
-          });
-
-          wx.setStorageSync("processList", [
-            {
-              label: "织造工序",
-              value: 0,
-              options: [
-                {
-                  label: "针织织造",
-                  value: "针织织造",
-                },
-                {
-                  label: "梭织织造",
-                  value: "梭织织造",
-                },
-                {
-                  label: "制版费",
-                  value: "制版费",
-                },
-              ],
-            },
-            {
-              label: "半成品加工工序",
-              value: 2,
-              options: arr1,
-            },
-            {
-              label: "成品加工工序",
-              value: 3,
-              options: arr2,
-            },
-          ]);
-        },
+  }).then((res) => {
+    wxReq({
+      url: "/process/lists",
+      data: {
+        type: 3,
+      },
+      method: "GET",
+    }).then((ress) => {
+      let arr1 = res.data.data.map((item) => {
+        return {
+          label: item.name,
+          value: item.name,
+        };
       });
-    },
+      let arr2 = ress.data.data.map((item) => {
+        return {
+          label: item.name,
+          value: item.name,
+        };
+      });
+
+      wx.setStorageSync("processList", [
+        {
+          label: "织造工序",
+          value: 0,
+          options: [
+            {
+              label: "针织织造",
+              value: "针织织造",
+            },
+            {
+              label: "梭织织造",
+              value: "梭织织造",
+            },
+            {
+              label: "制版费",
+              value: "制版费",
+            },
+          ],
+        },
+        {
+          label: "半成品加工工序",
+          value: 2,
+          options: arr1,
+        },
+        {
+          label: "成品加工工序",
+          value: 3,
+          options: arr2,
+        },
+      ]);
+    });
   });
 };
 
+// 获取对应的状态
 const getChineseStatus = function (number) {
   if (number === 0) return "待审核";
   if (number === 1) return "已审核";
   if (number === 2) return "已驳回";
+};
+
+// 获取对应的状态
+const getStatusImage = function () {
+ return ["https://file.zwyknit.com/waiting.png","https://file.zwyknit.com/pass.png","https://file.zwyknit.com/return.png"];
 };
 
 // 获取小组列表
@@ -327,15 +368,14 @@ const getGroupList = function () {
   wxReq({
     url: "/user/group/list",
     method: "GET",
-    success: (res) => {
-      let arr = res.data.data.map((item) => {
-        return {
-          label: item.name,
-          value: item.id,
-        };
-      });
-      wx.setStorageSync("groupList", arr);
-    },
+  }).then((res) => {
+    let arr = res.data.data.map((item) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+    wx.setStorageSync("groupList", arr);
   });
 };
 
@@ -344,17 +384,59 @@ const getUserList = function () {
   wxReq({
     url: "/user/lists",
     method: "GET",
-    success: (res) => {
-      let arr = res.data.data.map((item) => {
-        return {
-          label: item.name,
-          value: item.id,
-          allUesrInfo: item,
-        };
+  }).then((res) => {
+    let arr = [
+      {
+        label: "全部",
+        value: "",
+      },
+    ];
+    res.data.data.forEach((item) => {
+      arr.push({
+        label: item.name,
+        value: item.id,
+        allUesrInfo: item,
       });
       wx.setStorageSync("userList", arr);
-    },
+    });
   });
+};
+
+// 获取日期范围
+const getSomeDateList = function () {
+  let arr = [
+    {
+      label: "所有",
+      value: 0,
+      someDate: ["", ""],
+    },
+    {
+      label: "最近一周",
+      value: 1,
+      someDate: [getDay(-7), getDay(0)],
+    },
+    {
+      label: "最近一月",
+      value: 2,
+      someDate: [getDay(-30), getDay(0)],
+    },
+    {
+      label: "最近三月",
+      value: 3,
+      someDate: [getDay(-90), getDay(0)],
+    },
+    {
+      label: "最近半年",
+      value: 4,
+      someDate: [getDay(-182), getDay(0)],
+    },
+    {
+      label: "最近一年",
+      value: 5,
+      someDate: [getDay(-365), getDay(0)],
+    },
+  ];
+  wx.setStorageSync("someDateList", arr);
 };
 
 // 获取到N天后的日期,传入一个数字,可以是负数
@@ -448,4 +530,6 @@ module.exports = {
   doHandleMonth,
   getDateList,
   getChineseStatus,
+	getSomeDateList,
+	getStatusImage
 };

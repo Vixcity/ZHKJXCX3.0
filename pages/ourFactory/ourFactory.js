@@ -154,7 +154,7 @@ Page({
         group_id: wx.getStorageSync("groupList")[0].value,
         user_id: wx.getStorageSync("userList")[0].value,
       });
-      this.pullUpLoad();
+      this.reqOrder();
     } else {
       this.toLogin();
     }
@@ -163,6 +163,9 @@ Page({
   onSearch(e) {
     this.data.keyWord = e.detail.value;
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+    });
     this.reqOrder();
   },
 
@@ -179,6 +182,9 @@ Page({
       this.data.client_id = "";
     }
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+    });
     this.reqOrder();
   },
 
@@ -191,6 +197,9 @@ Page({
   confirmProcess(e) {
     this.data.process_name = e.detail.value[1];
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+    });
     this.reqOrder();
   },
 
@@ -201,6 +210,9 @@ Page({
 
     this.data.group_id = e.detail.value;
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+    });
     this.reqOrder();
   },
 
@@ -211,6 +223,9 @@ Page({
 
     this.data.user_id = e.detail.value;
     this.data.page = 1;
+    this.setData({
+      orderList: [],
+    });
     this.reqOrder();
   },
 
@@ -226,20 +241,21 @@ Page({
       showSearch: false,
     });
     this.data.page = 1;
-    this.reqOrder();
-  },
-
-  pullUpLoad: function () {
-    if (this.data.isEnd) {
-      return;
-    }
     this.setData({
-      showLoading: true,
+      orderList: [],
     });
     this.reqOrder();
   },
 
   reqOrder: debounce(function () {
+    if (this.data.isEnd) {
+      return;
+		}
+		
+    this.setData({
+      showLoading: true,
+    });
+
     let orderList = this.data.orderList;
 
     let params = {};
@@ -269,55 +285,55 @@ Page({
       url: "/weave/plan/lists",
       method: "GET",
       data: params,
-      success: (res) => {
-        if (res.data.code === 200) {
-          if ((this.data.page = 1)) {
-            orderList = [];
-          }
-          if (res.data.data.length < 10) {
-            this.setData({
-              isEnd: true,
-              showLoading: false,
-            });
-          }
+    }).then((res) => {
+      if (res.data.code === 200) {
+        if ((this.data.page = 1)) {
+          orderList = [];
+        }
 
-          this.data.page += 1;
-
-          let arr = [];
-          res.data.data.items.forEach((item, index) => {
-            arr.push({
-              id: item.id,
-              customer: item.client_name,
-              title: item.client_name,
-              time: formatDate(item.end_time),
-              nowNumber: item.total_real_number,
-              allNumber: item.total_number,
-              customer: item.code,
-              productLen: item.product_info.length,
-              imgSrc:
-                item.product_info[0].image_data !== null &&
-                item.product_info[0].image_data.length > 0
-                  ? item.product_info[0].image_data[0]
-                  : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-
-              display: 0,
-              processName: item.process_name,
-              item: item,
-            });
-          });
-          orderList = orderList.concat(arr);
-
+        if (res.data.data.items.length < 10) {
           this.setData({
+            isEnd: true,
             showLoading: false,
-            orderList,
           });
         }
 
-        if (res.data.status === -1) {
-          wx.setStorageSync("isLogin", false);
-          toSignUp();
-        }
-      },
+        this.data.page += 1;
+
+        let arr = [];
+        res.data.data.items.forEach((item, index) => {
+          arr.push({
+            id: item.id,
+            customer: item.client_name,
+            title: item.client_name,
+            time: formatDate(item.end_time),
+            nowNumber: item.total_real_number,
+            allNumber: item.total_number,
+            customer: item.code,
+            productLen: item.product_info.length,
+            imgSrc:
+              item.product_info[0].image_data !== null &&
+              item.product_info[0].image_data.length > 0
+                ? item.product_info[0].image_data[0]
+                : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
+
+            display: 0,
+            processName: item.process_name,
+            item: item,
+          });
+        });
+        orderList = orderList.concat(arr);
+
+        this.setData({
+          showLoading: false,
+          orderList,
+        });
+      }
+
+      if (res.data.status === -1) {
+        wx.setStorageSync("isLogin", false);
+        toSignUp();
+      }
     });
   }, 1000),
 

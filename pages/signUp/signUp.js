@@ -50,38 +50,39 @@ Page({
       success: (res) => {
         if (res.data) {
           wx.setStorageSync("isLogin", true);
-          // wx.setStorageSync("token", res.data.data.token);
+					wx.setStorageSync("loginTime", new Date());
+					
+					if (res.data.status) {
+						var cookie = res.header["Set-Cookie"];
+						if (cookie != null) {
+							wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
+						}
+					}
 
           wxReq({
-            url: "/user/info",
-            method: "GET",
-            success: (ress) => {
-              if (res.data.status) {
-                var cookie = res.header["Set-Cookie"];
-                if (cookie != null) {
-                  wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
-                }
+            url: "/auth/info",
+            method: "post",
+          }).then(ress => {
+						if (ress.data.status) {
+							wx.setStorageSync("userInfo", ress.data.data);
 
-                wx.setStorageSync("userInfo", ress.data.data);
+							wx.lin.showMessage({
+								type: "success",
+								duration: 3000,
+								content: "登录成功，即将返回刚才的页面",
+								top: getApp().globalData.navH,
+							});
 
-                wx.lin.showMessage({
-                  type: "success",
-                  duration: 3000,
-                  content: "登录成功，即将返回刚才的页面",
-                  top: getApp().globalData.navH,
-                });
+							getClientList();
+							getProcessList();
+							getGroupList();
+							getUserList();
 
-                getClientList();
-                getProcessList();
-                getGroupList();
-                getUserList();
-
-                setTimeout(function () {
-                  _this.toOtherPage();
-                }, 2500);
-              }
-            },
-          });
+							setTimeout(function () {
+								_this.toOtherPage();
+							}, 2500);
+						}
+					})
         }
       },
     });

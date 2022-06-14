@@ -1,5 +1,10 @@
 /* pages/quotedPrice/quotedPrice.wxss */
-.t-dropdown-menu__bar{
-	z-index: unset!important;
-	width: 80vw;
+#quotedPrice {
+  .t-dropdown-menu__bar {
+    z-index: unset !important;
+  }
+
+  .t-dropdown-menu__title {
+    font-size: 25rpx;
+  }
 }

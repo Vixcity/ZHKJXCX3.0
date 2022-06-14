@@ -27,4 +27,12 @@
   .sonMt10 > view {
     margin-top: 10px;
   }
+
+  .van-tabs__line {
+    background-color: #27a2fd;
+	}
+	
+	.van-tab--active{
+		color: #27a2fd;
+	}
 }

@@ -80,35 +80,32 @@ Page({
     wxReq({
       url: "/user/info",
       method: "GET",
-      success: function (res) {
-        if (res.data.code === 200) {
-          let allUserinfo = wx.getStorageSync("userInfo");
-          allUserinfo.userinfo = res.data.data;
-          allUserinfo.userinfo.process = allUserinfo.userinfo.process.split(
-            ","
-          );
-          wx.setStorageSync("userInfo", allUserinfo);
-          // 作坊主 == 3
-          // 员工 == 2
-          // 路人 == 1
-          let userRole = allUserinfo.userinfo.role;
-          _this.setData(_this.getPageList(userRole));
-          _this.setData({
-            userInfo: allUserinfo,
-          });
-        } else {
-          let userRole = wx.getStorageSync("userInfo").userinfo.role;
-          _this.setData(_this.getPageList(userRole));
-        }
-      },
+    }).then(function (res) {
+      if (res.data.code === 200) {
+        let allUserinfo = wx.getStorageSync("userInfo");
+        allUserinfo.userinfo = res.data.data;
+        allUserinfo.userinfo.process = allUserinfo.userinfo.process.split(",");
+        wx.setStorageSync("userInfo", allUserinfo);
+        // 作坊主 == 3
+        // 员工 == 2
+        // 路人 == 1
+        let userRole = allUserinfo.userinfo.role;
+        _this.setData(_this.getPageList(userRole));
+        _this.setData({
+          userInfo: allUserinfo,
+        });
+      } else {
+        let userRole = wx.getStorageSync("userInfo").userinfo.role;
+        _this.setData(_this.getPageList(userRole));
+      }
     });
   },
   toWitchPage(e) {
     wx.navigateTo({
       url: e.currentTarget.dataset.path,
     });
-	},
-	
+  },
+
   getWxACode() {
     let _this = this;
     let uuid = this.data.userInfo.userinfo.uuid;
@@ -127,22 +124,21 @@ Page({
         is_hyaline: false,
       },
       method: "POST",
-      success: function (res) {
-        if (res.data.code !== 200) {
-          Message.error({
-            offset: [20, 32],
-            duration: 2000,
-            content: "获取员工邀请码失败",
-          });
-          return;
-        }
-        _this.setData({
-          showPopup: true,
-          showImage: res.data.data,
+    }).then(function (res) {
+      if (res.data.code !== 200) {
+        Message.error({
+          offset: [20, 32],
+          duration: 2000,
+          content: "获取员工邀请码失败",
         });
-        wx.setStorageSync("作坊主小程序码", res.data.data);
         return;
-      },
+      }
+      _this.setData({
+        showPopup: true,
+        showImage: res.data.data,
+      });
+      wx.setStorageSync("作坊主小程序码", res.data.data);
+      return;
     });
   },
   closePopup() {

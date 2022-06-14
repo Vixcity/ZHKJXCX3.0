@@ -113,18 +113,18 @@ Component({
 					product_id
 				} = this.data.detailInfo
 
-				wxReq({
-					url: '/workshop/order/display',
-					method: "POST",
-					data: {
-						pid,
-						display,
-						product_id
-					},
-					success: (res) => {
+				// wxReq({
+				// 	url: '/workshop/order/display',
+				// 	method: "POST",
+				// 	data: {
+				// 		pid,
+				// 		display,
+				// 		product_id
+				// 	},
+				// 	success: (res) => {
 
-					}
-				})
+				// 	}
+				// })
 
 				this.triggerEvent("changeShow", display)
 			}

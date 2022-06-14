@@ -13,10 +13,10 @@
 			<van-icon wx:if="{{showChangeIcon}}" class="ml10 color8D9F" name=exchange" size="18px"> </van-icon>
 		</view>
 		<view class="flex h90">
-			<view class="autoLogos pl10 pr10">{{detailInfo.processName}}</view>
+			<view class="autoLogos pl10 pr10" style="font-size: 25rpx;">{{detailInfo.processName}}</view>
 		</view>
 	</view>
-	<view class="fz30 mt20 mb20 flex jcsb aic">
+	<view class="fz25 mt20 mb20 flex jcsb aic">
 		<text>{{detailInfo.customer}}</text>
 		<view class="flex aic">
 			<view class="flex aic">
@@ -33,7 +33,7 @@
 	</view>
 	<view class="flex aic">
 		<image class="size-l radius-m image" catchtap="showImage" src="{{detailInfo.imgSrc}}" mode="aspectFill" />
-		<view class="por ml10 fz30 flex jcsa fdc w100" style="height: 144rpx;">
+		<view class="por ml10 fz25 flex jcsa fdc w100" style="height: 144rpx;">
 			<view class="flex w100">
 				<view wx:if="{{!detailInfo.productLen && !detailInfo.quoteCode}}"
 					class="{{(showEnterPrice && (enterPricce !== '0.00'))?'w70':'w100'}}">
@@ -49,12 +49,12 @@
 					bindtap="toOrderDetail">点击定价</view>
 			</view>
 			<view wx:if="{{detailInfo.time}}">交付时间：{{detailInfo.time}}</view>
-			<view wx:if="{{showPrice}}" class="poa fz30 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
+			<view wx:if="{{showPrice}}" class="poa fz25 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
 			<view class="flex jcsb">
 				<view wx:if="{{detailInfo.date}}">{{detailInfo.date}}</view>
 				<view wx:if="{{detailInfo.systemPrice}}">系统报价：{{detailInfo.systemPrice}}{{detailInfo.unit}}</view>
 			</view>
-			<view wx:if="{{detailInfo.productLen && !notShowProLen}}" class="poa fz30" style="right:0;bottom:25%">
+			<view wx:if="{{detailInfo.productLen && !notShowProLen}}" class="poa fz25" style="right:0;bottom:25%">
 				{{detailInfo.allNumber}}({{detailInfo.nowNumber-detailInfo.allNumber<0?(detailInfo.nowNumber-detailInfo.allNumber):((detailInfo.nowNumber-detailInfo.allNumber)===0?0:'+'+(detailInfo.nowNumber-detailInfo.allNumber))}})
 			</view>
 		</view>

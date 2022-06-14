@@ -36,7 +36,7 @@
 			<t-dropdown-item label="单位" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
 				bindchange="changeClient" bindconfirm="confirmClient" />
 		</t-dropdown-menu>
-		<scroll-view scroll-y="true" bindscrolltolower="pullUpLoad" style="height:calc(100vh - 155px)">
+		<scroll-view scroll-y="true" bindscrolltolower="reqOrder" style="height:calc(100vh - 155px)">
 			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index"
 				detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>
 			<view style="height: 20px;"></view>
