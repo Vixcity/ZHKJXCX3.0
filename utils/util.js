@@ -509,6 +509,14 @@ const getDateList = function (day1, day2) {
   return dateArr;
 };
 
+const contentHtml = function(content) {
+	// 富文本编辑器的内容如何只获得文字去掉标签
+	// content = content.replace(/<[^>]+>/g, '')
+	// 在上面的基础上还去掉了换行<br/>
+	content = content.replace(/<[^>]+>/g, '').replace(/(\n)/g, '')
+	return content
+};
+
 module.exports = {
   formatTime,
   wxReq,
@@ -531,5 +539,6 @@ module.exports = {
   getDateList,
   getChineseStatus,
 	getSomeDateList,
-	getStatusImage
+	getStatusImage,
+	contentHtml
 };

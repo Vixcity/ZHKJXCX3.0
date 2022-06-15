@@ -4,8 +4,9 @@ const {
   isIfLogin,
   debounce,
   wxReq,
-	formatDate,
-	getStatusImage
+  formatDate,
+  getStatusImage,
+  contentHtml,
 } = require("../../../utils/util");
 
 Page({
@@ -55,8 +56,10 @@ Page({
     ],
     result: ["物料成本偏低", "加工成本偏低"],
     showShenHe: false,
-		showPopup: false,
-		statusList:getStatusImage()
+    showPopup: false,
+    current: 1,
+    textInputDesc: "",
+    statusList: getStatusImage(),
   },
 
   /**
@@ -82,13 +85,18 @@ Page({
       },
     }).then((res) => {
       let data = res.data.data;
-			data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
+      data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
       data.product_data.forEach((item) => {
         if (item.image_data.length === 0) {
           item.image_data = "";
         }
-			});
-			data.allPrice = (Number(data.commission_price) + Number(data.profit_price) + Number(data.rate_price)).toFixed(2)
+        item.desc = contentHtml(item.desc);
+      });
+      data.allPrice = (
+        Number(data.commission_price) +
+        Number(data.profit_price) +
+        Number(data.rate_price)
+      ).toFixed(2);
 
       this.setData({
         detailData: data,
@@ -103,9 +111,58 @@ Page({
     });
   },
 
+  changeRadio(e) {
+    this.setData({ current: +e.detail.currentKey });
+  },
+
+  inputDesc(e) {
+    this.setData({
+      textInputDesc: e.detail.value,
+    });
+  },
+
+  confirmCheck(e) {
+    wxReq({
+      url: "/doc/check",
+      method: "POST",
+      data: {
+        check_type: 5,
+        pid: this.data.detailData.id,
+        check_desc: this.data.current === 1 ? "" : this.data.result.toString().replaceAll(',',';'),
+        is_check: this.data.current,
+        desc: this.data.textInputDesc,
+      },
+    }).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 2000,
+          content: "审核成功",
+          top: getApp().globalData.navH,
+        });
+        this.getDetail();
+        this.setData({
+          showShenHe: false,
+        });
+      }
+    });
+  },
+
   closePopup() {
     this.setData({
       showPopup: false,
+    });
+  },
+
+  openCheck() {
+    this.setData({
+      showShenHe: true,
+    });
+  },
+
+  closeCheck() {
+    this.setData({
+      showShenHe: false,
     });
   },
 

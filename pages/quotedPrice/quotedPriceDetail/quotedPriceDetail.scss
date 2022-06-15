@@ -30,9 +30,18 @@
 
   .van-tabs__line {
     background-color: #27a2fd;
-	}
-	
-	.van-tab--active{
-		color: #27a2fd;
-	}
+  }
+
+  .van-tab--active {
+    color: #27a2fd;
+  }
+
+  .ui-radio-index--icon-select {
+    color: #27a2fd;
+  }
+
+  .checkbox-index--van-checkbox__icon--checked {
+    background-color: #27a2fd;
+    border-color: #27a2fd;
+  }
 }

@@ -27,7 +27,8 @@
 		</view>
 		<view>创建人：{{detailData.user_name || '无'}}</view>
 		<view>更新时间：{{detailData.created_at}}</view>
-		<van-image style="position: absolute;right:0;top:10%" width="130" height="100" src="{{statusList[detailData.is_check]}}" />
+		<van-image style="position: absolute;right:0;top:10%" width="130" height="100"
+			src="{{statusList[detailData.is_check]}}" />
 	</view>
 	<view class="card fz25">
 		<view class="title">产品信息：</view>
@@ -58,7 +59,8 @@
 	<view class="card fz25">
 		<view class="title">报价信息</view>
 		<van-tabs z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
-			<van-tab title="{{'产品' + (index+1)}}" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index" wx:key="product2-{{index}}">
+			<van-tab title="{{'产品' + (index+1)}}" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
+				wx:key="product2-{{index}}">
 				<view class="sonMt10">
 					<view wx:for="{{item.material_data}}" wx:for-item="itemMaterial" wx:for-index="indexMaterial"
 						wx:key="material-{{indexMaterial}}">
@@ -231,7 +233,7 @@
 		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
 				<van-button type="primary" size="small">修改报价</van-button>
-				<van-button style="margin-left: 20px;" type="primary" size="small">审核报价</van-button>
+				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报价</van-button>
 			</view>
 		</view>
 	</view>
@@ -240,13 +242,13 @@
 			<view class="flex">
 				<view class="bold w30">审核结果</view>
 				<view class="w70">
-					<l-radio-group placement="row" current="1" none-checked="{{false}}">
-						<l-radio key="1">通过</l-radio>
-						<l-radio key="2" style="margin-left: 10px;">驳回</l-radio>
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{1}}">通过</l-radio>
+						<l-radio key="{{2}}" style="margin-left: 10px;">驳回</l-radio>
 					</l-radio-group>
 				</view>
 			</view>
-			<view class="flex">
+			<view class="flex" wx:if="{{current === 2}}">
 				<view class="bold w30">驳回理由</view>
 				<van-checkbox-group value="{{ result }}" bind:change="checkBoxChange">
 					<van-checkbox icon-size="17" class="fz25" wx:for-items="{{reasonList}}" wx:key="{{item.value}}"
@@ -256,20 +258,21 @@
 			<view class="flex">
 				<view class="bold w30 pt10 pb10">备注信息</view>
 				<view class="fz60 w60">
-					<l-textarea auto-height="{{true}}" maxlength="80" />
+					<l-textarea auto-height="{{true}}" maxlength="80" bind:lininput="inputDesc"/>
 				</view>
 			</view>
 			<view class="line" style="margin-bottom: 0;"></view>
 			<view class="flex" style="margin-top: 0;">
-				<view class="w50 tc h100 pt10 pb10">关闭</view>
-				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;">提交</view>
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
 			</view>
 		</view>
 	</l-mask>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<l-message content="{{content}}" />
+
 	<!-- 弹出框 -->
-	<van-popup catchtap show="{{showPopup}}" bindtap="closePopup">
+	<van-popup show="{{showPopup}}" bindtap="closePopup">
 		<view class="overfh por">
 			<view class="tc vw100 h100">
 				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{clickImg}}" style="display:block">
