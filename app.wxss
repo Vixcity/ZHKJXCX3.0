@@ -35,6 +35,10 @@ page {
 	color: #4D4D4D
 }
 
+.color3 {
+	color: #333
+}
+
 .color8D9F {
 	color: #008DF9
 }
@@ -444,6 +448,14 @@ page {
 	padding-left: 30px;
 }
 
+.pl25r {
+	padding-left: 25rpx;
+}
+
+.pl25 {
+	padding-left: 25px;
+}
+
 .pl20 {
 	padding-left: 20px;
 }
@@ -471,6 +483,10 @@ page {
 /* padding-right */
 .pr20 {
 	padding-right: 20px;
+}
+
+.pr15r {
+	padding-right: 15rpx;
 }
 
 .pr15 {

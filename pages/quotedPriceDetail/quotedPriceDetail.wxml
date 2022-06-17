@@ -232,7 +232,7 @@
 	<view wx:if="{{isLogin}}">
 		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
-				<van-button type="primary" size="small">修改报价</van-button>
+				<van-button type="primary" size="small" bindtap="updateQuotedPrice">修改报价</van-button>
 				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报价</van-button>
 			</view>
 		</view>

@@ -1,0 +1,32 @@
+/* pages/quotedPrice/quotedPriceCreate.wxss */
+#quotedPriceCreate {
+  .submit .van-button {
+    width: 40vw;
+  }
+
+  .ui-radio-index--icon-select {
+    color: #27a2fd;
+  }
+
+  .t-dropdown-item__foot {
+    display: none;
+  }
+
+  .productTypeIconHidden {
+    .t-dropdown-menu__icon-- {
+      display: none;
+    }
+
+    .t-dropdown-menu__bar {
+      background-color: #f5f5f5;
+    }
+
+    .t-dropdown-item {
+      top: 460px !important;
+    }
+	}
+	
+	.van-tabs__line{
+		background-color: #27a2fd;
+	}
+}

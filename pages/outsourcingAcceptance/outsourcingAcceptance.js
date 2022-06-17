@@ -68,13 +68,16 @@ Page({
     });
 
     if (options.isCodeIn === "true") {
-      wxReq({
-        url: "/weave/plan/hash",
-        data: {
-          hash: wx.getStorageSync("isCodeIn").hash,
+      wxReq(
+        {
+          url: "/weave/plan/hash",
+          data: {
+            hash: wx.getStorageSync("isCodeIn").hash,
+          },
+          method: "GET",
         },
-        method: "GET",
-      }).then((res) => {
+        "outsourcingAcceptance?isCodeIn=true"
+      ).then((res) => {
         let data = res.data.data;
         this.getWeavePlanProductList(
           data.product_info ? data.product_info[0].product_id : ""
@@ -102,13 +105,16 @@ Page({
       });
       return;
     } else {
-      wxReq({
-        url: "/weave/plan/detail",
-        data: {
-          id: this.data.detailInfo.id,
+      wxReq(
+        {
+          url: "/weave/plan/detail",
+          data: {
+            id: this.data.detailInfo.id,
+          },
+          method: "GET",
         },
-        method: "GET",
-      }).then((res) => {
+        "outsourcingAcceptance"
+      ).then((res) => {
         this.data.detailInfo.item = res.data.data;
         this.setData({
           detailInfo: this.data.detailInfo,
@@ -135,13 +141,18 @@ Page({
       return;
     }
 
-    wxReq({
-      url: "/weave/plan/product/detail",
-      data: {
-        product_id: id,
+    wxReq(
+      {
+        url: "/weave/plan/product/detail",
+        data: {
+          product_id: id,
+        },
+        method: "GET",
       },
-      method: "GET",
-    }).then((res) => {
+      this.data.isCodeIn
+        ? "outsourcingAcceptance?isCodeIn=true"
+        : "outsourcingAcceptance"
+    ).then((res) => {
       let data = res.data.data;
       let arr = [];
 
@@ -216,7 +227,7 @@ Page({
         data: array,
       },
       method: "POST",
-    }).then((res) => {
+    },this.data.isCodeIn?'outsourcingAcceptance?isCodeIn=true':'outsourcingAcceptance').then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({
           type: "success",

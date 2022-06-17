@@ -1,5 +1,5 @@
 // pages/quotedPrice/quotedPriceDetail.js
-import Dialog from "../../../miniprogram_npm/@vant/weapp/dialog/dialog";
+import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   isIfLogin,
   debounce,
@@ -7,7 +7,7 @@ const {
   formatDate,
   getStatusImage,
   contentHtml,
-} = require("../../../utils/util");
+} = require("../../utils/util");
 
 Page({
   /**
@@ -121,6 +121,12 @@ Page({
     });
   },
 
+  updateQuotedPrice(e) {
+    wx.navigateTo({
+      url: "/pages/quotedPriceCreate/quotedPriceCreate?isUpdate=true&id=" + this.data.id,
+    });
+  },
+
   confirmCheck(e) {
     wxReq({
       url: "/doc/check",
@@ -128,7 +134,10 @@ Page({
       data: {
         check_type: 5,
         pid: this.data.detailData.id,
-        check_desc: this.data.current === 1 ? "" : this.data.result.toString().replaceAll(',',';'),
+        check_desc:
+          this.data.current === 1
+            ? ""
+            : this.data.result.toString().replaceAll(",", ";"),
         is_check: this.data.current,
         desc: this.data.textInputDesc,
       },

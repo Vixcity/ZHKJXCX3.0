@@ -25,7 +25,7 @@ const isIfLogin = () => {
 };
 
 // 封装请求
-const wxReq = (data) => {
+const wxReq = (data,path) => {
   return new Promise((resolve, reject) => {
     // wx.request()  小程序发送请求
     wx.request({
@@ -41,16 +41,16 @@ const wxReq = (data) => {
         if (result.data.code === 200) {
           resolve(result);
         } else if (result.data.code === 401) {
+					wx.reLaunch({
+						url: path?'/pages/signUp/signUp?path='+path:'/pages/signUp/signUp?path='+getApp().globalData.homePage.slice(7).split('/')[0],
+					});
           // 未登录，返回登录界面
           wx.lin.showMessage({
             type: "error",
             duration: 3000,
             content: result.data.msg,
             top: getApp().globalData.navH,
-          });
-          wx.reLaunch({
-            url: getApp().globalData.homePage,
-          });
+					});
         } else if (result.data.code === 406) {
           wx.lin.showMessage({
             type: "error",
@@ -243,11 +243,11 @@ const urlParams = function (url) {
 };
 
 // 获取公司列表
-const getClientList = function () {
+const getClientList = function (path) {
   wxReq({
     url: "/client/type/lists",
     method: "GET",
-  }).then((res) => {
+  },path).then((res) => {
     let arr = [];
     res.data.data.forEach((item, index) => {
       let arr1 = [];
@@ -289,14 +289,14 @@ const getClientList = function () {
 };
 
 // 获取工序列表
-const getProcessList = function () {
+const getProcessList = function (path) {
   wxReq({
     url: "/process/lists",
     data: {
       type: 2,
     },
     method: "GET",
-  }).then((res) => {
+  },path).then((res) => {
     wxReq({
       url: "/process/lists",
       data: {
@@ -364,11 +364,11 @@ const getStatusImage = function () {
 };
 
 // 获取小组列表
-const getGroupList = function () {
+const getGroupList = function (path) {
   wxReq({
     url: "/user/group/list",
     method: "GET",
-  }).then((res) => {
+  },path).then((res) => {
     let arr = res.data.data.map((item) => {
       return {
         label: item.name,
@@ -379,12 +379,38 @@ const getGroupList = function () {
   });
 };
 
+const getProductTypeList = function(path){
+	wxReq({
+    url: "/category/lists",
+    method: "GET",
+  },path).then((res) => {
+		let data = res.data.data
+		let arr = []
+		data.forEach(item => {
+			let obj = {
+				label:item.name,
+				value:item.id,
+				options:[]
+			}
+			item.secondary_category.forEach(category => {
+				let catObj = {
+					label:category.name,
+					value:item.id + '-' + category.id
+				}
+				obj.options.push(catObj)
+			})
+			arr.push(obj)
+		})
+		wx.setStorageSync("productTypeList", arr);
+  });
+}
+
 // 获取负责人列表
-const getUserList = function () {
+const getUserList = function (path) {
   wxReq({
     url: "/user/lists",
     method: "GET",
-  }).then((res) => {
+  },path).then((res) => {
     let arr = [
       {
         label: "全部",
@@ -533,7 +559,8 @@ module.exports = {
   getClientList,
   getProcessList,
   getGroupList,
-  getUserList,
+	getUserList,
+	getProductTypeList,
   getDay,
   doHandleMonth,
   getDateList,

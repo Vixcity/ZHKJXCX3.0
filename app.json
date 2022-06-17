@@ -1,19 +1,19 @@
 {
 	"pages": [
-		"pages/ourFactory/ourFactory",
 		"pages/index/index",
+		"pages/ourFactory/ourFactory",
 		"pages/manage/manage",
 		"pages/signUp/signUp",
 		"pages/noLogin/noLogin",
 		"pages/productPlan/productPlan",
 		"pages/outsourcingAcceptance/outsourcingAcceptance",
 		"pages/quotedPrice/quotedPrice",
-		"pages/quotedPrice/quotedPriceDetail/quotedPriceDetail",
-		"pages/quotedPrice/quotedPriceCreate/quotedPriceCreate",
+		"pages/quotedPriceDetail/quotedPriceDetail",
+		"pages/quotedPriceCreate/quotedPriceCreate",
 		"pages/order/order",
 		"pages/sampleOrder/sampleOrder",
-		"pages/order/orderDetail/orderDetail",
-		"pages/sampleOrder/sampleOrderDetail/sampleOrderDetail"
+		"pages/orderDetail/orderDetail",
+		"pages/sampleOrderDetail/sampleOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
@@ -54,6 +54,7 @@
 		"van-notify": "@vant/weapp/notify/index",
 		"van-dialog": "@vant/weapp/dialog/index",
 		"van-popup": "@vant/weapp/popup/index",
+		"van-picker": "@vant/weapp/picker/index",
 		"van-radio": "@vant/weapp/radio/index",
 		"van-radio-group": "@vant/weapp/radio-group/index",
 		"van-search": "@vant/weapp/search/index",

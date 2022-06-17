@@ -108,8 +108,8 @@ Page({
       isLogin,
     });
 
-    getUserList();
-    getClientList();
+    getUserList('quotedPrice');
+    getClientList('quotedPrice');
     getSomeDateList();
     this.setData({
       clientList: {
@@ -157,7 +157,7 @@ Page({
         end_time: this.data.chooseDate[1],
         limit: 10,
       },
-    }).then((res) => {
+    },'quotedPrice').then((res) => {
       let data = res.data.data.items;
 
       if (data.length < 10) {
@@ -327,13 +327,13 @@ Page({
     let { item } = e.currentTarget.dataset;
     wx.navigateTo({
       url:
-        "/pages/quotedPrice/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
+        "/pages/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
     });
   },
 
   toCreate() {
     wx.navigateTo({
-      url: "/pages/quotedPrice/quotedPriceCreate/quotedPriceCreate",
+      url: "/pages/quotedPriceCreate/quotedPriceCreate",
     });
   },
 });

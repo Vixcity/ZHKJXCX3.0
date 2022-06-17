@@ -113,7 +113,7 @@ Page({
     group_id: "",
     user_id: "",
     keyWord: "",
-    type: "2",
+    // type: "2",
   },
 
   /**
@@ -122,11 +122,11 @@ Page({
   onLoad: function (options) {
     const isLogin = isIfLogin();
     // let isLogin = true
-    // let { type } = options;
+    let { type } = options;
 
     this.setData({
       isLogin,
-      // type,
+      type,
     });
 
     if (isLogin) {
@@ -285,7 +285,7 @@ Page({
       url: "/weave/plan/lists",
       method: "GET",
       data: params,
-    }).then((res) => {
+    },'ourFactory&params1=type%3D2').then((res) => {
       if (res.data.code === 200) {
         if ((this.data.page = 1)) {
           orderList = [];
