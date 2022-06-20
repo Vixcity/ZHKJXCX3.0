@@ -60,8 +60,65 @@ Page({
         client_target_price: "",
         start_order_number: "",
         desc: "",
-				image_data: [],
-				material_data:[]
+        image_data: [],
+        material_data: [
+          {
+            id: "",
+            loss: "",
+            material_id: "",
+            material_name: "",
+            price: "",
+            total_price: "",
+            tree_data: "1,1,1",
+            unit: "g",
+            weight: "",
+          },
+        ],
+        assist_material_data: [
+          {
+            id: "",
+            loss: "",
+            material_id: "",
+            material_name: "",
+            number: "",
+            price: "",
+            total_price: "",
+            unit: "个",
+          },
+        ],
+        weave_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
+        semi_product_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
+        production_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
       },
     ],
     concatNameList: [],
@@ -91,8 +148,65 @@ Page({
         client_target_price: "",
         start_order_number: "",
         desc: "",
-				image_data: [],
-				material_data:[{}]
+        image_data: [],
+        material_data: [
+          {
+            id: "",
+            loss: "",
+            material_id: "",
+            material_name: "",
+            price: "",
+            total_price: "",
+            tree_data: "1,1,1",
+            unit: "g",
+            weight: "",
+          },
+        ],
+        assist_material_data: [
+          {
+            id: "",
+            loss: "",
+            material_id: "",
+            material_name: "",
+            number: "",
+            price: "",
+            total_price: "",
+            unit: "个",
+          },
+        ],
+        weave_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
+        semi_product_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
+        production_data: [
+          {
+            created_at: "",
+            desc: "",
+            id: "",
+            name: "",
+            quote_rel_product_id: "",
+            total_price: "",
+            updated_at: "",
+          },
+        ],
       },
     ];
 
@@ -229,8 +343,65 @@ Page({
       client_target_price: "",
       start_order_number: "",
       desc: "",
-			image_data: [],
-			material_data:[{}]
+      image_data: [],
+      material_data: [
+        {
+          id: "",
+          loss: "",
+          material_id: "",
+          material_name: "",
+          price: "",
+          total_price: "",
+          tree_data: "1,1,1",
+          unit: "g",
+          weight: "",
+        },
+      ],
+      assist_material_data: [
+        {
+          id: "",
+          loss: "",
+          material_id: "",
+          material_name: "",
+          number: "",
+          price: "",
+          total_price: "",
+          unit: "个",
+        },
+      ],
+      weave_data: [
+        {
+          created_at: "",
+          desc: "",
+          id: "",
+          name: "",
+          quote_rel_product_id: "",
+          total_price: "",
+          updated_at: "",
+        },
+      ],
+      semi_product_data: [
+        {
+          created_at: "",
+          desc: "",
+          id: "",
+          name: "",
+          quote_rel_product_id: "",
+          total_price: "",
+          updated_at: "",
+        },
+      ],
+      production_data: [
+        {
+          created_at: "",
+          desc: "",
+          id: "",
+          name: "",
+          quote_rel_product_id: "",
+          total_price: "",
+          updated_at: "",
+        },
+      ],
     });
     this.setData({
       productList: this.data.productList,
@@ -240,6 +411,84 @@ Page({
   deleteProduct(e) {
     let index = e.currentTarget.dataset.index;
     this.data.productList.splice(index, 1);
+    this.setData({
+      productList: this.data.productList,
+    });
+  },
+
+  addProductType(e) {
+    const { index, type } = e.currentTarget.dataset;
+    if (type === "material_data") {
+      this.data.productList[index].material_data.push({
+        id: "",
+        loss: "",
+        material_id: "",
+        material_name: "",
+        price: "",
+        total_price: "",
+        tree_data: "1,1,1",
+        unit: "g",
+        weight: "",
+      });
+    } else if (type === "assist_material_data") {
+      this.data.productList[index].assist_material_data.push({
+        id: "",
+        loss: "",
+        material_id: "",
+        material_name: "",
+        number: "",
+        price: "",
+        total_price: "",
+        unit: "个",
+      });
+    } else if (type === "weave_data") {
+      this.data.productList[index].weave_data.push({
+        created_at: "",
+        desc: "",
+        id: "",
+        name: "",
+        quote_rel_product_id: "",
+        total_price: "",
+        updated_at: "",
+      });
+    } else if (type === "semi_product_data") {
+      this.data.productList[index].semi_product_data.push({
+        created_at: "",
+        desc: "",
+        id: "",
+        name: "",
+        quote_rel_product_id: "",
+        total_price: "",
+        updated_at: "",
+      });
+    } else if (type === "production_data") {
+      this.data.productList[index].production_data.push({
+        created_at: "",
+        desc: "",
+        id: "",
+        name: "",
+        quote_rel_product_id: "",
+        total_price: "",
+        updated_at: "",
+      });
+    }
+
+    this.setData({
+      productList: this.data.productList,
+    });
+  },
+
+  deleteProductType(e) {
+    const { index, itemindex, type } = e.currentTarget.dataset;
+    this.data.productList[index][type].splice(itemindex, 1);
+    this.setData({
+      productList: this.data.productList,
+    });
+  },
+
+  changeProductTypeDetail(e) {
+    const { index, itemindex, type, itemtype } = e.currentTarget.dataset;
+    this.data.productList[index][itemtype][itemindex][type] = e.detail.value;
     this.setData({
       productList: this.data.productList,
     });
