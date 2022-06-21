@@ -24,9 +24,30 @@
     .t-dropdown-item {
       top: 460px !important;
     }
-	}
-	
-	.van-tabs__line{
-		background-color: #27a2fd;
-	}
+  }
+
+  .yarnTypeListIconHidden {
+    .t-dropdown-menu__icon--,
+    .t-dropdown-menu__icon,
+    .t-dropdown-menu__icon--active {
+      display: none;
+    }
+
+		.t-dropdown-menu__bar::after{
+			border: none;
+		}
+
+    .t-dropdown-item {
+      top: 460px !important;
+    }
+
+    .t-dropdown-menu__title {
+      color: #27a2fd;
+      font-size: 25rpx;
+    }
+  }
+
+  .van-tabs__line {
+    background-color: #27a2fd;
+  }
 }

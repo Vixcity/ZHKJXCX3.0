@@ -25,7 +25,7 @@ const isIfLogin = () => {
 };
 
 // 封装请求
-const wxReq = (data,path) => {
+const wxReq = (data, path) => {
   return new Promise((resolve, reject) => {
     // wx.request()  小程序发送请求
     wx.request({
@@ -41,16 +41,19 @@ const wxReq = (data,path) => {
         if (result.data.code === 200) {
           resolve(result);
         } else if (result.data.code === 401) {
-					wx.reLaunch({
-						url: path?'/pages/signUp/signUp?path='+path:'/pages/signUp/signUp?path='+getApp().globalData.homePage.slice(7).split('/')[0],
-					});
+          wx.reLaunch({
+            url: path
+              ? "/pages/signUp/signUp?path=" + path
+              : "/pages/signUp/signUp?path=" +
+                getApp().globalData.homePage.slice(7).split("/")[0],
+          });
           // 未登录，返回登录界面
           wx.lin.showMessage({
             type: "error",
             duration: 3000,
             content: result.data.msg,
             top: getApp().globalData.navH,
-					});
+          });
         } else if (result.data.code === 406) {
           wx.lin.showMessage({
             type: "error",
@@ -244,23 +247,26 @@ const urlParams = function (url) {
 
 // 获取公司列表
 const getClientList = function (path) {
-  wxReq({
-    url: "/client/type/lists",
-    method: "GET",
-  },path).then((res) => {
+  wxReq(
+    {
+      url: "/client/type/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
     let arr = [];
     res.data.data.forEach((item, index) => {
       let arr1 = [];
       if (item.rel_tag || item.public_tag) {
-				let tagList = [];
-				
+        let tagList = [];
+
         if (item.public_tag) {
           tagList = tagList.concat(item.public_tag);
         }
         if (item.rel_tag) {
           tagList = tagList.concat(item.rel_tag);
-				}
-				
+        }
+
         tagList.forEach((itemSon, indexSon) => {
           let arr2 = [];
           if (itemSon.rel_client) {
@@ -288,15 +294,72 @@ const getClientList = function (path) {
   });
 };
 
+const getYarnType = function (path) {
+  wxReq(
+    {
+      url: "/yarn/type/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = [
+      {
+        label: "纱线",
+        value: 1,
+        options: [],
+      },
+      {
+        label: "面料",
+        value: 2,
+        options: [],
+      },
+      {
+        label: "毛料",
+        value: 3,
+        options: [],
+      },
+      {
+        label: "装饰辅料",
+        value: 4,
+        options: [],
+      },
+      {
+        label: "包装辅料",
+        value: 5,
+        options: [],
+      },
+    ];
+    res.data.data.forEach((item, index) => {
+      let obj = {
+        label: item.name,
+        value: item.type + "-" + item.id,
+        options: [],
+      };
+      item.yarn_data.forEach((yarnData) => {
+        obj.options.push({
+          label: yarnData.name,
+          value: item.type + "-" + item.id + "-" + yarnData.id,
+        });
+      });
+
+      arr[item.type - 1].options.push(obj);
+    });
+    wx.setStorageSync("yarnType", arr);
+  });
+};
+
 // 获取工序列表
 const getProcessList = function (path) {
-  wxReq({
-    url: "/process/lists",
-    data: {
-      type: 2,
+  wxReq(
+    {
+      url: "/process/lists",
+      data: {
+        type: 2,
+      },
+      method: "GET",
     },
-    method: "GET",
-  },path).then((res) => {
+    path
+  ).then((res) => {
     wxReq({
       url: "/process/lists",
       data: {
@@ -351,24 +414,31 @@ const getProcessList = function (path) {
   });
 };
 
-// 获取对应的状态
+// 获取对应的状态中文
 const getChineseStatus = function (number) {
   if (number === 0) return "待审核";
   if (number === 1) return "已审核";
   if (number === 2) return "已驳回";
 };
 
-// 获取对应的状态
+// 获取对应的状态图片
 const getStatusImage = function () {
- return ["https://file.zwyknit.com/waiting.png","https://file.zwyknit.com/pass.png","https://file.zwyknit.com/return.png"];
+  return [
+    "https://file.zwyknit.com/waiting.png",
+    "https://file.zwyknit.com/pass.png",
+    "https://file.zwyknit.com/return.png",
+  ];
 };
 
 // 获取小组列表
 const getGroupList = function (path) {
-  wxReq({
-    url: "/user/group/list",
-    method: "GET",
-  },path).then((res) => {
+  wxReq(
+    {
+      url: "/user/group/list",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
     let arr = res.data.data.map((item) => {
       return {
         label: item.name,
@@ -379,38 +449,44 @@ const getGroupList = function (path) {
   });
 };
 
-const getProductTypeList = function(path){
-	wxReq({
-    url: "/category/lists",
-    method: "GET",
-  },path).then((res) => {
-		let data = res.data.data
-		let arr = []
-		data.forEach(item => {
-			let obj = {
-				label:item.name,
-				value:item.id,
-				options:[]
-			}
-			item.secondary_category.forEach(category => {
-				let catObj = {
-					label:category.name,
-					value:item.id + '-' + category.id
-				}
-				obj.options.push(catObj)
-			})
-			arr.push(obj)
-		})
-		wx.setStorageSync("productTypeList", arr);
+const getProductTypeList = function (path) {
+  wxReq(
+    {
+      url: "/category/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let data = res.data.data;
+    let arr = [];
+    data.forEach((item) => {
+      let obj = {
+        label: item.name,
+        value: item.id,
+        options: [],
+      };
+      item.secondary_category.forEach((category) => {
+        let catObj = {
+          label: category.name,
+          value: item.id + "-" + category.id,
+        };
+        obj.options.push(catObj);
+      });
+      arr.push(obj);
+    });
+    wx.setStorageSync("productTypeList", arr);
   });
-}
+};
 
 // 获取负责人列表
 const getUserList = function (path) {
-  wxReq({
-    url: "/user/lists",
-    method: "GET",
-  },path).then((res) => {
+  wxReq(
+    {
+      url: "/user/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
     let arr = [
       {
         label: "全部",
@@ -535,12 +611,12 @@ const getDateList = function (day1, day2) {
   return dateArr;
 };
 
-const contentHtml = function(content) {
-	// 富文本编辑器的内容如何只获得文字去掉标签
-	// content = content.replace(/<[^>]+>/g, '')
-	// 在上面的基础上还去掉了换行<br/>
-	content = content.replace(/<[^>]+>/g, '').replace(/(\n)/g, '')
-	return content
+const contentHtml = function (content) {
+  // 富文本编辑器的内容如何只获得文字去掉标签
+  // content = content.replace(/<[^>]+>/g, '')
+  // 在上面的基础上还去掉了换行<br/>
+  content = content.replace(/<[^>]+>/g, "").replace(/(\n)/g, "");
+  return content;
 };
 
 module.exports = {
@@ -557,15 +633,16 @@ module.exports = {
   debounce,
   formatDate,
   getClientList,
+  getYarnType,
   getProcessList,
   getGroupList,
-	getUserList,
-	getProductTypeList,
+  getUserList,
+  getProductTypeList,
   getDay,
   doHandleMonth,
   getDateList,
   getChineseStatus,
-	getSomeDateList,
-	getStatusImage,
-	contentHtml
+  getSomeDateList,
+  getStatusImage,
+  contentHtml,
 };
