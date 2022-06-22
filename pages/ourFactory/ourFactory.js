@@ -137,7 +137,10 @@ Page({
       this.setData({
         clientList: {
           options: wx.getStorageSync("clientList").slice(6, 8),
-          value: ["6", "6-0", ""],
+          value: [
+            wx.getStorageSync("clientList").slice(6, 8)[0].value,
+            wx.getStorageSync("clientList").slice(6, 8)[0].options[0].value,
+          ],
         },
         processList: {
           options: wx.getStorageSync("processList"),
@@ -250,8 +253,8 @@ Page({
   reqOrder: debounce(function () {
     if (this.data.isEnd) {
       return;
-		}
-		
+    }
+
     this.setData({
       showLoading: true,
     });
@@ -281,11 +284,14 @@ Page({
       };
     }
 
-    wxReq({
-      url: "/weave/plan/lists",
-      method: "GET",
-      data: params,
-    },'ourFactory&params1=type%3D2').then((res) => {
+    wxReq(
+      {
+        url: "/weave/plan/lists",
+        method: "GET",
+        data: params,
+      },
+      "ourFactory&params1=type%3D2"
+    ).then((res) => {
       if (res.data.code === 200) {
         if ((this.data.page = 1)) {
           orderList = [];

@@ -42,9 +42,9 @@
 						bind:click='clickImage'
 						data-img="{{item.image_data || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 					<view class="flex fdc jcsa ml10">
-						<view>{{item.category_name}}/{{item.secondary_category}}</view>
+						<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
 						<view>{{item.desc || ''}}</view>
-						<view>{{item.client_target_price}} 元</view>
+						<view>{{item.client_target_price || 0}} 元</view>
 					</view>
 				</view>
 			</view>
@@ -52,7 +52,7 @@
 				<view wx:if="{{item.rel_product_info.product_id}}" class="color27A2">{{item.rel_order_info.order_code}}</view>
 				<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange">可绑定订单</view>
 				<view></view>
-				<view>{{item.start_order_number}}件</view>
+				<view>{{item.start_order_number || 0}}件</view>
 			</view>
 		</view>
 	</view>
@@ -211,7 +211,7 @@
 				</view>
 			</view>
 			<view>
-				<text class="color27A2">{{detailData.allPrice}}</text> 元
+				<text class="color27A2">{{detailData.allPrice || 0}}</text> 元
 			</view>
 		</view>
 	</view>

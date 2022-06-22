@@ -90,6 +90,9 @@ Page({
         if (item.image_data.length === 0) {
           item.image_data = "";
         }
+        if (item.desc === null) {
+          item.desc = "";
+        }
         item.desc = contentHtml(item.desc);
       });
       data.allPrice = (
@@ -123,7 +126,9 @@ Page({
 
   updateQuotedPrice(e) {
     wx.navigateTo({
-      url: "/pages/quotedPriceCreate/quotedPriceCreate?isUpdate=true&id=" + this.data.id,
+      url:
+        "/pages/quotedPriceCreate/quotedPriceCreate?isUpdate=true&id=" +
+        this.data.id,
     });
   },
 

@@ -82,7 +82,7 @@ Page({
         client_target_price: "",
         start_order_number: "",
         desc: "",
-        transport_fee: "",
+        transport_fee: 0,
         transport_fee_desc: "",
         image_data: [],
         material_data: [
@@ -93,7 +93,7 @@ Page({
             material_name: "",
             price: "",
             total_price: "",
-            tree_data: "1,1,1",
+            tree_data: "",
             unit: "g",
             weight: "",
           },
@@ -188,6 +188,21 @@ Page({
     ],
     concatName: "",
     groupName: "",
+    commission_percentage: "",
+    rate_taxation: "",
+    profit_percentage: "",
+    profit_price: 0,
+    rate_price: 0,
+    rate_taxation: "",
+    commission_price: 0,
+    real_quote_price: "",
+    settle_unit: "元",
+    system_total_price: "",
+    total_cost_price: 0,
+    total_number: "",
+    halfProcessList: [],
+    processList: [],
+    packingList: [],
   },
 
   /**
@@ -197,27 +212,99 @@ Page({
     const isLogin = isIfLogin();
     let _this = this;
 
-    getClientList("quotedPriceCreate");
-    getYarnType("quotedPriceCreate");
-    getGroupList("quotedPriceCreate");
-    getProductTypeList("quotedPriceCreate");
+    await getClientList("quotedPriceCreate");
+    await getYarnType("quotedPriceCreate");
+    await getGroupList("quotedPriceCreate");
+    await getProductTypeList("quotedPriceCreate");
+
+    // 辅料
     await wxReq(
       {
         url: "/decorate/material/lists",
-        methods: "GET",
+        method: "GET",
       },
       "quotedPriceCreate"
     ).then((res) => {
+      _this.data.assistListChoose = [];
       res.data.data.forEach((item) => {
         const { id, unit } = item;
         _this.data.assistListChoose.push({
           label: item.name,
           unit,
           value: id,
+          item,
         });
       });
-      this.setData({
+      _this.setData({
         assistListChoose: _this.data.assistListChoose,
+      });
+    });
+
+    // 半成品
+    await wxReq(
+      {
+        url: "/process/lists",
+        data: { type: 2 },
+        method: "GET",
+      },
+      "quotedPriceCreate"
+    ).then((res) => {
+      _this.data.halfProcessList = [];
+      let data = res.data.data;
+      data.forEach((item) => {
+        _this.data.halfProcessList.push({
+          label: item.name,
+          value: item.id,
+          item,
+        });
+      });
+      _this.setData({
+        halfProcessList: _this.data.halfProcessList,
+      });
+    });
+
+    // 成品
+    await wxReq(
+      {
+        url: "/process/lists",
+        data: { type: 3 },
+        method: "GET",
+      },
+      "quotedPriceCreate"
+    ).then((res) => {
+      _this.data.processList = [];
+      let data = res.data.data;
+      data.forEach((item) => {
+        _this.data.processList.push({
+          label: item.name,
+          value: item.id,
+          item,
+        });
+      });
+      _this.setData({
+        processList: _this.data.processList,
+      });
+    });
+
+    // 包装
+    await wxReq(
+      {
+        url: "/pack/material/lists",
+        method: "GET",
+      },
+      "quotedPriceCreate"
+    ).then((res) => {
+      _this.data.packingList = [];
+      let data = res.data.data;
+      data.forEach((item) => {
+        _this.data.packingList.push({
+          label: item.name,
+          value: item.id,
+          item,
+        });
+      });
+      _this.setData({
+        packingList: _this.data.packingList,
       });
     });
 
@@ -230,32 +317,38 @@ Page({
         ],
         client_target_price: "",
         start_order_number: "",
-        transport_fee: "",
+        transport_fee: 0,
         transport_fee_desc: "",
         desc: "",
+        total_price: 0,
+        category_id: "",
         image_data: [],
+        editor: "",
+        product_id: "",
+        secondary_category_id: "",
+        id: "",
         material_data: [
           {
             id: "",
-            loss: "",
+            loss: 0,
             material_id: yarnTypeAndName.yarnTypeList,
             material_name: yarnTypeAndName.names,
-            price: "",
-            total_price: "",
-            tree_data: "1,1,1",
+            price: 0,
+            total_price: 0,
+            tree_data: yarnTypeAndName.yarnTypeList[2].replaceAll("-", ","),
             unit: "g",
-            weight: "",
+            weight: 0,
           },
         ],
         assist_material_data: [
           {
             id: "",
-            loss: "",
-            material_id: "",
+            loss: 0,
+            material_id: this.data.assistListChoose[0].value,
             material_name: this.data.assistListChoose[0].label,
-            number: "",
-            price: "",
-            total_price: "",
+            number: 0,
+            price: 0,
+            total_price: 0,
             unit: this.data.assistListChoose[0].unit,
           },
         ],
@@ -266,7 +359,7 @@ Page({
             id: "",
             name: "针织织造",
             quote_rel_product_id: "",
-            total_price: "",
+            total_price: 0,
             updated_at: "",
           },
         ],
@@ -275,9 +368,9 @@ Page({
             created_at: "",
             desc: "",
             id: "",
-            name: "",
+            name: this.data.halfProcessList[0].label,
             quote_rel_product_id: "",
-            total_price: "",
+            total_price: 0,
             updated_at: "",
           },
         ],
@@ -286,9 +379,9 @@ Page({
             created_at: "",
             desc: "",
             id: "",
-            name: "",
+            name: this.data.processList[0].label,
             quote_rel_product_id: "",
-            total_price: "",
+            total_price: 0,
             updated_at: "",
           },
         ],
@@ -296,9 +389,9 @@ Page({
           {
             desc: "",
             id: "",
-            material_id: "",
-            material_name: "",
-            total_price: "",
+            material_id: this.data.packingList[0].value,
+            material_name: this.data.packingList[0].label,
+            total_price: 0,
           },
         ],
         other_fee_data: [
@@ -308,7 +401,7 @@ Page({
             id: "",
             name: "",
             quote_rel_product_id: "",
-            total_price: "",
+            total_price: 0,
             updated_at: "",
           },
         ],
@@ -319,7 +412,7 @@ Page({
             id: "",
             name: "",
             quote_rel_product_id: "",
-            total_price: "",
+            total_price: 0,
             updated_at: "",
           },
         ],
@@ -331,10 +424,8 @@ Page({
       clientList: {
         options: wx.getStorageSync("clientList").slice(0, 2),
         value: [
-          "0",
-          "0-0",
-          wx.getStorageSync("clientList").slice(0, 2)[0].options[0].options[0]
-            .value,
+          wx.getStorageSync("clientList").slice(0, 2)[0].value,
+          wx.getStorageSync("clientList").slice(0, 2)[0].options[0].value,
         ],
       },
       groupLabelList: wx.getStorageSync("groupList").map((item) => {
@@ -368,7 +459,7 @@ Page({
           id: this.data.clientList.value[2].split("-")[2],
         },
         url: "/client/detail",
-        methods: "GET",
+        method: "GET",
       },
       "quotedPriceCreate"
     ).then((res) => {
@@ -405,43 +496,75 @@ Page({
     });
   },
 
-  showChooseAssist(e) {
-    const { assistindex, index } = e.currentTarget.dataset;
-    this.data.productList[index].assist_material_data[
-      assistindex
-    ].showAssist = true;
+  // 打开报价信息选择框
+  showChoose(e) {
+    const { itemindex, index, type } = e.currentTarget.dataset;
+    this.data.productList[index][type][itemindex].show = true;
     this.setData({
       productList: this.data.productList,
     });
   },
 
-  closeShowAssist(e) {
-    const { assistindex, index } = e.currentTarget.dataset;
-    this.data.productList[index].assist_material_data[
-      assistindex
-    ].showAssist = false;
+  // 关闭报价信息选择框
+  closeShow(e) {
+    const { itemindex, index, type } = e.currentTarget.dataset;
+    this.data.productList[index][type][itemindex].show = false;
     this.setData({
       productList: this.data.productList,
     });
   },
 
+  // 辅料确认
   chooseAssistConfirm(e) {
-    const { assistindex, index } = e.currentTarget.dataset;
+    const { itemindex, index } = e.currentTarget.dataset;
     const { label, unit, value } = e.detail.value[0];
 
     this.data.productList[index].assist_material_data[
-      assistindex
+      itemindex
     ].material_name = label;
     this.data.productList[index].assist_material_data[
-      assistindex
+      itemindex
     ].material_id = value;
-    this.data.productList[index].assist_material_data[assistindex].unit = unit;
+    this.data.productList[index].assist_material_data[itemindex].unit = unit;
 
     this.setData({
       productList: this.data.productList,
     });
 
-    this.closeShowAssist(e);
+    this.closeShow(e);
+  },
+
+  // 织造，半成品，成品,包装确认
+  chooseConfirm(e) {
+    const { itemindex, index, type } = e.currentTarget.dataset;
+    if (type === "pack_material_data") {
+      this.data.productList[index][type][itemindex].material_name =
+        e.detail.value[0].label;
+      this.data.productList[index][type][itemindex].material_id =
+        e.detail.value[0].value;
+      this.setData({
+        productList: this.data.productList,
+      });
+    } else if (type === "assist_material_data") {
+      const { label, unit, value } = e.detail.value[0];
+
+      this.data.productList[index].assist_material_data[
+        itemindex
+      ].material_name = label;
+      this.data.productList[index].assist_material_data[
+        itemindex
+      ].material_id = value;
+      this.data.productList[index].assist_material_data[itemindex].unit = unit;
+    } else {
+      this.data.productList[index][type][itemindex].name =
+        e.detail.value[0].label;
+    }
+
+    this.setData({
+      productList: this.data.productList,
+    });
+
+    this.closeShow(e);
   },
 
   closeGroup() {
@@ -471,7 +594,6 @@ Page({
   },
 
   confirmChooseConcat(e) {
-    console.log(e);
     this.setData({
       concatName: e.detail,
     });
@@ -481,6 +603,9 @@ Page({
   changeProductType(e) {
     const { index, type } = e.currentTarget.dataset;
     this.data.productList[index][type] = e.detail.value;
+
+    this.getTotalPrice();
+
     this.setData({
       productList: this.data.productList,
     });
@@ -504,9 +629,18 @@ Page({
     this.data.productList[index].material_data[
       materialindex
     ].material_name = names;
+    this.data.productList[index].material_data[
+      materialindex
+    ].tree_data = e.detail.value[2].replaceAll("-", ",");
 
     this.setData({
       productList: this.data.productList,
+    });
+  },
+
+  changeUnit(e) {
+    this.setData({
+      settle_unit: e.detail.currentKey === "1" ? "元" : "美元",
     });
   },
 
@@ -541,31 +675,36 @@ Page({
       client_target_price: "",
       start_order_number: "",
       desc: "",
-      transport_fee: "",
+      transport_fee: 0,
       transport_fee_desc: "",
+      total_price: 0,
+      category_id: "",
       image_data: [],
+      editor: "",
+      product_id: "",
+      secondary_category_id: "",
+      id: "",
       material_data: [
         {
-          id: "",
-          loss: "",
+          id: "",loss: 0,
           material_id: yarnTypeAndName.yarnTypeList,
           material_name: yarnTypeAndName.names,
-          price: "",
-          total_price: "",
-          tree_data: "1,1,1",
+          price: 0,
+          total_price: 0,
+          tree_data: yarnTypeAndName.yarnTypeList[2].replaceAll("-", ","),
           unit: "g",
-          weight: "",
+          weight: 0,
         },
       ],
       assist_material_data: [
         {
           id: "",
-          loss: "",
+          loss: 0,
           material_id: this.data.assistListChoose[0].value,
           material_name: this.data.assistListChoose[0].label,
-          number: "",
-          price: "",
-          total_price: "",
+          number: 0,
+          price: 0,
+          total_price: 0,
           unit: this.data.assistListChoose[0].unit,
         },
       ],
@@ -576,7 +715,7 @@ Page({
           id: "",
           name: "针织织造",
           quote_rel_product_id: "",
-          total_price: "",
+          total_price: 0,
           updated_at: "",
         },
       ],
@@ -585,9 +724,9 @@ Page({
           created_at: "",
           desc: "",
           id: "",
-          name: "",
+          name: this.data.halfProcessList[0].label,
           quote_rel_product_id: "",
-          total_price: "",
+          total_price: 0,
           updated_at: "",
         },
       ],
@@ -596,9 +735,9 @@ Page({
           created_at: "",
           desc: "",
           id: "",
-          name: "",
+          name: this.data.processList[0].label,
           quote_rel_product_id: "",
-          total_price: "",
+          total_price: 0,
           updated_at: "",
         },
       ],
@@ -606,9 +745,9 @@ Page({
         {
           desc: "",
           id: "",
-          material_id: "",
-          material_name: "",
-          total_price: "",
+          material_id: this.data.packingList[0].value,
+          material_name: this.data.packingList[0].label,
+          total_price: 0,
         },
       ],
       other_fee_data: [
@@ -618,7 +757,7 @@ Page({
           id: "",
           name: "",
           quote_rel_product_id: "",
-          total_price: "",
+          total_price: 0,
           updated_at: "",
         },
       ],
@@ -629,7 +768,7 @@ Page({
           id: "",
           name: "",
           quote_rel_product_id: "",
-          total_price: "",
+          total_price: 0,
           updated_at: "",
         },
       ],
@@ -653,24 +792,24 @@ Page({
       let yarnTypeAndName = this.getYarnTypeListSAndNames();
       this.data.productList[index].material_data.push({
         id: "",
-        loss: "",
+        loss: 0,
         material_id: yarnTypeAndName.yarnTypeList,
         material_name: yarnTypeAndName.names,
-        price: "",
-        total_price: "",
-        tree_data: "1,1,1",
+        price: 0,
+        total_price: 0,
+        tree_data: yarnTypeAndName.yarnTypeList[2].replaceAll("-", ","),
         unit: "g",
-        weight: "",
+        weight: 0,
       });
     } else if (type === "assist_material_data") {
       this.data.productList[index].assist_material_data.push({
         id: "",
-        loss: "",
+        loss: 0,
         material_id: this.data.assistListChoose[0].value,
         material_name: this.data.assistListChoose[0].label,
-        number: "",
-        price: "",
-        total_price: "",
+        number: 0,
+        price: 0,
+        total_price: 0,
         unit: this.data.assistListChoose[0].unit,
       });
     } else if (type === "weave_data") {
@@ -680,7 +819,7 @@ Page({
         id: "",
         name: "针织织造",
         quote_rel_product_id: "",
-        total_price: "",
+        total_price: 0,
         updated_at: "",
       });
     } else if (type === "semi_product_data") {
@@ -688,9 +827,9 @@ Page({
         created_at: "",
         desc: "",
         id: "",
-        name: "",
+        name: this.data.halfProcessList[0].label,
         quote_rel_product_id: "",
-        total_price: "",
+        total_price: 0,
         updated_at: "",
       });
     } else if (type === "production_data") {
@@ -698,18 +837,18 @@ Page({
         created_at: "",
         desc: "",
         id: "",
-        name: "",
+        name: this.data.processList[0].label,
         quote_rel_product_id: "",
-        total_price: "",
+        total_price: 0,
         updated_at: "",
       });
     } else if (type === "pack_material_data") {
       this.data.productList[index].pack_material_data.push({
         desc: "",
         id: "",
-        material_id: "",
-        material_name: "",
-        total_price: "",
+        material_id: this.data.packingList[0].value,
+        material_name: this.data.packingList[0].label,
+        total_price: 0,
       });
     } else if (type === "other_fee_data") {
       this.data.productList[index].other_fee_data.push({
@@ -718,7 +857,7 @@ Page({
         id: "",
         name: "",
         quote_rel_product_id: "",
-        total_price: "",
+        total_price: 0,
         updated_at: "",
       });
     } else if (type === "no_production_fee_data") {
@@ -728,7 +867,7 @@ Page({
         id: "",
         name: "",
         quote_rel_product_id: "",
-        total_price: "",
+        total_price: 0,
         updated_at: "",
       });
     }
@@ -749,9 +888,62 @@ Page({
   changeProductTypeDetail(e) {
     const { index, itemindex, type, itemtype } = e.currentTarget.dataset;
     this.data.productList[index][itemtype][itemindex][type] = e.detail.value;
+
+    if (itemtype === "material_data" && type !== "total_price") {
+      let data = this.data.productList[index].material_data[itemindex];
+      data.total_price = +(
+        (data.weight / 1000) *
+        (1 + data.loss / 100) *
+        data.price
+      ).toFixed(2);
+    }
+
+    this.getTotalPrice();
+
     this.setData({
       productList: this.data.productList,
     });
+  },
+
+  getTotalPrice() {
+    let total_cost_price = this.data.productList
+      .reduce((total, current) => {
+        return (
+          total +
+          Number(current.transport_fee) +
+          current.material_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.assist_material_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.weave_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.semi_product_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.production_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.pack_material_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.other_fee_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0) +
+          current.no_production_fee_data.reduce((totalChild, currentChild) => {
+            return totalChild + Number(currentChild.total_price);
+          }, 0)
+        );
+      }, 0)
+      .toFixed(2);
+
+    this.setData({
+      total_cost_price,
+    });
+
+    this.changeOtherPrice();
   },
 
   afterRead(event) {
@@ -764,7 +956,7 @@ Page({
     let index = event.currentTarget.dataset.index;
     wxReq(
       {
-        methods: "GET",
+        method: "GET",
         url: "/upload/token",
       },
       "quotedPriceCreate"
@@ -806,5 +998,185 @@ Page({
     const { file, callback } = event.detail;
     callback(file.type === "image");
     console.log(file);
+  },
+
+  // 佣金百分比
+  inputCommission(e) {
+    this.setData({ commission_percentage: e.detail.value });
+    this.changeOtherPrice();
+  },
+  // 税率百分比
+  inputRateTaxation(e) {
+    this.setData({ rate_taxation: e.detail.value });
+    this.changeOtherPrice();
+  },
+  // 税率百分比
+  inputProfitPercentage(e) {
+    this.setData({ profit_percentage: e.detail.value });
+    this.changeOtherPrice();
+  },
+
+  changeOtherPrice() {
+    let commission_price = (
+      (this.data.total_cost_price /
+        (1 -
+          this.data.commission_percentage / 100 +
+          this.data.profit_percentage / 100 +
+          this.data.rate_taxation / 100)) *
+      (this.data.commission_percentage / 100)
+    ).toFixed(2);
+
+    let rate_price = (
+      (this.data.total_cost_price /
+        (1 -
+          this.data.commission_percentage / 100 +
+          this.data.profit_percentage / 100 +
+          this.data.rate_taxation / 100)) *
+      (this.data.rate_taxation / 100)
+    ).toFixed(2);
+
+    let profit_price = (
+      (this.data.total_cost_price /
+        (1 -
+          this.data.commission_percentage / 100 +
+          this.data.profit_percentage / 100 +
+          this.data.rate_taxation / 100)) *
+      (this.data.profit_percentage / 100)
+    ).toFixed(2);
+
+    this.setData({ commission_price, rate_price, profit_price });
+  },
+
+  // 提交
+  submitAllInfo(e) {
+    if (this.data.clientList.value.length < 3) {
+      wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请选择询价公司",
+        top: getApp().globalData.navH,
+      });
+      return;
+    }
+
+    if (this.data.exchange_rate === "") {
+      wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请填写汇率",
+        top: getApp().globalData.navH,
+      });
+      return;
+    }
+
+    if (this.data.commission_percentage === "") {
+      wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请填写佣金百分比",
+        top: getApp().globalData.navH,
+      });
+      return;
+    }
+
+    if (this.data.rate_taxation === "") {
+      wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请填写预计税率百分比",
+        top: getApp().globalData.navH,
+      });
+      return;
+    }
+
+    if (this.data.profit_percentage === "") {
+      wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请填写预计利润百分比",
+        top: getApp().globalData.navH,
+      });
+      return;
+    }
+
+    let isContinue = true;
+
+    this.data.productList.forEach((item, index) => {
+      if (item.transport_fee === "" && isContinue) {
+        isContinue = false;
+        wx.lin.showMessage({
+          type: "error",
+          duration: 3000,
+          content: "请填写产品" + (index + 1) + "运费",
+          top: getApp().globalData.navH,
+        });
+      }
+    });
+
+    if (!isContinue) return;
+
+    this.data.productList.forEach((item) => {
+			item.type[1] = +item.type[1].split("-")[1];
+			item.category_id = item.type[0]
+			item.secondary_category_id = item.type[1]
+
+      item.material_data.forEach((res) => {
+        res.material_id = res.material_id[2].split("-")[2];
+      });
+    });
+
+    const { iscaogao } = e.currentTarget.dataset;
+
+    let data = {
+      client_id: this.data.clientList.value[2].split("-")[2],
+      commission_percentage: this.data.commission_percentage,
+      commission_price: this.data.commission_price,
+      contacts_id: this.data.concatName
+        ? this.data.concatIdList[this.data.concatName.index]
+        : "",
+      desc: "",
+      exchange_rate: this.data.exchange_rate,
+      group_id: this.data.groupName
+        ? this.data.groupValueList[this.data.groupName.index]
+        : "",
+      id: "",
+      is_draft: iscaogao ? 1 : 2,
+      product_data: this.data.productList,
+      profit_percentage: this.data.profit_percentage,
+      profit_price: this.data.profit_price,
+      rate_price: this.data.rate_price,
+      rate_taxation: this.data.rate_taxation,
+      real_quote_price: this.data.real_quote_price,
+      settle_unit: this.data.settle_unit,
+      title: this.data.title,
+      system_total_price: this.data.system_total_price,
+      total_cost_price: this.data.total_cost_price,
+      total_number: this.data.total_number,
+      tree_data: this.data.clientList.value[2].replaceAll("-", ","),
+    };
+
+    wxReq(
+      {
+        url: "/quote/save",
+        data,
+        method: "POST",
+      },
+      "quotedPriceCreate"
+    ).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 3000,
+          content: "保存成功，三秒后跳转详情页",
+          top: getApp().globalData.navH,
+        });
+        setTimeout(function () {
+          wx.navigateTo({
+            url:
+              "/pages/quotedPriceDetail/quotedPriceDetail?id=" + res.data.data,
+          });
+        }, 3000);
+      }
+    });
   },
 });

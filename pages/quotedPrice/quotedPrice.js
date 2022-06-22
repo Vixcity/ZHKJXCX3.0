@@ -108,13 +108,16 @@ Page({
       isLogin,
     });
 
-    getUserList('quotedPrice');
-    getClientList('quotedPrice');
+    getUserList("quotedPrice");
+    getClientList("quotedPrice");
     getSomeDateList();
     this.setData({
       clientList: {
         options: wx.getStorageSync("clientList").slice(0, 2),
-        value: ["0", "0-0", ""],
+        value: [
+          wx.getStorageSync("clientList").slice(0, 2)[0].value,
+          wx.getStorageSync("clientList").slice(0, 2)[0].options[0].value,
+        ],
       },
       userList: {
         options: wx.getStorageSync("userList"),
@@ -125,6 +128,9 @@ Page({
         value: wx.getStorageSync("someDateList")[0].value,
       },
     });
+  },
+
+  onShow() {
     this.getList();
   },
 
@@ -137,27 +143,30 @@ Page({
       showLoading: true,
     });
 
-    wxReq({
-      url: "/quote/lists",
-      method: "GET",
-      data: {
-        keyword: this.data.keyword,
-        is_check: this.data.status === 999999 ? "" : this.data.status,
-        user_id: this.data.user_id,
-        client_id:
-          this.data.client_id.length > 2
-            ? this.data.client_id[2].split("-")[2]
-            : "",
-        page: this.data.page,
-        group_id: "",
-        contacts_id: "",
-        min_price: "",
-        max_price: "",
-        start_time: this.data.chooseDate[0],
-        end_time: this.data.chooseDate[1],
-        limit: 10,
+    wxReq(
+      {
+        url: "/quote/lists",
+        method: "GET",
+        data: {
+          keyword: this.data.keyword,
+          is_check: this.data.status === 999999 ? "" : this.data.status,
+          user_id: this.data.user_id,
+          client_id:
+            this.data.client_id.length > 2
+              ? this.data.client_id[2].split("-")[2]
+              : "",
+          page: this.data.page,
+          group_id: "",
+          contacts_id: "",
+          min_price: "",
+          max_price: "",
+          start_time: this.data.chooseDate[0],
+          end_time: this.data.chooseDate[1],
+          limit: 10,
+        },
       },
-    },'quotedPrice').then((res) => {
+      "quotedPrice"
+    ).then((res) => {
       let data = res.data.data.items;
 
       if (data.length < 10) {
@@ -207,8 +216,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },
@@ -225,8 +234,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false
+      isEnd: false,
+      noData: false,
     });
 
     console.log(this.data.chooseDate);
@@ -242,18 +251,18 @@ Page({
     // this.data.page = 1;
     // this.setData({
     //   orderList: [],
-		// 	isEnd: false,
-		// 	noData: false
+    // 	isEnd: false,
+    // 	noData: false
     // });
     // this.reqOrder();
   },
-	
-	confirmClient(e) {
+
+  confirmClient(e) {
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },
@@ -267,8 +276,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },
@@ -284,8 +293,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },
@@ -326,8 +335,7 @@ Page({
   toDetail(e) {
     let { item } = e.currentTarget.dataset;
     wx.navigateTo({
-      url:
-        "/pages/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
+      url: "/pages/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
     });
   },
 

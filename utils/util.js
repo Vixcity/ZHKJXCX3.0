@@ -273,12 +273,12 @@ const getClientList = function (path) {
             itemSon.rel_client.forEach((itemClient) => {
               arr2.push({
                 label: itemClient.name,
-                value: "" + index + "-" + indexSon + "-" + itemClient.id,
+                value: "" + item.id + "-" + itemSon.id + "-" + itemClient.id,
               });
             });
             arr1.push({
               label: itemSon.name,
-              value: "" + index + "-" + indexSon,
+              value: "" + item.id + "-" + itemSon.id,
               options: arr2,
             });
           }
