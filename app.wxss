@@ -1,4 +1,6 @@
 /**app.wxss**/
+@import './iconfont/iconfont.wxss';
+
 page {
 	background: #FAFAFA;
 }
@@ -57,6 +59,10 @@ page {
 
 .color00D9 {
 	color: #00d954
+}
+
+.color03d0 {
+	color: #03d0a2
 }
 
 .colorFDA9 {
@@ -778,6 +784,10 @@ page {
 	height: 50vh;
 }
 
+.vh55 {
+	height: 55vh;
+}
+
 .vh60 {
 	height: 60vh;
 }
@@ -959,6 +969,10 @@ page {
 
 .bgColorB9 {
 	background-color: #B9B9B9;
+}
+
+.bgColor33{
+	background-color: #333333;
 }
 
 .bgColorFDA9 {

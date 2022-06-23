@@ -1,71 +1,128 @@
+const {
+  wxReq,
+  debounce,
+  getGroupList,
+  getUserList,
+} = require("../../utils/util");
+
 // pages/sampleOrder/sampleOrder.js
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    singleSelect: {
-      value: "option_3",
+    statusSelect: {
       options: [
-        { label: "选项 1", value: "option_1" },
-        { label: "选项 2", value: "option_2" },
-        { label: "选项 3", value: "option_3" },
-        { label: "选项 4", value: "option_4" },
-        { label: "选项 5", value: "option_5" },
-        { label: "选项 6", value: "option_6" },
-        { label: "选项 7", value: "option_7" },
-        { label: "选项 8", value: "option_8" },
+        { label: "全部", value: "" },
+        { label: "待审核", value: "0" },
+        { label: "已审核", value: "1" },
+        { label: "已驳回", value: "2" },
       ],
-      options2: [
-        { label: "选项 12", value: "option_1" },
-        { label: "选项 22", value: "option_2" },
-        { label: "选项 32", value: "option_3" },
-        { label: "选项 42", value: "option_4" },
-        { label: "选项 52", value: "option_5" },
-        { label: "选项 62", value: "option_6" },
-        { label: "选项 72", value: "option_7" },
-        { label: "选项 82", value: "option_8" },
+    },
+    groupSelect: {
+      options: [
+        { label: "全部", value: "" },
+        { label: "选项1", value: "0" },
+        { label: "选项2", value: "1" },
+        { label: "选项3", value: "2" },
       ],
-      options3: [
-        { label: "选项 13", value: "option_1" },
-        { label: "选项 23", value: "option_2" },
-        { label: "选项 33", value: "option_3" },
-        { label: "选项 43", value: "option_4" },
-        { label: "选项 53", value: "option_5" },
-        { label: "选项 63", value: "option_6" },
-        { label: "选项 73", value: "option_7" },
-        { label: "选项 83", value: "option_8" },
+    },
+    userSelect: {
+      options: [
+        { label: "全部", value: "" },
+        { label: "选项1", value: "0" },
+        { label: "选项2", value: "1" },
+        { label: "选项3", value: "2" },
       ],
-		},
-		orderList: [
-      {
-        id: 1,
-        customer: "item.client.name",
-        title: "item.client.name",
-        time: "2022-01-02",
-        nowNumber: 20,
-        allNumber: 50,
-        customer: "asdasd",
-        productLen: 5,
-        imgSrc:
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        display: 0,
-        status: 7,
-        processName: "织造",
-      },
-		],
+    },
+    orderList: [],
+    is_check: "",
+    group_id: "",
+    user_id: "",
+    page: 1,
+    showLoading: false,
+    isEnd: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {},
+  onLoad(options) {
+    getGroupList("sampleOrder");
+    getUserList("sampleOrder");
 
-  toDetail(e){
-		let item = e.currentTarget.dataset.item
+    this.setData({
+      groupSelect: {
+        options: wx.getStorageSync("groupList"),
+      },
+      userSelect: {
+        options: wx.getStorageSync("userList"),
+      },
+    });
+    this.getList();
+  },
 
-		wx.navigateTo({
-			url: '/pages/sampleOrder/sampleOrderDetail/sampleOrderDetail?id='+item.id,
-		})
-	}
+  getList() {
+    if (this.data.isEnd) return;
+
+    this.setData({
+      showLoading: true,
+    });
+
+    wxReq(
+      {
+        url: "/order/lists",
+        data: {
+          page: this.data.page,
+          limit: 10,
+          order_type: 2,
+          user_id: this.data.user_id,
+          is_check: this.data.is_check,
+          group_id: this.data.group_id,
+        },
+        method: "GET",
+      },
+      "sampleOrder"
+    ).then((res) => {
+      if (res.data.data.items.length < 10) {
+        this.setData({
+          isEnd: true,
+        });
+      }
+
+      this.data.page += 1;
+      this.data.orderList = this.data.orderList.concat(res.data.data.items);
+
+      this.setData({
+        orderList: this.data.orderList,
+        showLoading: false,
+      });
+    });
+  },
+
+  reqOrder: debounce(function () {
+    this.getList();
+  }, 1000),
+
+  changeSingleSelect(e) {
+    const { type } = e.currentTarget.dataset;
+    let obj = {};
+
+    obj[type] = e.detail.value;
+    this.setData(obj);
+
+    this.data.page = 1;
+    this.data.orderList = [];
+    this.setData({ orderList: [], isEnd: false });
+    this.getList();
+  },
+
+  toDetail(e) {
+    let item = e.currentTarget.dataset.item;
+
+    wx.navigateTo({
+      url:
+        "/pages/sampleOrder/sampleOrderDetail/sampleOrderDetail?id=" + item.id,
+    });
+  },
 });

@@ -1,6 +1,6 @@
 <!--pages/quotedPrice/quotedPriceDetail.wxml-->
 <view id="quotedPriceDetail">
-	<nav-content showHome="{{false}}">
+	<nav-content>
 		<view slot="after">
 			报价单详情
 		</view>
@@ -38,9 +38,9 @@
 				<view class="bgColor27A2 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 500px;">{{index+1}}</view>
 				<view class="ml10 flex">
 					<van-image width="100" height="100" fit="cover"
-						src="{{item.image_data || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
 						bind:click='clickImage'
-						data-img="{{item.image_data || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
+						data-img="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 					<view class="flex fdc jcsa ml10">
 						<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
 						<view>{{item.desc || ''}}</view>

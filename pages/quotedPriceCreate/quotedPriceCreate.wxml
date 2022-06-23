@@ -1,8 +1,8 @@
 <!--pages/quotedPrice/quotedPriceCreate.wxml-->
 <view id="quotedPriceCreate">
-	<nav-content showHome="{{false}}">
+	<nav-content>
 		<view slot="after">
-			添加报价单
+			{{isUpdate?'修改报价单':'添加报价单'}}
 		</view>
 	</nav-content>
 	<view class="card">
@@ -46,9 +46,9 @@
 			<text class="flex aic pl25r pr15r borderBox" style="width: 114px;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;">* </text>币种
 			</text>
-			<l-radio-group placement="row" current="1" bind:linchange="changeUnit">
-				<l-radio key="1" class="color3 fz28">元</l-radio>
-				<l-radio key="2" class="ml20 color3 fz28">美元</l-radio>
+			<l-radio-group placement="row" current="{{settle_unit}}" bind:linchange="changeUnit">
+				<l-radio key="元" class="color3 fz28">元</l-radio>
+				<l-radio key="美元" class="ml20 color3 fz28">美元</l-radio>
 			</l-radio-group>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
@@ -477,7 +477,7 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">客户佣金百分比</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputCommission" placeholder="客户佣金百分比" />
+				<input type="number" style="display: block;height: 48px;" bindinput="inputCommission" value="{{commission_percentage}}" placeholder="客户佣金百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>佣金费用</view>
@@ -485,7 +485,7 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计税率</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputRateTaxation" placeholder="预计税率" />
+				<input type="number" style="display: block;height: 48px;" bindinput="inputRateTaxation" value="{{rate_taxation}}" placeholder="预计税率" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>税费</view>
@@ -493,7 +493,7 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计利润百分比</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputProfitPercentage"
+				<input type="number" style="display: block;height: 48px;" value="{{profit_percentage}}" bindinput="inputProfitPercentage"
 					placeholder="预计利润百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
@@ -502,11 +502,12 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">其它备注与说明</view>
-				<input style="display: block;height: 48px;" placeholder="其它备注与说明" />
+				<input style="display: block;height: 48px;" placeholder="其它备注与说明" bindinput="changeDesc" value="{{desc}}" />
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">最终客户报价</view>
-				<input type="number" style="display: block;height: 48px;" placeholder="最终客户报价" />
+				<input type="number" style="display: block;height: 48px;" placeholder="最终客户报价" bindinput="changeRealQuotePrice"
+					value="{{real_quote_price}}" />
 			</view>
 		</view>
 	</view>

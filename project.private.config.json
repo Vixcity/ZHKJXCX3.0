@@ -74,6 +74,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "样单列表",
+					"pathName": "pages/sampleOrder/sampleOrder",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

@@ -2,7 +2,7 @@
 <view class="container noPad">
 	<nav-content showBack="{{false}}" showHome="{{false}}">
 		<view slot="after">
-			<view class="vw100 tc vh4"></view>
+			<view class="vw100 tc vh4">管理</view>
 		</view>
 	</nav-content>
 	<view class="h100 bg">

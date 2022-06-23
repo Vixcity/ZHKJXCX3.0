@@ -286,7 +286,7 @@ const getClientList = function (path) {
       }
       arr.push({
         label: item.name,
-        value: "" + index,
+        value: "" + item.id,
         options: arr1,
       });
     });
@@ -439,11 +439,17 @@ const getGroupList = function (path) {
     },
     path
   ).then((res) => {
-    let arr = res.data.data.map((item) => {
-      return {
+    let arr = [
+      {
+        label: "全部",
+        value: "",
+      },
+    ];
+    res.data.data.forEach((item) => {
+      arr.push({
         label: item.name,
         value: item.id,
-      };
+      });
     });
     wx.setStorageSync("groupList", arr);
   });
