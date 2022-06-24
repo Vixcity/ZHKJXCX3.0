@@ -4,21 +4,27 @@
 		<view slot="after">
 			<input wx:if="{{isLogin}}" class="fz25"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="onSearch" placeholder="单据编号/产品编号" />
+				type="text" bindinput="changeSingleSelect" data-type="keyword" placeholder="筛选样单/样品/样品编号" />
 			<input wx:else disabled class="fz25"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="onSearch" placeholder="单据编号/产品编号" />
+				type="text" bindinput="changeSingleSelect" data-type="keyword" placeholder="筛选样单/样品/样品编号" />
 		</view>
 	</nav-content>
 
 	<t-dropdown-menu>
-		<t-dropdown-item label="状态" options="{{statusSelect.options}}" value="{{is_check}}" data-type="is_check" bindchange="changeSingleSelect" />
-		<t-dropdown-item label="小组" options="{{groupSelect.options}}" value="{{group_id}}" data-type="group_id" bindchange="changeSingleSelect" />
-		<t-dropdown-item label="负责人" options="{{userSelect.options}}" value="{{user_id}}" data-type="user_id" bindchange="changeSingleSelect" />
+		<t-dropdown-item label="状态" options="{{statusSelect.options}}" value="{{is_check}}" data-type="is_check"
+			bindchange="changeSingleSelect" />
+		<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientSelect.options}}" value="{{clientSelect.value}}"
+			data-type="client_id" bindchange="changeSingleSelect" bindchange="changeClient" bindconfirm="changeSingleSelect" />
+		<t-dropdown-item label="小组" options="{{groupSelect.options}}" value="{{group_id}}" data-type="group_id"
+			bindchange="changeSingleSelect" />
+		<t-dropdown-item label="负责人" options="{{userSelect.options}}" value="{{user_id}}" data-type="user_id"
+			bindchange="changeSingleSelect" />
 	</t-dropdown-menu>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
-		<view class="card fz25" wx:for="{{orderList}}">
+		<view class="card fz25" wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index"
+			data-item="{{item}}" bindtap="toDetail">
 			<view class="flex w100 jcsb">
 				<view class="bold fz30">{{item.code || '未填写'}}</view>
 				<view>
@@ -91,6 +97,11 @@
 			</view>
 		</view>
 
+		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20 color91">暂无数据</view>
+		</view>
 		<view class="vh55" wx:if="{{showLoading && orderList.length === 0}}"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>

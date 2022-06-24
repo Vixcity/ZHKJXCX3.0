@@ -105,7 +105,8 @@ Page({
     searchType: 1,
     showSearch: false,
     showLoading: false,
-    isEnd: false,
+		isEnd: false,
+		noData: false,
     page: 1,
     limit: 10,
     process_name: "针织织造",
@@ -134,12 +135,23 @@ Page({
       getProcessList();
       getGroupList();
       getUserList();
+
+      let arr = [
+        {
+          label: "全部",
+          value: "--",
+        },
+      ];
+
+      arr = arr.concat(wx.getStorageSync("clientList").slice(6, 8));
+
       this.setData({
         clientList: {
-          options: wx.getStorageSync("clientList").slice(6, 8),
+          options: arr,
           value: [
-            wx.getStorageSync("clientList").slice(6, 8)[0].value,
-            wx.getStorageSync("clientList").slice(6, 8)[0].options[0].value,
+            "--",
+            // wx.getStorageSync("clientList").slice(6, 8)[0].value,
+            // wx.getStorageSync("clientList").slice(6, 8)[0].options[0].value,
           ],
         },
         processList: {
@@ -168,6 +180,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -180,13 +194,16 @@ Page({
 
   confirmClient(e) {
     if (e.detail.value[2]) {
-      this.data.client_id = e.detail.value[2].split("-")[2];
+      this.data.client_id =
+        e.detail.value[0] === "--" ? "" : e.detail.value[2].split("-")[2];
     } else {
       this.data.client_id = "";
     }
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -202,6 +219,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -215,6 +234,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -228,6 +249,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -246,6 +269,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
+			isEnd: false,
+			noData: false,
     });
     this.reqOrder();
   },
@@ -295,6 +320,12 @@ Page({
       if (res.data.code === 200) {
         if ((this.data.page = 1)) {
           orderList = [];
+        }
+
+        if (this.data.page === 1 && res.data.data.items.length === 0) {
+          this.setData({
+            noData: true,
+          });
         }
 
         if (res.data.data.items.length < 10) {

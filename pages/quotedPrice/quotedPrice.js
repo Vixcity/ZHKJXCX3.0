@@ -110,13 +110,24 @@ Page({
 
     getUserList("quotedPrice");
     getClientList("quotedPrice");
+
+    let arr = [
+      {
+        label: "全部",
+        value: "--",
+      },
+    ];
+
+    arr = arr.concat(wx.getStorageSync("clientList").slice(0, 2));
+
     getSomeDateList();
     this.setData({
       clientList: {
-        options: wx.getStorageSync("clientList").slice(0, 2),
+        options: arr,
         value: [
-          wx.getStorageSync("clientList").slice(0, 2)[0].value,
-          wx.getStorageSync("clientList").slice(0, 2)[0].options[0].value,
+          "--",
+          // wx.getStorageSync("clientList").slice(0, 2)[0].value,
+          // wx.getStorageSync("clientList").slice(0, 2)[0].options[0].value,
         ],
       },
       userList: {
@@ -152,7 +163,9 @@ Page({
           is_check: this.data.status === 999999 ? "" : this.data.status,
           user_id: this.data.user_id,
           client_id:
-            this.data.client_id.length > 2
+            this.data.client_id[0] === "--"
+              ? ""
+              : this.data.client_id.length > 2
               ? this.data.client_id[2].split("-")[2]
               : "",
           page: this.data.page,
@@ -238,7 +251,7 @@ Page({
       noData: false,
     });
 
-    console.log(this.data.chooseDate);
+    // console.log(this.data.chooseDate);
 
     this.reqOrder();
   },
@@ -289,7 +302,7 @@ Page({
   },
 
   onSearch(e) {
-    this.data.keyWord = e.detail.value;
+		this.data.keyword = e.detail.value;
     this.data.page = 1;
     this.setData({
       orderList: [],
