@@ -1,6 +1,6 @@
 <!--pages/order/order.wxml-->
 <view id="order">
-	<nav-content showHome="{{false}}">
+	<nav-content showBack="{{false}}">
 		<view slot="after">
 			<input wx:if="{{isLogin}}"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"

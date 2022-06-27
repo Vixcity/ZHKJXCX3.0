@@ -208,7 +208,7 @@ Page({
 
   toLogin() {
     wx.navigateTo({
-      url: "../noLogin/noLogin",
+      url: "../signUp/signUp",
     });
   },
 });

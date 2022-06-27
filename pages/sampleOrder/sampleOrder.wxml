@@ -1,6 +1,6 @@
 <!--pages/sampleOrder/sampleOrder.wxml-->
 <view id="sampleOrder">
-	<nav-content showHome="{{false}}">
+	<nav-content showBack="{{false}}">
 		<view slot="after">
 			<input wx:if="{{isLogin}}" class="fz25"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
@@ -44,7 +44,7 @@
 			</view>
 			<view>{{item.client_name || '未填写'}}</view>
 			<view class="flex mt10">
-				<image src="https://img.yzcdn.cn/vant/cat.jpeg" class="image" />
+				<image src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" class="image" />
 				<view class="pl10 w100 flex fdc jcsb">
 					<view class="flex aic jcsb">
 						<view>{{item.group_name || '未填写'}}</view>

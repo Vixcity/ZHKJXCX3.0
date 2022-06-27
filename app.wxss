@@ -298,6 +298,10 @@ page {
 	margin-left: 10px;
 }
 
+.ml5 {
+	margin-left: 5px;
+}
+
 /* margin-right */
 .mr100 {
 	margin-right: 100px;

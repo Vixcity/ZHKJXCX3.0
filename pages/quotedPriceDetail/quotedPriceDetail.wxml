@@ -71,8 +71,8 @@
 						<view class="mt10 flex jcsb">
 							<view>{{itemMaterial.weight || 0}}{{itemMaterial.unit || 'g'}}</view>
 							<view>{{itemMaterial.loss || 0}}%</view>
-							<view>单价：{{itemMaterial.price || 0}}元</view>
-							<view>总价：{{itemMaterial.total_price || 0}}元</view>
+							<view>{{itemMaterial.price || 0}}元</view>
+							<view>{{itemMaterial.total_price || 0}}元</view>
 						</view>
 					</view>
 					<view wx:for="{{item.assist_material_data}}" wx:for-item="itemDecorateMaterial" wx:for-index="indexMaterial"
@@ -84,8 +84,8 @@
 						<view class="mt10 flex jcsb">
 							<view>{{itemDecorateMaterial.number || 0}}{{itemDecorateMaterial.unit || 'g'}}</view>
 							<view>{{itemDecorateMaterial.loss || 0}}%</view>
-							<view>单价：{{itemDecorateMaterial.price || 0}}元</view>
-							<view>总价：{{itemDecorateMaterial.total_price || 0}}元</view>
+							<view>{{itemDecorateMaterial.price || 0}}元</view>
+							<view>{{itemDecorateMaterial.total_price || 0}}元</view>
 						</view>
 					</view>
 				</view>
@@ -96,7 +96,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">织</view>
 							<view class="ml20">{{itemWeave.name || '无'}}</view>
 						</view>
-						<view>总价：{{itemWeave.total_price || 0}}元</view>
+						<view>{{itemWeave.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemWeave.desc || '无'}}</view>
 				</view>
@@ -107,7 +107,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">半</view>
 							<view class="ml20">{{itemHalfProcess.name || '无'}}</view>
 						</view>
-						<view>总价：{{itemHalfProcess.total_price || 0}}元</view>
+						<view>{{itemHalfProcess.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemHalfProcess.desc || '无'}}</view>
 				</view>
@@ -118,7 +118,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">成</view>
 							<view class="ml20">{{itemFinishedProcess.name || '无'}}</view>
 						</view>
-						<view>总价：{{itemFinishedProcess.total_price || 0}}元</view>
+						<view>{{itemFinishedProcess.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemFinishedProcess.desc || '无'}}</view>
 				</view>
@@ -129,7 +129,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">包</view>
 							<view class="ml20">{{itemPackMaterial.material_name || '无'}}</view>
 						</view>
-						<view>总价：{{itemPackMaterial.total_price || 0}}元</view>
+						<view>{{itemPackMaterial.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemPackMaterial.desc || '无'}}</view>
 				</view>
@@ -140,7 +140,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">其</view>
 							<view class="ml20">{{itemOther.name || '无'}}</view>
 						</view>
-						<view>总价：{{itemOther.total_price || 0}}元</view>
+						<view>{{itemOther.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemOther.desc || '无'}}</view>
 				</view>
@@ -151,7 +151,7 @@
 							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">非</view>
 							<view class="ml20">{{itemOther.name || '无'}}</view>
 						</view>
-						<view>总价：{{itemOther.total_price || 0}}元</view>
+						<view>{{itemOther.total_price || 0}}元</view>
 					</view>
 					<view class="mt10">{{itemOther.desc || '无'}}</view>
 				</view>
@@ -160,7 +160,7 @@
 						<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">运</view>
 						<view class="ml20">{{item.transport_fee?'运输费用':'无'}}</view>
 					</view>
-					<view>总价：{{item.transport_fee || 0}}元</view>
+					<view>{{item.transport_fee || 0}}元</view>
 				</view>
 				<view class="mt10">{{item.transport_fee_desc || '无'}}</view>
 				<view class="flex jcsb fz25 mt10 aic">

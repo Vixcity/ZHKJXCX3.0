@@ -48,41 +48,52 @@ Page({
       },
       method: "POST",
       success: (res) => {
+        if (!res.data.status) {
+          wx.lin.showMessage({
+            type: "error",
+            duration: 3000,
+            content: res.data.msg,
+            top: getApp().globalData.navH,
+          });
+
+          return;
+				}
+				
         if (res.data) {
           wx.setStorageSync("isLogin", true);
-					wx.setStorageSync("loginTime", new Date());
-					
-					if (res.data.status) {
-						var cookie = res.header["Set-Cookie"];
-						if (cookie != null) {
-							wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
-						}
-					}
+          wx.setStorageSync("loginTime", new Date());
+
+          if (res.data.status) {
+            var cookie = res.header["Set-Cookie"];
+            if (cookie != null) {
+              wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
+            }
+          }
 
           wxReq({
             url: "/auth/info",
             method: "post",
-          }).then(ress => {
-						if (ress.data.status) {
-							wx.setStorageSync("userInfo", ress.data.data);
+          }).then((ress) => {
+            if (ress.data.status) {
+              wx.setStorageSync("userInfo", ress.data.data);
 
-							wx.lin.showMessage({
-								type: "success",
-								duration: 3000,
-								content: "登录成功，即将返回刚才的页面",
-								top: getApp().globalData.navH,
-							});
+              wx.lin.showMessage({
+                type: "success",
+                duration: 3000,
+                content: "登录成功，即将返回刚才的页面",
+                top: getApp().globalData.navH,
+              });
 
-							getClientList();
-							getProcessList();
-							getGroupList();
-							getUserList();
+              getClientList();
+              getProcessList();
+              getGroupList();
+              getUserList();
 
-							setTimeout(function () {
-								_this.toOtherPage();
-							}, 2500);
-						}
-					})
+              setTimeout(function () {
+                _this.toOtherPage();
+              }, 2500);
+            }
+          });
         }
       },
     });

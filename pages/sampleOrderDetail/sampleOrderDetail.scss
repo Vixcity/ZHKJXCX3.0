@@ -6,16 +6,58 @@
 
   .card {
     .flexTitle {
-			margin-top: 10px;
+      margin-top: 10px;
       display: flex;
       color: #666666;
     }
+  }
+
+  .submit {
+    z-index: 2;
+    .van-button {
+      width: 40vw;
+    }
+  }
+
+  .van-tabs__nav--complete {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .van-tabs__scroll--card {
+    margin: 0;
+    width: 100%;
+    border-color: #27a2fd;
+  }
+
+  .van-tab {
+    color: #27a2fd;
+  }
+
+  .van-tab.van-tab--active {
+    background-color: #27a2fd;
+    color: #fff;
+  }
+  .van-tabs__nav--card .van-tab {
+    border-right-color: #27a2fd;
+  }
+
+  .t-dropdown-item__content {
+    top: 40px;
+  }
+
+  .specialBorder {
+    width: 49.5%;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: none;
+		border-left: none;
 	}
 	
-	.submit{
-		z-index: 2;
-		.van-button {
-			width: 40vw;
-		}
+	.specialBorder:nth-child(2n-1){
+		border-left: 1px solid rgba(0,0,0,0.1);
+	}
+	
+	.specialBorder:nth-last-child(-n+2){
+		border-bottom: 1px solid rgba(0,0,0,0.1);
 	}
 }
