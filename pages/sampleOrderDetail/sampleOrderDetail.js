@@ -12,6 +12,13 @@ Page({
     confirmSampleInfo: [],
     unConfirmSampleInfo: [],
     showStatusChoose: false,
+    showProductPopup: false,
+    showMaterialPopup: false,
+    showDecoratePopup: false,
+    showWeavePopup: false,
+    showCheJianPopup: false,
+    indexweave: 0,
+    indexpro: 0,
     chooseStatusList: [],
     financialInfo: {},
   },
@@ -89,9 +96,12 @@ Page({
       },
       "sampleOrderDetail&params1=id%3D" + id
     ).then((res) => {
-			res.data.data.product_total_price = res.data.data.product.reduce((total, cur) => {
-				return total + cur.total_price
-			}, 0)
+      res.data.data.product_total_price = res.data.data.product.reduce(
+        (total, cur) => {
+          return total + cur.total_price;
+        },
+        0
+      );
 
       this.setData({
         financialInfo: res.data.data,
@@ -200,7 +210,7 @@ Page({
           "sampleOrderDetail&params1=id%3D" + _this.data.id
         ).then((res) => {
           if (res.data.status) {
-            console.log(status);
+            // console.log(status);
             if (status === 2) {
               wx.lin.showMessage({
                 type: "success",
@@ -238,4 +248,114 @@ Page({
         // 取消
       });
   },
+
+  // 弹窗
+  showFinancialPopup(e) {
+    const { type } = e.currentTarget.dataset;
+
+    if (type === "product") {
+      if (this.data.financialInfo.product.length === 0) {
+        wx.lin.showMessage({
+          type: "warning",
+          duration: 3000,
+          content: "无样品费用信息",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+
+      this.setData({
+        showProductPopup: true,
+      });
+    } else if (type === "material") {
+      if (
+        this.data.financialInfo.material.material.detail.material_order
+          .length === 0 &&
+        this.data.financialInfo.material.material.detail.material_process
+          .length === 0 &&
+        this.data.financialInfo.material.material.detail.material_transfer
+          .length === 0
+      ) {
+        wx.lin.showMessage({
+          type: "warning",
+          duration: 3000,
+          content: "无原料费用信息",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+
+      this.setData({
+        showMaterialPopup: true,
+      });
+    } else if (type === "decorate") {
+			if (
+        this.data.financialInfo.material.decorate.detail.material_order
+          .length === 0 &&
+        this.data.financialInfo.material.decorate.detail.material_process
+          .length === 0 &&
+        this.data.financialInfo.material.decorate.detail.material_transfer
+          .length === 0
+      ) {
+        wx.lin.showMessage({
+          type: "warning",
+          duration: 3000,
+          content: "无辅料费用信息",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+
+      this.setData({
+        showDecoratePopup: true,
+      });
+    } else if (type === "weave") {
+      const { indexweave } = e.currentTarget.dataset;
+      this.setData({
+        showWeavePopup: true,
+        indexweave,
+      });
+    } else if (type === "production_inspection") {
+      const { indexpro } = e.currentTarget.dataset;
+      // console.log(indexpro);
+      this.setData({
+        showCheJianPopup: true,
+        indexpro,
+      });
+    }
+  },
+
+  // 关闭弹窗
+  closeShowProductPopup() {
+    this.setData({
+      showProductPopup: false,
+    });
+  },
+
+  closeShowMaterialPopup() {
+    this.setData({
+      showMaterialPopup: false,
+    });
+  },
+
+  closeShowDecoratePopup() {
+    this.setData({
+      showDecoratePopup: false,
+    });
+  },
+
+  closeShowWeavePopup() {
+    this.setData({
+      showWeavePopup: false,
+    });
+  },
+
+  closeShowCheJianPopup() {
+    this.setData({
+      showCheJianPopup: false,
+    });
+  },
+
+  // 查看关联单据
+  showAssociatedDocument(e) {},
 });

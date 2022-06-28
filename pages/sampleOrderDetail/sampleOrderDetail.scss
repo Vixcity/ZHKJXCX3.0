@@ -12,13 +12,6 @@
     }
   }
 
-  .submit {
-    z-index: 2;
-    .van-button {
-      width: 40vw;
-    }
-  }
-
   .van-tabs__nav--complete {
     padding-left: 0;
     padding-right: 0;
@@ -59,5 +52,9 @@
 	
 	.specialBorder:nth-last-child(-n+2){
 		border-bottom: 1px solid rgba(0,0,0,0.1);
+	}
+	
+	.specialBorder:nth-child(-n+2){
+		border-top: 0;
 	}
 }

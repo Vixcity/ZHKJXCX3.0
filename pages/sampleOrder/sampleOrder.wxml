@@ -31,7 +31,7 @@
 					<view wx:if="{{item.status === 1}}" style="border-radius: 500px;"
 						class="pl10 pr10 pt5 pb5 colorWhite bgColorOrange">已创建</view>
 					<view wx:if="{{item.status === 2}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColorOrange">进行中</view>
+						class="pl10 pr10 pt5 pb5 colorWhite bgColor27A2">进行中</view>
 					<view wx:if="{{item.status === 3}}" style="border-radius: 500px;"
 						class="pl10 pr10 pt5 pb5 colorWhite bgColor03d0">已完成</view>
 					<view wx:if="{{item.status === 4}}" style="border-radius: 500px;"
@@ -81,11 +81,9 @@
 							<view wx:if="{{!item.pop_progress.progress}}" class="ml10 iconfont icon-yuanliaochuku1 color9E fz40">
 							</view>
 							<!-- 产 -->
-							<view wx:if="{{item.inspection_push_progress.progress===100||item.inspection_push_progress.progress>100}}"
+							<view wx:if="{{item.has_weave_plan.status===1}}"
 								class="ml10 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
-							<view wx:if="{{item.inspection_push_progress.progress>0 && item.inspection_push_progress.progress<100}}"
-								class="ml10 iconfont icon-shengchanjihua3 colorOrange fz40"></view>
-							<view wx:if="{{!item.inspection_push_progress.progress}}"
+							<view wx:if="{{item.has_weave_plan.status===2}}"
 								class="ml10 iconfont icon-shengchanjihua3 color9E fz40"></view>
 						</view>
 					</view>

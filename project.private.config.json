@@ -1,6 +1,6 @@
 {
 	"setting": {
-		"compileHotReLoad": false
+		"compileHotReLoad": true
 	},
 	"condition": {
 		"miniprogram": {
@@ -78,6 +78,13 @@
 				{
 					"name": "样单列表",
 					"pathName": "pages/sampleOrder/sampleOrder",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
+				},
+				{
+					"name": "订单列表",
+					"pathName": "pages/order/order",
 					"query": "",
 					"launchMode": "default",
 					"scene": null

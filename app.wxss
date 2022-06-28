@@ -69,6 +69,10 @@ page {
 	color: #FDA947
 }
 
+.colorFA36 {
+	color: #FA3643
+}
+
 .colorE800 {
 	color: #E80000
 }
@@ -588,12 +592,24 @@ page {
 	width: 80%;
 }
 
+.w78 {
+	width: 78%;
+}
+
+.w77 {
+	width: 77%;
+}
+
 .w70 {
 	width: 70%;
 }
 
 .w60 {
 	width: 60%;
+}
+
+.w55 {
+	width: 55%;
 }
 
 .w50 {

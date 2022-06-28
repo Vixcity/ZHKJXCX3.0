@@ -1,72 +1,191 @@
+const {
+  wxReq,
+  debounce,
+  isIfLogin,
+  getGroupList,
+  getClientList,
+  getUserList,
+} = require("../../utils/util");
+
 // pages/order/order.js
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    singleSelect: {
-      value: "option_3",
+    statusSelect: {
       options: [
-        { label: "选项 1", value: "option_1" },
-        { label: "选项 2", value: "option_2" },
-        { label: "选项 3", value: "option_3" },
-        { label: "选项 4", value: "option_4" },
-        { label: "选项 5", value: "option_5" },
-        { label: "选项 6", value: "option_6" },
-        { label: "选项 7", value: "option_7" },
-        { label: "选项 8", value: "option_8" },
-      ],
-      options2: [
-        { label: "选项 12", value: "option_1" },
-        { label: "选项 22", value: "option_2" },
-        { label: "选项 32", value: "option_3" },
-        { label: "选项 42", value: "option_4" },
-        { label: "选项 52", value: "option_5" },
-        { label: "选项 62", value: "option_6" },
-        { label: "选项 72", value: "option_7" },
-        { label: "选项 82", value: "option_8" },
-      ],
-      options3: [
-        { label: "选项 13", value: "option_1" },
-        { label: "选项 23", value: "option_2" },
-        { label: "选项 33", value: "option_3" },
-        { label: "选项 43", value: "option_4" },
-        { label: "选项 53", value: "option_5" },
-        { label: "选项 63", value: "option_6" },
-        { label: "选项 73", value: "option_7" },
-        { label: "选项 83", value: "option_8" },
+        { label: "全部", value: "" },
+        { label: "待审核", value: "0" },
+        { label: "已审核", value: "1" },
+        { label: "已驳回", value: "2" },
       ],
     },
-
-    orderList: [
-      {
-        id: 1,
-        customer: "item.client.name",
-        title: "item.client.name",
-        time: "2022-01-02",
-        nowNumber: 20,
-        allNumber: 50,
-        customer: "asdasd",
-        productLen: 5,
-        imgSrc:
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        display: 0,
-        status: 7,
-        processName: "织造",
-      },
-    ],
+    groupSelect: {
+      options: [
+        { label: "全部", value: "" },
+        { label: "选项1", value: "0" },
+        { label: "选项2", value: "1" },
+        { label: "选项3", value: "2" },
+      ],
+    },
+    userSelect: {
+      options: [
+        { label: "全部", value: "" },
+        { label: "选项1", value: "0" },
+        { label: "选项2", value: "1" },
+        { label: "选项3", value: "2" },
+      ],
+    },
+    clientSelect: {
+      options: [
+        {
+          label: "选项1",
+          options: [
+            {
+              label: "选项1",
+              value: "0-0",
+            },
+            {
+              label: "选项2",
+              value: "0-1",
+            },
+          ],
+          value: "0",
+        },
+      ],
+      value: ["0", "0-0"],
+    },
+    orderList: [],
+    is_check: "",
+    group_id: "",
+    user_id: "",
+    client_id: "",
+    keyword: "",
+    page: 1,
+    showLoading: false,
+    isEnd: false,
+    noData: false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {},
+  onLoad(options) {
+    const isLogin = isIfLogin();
 
-	toDetail(e){
-		let item = e.currentTarget.dataset.item
+    getGroupList("order");
+    getUserList("order");
+    getClientList("order");
 
-		wx.navigateTo({
-			url: '/pages/order/orderDetail/orderDetail?id='+item.id,
-		})
-	}
+    let arr = [
+      {
+        label: "全部",
+        value: "--",
+      },
+    ];
+
+    arr = arr.concat(wx.getStorageSync("clientList").splice(0, 2));
+
+    this.setData({
+      isLogin,
+      groupSelect: {
+        options: wx.getStorageSync("groupList"),
+      },
+      userSelect: {
+        options: wx.getStorageSync("userList"),
+      },
+      clientSelect: {
+        options: arr,
+        value: [
+          "--",
+          // wx.getStorageSync("clientList").splice(0, 2)[0].value,
+          // wx.getStorageSync("clientList").splice(0, 2)[0].options[0].value,
+        ],
+      },
+    });
+    this.getList();
+  },
+
+  getList() {
+    if (this.data.isEnd) return;
+
+    this.setData({
+      showLoading: true,
+    });
+
+    wxReq(
+      {
+        url: "/order/lists",
+        data: {
+          page: this.data.page,
+          limit: 10,
+          order_type: 1,
+          client_id:
+            this.data.client_id[0] === "--"
+              ? ""
+              : this.data.client_id[2]
+              ? this.data.client_id[2].split("-")[2]
+              : "",
+          user_id: this.data.user_id,
+          keyword: this.data.keyword,
+          is_check: this.data.is_check,
+          group_id: this.data.group_id,
+        },
+        method: "GET",
+      },
+      "order"
+    ).then((res) => {
+      if (res.data.data.items.length < 10) {
+        this.setData({
+          isEnd: true,
+        });
+      }
+
+      if (this.data.page === 1 && res.data.data.items.length === 0) {
+        this.setData({
+          noData: true,
+        });
+      }
+      this.data.page += 1;
+      this.data.orderList = this.data.orderList.concat(res.data.data.items);
+
+      this.setData({
+        orderList: this.data.orderList,
+        showLoading: false,
+      });
+    });
+  },
+
+  reqOrder: debounce(function () {
+    this.getList();
+  }, 1000),
+
+  changeSingleSelect(e) {
+    const { type } = e.currentTarget.dataset;
+
+    let obj = {};
+
+    obj[type] = e.detail.value;
+    this.setData(obj);
+
+    this.data.page = 1;
+    this.data.orderList = [];
+    this.setData({ orderList: [], isEnd: false, noData: false });
+    this.reqOrder();
+  },
+
+  changeClient(e) {
+    this.setData({
+      "clientSelect.value": e.detail.value,
+    });
+  },
+
+  toDetail(e) {
+    let item = e.currentTarget.dataset.item;
+
+    wx.navigateTo({
+      url: "/pages/orderDetail/orderDetail?id=" + item.id,
+    });
+  },
 });

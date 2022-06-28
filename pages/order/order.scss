@@ -1,4 +1,24 @@
 /* pages/order/order.wxss */
-#order{
+#order {
+  .image {
+    border-radius: 0;
+    overflow: hidden;
+    width: 144rpx;
+    height: 114rpx;
+    border-radius: 8rpx;
+  }
 
+  .card {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 95vw;
+  }
+
+  .t-dropdown-menu__title {
+    font-size: 25rpx;
+  }
+
+  .t-dropdown-item {
+    top: 90px !important;
+  }
 }
