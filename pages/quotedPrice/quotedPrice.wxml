@@ -1,6 +1,7 @@
 <!--pages/quotedPrice/quotedPrice.wxml-->
 <view id="quotedPrice">
-	<nav-content showBack="{{false}}">
+	<!-- <nav-content showBack="{{false}}"> -->
+	<nav-content>
 		<view slot="after">
 			<input wx:if="{{isLogin}}"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
@@ -22,7 +23,7 @@
 			bindchange="changeDate" />
 	</t-dropdown-menu>
 
-	<scroll-view scroll-y class="vh75" bindscrolltolower="getList">
+	<scroll-view scroll-y class="vh80" bindscrolltolower="getList">
 		<order-card wx:for="{{orderList}}" notShowProLen data-item="{{item}}" wx:for-item="item" wx:key="item"
 			wx:for-index="index" detailInfo="{{item}}" bindtap="toDetail"></order-card>
 		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
@@ -33,7 +34,7 @@
 		<view class="vh60" wx:if="{{showLoading && orderList.length === 0}}"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view style="height: 6vh;"></view>
+		<view style="height: 8vh;"></view>
 	</scroll-view>
 
 	<view wx:if="{{!isLogin}}">

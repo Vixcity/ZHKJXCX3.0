@@ -36,9 +36,9 @@
     border: 0.5px solid #eaeaea;
 		display: flex;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: space-between;
 		z-index: 20;
-		padding: 5px 0;
+		padding: 7px 0;
 		width: 20%;
 		
 		.borderLeft {
@@ -49,9 +49,33 @@
 		.van-icon {
       display: inline-block;
 			text-align: center;
-			font-size: 40rpx;
+			font-size: 70rpx;
 		}
   }
+}
+
+.vw10{
+	width: 10vw;
+}
+
+.vw20{
+	width: 20vw;
+}
+
+.flex{
+	display: flex;
+}
+
+.aic{
+	align-items: center;
+}
+
+.jcc{
+	justify-content: center;
+}
+
+.tc{
+	text-align: center;
 }
 
 .white{

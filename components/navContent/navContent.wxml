@@ -2,9 +2,13 @@
 <view style='height:{{navH}}px; background: {{color}};'>
 	<view class="nav {{white ? 'white':''}}" style="height:{{navH}}px; background: {{color}};">
 		<view wx:if="{{showBack || showHome}}" class='title_icon'>
-			<van-icon wx:if="{{showBack}}" name="arrow-left" bindtap='navBack' />
+			<view wx:if="{{showBack}}" class="{{showBack && showHome?'vw10':'vw20'}} flex jcc tc" bindtap='navBack'>
+				<van-icon name="arrow-left" />
+			</view>
 			<view wx:if="{{showBack && showHome}}" class="borderLeft"></view>
-			<van-icon wx:if="{{showHome}}" name="wap-home-o" bindtap='navHome' />
+			<view wx:if="{{showHome}}" class="{{showBack && showHome?'vw10':'vw20'}} flex jcc tc" bindtap='navHome'>
+				<van-icon name="wap-home-o" />
+			</view>
 		</view>
 		<view class="{{(showBack || showHome)?'title_text':'title_text_big'}}">
 			<slot name="after"></slot>
