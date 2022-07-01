@@ -88,6 +88,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "联级选择器",
+					"pathName": "pages/pickerTest/pickerTest",
+					"query": "isUpdate=true&id=264",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

@@ -735,11 +735,16 @@ Page({
     let arr = e.detail.value[2].split("-");
     let str = arr[0] + "-" + arr[1];
 
-    let name1 = this.data.yarnTypeList.options.find(
-      (res) => res.value === e.detail.value[0]
-    );
-    let name2 = name1.options.find((item) => item.value === str);
-    let name3 = name2.options.find((item) => item.value === e.detail.value[2]);
+    let name1 = this.data.yarnTypeList.options.find((res) => {
+      return res.value === e.detail.value[0];
+    });
+
+    let name2 = name1.options.find((item) => {
+      return item.value === str;
+    });
+    let name3 = name2.options.find((item) => {
+      return item.value === e.detail.value[2];
+    });
     let names = name1.label + "/" + name2.label + "/" + name3.label;
 
     this.data.productList[index].material_data[materialindex].material_id =

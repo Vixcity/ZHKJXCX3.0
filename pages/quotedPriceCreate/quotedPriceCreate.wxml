@@ -119,7 +119,7 @@
 									</view>
 									<view class="ml10">{{materialItem.material_name}}</view>
 								</view>
-								<t-dropdown-menu z-index="2" class="yarnTypeListIconHidden">
+								<t-dropdown-menu z-index="50" class="yarnTypeListIconHidden">
 									<t-dropdown-item label="点击变更" optionsLayout="tree" options="{{yarnTypeList.options}}"
 										value="{{materialItem.material_id}}" bindchange="changeMaterial" data-index="{{index}}"
 										data-materialIndex="{{materialIndex}}" />
