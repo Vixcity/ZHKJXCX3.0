@@ -6,24 +6,32 @@
 		</view>
 	</nav-content>
 	<view class="card">
-		<l-input label="报价单标题" placeholder="点击输入" value="{{title}}" bind:lininput="changeTitle" />
 		<view class="flex aic por fz28 color3">
-			<text class="flex aic pl25r pr15r borderBox" style="width: 114px;justify-content: flex-start;height: 88rpx;">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"> </text>报价单标题
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" value="{{title}}" bind:lininput="changeTitle" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;">* </text>询价公司
 			</text>
-			<t-dropdown-menu z-index="2">
+			<t-dropdown-menu style="margin-left: 10rpx;" z-index="2">
 				<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
 					bindchange="changeClient" />
 			</t-dropdown-menu>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
-			<text class="flex aic pl25r pr15r borderBox" style="width: 114px;justify-content: flex-start;height: 88rpx;">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;"></text>联系人
 			</text>
-			<view wx:if="{{!clientList.value[2] && !concatName}}" class="color91">请先选择询价公司</view>
-			<view wx:if="{{clientList.value[2] && !concatName}}" bindtap="changeChooseConcat">选择联系人</view>
-			<view wx:if="{{concatName}}" bindtap="changeChooseConcat">{{concatName.value}}</view>
+			<view class="w70">
+				<view wx:if="{{!clientList.value[2] && !concatName}}" class="pl25r color91">请先选择询价公司</view>
+				<view wx:if="{{clientList.value[2] && !concatName}}" class="pl25r" bindtap="changeChooseConcat">选择联系人</view>
+				<view wx:if="{{concatName}}" bindtap="changeChooseConcat" class="pl25r">{{concatName.value}}</view>
+			</view>
 			<van-popup show="{{ showChooseConcat }}" position="bottom" custom-style="height: 40%;" round>
 				<van-picker columns="{{ concatNameList }}" show-toolbar title="选择联系人" bind:cancel="closeChooseConcat"
 					bind:confirm="confirmChooseConcat" />
@@ -31,29 +39,33 @@
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
-			<text class="flex aic pl25r pr15r borderBox" style="width: 114px;justify-content: flex-start;height: 88rpx;">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;"></text>负责组/人
 			</text>
-			<view wx:if="{{!groupName}}" class="color91" bindtap="openGroup">点击选择</view>
-			<view wx:else bindtap="openGroup">{{ groupName.value }}</view>
+			<view class="w70">
+				<view wx:if="{{!groupName}}" class="color91 pl25r" bindtap="openGroup">点击选择</view>
+				<view wx:else class="pl25r" bindtap="openGroup">{{ groupName.value }}</view>
+			</view>
 			<van-popup show="{{ showGroup }}" position="bottom" custom-style="height: 40%;" round>
 				<van-picker columns="{{ groupLabelList }}" show-toolbar title="选择负责组/人" bind:cancel="closeGroup"
 					bind:confirm="confirmGroup" />
 			</van-popup>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
-		<view class="flex aic por fz28 color3">
-			<text class="flex aic pl25r pr15r borderBox" style="width: 114px;justify-content: flex-start;height: 88rpx;">
-				<text style="color: #e23;vertical-align: middle;">* </text>币种
+		<view class="flex por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;">* </text>汇率币种
 			</text>
-			<l-radio-group placement="row" current="{{settle_unit}}" bind:linchange="changeUnit">
-				<l-radio key="元" class="color3 fz28">元</l-radio>
-				<l-radio key="美元" class="ml20 color3 fz28">美元</l-radio>
-			</l-radio-group>
+			<view class="flex aic w70">
+				<l-input placeholder="点击输入" hide-label="{{true}}" type="number" value="{{exchange_rate}}"
+					bind:lininput="changeRate" style="width: 40%;" />
+				<l-radio-group placement="row" current="{{settle_unit}}" bind:linchange="changeUnit">
+					<l-radio key="元" class="color3 fz28">元</l-radio>
+					<l-radio key="美元" class="ml20 color3 fz28">美元</l-radio>
+				</l-radio-group>
+			</view>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
-		<l-input label="汇率" placeholder="点击输入" required="{{true}}" type="number" value="{{exchange_rate}}"
-			bind:lininput="changeRate" />
 	</view>
 	<view class="card">
 		<view class="{{index===0?'por':'mt10 por'}}" wx:for="{{productList}}" wx:key="item" wx:for-index="index"
@@ -477,7 +489,8 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">客户佣金百分比</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputCommission" value="{{commission_percentage}}" placeholder="客户佣金百分比" />
+				<input type="number" style="display: block;height: 48px;" bindinput="inputCommission"
+					value="{{commission_percentage}}" placeholder="客户佣金百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>佣金费用</view>
@@ -485,7 +498,8 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计税率</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputRateTaxation" value="{{rate_taxation}}" placeholder="预计税率" />
+				<input type="number" style="display: block;height: 48px;" bindinput="inputRateTaxation"
+					value="{{rate_taxation}}" placeholder="预计税率" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>税费</view>
@@ -493,8 +507,8 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计利润百分比</view>
-				<input type="number" style="display: block;height: 48px;" value="{{profit_percentage}}" bindinput="inputProfitPercentage"
-					placeholder="预计利润百分比" />
+				<input type="number" style="display: block;height: 48px;" value="{{profit_percentage}}"
+					bindinput="inputProfitPercentage" placeholder="预计利润百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>利润</view>

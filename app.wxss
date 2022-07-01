@@ -474,6 +474,10 @@ page {
 	padding-left: 20px;
 }
 
+.pl16 {
+	padding-left: 16px;
+}
+
 .pl15 {
 	padding-left: 15px;
 }
@@ -495,6 +499,14 @@ page {
 }
 
 /* padding-right */
+.pr25r {
+	padding-right: 25rpx;
+}
+
+.pr25 {
+	padding-right: 25px;
+}
+
 .pr20 {
 	padding-right: 20px;
 }
@@ -586,6 +598,14 @@ page {
 
 .w90 {
 	width: 90%;
+}
+
+.w88 {
+	width: 88%;
+}
+
+.w85 {
+	width: 85%;
 }
 
 .w80 {

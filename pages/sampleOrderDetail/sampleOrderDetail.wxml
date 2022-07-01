@@ -139,7 +139,7 @@
 					<view class="line"></view>
 					<view class="bold">物料汇总信息</view>
 					<view class="mt10">入库进度</view>
-					<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%">
+					<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
 						<view class="poa" style="left: 10px;">原料入库进度</view>
 						<view class="poa" style="right: 10px;">{{item.progress.material_push}}%</view>
 						<view class="bgColor27A2"
@@ -147,7 +147,7 @@
 						</view>
 					</view>
 					<view class="mt10">出库进度</view>
-					<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%">
+					<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
 						<view class="poa" style="left: 10px;">原料出库进度</view>
 						<view class="poa" style="right: 10px;">{{item.progress.material_pop}}%</view>
 						<view class="bgColor27A2"

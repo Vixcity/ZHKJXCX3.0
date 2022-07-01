@@ -15,4 +15,23 @@
 		align-items: unset;
 		margin-top: 10px;
 	}
+
+	.specialBorder {
+    width: 49.5%;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: none;
+		border-left: none;
+	}
+	
+	.specialBorder:nth-child(2n-1){
+		border-left: 1px solid rgba(0,0,0,0.1);
+	}
+	
+	.specialBorder:nth-last-child(-n+2){
+		border-bottom: 1px solid rgba(0,0,0,0.1);
+	}
+	
+	.specialBorder:nth-child(-n+2){
+		border-top: 0;
+	}
 }

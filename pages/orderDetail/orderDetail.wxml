@@ -50,7 +50,7 @@
 		</view>
 		<view class="flexTitle">
 			<view class="w30">负责小组</view>
-			<view class="w70" style="color: #333333;">{{orderDetail.group_name}}</view>
+			<view class="w70" style="color: #333333;">{{orderDetail.group_name || '无'}}</view>
 		</view>
 		<view class="flexTitle">
 			<view class="w30">特殊要求</view>
@@ -74,14 +74,14 @@
 					<van-image width="100" height="100" fit="cover"
 						src="{{item.image_data[0]||'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 				</view>
-				<view class="w70 flex fdc jcsb">
+				<view class="w70 flex fdc jcsb pl10">
 					<view>
 						<view class="color27A2">{{item.product_code}}</view>
 						<view>{{item.name}}</view>
 					</view>
 					<view class="flex jcsb aic">
 						<view>{{item.category}}/{{item.secondary_category}}</view>
-						<view class="flex w40 jcsb">
+						<view class="flex w30 jcsb">
 							<view class="tc" wx:if="{{item.craft_list_id}}"
 								style="border: 1px solid #03d0a2;color:#03d0a2;width:25px;height:25px;border-radius: 1000px;">工</view>
 							<view class="tc" wx:if="{{!item.craft_list_id}}"
@@ -90,15 +90,12 @@
 								style="border: 1px solid #03d0a2;color:#03d0a2;width:25px;height:25px;border-radius: 1000px;">报</view>
 							<view class="tc" wx:if="{{!item.rel_quote_info.quote_id}}"
 								style="border: 1px solid #9c9c9c;color:#9c9c9c;width:25px;height:25px;border-radius: 1000px;">报</view>
-							<view class="tc" wx:if="{{item.client_edit_idea}}"
-								style="border: 1px solid #03d0a2;color:#03d0a2;width:25px;height:25px;border-radius: 1000px;">修</view>
-							<view class="tc" wx:if="{{!item.client_edit_idea}}"
-								style="border: 1px solid #9c9c9c;color:#9c9c9c;width:25px;height:25px;border-radius: 1000px;">修</view>
 						</view>
 					</view>
 				</view>
 			</view>
-			<view class="flex jcsb mt5" wx:for="{{item.product_info}}" wx:for-item="itemPro" wx:key="itemPro" wx:for-index="indexPro">
+			<view class="flex jcsb mt5" wx:for="{{item.product_info}}" wx:for-item="itemPro" wx:key="itemPro"
+				wx:for-index="indexPro">
 				<view class="w50">{{itemPro.size_name}}/{{itemPro.color_name}}</view>
 				<view>{{itemPro.price}}{{orderDetail.settle_unit}}</view>
 				<view>{{itemPro.number}}</view>
@@ -106,75 +103,886 @@
 		</view>
 	</view>
 
-	<view class="card">
+	<view class="card fz28">
 		<view class="title">批次信息</view>
-		<van-checkbox-group value="{{ result }}" bind:change="onChange" max="{{ 2 }}">
-			<van-checkbox name="1">
-				<view class="flex jcsb vw70">
-					<view>2022-02-06</view>
-					<view>已逾期</view>
+		<view wx:for="{{orderDetail.time_data[0].batch_data}}" wx:for-item="itemBatch" wx:key="itemBatch"
+			wx:for-index="index">
+			<view class="flex jcsb vw70">
+				<view>{{itemBatch.delivery_time}}</view>
+				<view class="colorRed" wx:if="{{itemBatch.isOut}}">已逾期</view>
+			</view>
+			<view class="flex jcsb vw70 mt10">
+				<view>{{itemBatch.batch_title || '无批次名'}} | {{itemBatch.batch_type_name || '无'}}</view>
+			</view>
+			<view class="flex jcsb mt10 color91">
+				<view class="w33">产品品类</view>
+				<view class="w33">尺码颜色</view>
+				<view class="w33">计划/实际发货</view>
+			</view>
+			<view wx:for="{{itemBatch.product_data}}" wx:for-item="itemPro" wx:key="itemPro" wx:for-index="indexPro">
+				<view class="flex jcsb mt10" wx:for="{{itemPro.product_info}}" wx:for-item="itemChild" wx:key="itemChild"
+					wx:for-index="indexChild">
+					<view class="w33">{{itemPro.product_code||itemPro.system_code||'无编号'}}</view>
+					<view class="w33">{{itemChild.size_name}}/{{itemChild.color_name}}</view>
+					<view class="w33">{{itemChild.number}}/{{itemChild.transport_number||0}}</view>
 				</view>
-				<view class="flex jcsb vw70">
-					<view>无批次名 | 外贸单</view>
-					<view>确认完成</view>
-				</view>
-				<list-card isSlot cardInfoData="{{cardInfoData}}"></list-card>
-			</van-checkbox>
-			<van-checkbox name="2">
-				<view class="flex jcsb vw70">
-					<view>2022-02-06</view>
-					<view>已逾期</view>
-				</view>
-				<view class="flex jcsb vw70">
-					<view>无批次名 | 外贸单</view>
-					<view>确认完成</view>
-				</view>
-				<list-card isSlot cardInfoData="{{cardInfoData}}"></list-card>
-			</van-checkbox>
-		</van-checkbox-group>
-		<view class="tc color27A2">批量确认</view>
+			</view>
+		</view>
 	</view>
 
+	<!-- 物料汇总 -->
 	<view class="card">
 		<view class="title">物料汇总信息</view>
-		<view class="flex jcsa mt10">
-			<view>1</view>
-			<view>2</view>
+		<view class="mt10">入库进度</view>
+		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
+			<view class="poa" style="left: 10px;">原料入库进度</view>
+			<view class="poa" style="right: 10px;">{{materialProgress.material_push}}%</view>
+			<view class="bgColor27A2"
+				style="border-radius: 1000px;width: {{materialProgress.material_push>100?100:materialProgress.material_push}}%; height: 25px;">
+			</view>
 		</view>
-		<view>
-			<view class="flex mt10" style="background: rgba(0,0,0,0.1);">
-				<view>2英支单股50亚麻50涤纶色筒</view>
-				<view>红色</view>
-				<view>100 KG</view>
+		<view class="mt10">出库进度</view>
+		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
+			<view class="poa" style="left: 10px;">原料出库进度</view>
+			<view class="poa" style="right: 10px;">{{materialProgress.material_pop}}%</view>
+			<view class="bgColor27A2"
+				style="border-radius: 1000px;width: {{materialProgress.material_pop>100?100:materialProgress.material_pop}}%; height: 25px;">
 			</view>
-			<view class="flex mt10 jcsb">
-				<view class="tc w100">无调取信息</view>
+		</view>
+
+		<view wx:for="{{materialDetail}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+			<view class="flex jcsb" style="background: rgba(0,0,0,0.1);" wx:for="{{item.color_info}}" wx:for-item="itemColor"
+				wx:key="itemColor" wx:for-index="indexColor">
+				<view class="w50">{{item.material_name}}</view>
+				<view class="w20">{{itemColor.material_color}}</view>
+				<view class="w30">{{itemColor.number}}{{itemColor.unit}}</view>
 			</view>
-			<view class="flex mt10 jcsb">
-				<view>大江纱线</view>
-				<view>红色</view>
-				<view>100KG</view>
+
+			<view class="flex jcsb mt10 mb20" wx:for="{{item.material_transfer_info}}" wx:for-item="itemTransfer"
+				wx:key="itemTransfer" wx:for-index="indexTransfer">
+				<text class="bgColor27A2 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">调</text>
+				<view class="flex aic w90 jcsb">
+					<view>{{itemTransfer.store_name}}</view>
+					<view>{{itemTransfer.number}}</view>
+				</view>
 			</view>
-			<view class="flex mt10 jcsb">
-				<view>大江纱线</view>
-				<view>红色</view>
-				<view>100KG</view>
+			<view class="flex jcsb mt10 mb20" wx:if="{{item.material_transfer_info.length === 0}}">
+				<view class="bgColorD8 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">调</view>
+				<view class="w90 tc color9E">无调取信息</view>
 			</view>
-			<view class="flex mt10 jcsb">
-				<view>大江纱线</view>
-				<view>红色</view>
-				<view>100KG</view>
+			<view class="flex jcsb mt10 mb20" wx:for="{{item.material_order_info}}" wx:for-item="itemMaterialOrder"
+				wx:key="itemMaterialOrder" wx:for-index="indexMaterialOrder">
+				<text class="bgColor27A2 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">采</text>
+				<view class="w90 flex jcsb aic">
+					<view>{{itemMaterialOrder.client_name}}</view>
+					<view>{{itemMaterialOrder.number}}{{itemMaterialOrder.unit}}</view>
+				</view>
 			</view>
-			<view class="flex mt10 jcsb">
-				<view>大江纱线</view>
-				<view>红色</view>
-				<view>100KG</view>
+			<view class="flex jcsb mt10 mb20" wx:if="{{item.material_order_info.length === 0}}">
+				<view class="bgColorD8 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">采</view>
+				<view class="w90 tc color9E">无订购信息</view>
 			</view>
-			<view class="flex mt10 jcsb">
-				<view class="tc w100">无调取信息</view>
+			<view class="flex jcsb mt10 mb20" wx:for="{{item.material_process_info}}" wx:for-item="itemMaterialProcess"
+				wx:key="itemMaterialProcess" wx:for-index="indexMaterialProcess">
+				<text class="bgColor27A2 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">加</text>
+				<view class="w90 flex jcsb aic">
+					<view>{{itemMaterialProcess.client_name}}</view>
+					<view>{{itemMaterialProcess.process}}</view>
+					<view>{{itemMaterialProcess.number}}{{itemMaterialProcess.unit}}</view>
+				</view>
+			</view>
+			<view class="flex jcsb mt10 mb20" wx:if="{{item.material_process_info.length === 0}}">
+				<view class="bgColorD8 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">加</view>
+				<view class="w90 tc color9E">无加工信息</view>
+			</view>
+			<view class="flex jcsb mt10 mb20" wx:for="{{item.final_push_info}}" wx:for-item="itemMaterialPush"
+				wx:key="itemMaterialPush" wx:for-index="indexMaterialPush">
+				<text class="bgColor27A2 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">入</text>
+				<view class="w90 flex jcsb aic">
+					<view>{{itemMaterialPush.client_name}}</view>
+					<view>{{itemMaterialPush.number}}{{itemMaterialPush.unit}}</view>
+				</view>
+			</view>
+			<view class="flex jcsb mt10 mb20" wx:if="{{item.final_push_info.length === 0}}">
+				<view class="bgColorD8 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">入</view>
+				<view class="w90 tc color9E">无入库信息</view>
+			</view>
+			<view class="flex jcsb mt10 mb20" wx:for="{{item.final_pop_info}}" wx:for-item="itemMaterialPop"
+				wx:key="itemMaterialPop" wx:for-index="indexMaterialPop">
+				<text class="bgColor27A2 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">出</text>
+				<view class="w90 flex jcsb aic">
+					<view>{{itemMaterialPop.client_name}}</view>
+					<view>{{itemMaterialPop.number}}{{itemMaterialPop.unit}}</view>
+				</view>
+			</view>
+			<view class="flex jcsb mt10 mb20" wx:if="{{item.final_pop_info.length === 0}}">
+				<view class="bgColorD8 pt5 pb5 pl8 pr8 colorWhite" style="border-radius: 50px;">出</view>
+				<view class="w90 tc color9E">无出库信息</view>
+			</view>
+		</view>
+
+	</view>
+
+	<!-- 生产汇总 -->
+	<view class="card">
+		<view class="title">生产汇总信息</view>
+		<view class="mt10">生产织造进度</view>
+		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
+			<view class="poa" style="left: 10px;">生产织造进度(外协申报数量)</view>
+			<view class="poa" style="right: 10px;">{{productionProgress.weave}}%</view>
+			<view class="bgColor27A2"
+				style="border-radius: 1000px;width: {{productionProgress.weave>100?100:productionProgress.weave}}%; height: 25px;">
+			</view>
+		</view>
+		<view class="mt10">检验入库进度</view>
+		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
+			<view class="poa" style="left: 10px;">检验入库进度(车间申报数量)</view>
+			<view class="poa" style="right: 10px;">{{productionProgress.inspection}}%</view>
+			<view class="bgColor27A2"
+				style="border-radius: 1000px;width: {{productionProgress.inspection>100?100:productionProgress.inspection}}%; height: 25px;">
+			</view>
+		</view>
+		<!-- 开始很深很深的循环 -->
+		<view wx:for="{{productionDetail}}" wx:for-item="item" wx:key="item" wx:for-index="index">
+			<!-- 产品编号 -->
+			<view wx:for="{{item.data}}" wx:for-item="itemColor" wx:key="itemColor" wx:for-index="indexColor">
+				<!-- 颜色层级 -->
+				<view wx:for="{{itemColor.data}}" wx:for-item="itemSize" wx:key="itemSize" wx:for-index="indexSize">
+					<view class="flex jcsb" style="background: rgba(0,0,0,0.1);">
+						<view class="w50">{{item.product_code}}</view>
+						<view class="w30">{{itemColor.color_name}}/{{itemSize.size_name}}</view>
+						<view class="w20">{{itemSize.data.order_number || 0}}件</view>
+					</view>
+					<view wx:for="{{itemSize.data.weave_info}}" wx:for-item="itemClient" wx:key="itemClient"
+						wx:for-index="indexClient" class="mb10">
+						<!-- 公司层级 -->
+						<view wx:for="{{itemClient.data}}" wx:for-item="itemChild" wx:key="itemChild" wx:for-index="indexChild"
+							class="flex jcsb flexWarp mt10">
+							<!-- 工序层级 -->
+							<view class="w50 flex">
+								<view class="color91">生产单位</view>
+								<view class="pr10 ml10">{{itemClient.client_name}}</view>
+							</view>
+							<view class="w50 flex">
+								<view class="color91">生产工序</view>
+								<view class="pr10 ml10 color27A2">{{itemChild.process_name}}</view>
+							</view>
+							<view class="w100 flex mt10">
+								<view class="color91">计划数量</view>
+								<view class="pr10 ml10">{{itemChild.data.plan_number}}</view>
+							</view>
+							<view class="w50 flex mt10">
+								<view class="color91">完成数量</view>
+								<view class="pr10 ml10">{{itemChild.data.real_number}}</view>
+							</view>
+							<view class="w50 flex mt10">
+								<view class="color91">检验入库数量</view>
+								<view class="pr10 ml10">{{itemChild.data.inspection_number}}</view>
+							</view>
+							<view class="w50 flex mt10">
+								<view class="color91">半次/全次</view>
+								<view class="pr10 ml10">{{itemChild.data.part_shoddy_number||0}}/{{itemChild.data.shoddy_number||0}}
+								</view>
+							</view>
+							<view class="w50 flex mt10">
+								<view class="color91">次品率</view>
+								<view class="pr10 ml10">{{itemChild.data.shoddy_pre}}%</view>
+							</view>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
 
-	<view class="card"></view>
+	<!-- 财务概览 -->
+	<view class="card">
+		<view class="title">财务概览</view>
+		<view class="tc">
+			<view class="flex">
+				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'
+					data-type='product'>
+					<view>产品费用</view>
+					<view class="mt10">
+						{{financialInfo.product_total_price}} 元
+					</view>
+				</view>
+				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-left: none;"
+					bindtap='showFinancialPopup' data-type='material'>
+					<view>原料费用</view>
+					<view class="mt10">
+						{{financialInfo.material.material.gather.plan_price}} 元
+					</view>
+				</view>
+			</view>
+			<view class="flex">
+				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);border-top: none;"
+					bindtap='showFinancialPopup' data-type='decorate'>
+					<view>辅料费用</view>
+					<view class="mt10">
+						{{financialInfo.material.decorate.gather.plan_price}} 元
+					</view>
+				</view>
+				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-top: none;border-left: none;"
+					bindtap='showFinancialPopup' data-type='pack'>
+					<view>包装辅料</view>
+					<view class="mt10">
+						{{financialInfo.pack.gather.total_price}} 元
+					</view>
+				</view>
+			</view>
+			<view class="flex flexWarp">
+				<view class="pt10 pb10 specialBorder" wx:for="{{financialInfo.weave}}" wx:for-item="itemWeave"
+					wx:key="itemWeave" wx:for-index="indexWeave" bindtap='showFinancialPopup' data-indexWeave="{{indexWeave}}"
+					data-type='weave' data-index='{{indexWeave}}'>
+					<view>生产费用-{{itemWeave.process_name}}</view>
+					<view class="mt10">
+						{{itemWeave.total_price}} 元
+					</view>
+				</view>
+				<view class="pt10 pb10 specialBorder" wx:for="{{financialInfo.production_inspection}}" wx:for-item="itemPro"
+					wx:key="itemPro" wx:for-index="indexPro" bindtap='showFinancialPopup' data-type='production_inspection'
+					data-index='{{indexPro}}' data-indexpro='{{indexPro}}'>
+					<view>车间工资-{{itemPro.process_name}}</view>
+					<view class="mt10">
+						{{itemPro.total_price}} 元
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="vh12"></view>
+	<!-- <view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa">
+			<van-button type="primary" size="small" bindtap="showAssociatedDocument">查看关联单据</van-button>
+		</view>
+	</view> -->
+
+	<!-- 弹窗层 -->
+	<!-- 产品费用 -->
+	<van-popup show="{{ showProductPopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">产品费用</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="pl20 pr20 mb30" wx:for="{{financialInfo.product}}" wx:for-item="itemPro" wx:key="itemPro"
+				wx:for-index="indexPro">
+				<view class="color27A2 mt10">{{itemPro.product_code || '未填写'}}</view>
+				<view class="mt10">{{itemPro.total_number || 0}}件</view>
+				<view class="mt10 flex jcsb">
+					<view>均价 {{itemPro.pre_price || 0}} 元</view>
+					<view>{{itemPro.total_price || 0}} 元</view>
+				</view>
+				<view class="flex jcsb fz25 color91 mt10" wx:for="{{itemPro.detail}}" wx:for-item="itemProDetail"
+					wx:key="itemProDetail" wx:for-index="indexProDetail">
+					<view class="w40">{{itemProDetail.size_name||'未填写'}}/{{itemProDetail.color_name || '未填写'}}</view>
+					<view class="w40">{{itemProDetail.price || 0}}元</view>
+					<view>{{itemProDetail.total_price || 0}}元</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowProductPopup'>关闭
+		</view>
+	</van-popup>
+	<!-- 原料费用 -->
+	<van-popup show="{{ showMaterialPopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">原料费用</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w33">
+					<view class="mt10">采购合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.material.gather.material_order.plan}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.material.gather.material_order.plan}}</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">调取合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.material.gather.material_transfer.plan||0}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.material.gather.material_transfer.plan||0}}</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">加工合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.material.gather.material_process.plan||0}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.material.gather.material_process.plan||0}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">计划合计费用</view>
+					<view class="mt10 mb10">{{financialInfo.material.material.gather.plan_price||0}}元</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">实际合计费用</view>
+					<view class="mt10 mb10">{{financialInfo.material.material.gather.real_price||0}}元</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w33">
+					<view class="mt10">费用平均单价</view>
+					<view class="mt10 mb10">0元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均单价</view>
+					<view class="mt10">{{financialInfo.material.material.gather.product_pre_price||0}}元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均克重</view>
+					<view class="mt10">{{financialInfo.material.material.gather.pre_number||0}}g</view>
+				</view>
+			</view>
+			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.material.material.detail.material_order}}"
+				wx:for-item="itemMaterialOrder" wx:key="itemMaterialOrder" wx:for-index="indexMaterialOrder">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">订购</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemMaterialOrder.client_name}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemMaterialOrder.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55">{{itemMat.attribute}}/{{itemMat.material_color}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price || 0}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pt10 pl10 pr10" style="border: 1px solid rgba(0,0,0,0.1);"
+				wx:for="{{financialInfo.material.material.detail.material_transfer}}" wx:for-item="itemTransfer"
+				wx:key="itemTransfer" wx:for-index="indexTransfer">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">调取</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemTransfer.store}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemTransfer.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55">{{itemMat.attribute}}/{{itemMat.material_color}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price || 0}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pt10 pl10 pr10" style="border: 1px solid rgba(0,0,0,0.1);"
+				wx:for="{{financialInfo.material.material.detail.material_process}}" wx:for-item="itemProcess"
+				wx:key="itemProcess" wx:for-index="indexProcess">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">{{itemProcess.process}}</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemProcess.client_name}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemProcess.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_order_name || itemMat.material_transfer_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55" wx:if="{{itemProcess.process==='染色'}}">白胚/{{itemMat.after_color}}</view>
+							<view class="w55" wx:if="{{itemProcess.process==='倒纱'}}">
+								{{itemMat.before_attribute}}/{{itemMat.after_attribute||'未填写'}}</view>
+							<view class="w55" wx:if="{{itemProcess.process==='并线'}}">{{itemMat.bingxian_desc}}</view>
+							<view class="w55" wx:if="{{itemProcess.process==='膨纱'}}">{{itemMat.pengsha_desc}}</view>
+							<view class="w55" wx:if="{{itemProcess.process==='切割'}}">{{itemMat.qiege_desc}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price || 0}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowMaterialPopup'>关闭
+		</view>
+	</van-popup>
+	<!-- 辅料费用 -->
+	<van-popup show="{{ showDecoratePopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">辅料费用</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w33">
+					<view class="mt10">采购合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.decorate.gather.material_order.plan}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.decorate.gather.material_order.plan}}</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">调取合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.decorate.gather.material_transfer.plan||0}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.decorate.gather.material_transfer.plan||0}}</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">加工合计数量</view>
+					<view class="mt10">计划：{{financialInfo.material.decorate.gather.material_process.plan||0}}</view>
+					<view class="mt10 mb10">实际：{{financialInfo.material.decorate.gather.material_process.plan||0}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">计划合计费用</view>
+					<view class="mt10 mb10">{{financialInfo.material.decorate.gather.plan_price||0}}元</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">实际合计费用</view>
+					<view class="mt10 mb10">{{financialInfo.material.decorate.gather.real_price||0}}元</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">费用平均单价</view>
+					<view class="mt10 mb10">0元</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均单价</view>
+					<view class="mt10">{{financialInfo.material.decorate.gather.product_pre_price||0}}元</view>
+				</view>
+			</view>
+			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.material.decorate.detail.material_order}}"
+				wx:for-item="itemOrder" wx:key="itemOrder" wx:for-index="indexOrder">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">订购</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemOrder.client_name}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemOrder.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55">{{itemMat.attribute || '无'}}/{{itemMat.material_color || '无'}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pt10 pl10 pr10" style="border: 1px solid rgba(0,0,0,0.1);"
+				wx:for="{{financialInfo.material.decorate.detail.material_transfer}}" wx:for-item="itemTransfer"
+				wx:key="itemTransfer" wx:for-index="indexTransfer">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">调取</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemTransfer.store}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemTransfer.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55">{{itemMat.attribute||'无'}}/{{itemMat.material_color||'无'}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price || 0}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="pt10 pl10 pr10" style="border: 1px solid rgba(0,0,0,0.1);"
+				wx:for="{{financialInfo.material.decorate.detail.material_process}}" wx:for-item="itemProcess"
+				wx:key="itemProcess" wx:for-index="indexProcess">
+				<view class="flex flexWarp aic">
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">费用类型</view>
+						<view class="w55">{{itemProcess.process}}</view>
+					</view>
+					<view class="w50 flex mb10 jcsb">
+						<view class="color9E">单位/仓库</view>
+						<view class="w55">{{itemProcess.client_name}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemProcess.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">原料名称</view>
+							<view class="w55">{{itemMat.material_order_name || itemMat.material_transfer_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">属性颜色</view>
+							<view class="w55">{{itemMat.after_attribute||'无'}}/{{itemMat.after_color||'无'}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price || 0}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">最终入库数</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划费用</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">实际费用</view>
+							<view class="w55">{{itemMat.real_total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowDecoratePopup'>关闭
+		</view>
+	</van-popup>
+	<!-- 包装辅料 -->
+	<van-popup show="{{ showPackPopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">包装辅料</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">计划订购数量</view>
+					<view class="mt10 mb10">{{financialInfo.pack.gather.plan_number||0}}</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">计划费用合计</view>
+					<view class="mt10 mb10">{{financialInfo.pack.gather.total_price||0}}元</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">费用平均单价</view>
+					<view class="mt10 mb10">0元</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均单价</view>
+					<view class="mt10">{{financialInfo.pack.gather.product_pre_price||0}}元</view>
+				</view>
+			</view>
+			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.pack.detail}}" wx:for-item="itemOrder" wx:key="itemOrder"
+				wx:for-index="indexOrder">
+				<view class="flex flexWarp aic">
+					<view class="w100 flex mb10 jcsb">
+						<view class="w30 color9E">单位/仓库</view>
+						<view class="w70">{{itemOrder.client_name}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemOrder.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w100 flex mb10 jcsb">
+							<view class="w30 color9E">辅料名称</view>
+							<view class="w70">{{itemMat.pack_material_name}}</view>
+						</view>
+						<view class="w100 flex mb10 jcsb">
+							<view class="w30 color9E">尺寸</view>
+							<view class="w70">{{itemMat.length}}cm*{{itemMat.width}}cm*{{itemMat.height}}cm</view>
+						</view>
+						<view class="w100 flex mb10 jcsb">
+							<view class="w30 color9E">属性或说明</view>
+							<view class="w70">{{itemMat.desc || '无'}}</view>
+						</view>
+						<view class="w100 flex mb10 jcsb">
+							<view class="w30 color9E">计划订购数</view>
+							<view class="w70">{{itemMat.number || '无'}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="w85 color9E">单价</view>
+							<view class="w55">{{itemMat.count_price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">总价</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowPackPopup'>关闭
+		</view>
+	</van-popup>
+	<!-- 生产费用 -->
+	<van-popup show="{{ showWeavePopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">生产费用</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">费用工序</view>
+					<view class="mt10 mb10">{{financialInfo.weave[indexweave].process_name||'无'}}</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">工序说明</view>
+					<view class="mt10 mb10 pl10 pr10"
+						style="display: -webkit-box;overflow: hidden;-webkit-box-orient: vertical; -webkit-line-clamp: 2;">
+						{{financialInfo.weave[indexweave].process_desc || '无'}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">生产数量</view>
+					<view class="mt10 mb10">{{financialInfo.weave[indexweave].number||0}}</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">实际完成数量</view>
+					<view class="mt10 mb10">{{financialInfo.weave[indexweave].real_number||0}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w33">
+					<view class="mt10">计划合计费用</view>
+					<view class="mt10 mb10">{{financialInfo.weave[indexweave].total_price||0}}元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">费用平均单价</view>
+					<view class="mt10">0元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均单价</view>
+					<view class="mt10">{{financialInfo.weave[indexweave].product_pre_price||0}}元</view>
+				</view>
+			</view>
+			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.weave[indexweave].detail}}" wx:for-item="itemWeave"
+				wx:key="itemWeave" wx:for-index="indexWeave">
+				<view class="flex flexWarp aic">
+					<view class="w100 flex mb10 jcsb">
+						<view class="w20 color9E">单位名称</view>
+						<view class="w77">{{itemWeave.client}}</view>
+					</view>
+					<view class="flex flexWarp aic" wx:for="{{itemWeave.product_info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w100 flex mb10 jcsb">
+							<view class="w20 color9E">产品信息</view>
+							<view class="w77">{{itemMat.product_code}}（{{itemMat.category_name}}/{{itemMat.secondary_category_name}}）
+							</view>
+						</view>
+						<view class="w100 flex mb10 jcsb">
+							<view class="w20 color9E">尺码颜色</view>
+							<view class="w77">{{itemMat.size_name}}/{{itemMat.color_name}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划数量</view>
+							<view class="w55">{{itemMat.number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">完成数量</view>
+							<view class="w55">{{itemMat.real_number}}</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">单价</view>
+							<view class="w55">{{itemMat.price}}元</view>
+						</view>
+						<view class="w50 flex mb10 jcsb">
+							<view class="color9E">计划小计</view>
+							<view class="w55">{{itemMat.total_price}}元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowWeavePopup'>关闭
+		</view>
+	</van-popup>
+	<!-- 车间工资 -->
+	<van-popup show="{{ showCheJianPopup }}" round>
+		<view class="pt20 pl20 bold pb20" style="border-bottom:1px solid #eeeeee ;">车间工资</view>
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw90">
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">费用工序</view>
+					<view class="mt10 mb10">{{financialInfo.production_inspection[indexpro].process_name||'无'}}</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">工序说明</view>
+					<view class="mt10 mb10 pl10 pr10"
+						style="display: -webkit-box;overflow: hidden;-webkit-box-orient: vertical; -webkit-line-clamp: 2;">
+						{{financialInfo.production_inspection[indexpro].process_desc || '无'}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w50">
+					<view class="mt10">完成数量</view>
+					<view class="mt10 mb10">{{financialInfo.production_inspection[indexpro].number||0}}</view>
+				</view>
+				<view class="w50" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">额外数量</view>
+					<view class="mt10 mb10">{{financialInfo.production_inspection[indexpro].extra_number||0}}</view>
+				</view>
+			</view>
+			<view class="flex fz25 tc" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+				<view class="w33">
+					<view class="mt10">合计结算总价</view>
+					<view class="mt10 mb10">{{financialInfo.production_inspection[indexpro].total_price||0}}元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">费用平均单价</view>
+					<view class="mt10">0元</view>
+				</view>
+				<view class="w33" style="border-left: 1px solid rgba(0,0,0,0.1);">
+					<view class="mt10">产品平均单价</view>
+					<view class="mt10">{{financialInfo.production_inspection[indexpro].product_pre_price||0}}元</view>
+				</view>
+			</view>
+			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.production_inspection[indexpro].detail}}"
+				wx:for-item="itemPro" wx:key="itemPro" wx:for-index="indexPro">
+				<view class="flex flexWarp aic">
+					<view class="w100 flex mb10 jcsb">
+						<view class="w20 color9E">员工姓名</view>
+						<view class="w77">{{itemPro.staff_name}}</view>
+					</view>
+					<view class="w100 flex flexWarp aic" wx:for="{{itemPro.info}}" wx:for-item="itemMat" wx:key="itemMat"
+						wx:for-index="indexMat">
+						<view class="w100 flex mb10 jcsb">
+							<view class="w20 color9E">产品信息</view>
+							<view class="w77">{{itemMat.product_code}}</view>
+						</view>
+						<view class="w100 flex flexWarp aic" wx:for="{{itemMat.info}}" wx:for-item="itemColor" wx:key="itemColor"
+							wx:for-index="indexColor">
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">尺码颜色</view>
+								<view class="w55">{{itemColor.size_name}}/{{itemColor.color_name}}</view>
+							</view>
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">结算单价</view>
+								<view class="w55">{{itemColor.price}}元</view>
+							</view>
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">完成数量</view>
+								<view class="w55">{{itemColor.number}}</view>
+							</view>
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">额外数量</view>
+								<view class="w55">{{itemColor.extra_number}}</view>
+							</view>
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">次品数量</view>
+								<view class="w55 colorRed">{{itemColor.shoddy_number}}</view>
+							</view>
+							<view class="w50 flex mb10 jcsb">
+								<view class="color9E">计划小计</view>
+								<view class="w55">{{itemColor.total_price}}元</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowCheJianPopup'>关闭
+		</view>
+	</van-popup>
+
+	<l-message content="{{content}}" />
+	<van-dialog id="van-dialog" />
 </view>

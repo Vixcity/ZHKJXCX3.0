@@ -27,8 +27,7 @@
 		</view>
 		<view>创建人：{{detailData.user_name || '无'}}</view>
 		<view>更新时间：{{detailData.created_at}}</view>
-		<van-image style="position: absolute;right:0;top:10%" width="130" height="100"
-			src="{{statusList[detailData.is_check]}}" />
+		<van-image style="position: absolute;right:0;top:10%" width="130" height="94" src="{{statusList[detailData.is_check]}}" />
 	</view>
 	<view class="card fz25">
 		<view class="title">产品信息：</view>
@@ -258,7 +257,7 @@
 			<view class="flex">
 				<view class="bold w30 pt10 pb10">备注信息</view>
 				<view class="fz60 w60">
-					<l-textarea auto-height="{{true}}" maxlength="80" bind:lininput="inputDesc"/>
+					<l-textarea auto-height="{{true}}" maxlength="80" bind:lininput="inputDesc" />
 				</view>
 			</view>
 			<view class="line" style="margin-bottom: 0;"></view>
