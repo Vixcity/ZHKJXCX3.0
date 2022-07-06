@@ -652,6 +652,7 @@ const getDateList = function (day1, day2) {
   return dateArr;
 };
 
+// 格式化富文本
 const contentHtml = function (content) {
   // 富文本编辑器的内容如何只获得文字去掉标签
   // content = content.replace(/<[^>]+>/g, '')
@@ -660,6 +661,7 @@ const contentHtml = function (content) {
   return content;
 };
 
+// 利用JSON进行克隆
 const jsonClone = function (params) {
   return JSON.parse(JSON.stringify(params));
 };
