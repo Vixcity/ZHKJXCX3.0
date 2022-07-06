@@ -27,7 +27,8 @@
 		</view>
 		<view>创建人：{{detailData.user_name || '无'}}</view>
 		<view>更新时间：{{detailData.created_at}}</view>
-		<van-image style="position: absolute;right:0;top:10%" width="130" height="94" src="{{statusList[detailData.is_check]}}" />
+		<van-image style="position: absolute;right:0;top:10%" width="130" height="94"
+			src="{{statusList[detailData.is_check]}}" />
 	</view>
 	<view class="card fz25">
 		<view class="title">产品信息：</view>
@@ -64,7 +65,9 @@
 					<view wx:for="{{item.material_data}}" wx:for-item="itemMaterial" wx:for-index="indexMaterial"
 						wx:key="material-{{indexMaterial}}">
 						<view class="flex aic">
-							<view class="bgColorOrange pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">原</view>
+							<view class="bgColorOrange colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">
+								原
+							</view>
 							<view class="ml20">{{itemMaterial.material_name || '无'}}</view>
 						</view>
 						<view class="mt10 flex jcsb">
@@ -77,7 +80,9 @@
 					<view wx:for="{{item.assist_material_data}}" wx:for-item="itemDecorateMaterial" wx:for-index="indexMaterial"
 						wx:key="material-{{indexMaterial}}">
 						<view class="flex aic">
-							<view class="bgColor03d0 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">辅</view>
+							<view class="bgColor03d0 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">
+								辅
+							</view>
 							<view class="ml20">{{itemDecorateMaterial.material_name || '无'}}</view>
 						</view>
 						<view class="mt10 flex jcsb">
@@ -92,7 +97,8 @@
 					wx:key="itemWeave-{{indexWeave}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">织</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">织
+							</view>
 							<view class="ml20">{{itemWeave.name || '无'}}</view>
 						</view>
 						<view>{{itemWeave.total_price || 0}}元</view>
@@ -103,7 +109,8 @@
 					wx:key="itemHalfProcess-{{indexWeave}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">半</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">半
+							</view>
 							<view class="ml20">{{itemHalfProcess.name || '无'}}</view>
 						</view>
 						<view>{{itemHalfProcess.total_price || 0}}元</view>
@@ -114,7 +121,8 @@
 					wx:key="itemFinishedProcess-{{indexFinishedProcess}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">成</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">成
+							</view>
 							<view class="ml20">{{itemFinishedProcess.name || '无'}}</view>
 						</view>
 						<view>{{itemFinishedProcess.total_price || 0}}元</view>
@@ -125,7 +133,8 @@
 					wx:key="itemPackMaterial-{{indexPackMaterial}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">包</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">包
+							</view>
 							<view class="ml20">{{itemPackMaterial.material_name || '无'}}</view>
 						</view>
 						<view>{{itemPackMaterial.total_price || 0}}元</view>
@@ -136,7 +145,8 @@
 					wx:key="itemOther-{{indexOther}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">其</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">其
+							</view>
 							<view class="ml20">{{itemOther.name || '无'}}</view>
 						</view>
 						<view>{{itemOther.total_price || 0}}元</view>
@@ -147,7 +157,8 @@
 					wx:key="itemOther-{{indexOther}}">
 					<view class="flex aic jcsb mt10">
 						<view class="flex aic">
-							<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">非</view>
+							<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">非
+							</view>
 							<view class="ml20">{{itemOther.name || '无'}}</view>
 						</view>
 						<view>{{itemOther.total_price || 0}}元</view>
@@ -156,7 +167,8 @@
 				</view>
 				<view class="flex aic jcsb mt10">
 					<view class="flex aic">
-						<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">运</view>
+						<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">运
+						</view>
 						<view class="ml20">{{item.transport_fee?'运输费用':'无'}}</view>
 					</view>
 					<view>{{item.transport_fee || 0}}元</view>
@@ -164,7 +176,8 @@
 				<view class="mt10">{{item.transport_fee_desc || '无'}}</view>
 				<view class="flex jcsb fz25 mt10 aic">
 					<view class="flex aic">
-						<view class="bgColor03d0 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">合</view>
+						<view class="bgColor03d0 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">合
+						</view>
 						<view class="ml20">
 							合计产品费用
 						</view>
@@ -180,7 +193,7 @@
 		<view class="title">订单费用</view>
 		<view class="flex aic jcsb mt10">
 			<view class="flex aic">
-				<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">佣</view>
+				<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">佣</view>
 				<view class="ml20">客户佣金</view>
 			</view>
 			<view>合计：{{detailData.commission_price || 0}}元</view>
@@ -188,7 +201,7 @@
 		<view class="mt10">{{detailData.commission_percentage || 0}}%</view>
 		<view class="flex aic jcsb mt10">
 			<view class="flex aic">
-				<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">税</view>
+				<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">税</view>
 				<view class="ml20">预计税率</view>
 			</view>
 			<view>合计：{{detailData.rate_price || 0}}元</view>
@@ -196,7 +209,7 @@
 		<view class="mt10">{{detailData.rate_taxation || 0}}%</view>
 		<view class="flex aic jcsb mt10">
 			<view class="flex aic">
-				<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">利</view>
+				<view class="bgColor27A2 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">利</view>
 				<view class="ml20">预计利润</view>
 			</view>
 			<view>合计：{{detailData.profit_price || 0}}元</view>
@@ -204,7 +217,7 @@
 		<view class="mt10">{{detailData.profit_percentage || 0}}%</view>
 		<view class="flex jcsb fz25 mt10 aic">
 			<view class="flex aic">
-				<view class="bgColor03d0 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">合</view>
+				<view class="bgColor03d0 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">合</view>
 				<view class="ml20">
 					订单合计费用
 				</view>

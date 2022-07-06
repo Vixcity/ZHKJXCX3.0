@@ -26,16 +26,21 @@
 		</view>
 	</nav-content>
 	<view wx:if="{{type === '2' && isLogin}}">
+		<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="process">工序
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">单位
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+		</view>
 		<view class="fz25 tc color91 mt10 mb10">共检索到{{orderList.length}}条数据</view>
-		<t-dropdown-menu>
-			<t-dropdown-item label="工序" optionsLayout="tree" options="{{processList.options}}" value="{{processList.value}}"
-				bindchange="chang	eProcess" bindconfirm="confirmProcess" />
-			<t-dropdown-item label="小组" options="{{groupList.options}}" value="{{groupList.value}}"
-				bindchange="changeGroup" />
-			<t-dropdown-item label="创建人" options="{{userList.options}}" value="{{userList.value}}" bindchange="changeUser" />
-			<t-dropdown-item label="单位" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
-				bindchange="changeClient" bindconfirm="confirmClient" />
-		</t-dropdown-menu>
 		<scroll-view scroll-y="true" bindscrolltolower="reqOrder" style="height:calc(100vh - 200px)">
 			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index"
 				detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>
@@ -67,5 +72,16 @@
 		</view>
 	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+
+	<!-- 下拉 -->
+	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
+		showDialog="{{showUser}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
+		showDialog="{{showGroup}}"></picker>
+	<picker values="{{processList}}" level="2" bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="process" showDialog="{{showProcess}}"></picker>
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+
 	<l-message content="{{content}}" />
 </view>

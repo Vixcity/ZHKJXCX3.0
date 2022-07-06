@@ -11,16 +11,20 @@
 		</view>
 	</nav-content>
 
-	<t-dropdown-menu>
-		<t-dropdown-item label="状态" options="{{statusSelect.options}}" value="{{is_check}}" data-type="is_check"
-			bindchange="changeSingleSelect" />
-		<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientSelect.options}}" value="{{clientSelect.value}}"
-			data-type="client_id" bindchange="changeSingleSelect" bindchange="changeClient" bindconfirm="changeSingleSelect" />
-		<t-dropdown-item label="小组" options="{{groupSelect.options}}" value="{{group_id}}" data-type="group_id"
-			bindchange="changeSingleSelect" />
-		<t-dropdown-item label="负责人" options="{{userSelect.options}}" value="{{user_id}}" data-type="user_id"
-			bindchange="changeSingleSelect" />
-	</t-dropdown-menu>
+	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
 		<view class="card fz25" wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index"
@@ -44,7 +48,9 @@
 			</view>
 			<view>{{item.client_name || '未填写'}}</view>
 			<view class="flex mt10">
-				<image src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" class="image" />
+				<image
+					src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+					class="image" />
 				<view class="pl10 w100 flex fdc jcsb">
 					<view class="flex aic jcsb">
 						<view>{{item.group_name || '未填写'}}</view>
@@ -83,8 +89,8 @@
 							<!-- 产 -->
 							<view wx:if="{{item.has_weave_plan.status===1}}"
 								class="ml10 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
-							<view wx:if="{{item.has_weave_plan.status===2}}"
-								class="ml10 iconfont icon-shengchanjihua3 color9E fz40"></view>
+							<view wx:if="{{item.has_weave_plan.status===2}}" class="ml10 iconfont icon-shengchanjihua3 color9E fz40">
+							</view>
 						</view>
 					</view>
 					<view class="flex jcsb">
@@ -106,4 +112,13 @@
 	</scroll-view>
 
 	<l-message content="{{content}}" />
+	<!-- 下拉 -->
+	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+		showDialog="{{showStatus}}"></picker>
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
+		showDialog="{{showGroup}}"></picker>
+	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
+		showDialog="{{showUser}}"></picker>
 </view>

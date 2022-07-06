@@ -19,7 +19,7 @@
 			</image>
 			<view class="mt20">没有符合条件的数据</view>
 		</view>
-	</view>	
+	</view>
 	<view wx:if="{{!isLogin}}">
 		<view class="mt20 submit">
 			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>

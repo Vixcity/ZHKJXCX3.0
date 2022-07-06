@@ -28,27 +28,24 @@ Page({
       ],
       value: 0,
     },
-    statusList: {
-      options: [
-        {
-          label: "全部",
-          value: 999999,
-        },
-        {
-          label: "待审核",
-          value: 0,
-        },
-        {
-          label: "已审核",
-          value: 1,
-        },
-        {
-          label: "已驳回",
-          value: 2,
-        },
-      ],
-      value: 999999,
-    },
+    statusList: [
+      {
+        text: "全部",
+        id: "",
+      },
+      {
+        text: "待审核",
+        id: 0,
+      },
+      {
+        text: "已审核",
+        id: 1,
+      },
+      {
+        text: "已驳回",
+        id: 2,
+      },
+    ],
     clientList: {
       options: [
         {
@@ -90,12 +87,13 @@ Page({
     page: 1,
     status: "",
     user_id: "",
+    client_id: "",
     keyword: "",
-    client_id: [],
     chooseDate: ["", ""],
     isEnd: false,
     showLoading: false,
     noData: false,
+    status: "",
   },
 
   /**
@@ -113,31 +111,19 @@ Page({
 
     let arr = [
       {
-        label: "全部",
-        value: "--",
+        text: "全部",
+        id: "",
+        children: [
+          { text: "全部", id: "", children: [{ text: "全部", id: "" }] },
+        ],
       },
     ];
 
-    arr = arr.concat(wx.getStorageSync("clientList").slice(0, 2));
-
     getSomeDateList();
     this.setData({
-      clientList: {
-        options: arr,
-        value: [
-          "--",
-          // wx.getStorageSync("clientList").slice(0, 2)[0].value,
-          // wx.getStorageSync("clientList").slice(0, 2)[0].options[0].value,
-        ],
-      },
-      userList: {
-        options: wx.getStorageSync("userList"),
-        value: wx.getStorageSync("userList")[0].value,
-      },
-      someDateList: {
-        options: wx.getStorageSync("someDateList"),
-        value: wx.getStorageSync("someDateList")[0].value,
-      },
+      clientList: arr.concat(wx.getStorageSync("clientList").slice(0, 2)),
+      userList: wx.getStorageSync("userList"),
+      someDateList: wx.getStorageSync("someDateList"),
     });
   },
 
@@ -160,14 +146,9 @@ Page({
         method: "GET",
         data: {
           keyword: this.data.keyword,
-          is_check: this.data.status === 999999 ? "" : this.data.status,
+          is_check: this.data.status,
           user_id: this.data.user_id,
-          client_id:
-            this.data.client_id[0] === "--"
-              ? ""
-              : this.data.client_id.length > 2
-              ? this.data.client_id[2].split("-")[2]
-              : "",
+          client_id: this.data.client_id,
           page: this.data.page,
           group_id: "",
           contacts_id: "",
@@ -220,12 +201,90 @@ Page({
     });
   },
 
-  changeUser(e) {
-    this.setData({
-      "userList.value": e.detail.value,
-    });
+  // 打开选择器
+  openPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "status") {
+      this.setData({
+        showStatus: true,
+      });
+    }
 
-    this.data.user_id = e.detail.value;
+    if (type === "user") {
+      this.setData({
+        showUser: true,
+      });
+    }
+
+    if (type === "date") {
+      this.setData({
+        showDate: true,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: true,
+      });
+    }
+  },
+
+  // 关闭选择器
+  closeShowPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "status") {
+      this.setData({
+        showStatus: false,
+      });
+    }
+
+    if (type === "user") {
+      this.setData({
+        showUser: false,
+      });
+    }
+
+    if (type === "date") {
+      this.setData({
+        showDate: false,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: false,
+      });
+    }
+  },
+
+  // 选择器提交
+  confirmData(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "status") {
+      this.data.status = e.detail.value[0].id;
+    }
+
+    if (type === "user") {
+      this.data.user_id = e.detail.value[0].id;
+    }
+
+    if (type === "date") {
+      this.data.chooseDate = e.detail.value[0].id;
+    }
+
+    if (type === "client") {
+      if (!e.detail.value[2]) {
+        wx.lin.showMessage({
+          type: "error",
+          duration: 3000,
+          content: "当前没有选中公司，请重新选择",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+      this.data.client_id = e.detail.value[2].id;
+    }
+
     this.data.page = 1;
     this.setData({
       orderList: [],
@@ -233,76 +292,11 @@ Page({
       noData: false,
     });
     this.reqOrder();
-  },
-
-  changeDate(e) {
-    this.setData({
-      "someDateList.value": e.detail.value,
-    });
-
-    this.data.chooseDate = this.data.someDateList.options[
-      e.detail.value
-    ].someDate;
-
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-    });
-
-    // console.log(this.data.chooseDate);
-
-    this.reqOrder();
-  },
-
-  changeClient(e) {
-    this.setData({
-      "clientList.value": e.detail.value,
-    });
-    this.data.client_id = e.detail.value;
-    // this.data.page = 1;
-    // this.setData({
-    //   orderList: [],
-    // 	isEnd: false,
-    // 	noData: false
-    // });
-    // this.reqOrder();
-  },
-
-  confirmClient(e) {
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-    });
-    this.reqOrder();
-  },
-
-  changeStatus(e) {
-    this.setData({
-      "statusList.value": e.detail.value,
-    });
-
-    this.data.status = e.detail.value;
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-    });
-    this.reqOrder();
-  },
-
-  handleSingleSelect(e) {
-    this.setData({
-      "singleSelect.value": e.detail.value,
-    });
+    this.closeShowPicker(e);
   },
 
   onSearch(e) {
-		this.data.keyword = e.detail.value;
+    this.data.keyword = e.detail.value;
     this.data.page = 1;
     this.setData({
       orderList: [],
@@ -310,12 +304,6 @@ Page({
       noData: false,
     });
     this.reqOrder();
-  },
-
-  showDatePick() {
-    this.setData({
-      show: true,
-    });
   },
 
   reqOrder: debounce(function () {

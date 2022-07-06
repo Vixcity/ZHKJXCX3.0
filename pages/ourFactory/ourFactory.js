@@ -38,82 +38,26 @@ Page({
       ],
       cardData: [],
     },
-    clientList: {
-      options: [
-        {
-          label: "选项1",
-          options: [
-            {
-              label: "选项1",
-              value: "0-0",
-            },
-            {
-              label: "选项2",
-              value: "0-1",
-            },
-          ],
-          value: "0",
-        },
-      ],
-      value: ["0", "0-0"],
-    },
-    processList: {
-      options: [
-        {
-          label: "选项1",
-          options: [
-            {
-              label: "选项1",
-              value: "0-0",
-            },
-            {
-              label: "选项2",
-              value: "0-1",
-            },
-          ],
-          value: "0",
-        },
-      ],
-      value: ["0", "0-0"],
-    },
-    groupList: {
-      options: [
-        {
-          label: "选项1",
-          value: 0,
-        },
-        {
-          label: "选项2",
-          value: 1,
-        },
-      ],
-      value: 0,
-    },
-    userList: {
-      options: [
-        {
-          label: "选项1",
-          value: 0,
-        },
-        {
-          label: "选项2",
-          value: 1,
-        },
-      ],
-      value: 0,
-    },
+    clientList: [],
+    processList: [],
+    groupList: [],
+    userList: [],
     searchType: 1,
     showSearch: false,
     showLoading: false,
-		isEnd: false,
-		noData: false,
+    isEnd: false,
+    noData: false,
     page: 1,
     limit: 10,
-    process_name: "针织织造",
+    process_name: "",
     client_id: "",
     group_id: "",
     user_id: "",
     keyWord: "",
+    showUser: false,
+    showGroup: false,
+    showProcess: false,
+    showClient: false,
     // type: "2",
   },
 
@@ -138,36 +82,19 @@ Page({
 
       let arr = [
         {
-          label: "全部",
-          value: "--",
+          text: "全部",
+          id: "",
+          children: [
+            { text: "全部", id: "", children: [{ text: "全部", id: "" }] },
+          ],
         },
       ];
 
-      arr = arr.concat(wx.getStorageSync("clientList").slice(6, 8));
-
       this.setData({
-        clientList: {
-          options: arr,
-          value: [
-            "--",
-            // wx.getStorageSync("clientList").slice(6, 8)[0].value,
-            // wx.getStorageSync("clientList").slice(6, 8)[0].options[0].value,
-          ],
-        },
-        processList: {
-          options: wx.getStorageSync("processList"),
-          value: ["0", "针织织造"],
-        },
-        groupList: {
-          options: wx.getStorageSync("groupList"),
-          value: wx.getStorageSync("groupList")[0].value,
-        },
-        userList: {
-          options: wx.getStorageSync("userList"),
-          value: wx.getStorageSync("userList")[0].value,
-        },
-        group_id: wx.getStorageSync("groupList")[0].value,
-        user_id: wx.getStorageSync("userList")[0].value,
+        clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
+        processList: wx.getStorageSync("processList"),
+        groupList: wx.getStorageSync("groupList"),
+        userList: wx.getStorageSync("userList"),
       });
       this.reqOrder();
     } else {
@@ -175,82 +102,107 @@ Page({
     }
   },
 
+  // 打开选择器
+  openPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "user") {
+      this.setData({
+        showUser: true,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: true,
+      });
+    }
+
+    if (type === "process") {
+      this.setData({
+        showProcess: true,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: true,
+      });
+    }
+  },
+
+  // 关闭选择器
+  closeShowPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "user") {
+      this.setData({
+        showUser: false,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: false,
+      });
+    }
+
+    if (type === "process") {
+      this.setData({
+        showProcess: false,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: false,
+      });
+    }
+  },
+
+  // 选择器提交
+  confirmData(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "user") {
+      this.data.user_id = e.detail.value[0].id;
+    }
+
+    if (type === "group") {
+      this.data.group_id = e.detail.value[0].id;
+    }
+
+    if (type === "process") {
+      this.data.process_name = e.detail.value[1].id;
+    }
+
+    if (type === "client") {
+      if (!e.detail.value[2]) {
+        wx.lin.showMessage({
+          type: "error",
+          duration: 3000,
+          content: "当前没有选中公司，请重新选择",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+      this.data.client_id = e.detail.value[2].id;
+    }
+
+    this.data.page = 1;
+    this.setData({
+      orderList: [],
+      isEnd: false,
+      noData: false,
+    });
+    this.reqOrder();
+    this.closeShowPicker(e);
+  },
+
   onSearch(e) {
     this.data.keyWord = e.detail.value;
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false,
-    });
-    this.reqOrder();
-  },
-
-  changeClient(e) {
-    this.setData({
-      "clientList.value": e.detail.value,
-    });
-  },
-
-  confirmClient(e) {
-    if (e.detail.value[2]) {
-      this.data.client_id =
-        e.detail.value[0] === "--" ? "" : e.detail.value[2].split("-")[2];
-    } else {
-      this.data.client_id = "";
-    }
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-			isEnd: false,
-			noData: false,
-    });
-    this.reqOrder();
-  },
-
-  changeProcess(e) {
-    this.setData({
-      "processList.value": e.detail.value,
-    });
-  },
-
-  confirmProcess(e) {
-    this.data.process_name = e.detail.value[1];
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-			isEnd: false,
-			noData: false,
-    });
-    this.reqOrder();
-  },
-
-  changeGroup(e) {
-    this.setData({
-      "groupList.value": e.detail.value,
-    });
-
-    this.data.group_id = e.detail.value;
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-			isEnd: false,
-			noData: false,
-    });
-    this.reqOrder();
-  },
-
-  changeUser(e) {
-    this.setData({
-      "userList.value": e.detail.value,
-    });
-
-    this.data.user_id = e.detail.value;
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-			isEnd: false,
-			noData: false,
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },
@@ -269,8 +221,8 @@ Page({
     this.data.page = 1;
     this.setData({
       orderList: [],
-			isEnd: false,
-			noData: false,
+      isEnd: false,
+      noData: false,
     });
     this.reqOrder();
   },

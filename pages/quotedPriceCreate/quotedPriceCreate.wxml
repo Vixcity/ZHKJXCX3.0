@@ -5,22 +5,25 @@
 			{{isUpdate?'修改报价单':'添加报价单'}}
 		</view>
 	</nav-content>
+
+	<!-- 基本信息 -->
 	<view class="card">
 		<view class="flex aic por fz28 color3">
 			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;"> </text>报价单标题
 			</text>
-			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" value="{{title}}" bind:lininput="changeTitle" />
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="title" value="{{title}}"
+				bind:lininput="changeInput" />
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
 			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;">* </text>询价公司
 			</text>
-			<t-dropdown-menu style="margin-left: 10rpx;" z-index="2">
-				<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
-					bindchange="changeClient" />
-			</t-dropdown-menu>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			{{client_name}}
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
@@ -28,14 +31,11 @@
 				<text style="color: #e23;vertical-align: middle;"></text>联系人
 			</text>
 			<view class="w70">
-				<view wx:if="{{!clientList.value[2] && !concatName}}" class="pl25r color91">请先选择询价公司</view>
-				<view wx:if="{{clientList.value[2] && !concatName}}" class="pl25r" bindtap="changeChooseConcat">选择联系人</view>
-				<view wx:if="{{concatName}}" bindtap="changeChooseConcat" class="pl25r">{{concatName.value}}</view>
+				<view wx:if="{{!client_name}}" class="pl25r color91">请先选择询价公司</view>
+				<view wx:if="{{client_name && !contacts_name}}" class="pl25r" bindtap="openPicker" data-type="concat">选择联系人
+				</view>
+				<view wx:if="{{contacts_name}}" class="pl25r" bindtap="openPicker" data-type="concat">{{contacts_name}}</view>
 			</view>
-			<van-popup show="{{ showChooseConcat }}" position="bottom" custom-style="height: 40%;" round>
-				<van-picker columns="{{ concatNameList }}" show-toolbar title="选择联系人" bind:cancel="closeChooseConcat"
-					bind:confirm="confirmChooseConcat" />
-			</van-popup>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
@@ -43,13 +43,9 @@
 				<text style="color: #e23;vertical-align: middle;"></text>负责组/人
 			</text>
 			<view class="w70">
-				<view wx:if="{{!groupName}}" class="color91 pl25r" bindtap="openGroup">点击选择</view>
-				<view wx:else class="pl25r" bindtap="openGroup">{{ groupName.value }}</view>
+				<view wx:if="{{!group_name}}" class="color91 pl25r" bindtap="openPicker" data-type="group">点击选择</view>
+				<view wx:else class="pl25r" bindtap="openPicker" data-type="group">{{ group_name }}</view>
 			</view>
-			<van-popup show="{{ showGroup }}" position="bottom" custom-style="height: 40%;" round>
-				<van-picker columns="{{ groupLabelList }}" show-toolbar title="选择负责组/人" bind:cancel="closeGroup"
-					bind:confirm="confirmGroup" />
-			</van-popup>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex por fz28 color3">
@@ -57,9 +53,9 @@
 				<text style="color: #e23;vertical-align: middle;">* </text>汇率币种
 			</text>
 			<view class="flex aic w70">
-				<l-input placeholder="点击输入" hide-label="{{true}}" type="number" value="{{exchange_rate}}"
-					bind:lininput="changeRate" style="width: 40%;" />
-				<l-radio-group placement="row" current="{{settle_unit}}" bind:linchange="changeUnit">
+				<l-input placeholder="点击输入" hide-label="{{true}}" type="digit" value="{{exchange_rate}}"
+					bind:lininput="changeInput" data-type="exchange_rate" style="width: 40%;" />
+				<l-radio-group placement="row" current="{{settle_unit}}" bind:linchange="changeInput" data-type="settle_unit">
 					<l-radio key="元" class="color3 fz28">元</l-radio>
 					<l-radio key="美元" class="ml20 color3 fz28">美元</l-radio>
 				</l-radio-group>
@@ -67,6 +63,8 @@
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 	</view>
+
+	<!-- 产品 -->
 	<view class="card">
 		<view class="{{index===0?'por':'mt10 por'}}" wx:for="{{productList}}" wx:key="item" wx:for-index="index"
 			wx:for-item="item">
@@ -78,35 +76,39 @@
 			<view class="flex jcsb mb10 mt20">
 				<view class="bgColorF5 w30">
 					<view class="tc pt10">产品品类</view>
-					<t-dropdown-menu z-index="2" class="productTypeIconHidden">
-						<t-dropdown-item label="点击选择" optionsLayout="tree" options="{{productTypeList.options}}"
-							value="{{item.type}}" bindchange="changeProductType" data-index="{{index}}" data-type='type' />
-					</t-dropdown-menu>
+					<view wx:if="{{!item.category_name}}" class="tc mt15 color91" bindtap="openPicker" data-type="product"
+						data-index="{{index}}">点击选择</view>
+					<view wx:if="{{item.category_name}}" class="tc mt15" bindtap="openPicker" data-type="product"
+						data-index="{{index}}">{{item.category_name}}/{{item.secondary_category}}</view>
+					<picker values="{{productTypeList}}" level="2" data-type="product" data-index="{{index}}"
+						bind:cancel="closeShowPicker" bind:confirm="confirmData" showDialog="{{item.show}}"></picker>
 				</view>
 				<view class="bgColorF5 w30">
 					<view class="tc pt10">目标价格</view>
 					<input style="display: block;height: 48px;" value="{{item.client_target_price}}" class="pl10 pr10"
-						type="number" bindinput="changeProductType" data-index="{{index}}" data-type="client_target_price"
-						placeholder="输入价格" />
+						type="digit" bindinput="changeProInput" data-index="{{index}}" data-type="client_target_price"
+						placeholder="目标价格" />
 				</view>
 				<view class="bgColorF5 w30">
 					<view class="tc pt10">起订量</view>
 					<input style="display: block;height: 48px;" value="{{item.start_order_number}}" class="pl10 pr10"
-						type="number" bindinput="changeProductType" data-index="{{index}}" data-type="start_order_number"
-						placeholder="输入起订量" />
+						type="number" bindinput="changeProInput" data-index="{{index}}" data-type="start_order_number"
+						placeholder="起订量" />
 				</view>
 			</view>
-			<l-textarea bind:lininput="changeProductType" indicator="{{true}}" border="{{false}}" data-index="{{index}}"
+			<l-textarea bind:lininput="changeProInput" indicator="{{true}}" border="{{false}}" data-index="{{index}}"
 				value="{{item.desc}}" data-type="desc" maxlength="200" auto-height="{{true}}" placeholder="点击输入产品描述信息" />
 			<van-uploader file-list="{{item.image_data}}" bind:before-read="beforeRead" data-index="{{index}}"
 				bind:delete="deleteImage" bind:after-read="afterRead" />
 		</view>
 		<view class="color27A2 tc mt10" bindtap="addProduct">新增产品描述</view>
 	</view>
+
+	<!-- 报价信息 -->
 	<view class="card">
 		<view class="title">报价信息</view>
-		<view>
-			<van-tabs animated swipeable lazy-render ellipsis="{{false}}" swipe-threshold="{{4}}">
+		<view class="mt10">
+			<van-tabs type="card" animated swipeable lazy-render ellipsis="{{false}}" swipe-threshold="{{4}}">
 				<van-tab wx:for="{{productList}}" wx:key="item" wx:for-index="index" wx:for-item="item" title="产品 {{index+1}}"
 					class="fz30">
 					<!-- 原料 -->
@@ -115,15 +117,16 @@
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColorOrange pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">原
+									<view class="bgColorOrange colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">原
 									</view>
-									<view class="ml10">{{materialItem.material_name}}</view>
+									<view class="ml10">{{materialItem.material_name || '暂未选择'}}</view>
 								</view>
-								<t-dropdown-menu z-index="50" class="yarnTypeListIconHidden">
-									<t-dropdown-item label="点击变更" optionsLayout="tree" options="{{yarnTypeList.options}}"
-										value="{{materialItem.material_id}}" bindchange="changeMaterial" data-index="{{index}}"
-										data-materialIndex="{{materialIndex}}" />
-								</t-dropdown-menu>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="material_data" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更</view>
+								<picker values="{{yarnType}}" level="3" data-type="productSon" data-itemindex="{{materialIndex}}"
+									data-itemtype="material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{materialItem.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -141,19 +144,19 @@
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计损耗</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" maxlength="3"
 									value="{{materialItem.loss}}" placeholder="预计损耗" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">单价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.price}}"
 									placeholder="单价" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">小计</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.total_price}}"
 									placeholder="小计" />
 							</view>
@@ -162,52 +165,50 @@
 					<!-- 辅料 -->
 					<view class="mt10" wx:for="{{item.assist_material_data}}" wx:key="assistItem" wx:for-index="assistIndex"
 						wx:for-item="assistItem">
-						<t-picker visible="{{assistItem.show}}" cancel-btn="取消" confirm-btn="确认" bindconfirm="chooseConfirm"
-							data-index="{{index}}" data-itemIndex="{{assistIndex}}" data-type="assist_material_data"
-							bindcancel="closeShow">
-							<t-picker-item options="{{assistListChoose}}" />
-						</t-picker>
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor03d0 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">辅
+									<view class="bgColor03d0 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">辅
 									</view>
-									<view class="ml10">{{assistItem.material_name}}</view>
+									<view class="ml10">{{assistItem.material_name || '暂未选择'}}</view>
 								</view>
-								<view class="ml20 color27A2" bindtap="showChoose" data-index="{{index}}"
-									data-type="assist_material_data" data-itemIndex="{{assistIndex}}">点击变更</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="assist_material_data" data-index="{{index}}" data-itemindex="{{assistIndex}}">点击变更
+								</view>
+								<picker values="{{assistList}}" data-type="productSon" data-itemindex="{{assistIndex}}"
+									data-itemtype="assist_material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{assistItem.show}}"></picker>
 							</view>
 							<view class="flex fz25">
-								<view wx:if="{{assistIndex === 0}}" class="color27A2 pr5" data-index="{{index}}"
-									data-type="assist_material_data" bindtap="addProductType">添加</view>
-								<view wx:if="{{assistIndex !== 0}}" class="colorE800 pl5" data-index="{{index}}"
-									data-assistIndex="{{assistIndex}}" data-type="assist_material_data" data-itemIndex="{{assistIndex}}"
-									bindtap="deleteProductType">
-									删除</view>
+								<view wx:if="{{assistIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
+									data-index="{{index}}" data-type="assist_material_data">添加</view>
+								<view wx:if="{{assistIndex !== 0}}" class="colorE800 pl5" bindtap="deleteProductType"
+									data-index="{{index}}" data-type="assist_material_data" data-itemIndex="{{assistIndex}}">删除</view>
 							</view>
 						</view>
-						<view class="flex jcsb mb10 flexWarp">
-							<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
+						<view class="flex flexWarp jcsb mb20">
+							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计数量</view>
 								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="number"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.number}}"
 									placeholder="预计数量" />
 							</view>
-							<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
+							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计损耗</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
-									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.loss}}"
-									placeholder="预计损耗" />
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
+									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" maxlength="3"
+									value="{{assistItem.loss}}" placeholder="预计损耗" />
 							</view>
-							<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
+							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">单价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.price}}"
 									placeholder="单价" />
 							</view>
-							<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
+							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">小计</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data"
 									value="{{assistItem.total_price}}" placeholder="小计" />
 							</view>
@@ -216,19 +217,20 @@
 					<!-- 织造 -->
 					<view class="mt10" wx:for="{{item.weave_data}}" wx:key="itemWeaveData" wx:for-index="indexWeaveData"
 						wx:for-item="itemWeaveData">
-						<t-picker visible="{{itemWeaveData.show}}" cancel-btn="取消" confirm-btn="确认" bindconfirm="chooseConfirm"
-							data-index="{{index}}" data-itemIndex="{{indexWeaveData}}" data-type="weave_data" bindcancel="closeShow">
-							<t-picker-item options="{{weaveList}}" />
-						</t-picker>
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">织
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">织
 									</view>
-									<view class="ml20">{{itemWeaveData.name}}</view>
+									<view class="ml20">{{itemWeaveData.name || '暂未选择'}}</view>
 								</view>
-								<view class="ml20 color27A2" bindtap="showChoose" data-index="{{index}}"
-									data-itemIndex="{{indexWeaveData}}" data-type="weave_data">点击变更</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon" data-itemtype="weave_data"
+									data-index="{{index}}" data-itemindex="{{indexWeaveData}}">点击变更
+								</view>
+								<picker values="{{weaveList}}" data-type="productSon" data-itemindex="{{indexWeaveData}}"
+									data-itemtype="weave_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{itemWeaveData.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexWeaveData === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -248,7 +250,7 @@
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexWeaveData}}" data-itemType="weave_data" value="{{itemWeaveData.total_price}}"
 									placeholder="总价" />
 							</view>
@@ -257,20 +259,20 @@
 					<!-- 半成品 -->
 					<view class="mt10" wx:for="{{item.semi_product_data}}" wx:key="itemHalf" wx:for-index="indexHalf"
 						wx:for-item="itemHalf">
-						<t-picker visible="{{itemHalf.show}}" cancel-btn="取消" confirm-btn="确认" bindconfirm="chooseConfirm"
-							data-index="{{index}}" data-itemIndex="{{indexHalf}}" data-type="semi_product_data"
-							bindcancel="closeShow">
-							<t-picker-item options="{{halfProcessList}}" />
-						</t-picker>
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">半
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">半
 									</view>
-									<view class="ml20">{{itemHalf.name}}</view>
+									<view class="ml20">{{itemHalf.name || '暂未选择'}}</view>
 								</view>
-								<view class="ml20 color27A2" bindtap="showChoose" data-index="{{index}}" data-itemIndex="{{indexHalf}}"
-									data-type="semi_product_data">点击变更</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="semi_product_data" data-index="{{index}}" data-itemindex="{{indexHalf}}">点击变更
+								</view>
+								<picker values="{{halfProcessList}}" data-type="productSon" data-itemindex="{{indexHalf}}"
+									data-itemtype="semi_product_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{itemHalf.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexHalf === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -290,7 +292,7 @@
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexHalf}}" data-itemType="semi_product_data" value="{{itemHalf.total_price}}"
 									placeholder="总价" />
 							</view>
@@ -299,19 +301,20 @@
 					<!-- 成品 -->
 					<view class="mt10" wx:for="{{item.production_data}}" wx:key="itemPD" wx:for-index="indexPD"
 						wx:for-item="itemPD">
-						<t-picker visible="{{itemPD.show}}" cancel-btn="取消" confirm-btn="确认" bindconfirm="chooseConfirm"
-							data-index="{{index}}" data-itemIndex="{{indexPD}}" data-type="production_data" bindcancel="closeShow">
-							<t-picker-item options="{{processList}}" />
-						</t-picker>
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">成
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">成
 									</view>
-									<view class="ml20">{{itemPD.name}}</view>
+									<view class="ml20">{{itemPD.name || '暂未选择'}}</view>
 								</view>
-								<view class="ml20 color27A2" bindtap="showChoose" data-index="{{index}}" data-itemIndex="{{indexPD}}"
-									data-type="production_data">点击变更</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="production_data" data-index="{{index}}" data-itemindex="{{indexPD}}">点击变更
+								</view>
+								<picker values="{{processList}}" data-type="productSon" data-itemindex="{{indexPD}}"
+									data-itemtype="production_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{itemPD.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexPD === 0}}" class="color27A2 pr5" data-index="{{index}}" data-type="production_data"
@@ -330,7 +333,7 @@
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPD}}" data-itemType="production_data" value="{{itemPD.total_price}}"
 									placeholder="总价" />
 							</view>
@@ -339,20 +342,20 @@
 					<!-- 包装 -->
 					<view class="mt10" wx:for="{{item.pack_material_data}}" wx:key="itemPack" wx:for-index="indexPack"
 						wx:for-item="itemPack">
-						<t-picker visible="{{itemPack.show}}" cancel-btn="取消" confirm-btn="确认" bindconfirm="chooseConfirm"
-							data-index="{{index}}" data-itemIndex="{{indexPack}}" data-type="pack_material_data"
-							bindcancel="closeShow">
-							<t-picker-item options="{{packingList}}" />
-						</t-picker>
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">包
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">包
 									</view>
-									<view class="ml20">{{itemPack.material_name}}</view>
+									<view class="ml20">{{itemPack.material_name || '暂未选择'}}</view>
 								</view>
-								<view class="ml20 color27A2" bindtap="showChoose" data-index="{{index}}" data-itemIndex="{{indexPack}}"
-									data-type="pack_material_data">点击变更</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="pack_material_data" data-index="{{index}}" data-itemindex="{{indexPack}}">点击变更
+								</view>
+								<picker values="{{packingList}}" data-type="productSon" data-itemindex="{{indexPack}}"
+									data-itemtype="pack_material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
+									bind:confirm="confirmData" showDialog="{{itemPack.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexPack === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -372,7 +375,7 @@
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPack}}" data-itemType="pack_material_data" value="{{itemPack.total_price}}"
 									placeholder="总价" />
 							</view>
@@ -384,7 +387,8 @@
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">其
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">其
 									</view>
 								</view>
 							</view>
@@ -412,7 +416,7 @@
 							</view>
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexOtherFeeData}}" data-itemType="other_fee_data"
 									value="{{itemOtherFeeData.total_price}}" placeholder="总价" />
 							</view>
@@ -424,7 +428,8 @@
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
-									<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">非
+									<view class="bgColor27A2 colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">非
 									</view>
 								</view>
 							</view>
@@ -439,10 +444,10 @@
 						</view>
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
-								<view class="tc mb10">非生产型费用</view>
+								<view class="tc mb10">非生产费用</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="name"
 									data-itemIndex="{{indexNoProductFeeData}}" data-itemType="no_production_fee_data"
-									value="{{itemNoProductFeeData.name}}" placeholder="非生产型费用" />
+									value="{{itemNoProductFeeData.name}}" placeholder="非生产费用" />
 							</view>
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
 								<view class="tc mb10">费用说明</view>
@@ -452,23 +457,24 @@
 							</view>
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
 								<view class="tc mb10">总价</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexNoProductFeeData}}" data-itemType="no_production_fee_data"
 									value="{{itemNoProductFeeData.total_price}}" placeholder="总价" />
 							</view>
 						</view>
 					</view>
 					<!-- 运输费用 -->
-					<view class="bgColor27A2 pl8 pr12 pt5 pb5 colorWhite" style="border-radius: 500px;width:13px;">运</view>
+					<view class="bgColor27A2 colorWhite flex aic jcc fz25" style="border-radius: 500px;width:24px;height: 24px;">运
+					</view>
 					<view class="flex jcsb mb10">
 						<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
 							<view class="tc mb10">运输费用</view>
-							<input type="number" bindinput="changeProductType" data-type="transport_fee" data-index="{{index}}"
+							<input type="digit" bindinput="changeProInput" data-type="transport_fee" data-index="{{index}}"
 								value="{{item.transport_fee}}" placeholder="运输费用" />
 						</view>
 						<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
 							<view class="tc mb10">费用说明</view>
-							<input bindinput="changeProductType" data-type="transport_fee_desc" data-index="{{index}}"
+							<input bindinput="changeProInput" data-type="transport_fee_desc" data-index="{{index}}"
 								value="{{item.transport_fee_desc}}" placeholder="费用说明" />
 						</view>
 					</view>
@@ -476,6 +482,8 @@
 			</van-tabs>
 		</view>
 	</view>
+
+	<!-- 订单费用 -->
 	<view class="card">
 		<view class="title">订单费用</view>
 		<view class="flex jcsb mb10 flexWarp">
@@ -489,7 +497,7 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">客户佣金百分比</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputCommission"
+				<input type="digit" style="display: block;height: 48px;" bindinput="inputCommission"
 					value="{{commission_percentage}}" placeholder="客户佣金百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
@@ -497,9 +505,9 @@
 				<view class="mt10">{{commission_price}} 元</view>
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
-				<view class="tc">预计税率</view>
-				<input type="number" style="display: block;height: 48px;" bindinput="inputRateTaxation"
-					value="{{rate_taxation}}" placeholder="预计税率" />
+				<view class="tc">预计税率百分比</view>
+				<input type="digit" style="display: block;height: 48px;" bindinput="inputRateTaxation" value="{{rate_taxation}}"
+					placeholder="预计税率百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>税费</view>
@@ -507,7 +515,7 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计利润百分比</view>
-				<input type="number" style="display: block;height: 48px;" value="{{profit_percentage}}"
+				<input type="digit" style="display: block;height: 48px;" value="{{profit_percentage}}"
 					bindinput="inputProfitPercentage" placeholder="预计利润百分比" />
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
@@ -520,20 +528,27 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">最终客户报价</view>
-				<input type="number" style="display: block;height: 48px;" placeholder="最终客户报价" bindinput="changeRealQuotePrice"
+				<input type="digit" style="display: block;height: 48px;" placeholder="最终客户报价" bindinput="changeRealQuotePrice"
 					value="{{real_quote_price}}" />
 			</view>
 		</view>
 	</view>
+
 	<view class="vh12"></view>
-	<view wx:if="{{isLogin}}">
-		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index:2">
-			<view class="flex jcsa">
-				<van-button type="primary" size="small" bind:click="submitAllInfo" data-isCaogao="{{true}}">保存为草稿</van-button>
-				<van-button style="margin-left: 20px;" type="primary" size="small" bind:click="submitAllInfo"
-					data-isCaogao="{{false}}">提交</van-button>
-			</view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index:2">
+		<view class="flex jcsa">
+			<van-button type="primary" size="small" bind:click="submitAllInfo" data-isCaogao="{{true}}">保存为草稿</van-button>
+			<van-button style="margin-left: 20px;" type="primary" size="small" bind:click="submitAllInfo"
+				data-isCaogao="{{false}}">提交</van-button>
 		</view>
 	</view>
+
 	<l-message content="{{content}}" />
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{concatList}}" reload="{{true}}" bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="concat" showDialog="{{showConcat}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
+		showDialog="{{showGroup}}"></picker>
 </view>

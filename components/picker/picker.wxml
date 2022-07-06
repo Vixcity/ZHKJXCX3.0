@@ -1,0 +1,5 @@
+<!--components/picker.wxml-->
+<van-popup show="{{ showDialog }}" position="bottom" bind:close="supplyAreaCancel">
+	<van-picker show-toolbar title="{{title || '请选择'}}" value="{{ deptId }}" columns="{{ columns }}"
+		bind:change="supplyChange" bind:confirm="supplyAreaConfirm" bind:cancel="supplyAreaCancel" />
+</van-popup>

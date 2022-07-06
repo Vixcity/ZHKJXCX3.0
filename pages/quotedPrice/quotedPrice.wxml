@@ -1,7 +1,7 @@
 <!--pages/quotedPrice/quotedPrice.wxml-->
 <view id="quotedPrice">
 	<!-- <nav-content showBack="{{false}}"> -->
-	<nav-content>
+	<nav-content showBack="{{false}}">
 		<view slot="after">
 			<input wx:if="{{isLogin}}"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
@@ -12,16 +12,21 @@
 		</view>
 	</nav-content>
 
+	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+	</view>
 
-	<t-dropdown-menu>
-		<t-dropdown-item label="状态" options="{{statusList.options}}" value="{{statusList.value}}"
-			bindchange="changeStatus" />
-		<t-dropdown-item label="公司" optionsLayout="tree" options="{{clientList.options}}" value="{{clientList.value}}"
-			bindchange="changeClient" bindconfirm="confirmClient" />
-		<t-dropdown-item label="创建人" options="{{userList.options}}" value="{{userList.value}}" bindchange="changeUser" />
-		<t-dropdown-item label="日期" options="{{someDateList.options}}" value="{{someDateList.value}}"
-			bindchange="changeDate" />
-	</t-dropdown-menu>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="getList">
 		<order-card wx:for="{{orderList}}" notShowProLen data-item="{{item}}" wx:for-item="item" wx:key="item"
@@ -53,4 +58,14 @@
 		<van-datetime-picker type="date" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}"
 			bind:input="onInput" bind:confirm="onConfirm" bind:cancel="onCancel" />
 	</van-popup>
+
+	<!-- 下拉 -->
+	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+		showDialog="{{showStatus}}"></picker>
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
+		showDialog="{{showUser}}"></picker>
+	<picker values="{{someDateList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="date" showDialog="{{showDate}}"></picker>
 </view>

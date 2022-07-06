@@ -13,14 +13,14 @@
 		"pages/order/order",
 		"pages/sampleOrder/sampleOrder",
 		"pages/orderDetail/orderDetail",
-		"pages/sampleOrderDetail/sampleOrderDetail",
-		"pages/pickerTest/pickerTest"
+		"pages/sampleOrderDetail/sampleOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black"
 	},
 	"usingComponents": {
+		"picker": "./components/picker/picker",
 		"list-card": "./components/listCard/listCard",
 		"order-card": "./components/orderCard/orderCard",
 		"nav-content": "./components/navContent/navContent",

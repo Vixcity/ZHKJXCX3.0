@@ -272,22 +272,22 @@ const getClientList = function (path) {
           if (itemSon.rel_client) {
             itemSon.rel_client.forEach((itemClient) => {
               arr2.push({
-                label: itemClient.name,
-                value: "" + item.id + "-" + itemSon.id + "-" + itemClient.id,
+                text: itemClient.name,
+                id: itemClient.id,
               });
             });
             arr1.push({
-              label: itemSon.name,
-              value: "" + item.id + "-" + itemSon.id,
-              options: arr2,
+              text: itemSon.name,
+              id: itemSon.id,
+              children: arr2,
             });
           }
         });
       }
       arr.push({
-        label: item.name,
-        value: "" + item.id,
-        options: arr1,
+        text: item.name,
+        id: item.id,
+        children: arr1,
       });
     });
     wx.setStorageSync("clientList", arr);
@@ -304,47 +304,88 @@ const getYarnType = function (path) {
   ).then((res) => {
     let arr = [
       {
-        label: "纱线",
-        value: 1,
-        options: [],
+        text: "纱线",
+        id: 1,
+        children: [],
       },
       {
-        label: "面料",
-        value: 2,
-        options: [],
+        text: "面料",
+        id: 2,
+        children: [],
       },
       {
-        label: "毛料",
-        value: 3,
-        options: [],
+        text: "毛料",
+        id: 3,
+        children: [],
       },
       {
-        label: "装饰辅料",
-        value: 4,
-        options: [],
+        text: "装饰辅料",
+        id: 4,
+        children: [],
       },
       {
-        label: "包装辅料",
-        value: 5,
-        options: [],
+        text: "包装辅料",
+        id: 5,
+        children: [],
       },
     ];
-    res.data.data.forEach((item, index) => {
+    res.data.data.forEach((item) => {
       let obj = {
-        label: item.name,
-        value: item.type + "-" + item.id,
-        options: [],
+        text: item.name,
+        id: item.id,
+        children: [],
       };
       item.yarn_data.forEach((yarnData) => {
-        obj.options.push({
-          label: yarnData.name,
-          value: item.type + "-" + item.id + "-" + yarnData.id,
+        obj.children.push({
+          text: yarnData.name,
+          id: yarnData.id,
         });
       });
 
-      arr[item.type - 1].options.push(obj);
+      arr[item.type - 1].children.push(obj);
     });
     wx.setStorageSync("yarnType", arr);
+  });
+};
+
+// 获取辅料列表
+const getAssistList = function (path) {
+  wxReq(
+    {
+      url: "/decorate/material/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = res.data.data.map((item) => {
+      return {
+        text: item.name,
+        id: item.id,
+        unit: item.unit,
+      };
+    });
+    wx.setStorageSync("assistList", arr);
+  });
+};
+
+// 获取包装列表
+const getPackingList = function (path) {
+  wxReq(
+    {
+      url: "/pack/material/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = res.data.data.map((item) => {
+      return {
+        text: item.name,
+        id: item.id,
+        item,
+      };
+    });
+
+    wx.setStorageSync("packingList", arr);
   });
 };
 
@@ -369,45 +410,45 @@ const getProcessList = function (path) {
     }).then((ress) => {
       let arr1 = res.data.data.map((item) => {
         return {
-          label: item.name,
-          value: item.name,
+          text: item.name,
+          id: item.name,
         };
       });
       let arr2 = ress.data.data.map((item) => {
         return {
-          label: item.name,
-          value: item.name,
+          text: item.name,
+          id: item.name,
         };
       });
 
       wx.setStorageSync("processList", [
         {
-          label: "织造工序",
-          value: 0,
-          options: [
+          text: "织造工序",
+          id: 0,
+          children: [
             {
-              label: "针织织造",
-              value: "针织织造",
+              text: "针织织造",
+              id: "针织织造",
             },
             {
-              label: "梭织织造",
-              value: "梭织织造",
+              text: "梭织织造",
+              id: "梭织织造",
             },
             {
-              label: "制版费",
-              value: "制版费",
+              text: "制版费",
+              id: "制版费",
             },
           ],
         },
         {
-          label: "半成品加工工序",
-          value: 2,
-          options: arr1,
+          text: "半成品加工工序",
+          id: 2,
+          children: arr1,
         },
         {
-          label: "成品加工工序",
-          value: 3,
-          options: arr2,
+          text: "成品加工工序",
+          id: 3,
+          children: arr2,
         },
       ]);
     });
@@ -441,20 +482,21 @@ const getGroupList = function (path) {
   ).then((res) => {
     let arr = [
       {
-        label: "全部",
-        value: "",
+        text: "全部",
+        id: "",
       },
     ];
     res.data.data.forEach((item) => {
       arr.push({
-        label: item.name,
-        value: item.id,
+        text: item.name,
+        id: item.id,
       });
     });
     wx.setStorageSync("groupList", arr);
   });
 };
 
+// 获取分类列表
 const getProductTypeList = function (path) {
   wxReq(
     {
@@ -467,16 +509,16 @@ const getProductTypeList = function (path) {
     let arr = [];
     data.forEach((item) => {
       let obj = {
-        label: item.name,
-        value: item.id,
-        options: [],
+        text: item.name,
+        id: item.id,
+        children: [],
       };
       item.secondary_category.forEach((category) => {
         let catObj = {
-          label: category.name,
-          value: item.id + "-" + category.id,
+          text: category.name,
+          id: category.id,
         };
-        obj.options.push(catObj);
+        obj.children.push(catObj);
       });
       arr.push(obj);
     });
@@ -495,15 +537,14 @@ const getUserList = function (path) {
   ).then((res) => {
     let arr = [
       {
-        label: "全部",
-        value: "",
+        text: "全部",
+        id: "",
       },
     ];
     res.data.data.forEach((item) => {
       arr.push({
-        label: item.name,
-        value: item.id,
-        allUesrInfo: item,
+        text: item.name,
+        id: item.id,
       });
       wx.setStorageSync("userList", arr);
     });
@@ -514,34 +555,28 @@ const getUserList = function (path) {
 const getSomeDateList = function () {
   let arr = [
     {
-      label: "所有",
-      value: 0,
-      someDate: ["", ""],
+      text: "全部",
+      id: ["", ""],
     },
     {
-      label: "最近一周",
-      value: 1,
-      someDate: [getDay(-7), getDay(0)],
+      text: "最近一周",
+      id: [getDay(-7), getDay(0)],
     },
     {
-      label: "最近一月",
-      value: 2,
-      someDate: [getDay(-30), getDay(0)],
+      text: "最近一月",
+      id: [getDay(-30), getDay(0)],
     },
     {
-      label: "最近三月",
-      value: 3,
-      someDate: [getDay(-90), getDay(0)],
+      text: "最近三月",
+      id: [getDay(-90), getDay(0)],
     },
     {
-      label: "最近半年",
-      value: 4,
-      someDate: [getDay(-182), getDay(0)],
+      text: "最近半年",
+      id: [getDay(-182), getDay(0)],
     },
     {
-      label: "最近一年",
-      value: 5,
-      someDate: [getDay(-365), getDay(0)],
+      text: "最近一年",
+      id: [getDay(-365), getDay(0)],
     },
   ];
   wx.setStorageSync("someDateList", arr);
@@ -625,6 +660,10 @@ const contentHtml = function (content) {
   return content;
 };
 
+const jsonClone = function (params) {
+  return JSON.parse(JSON.stringify(params));
+};
+
 module.exports = {
   formatTime,
   wxReq,
@@ -640,6 +679,8 @@ module.exports = {
   formatDate,
   getClientList,
   getYarnType,
+  getAssistList,
+  getPackingList,
   getProcessList,
   getGroupList,
   getUserList,
@@ -651,4 +692,5 @@ module.exports = {
   getSomeDateList,
   getStatusImage,
   contentHtml,
+  jsonClone,
 };

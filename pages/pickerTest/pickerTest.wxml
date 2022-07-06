@@ -1,6 +1,0 @@
-<view class="vh20"></view>
-<van-cell size="large" required="true" title="供体区域：" is-link value="{{supplyArea}}" bind:click="supplyAreaClick" />
-<van-popup show="{{ supplyAreaDialog }}" position="bottom" bind:close="supplyAreaCancel">
-	<van-picker show-toolbar title="选择医院" value="{{ deptId }}" columns="{{ columns }}" bind:change="supplyChange"
-		bind:confirm="supplyAreaConfirm" bind:cancel="supplyAreaCancel" />
-</van-popup>

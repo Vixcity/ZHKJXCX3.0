@@ -39,16 +39,17 @@ Page({
       },
     ],
   },
+
   onShow() {
-		const isLogin = isIfLogin();
-		
+    const isLogin = isIfLogin();
+
     this.setData({
       isLogin,
-		});
-		
-		if (!isLogin) {
-			this.toLogin()
-		}
+    });
+
+    if (!isLogin) {
+      this.toLogin();
+    }
 
     wx.hideHomeButton();
     this.setData({
@@ -69,32 +70,32 @@ Page({
     });
   },
 
-	toSignUp() {
+  toSignUp() {
     wx.navigateTo({
       url: "/pages/signUp/signUp?path=index",
     });
   },
 
   toLogin(e) {
-		if (e) {
+    if (e) {
       this.toSignUp();
     } else {
-			Dialog.confirm({
-				title: "您还未登录",
-				message: "点击确认前往登录界面",
-				zIndex: 11601,
-			})
-				.then(() => {
-					this.toSignUp();
-				})
-				.catch(() => {
-					wx.lin.showMessage({
-						type: "error",
-						duration: 4000,
-						content: "您已取消，请登录以获取更好的用户体验",
-						top: getApp().globalData.navH,
-					});
-				});
-		}
-	},
+      Dialog.confirm({
+        title: "您还未登录",
+        message: "点击确认前往登录界面",
+        zIndex: 11601,
+      })
+        .then(() => {
+          this.toSignUp();
+        })
+        .catch(() => {
+          wx.lin.showMessage({
+            type: "error",
+            duration: 4000,
+            content: "您已取消，请登录以获取更好的用户体验",
+            top: getApp().globalData.navH,
+          });
+        });
+    }
+  },
 });

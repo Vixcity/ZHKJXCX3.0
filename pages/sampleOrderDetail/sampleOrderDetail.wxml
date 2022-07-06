@@ -39,7 +39,7 @@
 		<view wx:if="{{confirmSampleInfo.length === 0}}">暂无确认的样品信息</view>
 		<view class="flex jcsa" wx:for="{{confirmSampleInfo}}" wx:for-item="item" wx:key="item" wx:for-index="index">
 			<view class="w30">
-				<van-image width="100" height="100" fit="cover"
+				<van-image width="80" height="80" fit="cover"
 					src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 			</view>
 			<view class="w70 flex fdc jcsb pb5">
@@ -100,7 +100,7 @@
 						wx:key="itemPro" wx:for-index="indexPro">
 						<view class="line"></view>
 						<view class="w30">
-							<van-image width="100" height="100" fit="cover"
+							<van-image width="80" height="80" fit="cover"
 								src="{{itemPro.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 						</view>
 						<view class="w70 flex fdc jcsb pb5">

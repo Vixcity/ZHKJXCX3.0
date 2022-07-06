@@ -233,6 +233,10 @@ page {
 	margin-top: 20px;
 }
 
+.mt15 {
+	margin-top: 15px;
+}
+
 .mt10 {
 	margin-top: 10px;
 }
@@ -443,6 +447,10 @@ page {
 
 .pt20 {
 	padding-top: 20px;
+}
+
+.pt15 {
+	padding-top: 15px;
 }
 
 .pt10 {
