@@ -85,8 +85,9 @@ Page({
       is_check: "",
       statusList: [
         { text: "全部", id: "", checked: false },
+        { text: "待审核", id: 0, checked: false },
         { text: "已审核", id: 1, checked: false },
-        { text: "待审核", id: 2, checked: false },
+        { text: "已驳回", id: 2, checked: false },
         { text: "状态异常", id: 3, checked: false },
       ],
       order_type: "",
