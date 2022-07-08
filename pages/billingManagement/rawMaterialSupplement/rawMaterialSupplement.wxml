@@ -1,0 +1,153 @@
+<!--pages/billingManagement/rawMaterialSupplement/rawMaterialSupplement.wxml-->
+<view id="rawMaterialSupplement">
+	<nav-content>
+		<view slot="after">
+			<view>原料补充单</view>
+		</view>
+	</nav-content>
+
+	<scroll-view class="bgColorWhite pb20 pt20 pr20 sonMl20 sonPb10 sonInlineBlock lastSonMr20"
+		scroll-into-view='{{tabName}}' style="white-space:nowrap" scroll-x="{{true}}">
+		<text wx:for='{{tabList}}' id="{{item.id}}" wx:key="item" class="{{item.active?'active':''}}"
+			bindtap="toOtherBillingPage" data-item="{{item}}">{{item.name}}</text>
+	</scroll-view>
+
+	<view class="flex bgColorWhite">
+		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="计划单号/订单号" hide-label="{{true}}" />
+		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	</view>
+
+	<scroll-view scroll-y class="vh72" bindscrolltolower="reqOrder">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view class="w100 flex aic">
+				<view class="title w32">计划单号：</view>
+				<view>{{item.code}}</view>
+				<view class="ml20 colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:if="{{item.is_check === 0}}">待审核</view>
+				<view class="ml20 colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 1}}">已审核</view>
+				<view class="ml20 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 2}}">已驳回</view>
+				<view class="ml20 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;" wx:else>单据异常</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">关联订单号：</view>
+				<view wx:if="{{item.order_type === 1}}" class="flex aic">
+					<view class="colorWhite bgColorOrange tc mr10 fz28"
+						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">订</view>
+					{{item.order_code || '无'}}
+				</view>
+				<view wx:if="{{item.order_type === 2}}" class="flex aic">
+					<view class="colorWhite bgColor27A2 tc mr10 fz28"
+						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">样</view>
+					{{item.order_code || '无'}}
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">创建人：</view>
+				<view>{{item.user_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">计划生产数：</view>
+					<view>{{item.total_production_number}}</view>
+				</view>
+				<view class="title">计划原料数：</view>
+				<view>{{item.total_plan_number}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">平均损耗：</view>
+					<view>{{item.pre_loss}}%</view>
+				</view>
+				<view class="w50 flex">
+					<view class="title">采购状态：</view>
+					<view wx:if="{{item.material_order_progress > 0 && item.material_order_progress < 100}}" class="color03d0">进行中
+					</view>
+					<view wx:if="{{item.material_order_progress === 0}}" class="colorOrange">未进行</view>
+					<view wx:if="{{item.material_order_progress >= 100}}" class="color27A2">已完成</view>
+				</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
+	<l-message content="{{content}}" />
+	<van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="right">
+		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
+			<view class="vh12"></view>
+			<scroll-view>
+				<view>创建人：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="user">
+						<label class="radio" wx:for="{{userList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>负责小组：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="group">
+						<label class="radio" wx:for="{{groupList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>审核状态：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="status">
+						<label class="radio" wx:for="{{statusList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>订单/样单：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="order_type">
+						<label class="radio" wx:for="{{orderType}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>创建时间：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="date">
+						<label class="radio" wx:for="{{dateList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="vh8"></view>
+			</scroll-view>
+			<view class="submit" style="position: sticky;bottom:5%;left:50%;z-index: 2;">
+				<view class="flex jcsa">
+					<van-button type="primary" size="small" bindtap="getScreenList">重置</van-button>
+					<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="confirmData">确认</van-button>
+				</view>
+			</view>
+		</view>
+	</van-popup>
+</view>
