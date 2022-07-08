@@ -31,7 +31,7 @@ Page({
       },
       {
         title: "单据管理",
-        src: "/pages/billingManagement/rawMaterialPlan/rawMaterialPlan",
+        src: "/pages/billingManagement/index",
       },
       {
         title: "检验管理",

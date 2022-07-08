@@ -18,7 +18,6 @@ Page({
     showLoading: false,
     noData: false,
     isEnd: false,
-    tabList: [],
     userList: [],
     groupList: [],
     dateList: [],
@@ -38,16 +37,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    let tabList = getBillingList();
-    tabList[3].active = true;
-
     this.getScreenList();
     this.getList();
-
-    this.setData({
-      tabList,
-      tabName: "tab3",
-    });
   },
 
   // 拿到筛选列表
@@ -108,16 +99,6 @@ Page({
         };
       }),
     });
-  },
-
-  // 去其它页面
-  toOtherBillingPage(e) {
-    let item = e.currentTarget.dataset.item;
-    if (!item.active) {
-      wx.redirectTo({
-        url: "/pages" + item.path,
-      });
-    }
   },
 
   // 打开选择框

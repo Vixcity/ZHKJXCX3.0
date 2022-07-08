@@ -1,0 +1,13 @@
+<!--pages/billingManagement/index.wxml-->
+<view id="billingManagementIndex">
+	<nav-content showBack="{{false}}">
+		<view slot="after">
+			<view>单据管理</view>
+		</view>
+	</nav-content>
+
+	<view class="bgColor03d0 colorWhite mt10 pt10 pb10" wx:for="{{tabList}}" bindtap='toOtherBillingPage' data-item="{{item}}">
+		{{item.name}}
+	</view>
+	<view class="vh5"></view>
+</view>
