@@ -52,7 +52,7 @@
 				<view class="title w32">补原料单位：</view>
 				<view>{{item.client_name}}</view>
 			</view>
-			<view class="w100 flex aic mt10">
+			<view wx:if="{{item.desc}}" class="w100 flex aic mt10">
 				<view class="title w32">原因：</view>
 				<view class="color27A2" bindtap="checkReason" data-item="{{item}}">点击查看</view>
 			</view>

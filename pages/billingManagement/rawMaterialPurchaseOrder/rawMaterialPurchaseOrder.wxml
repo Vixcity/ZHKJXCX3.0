@@ -1,0 +1,16 @@
+<!--pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder.wxml-->
+<view id="rawMaterialPurchaseOrder">
+	<nav-content>
+		<view slot="after">
+			<view>原料订购单</view>
+		</view>
+	</nav-content>
+
+	<scroll-view class="bgColorWhite pb20 pt20 pr20 sonMl20 sonPb10 sonInlineBlock lastSonMr20"
+		scroll-into-view='{{tabName}}' style="white-space:nowrap" scroll-x="{{true}}">
+		<text wx:for='{{tabList}}' id="{{item.id}}" wx:key="item" class="{{item.active?'active':''}}"
+			bindtap="toOtherBillingPage" data-item="{{item}}">{{item.name}}</text>
+	</scroll-view>
+
+	<l-message content="{{content}}" />
+</view>
