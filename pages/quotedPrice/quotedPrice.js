@@ -106,8 +106,8 @@ Page({
       isLogin,
     });
 
-    getUserList("quotedPrice");
-    getClientList("quotedPrice");
+    getUserList("/quotedPrice/quotedPrice");
+    getClientList("/quotedPrice/quotedPrice");
 
     let arr = [
       {
@@ -159,7 +159,7 @@ Page({
           limit: 10,
         },
       },
-      "quotedPrice"
+      "/quotedPrice/quotedPrice"
     ).then((res) => {
       let data = res.data.data.items;
 

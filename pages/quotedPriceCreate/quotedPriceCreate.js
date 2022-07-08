@@ -241,13 +241,48 @@ Page({
 
   onLoad(options) {
     const { isUpdate, id } = options;
-    getClientList("quotedPriceCreate");
-    getGroupList("quotedPriceCreate");
-    getProductTypeList("quotedPriceCreate");
-    getYarnType("quotedPriceCreate");
-    getAssistList("quotedPriceCreate");
-    getProcessList("quotedPriceCreate");
-    getPackingList("quotedPriceCreate");
+    getClientList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getGroupList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getProductTypeList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getYarnType(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getAssistList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getProcessList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
+    getPackingList(
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    );
 
     let clientList = wx.getStorageSync("clientList").slice(0, 2);
     let groupList = jsonClone(wx.getStorageSync("groupList"));
@@ -271,7 +306,10 @@ Page({
           method: "GET",
           data: { id: options.id },
         },
-        "quotedPriceCreate"
+        this.data.isUpdate
+          ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+              this.data.id
+          : "/quotedPriceCreate/quotedPriceCreate"
       ).then((res) => {
         // console.log(res.data.data);
         let data = res.data.data;
@@ -541,7 +579,10 @@ Page({
         url: "/client/detail?id=" + id,
         method: "GET",
       },
-      "quotedPriceCreate"
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
     ).then((res) => {
       this.setData({
         concatList: res.data.data.contacts_data.map((item) => {
@@ -577,7 +618,10 @@ Page({
         method: "GET",
         url: "/upload/token",
       },
-      "quotedPriceCreate"
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
     ).then((res) => {
       const token = res.data.data;
       wx.uploadFile({
@@ -1018,7 +1062,10 @@ Page({
         data,
         method: "POST",
       },
-      "quotedPriceCreate"
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
     ).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({

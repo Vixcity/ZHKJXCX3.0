@@ -41,7 +41,7 @@ Page({
         },
         method: "GET",
       },
-      "sampleOrderDetail&params1=id%3D" + id
+      "/sampleOrderDetail/sampleOrderDetail&id=" + id
     ).then((res) => {
       this.setData({
         sampleOrderDetail: res.data.data,
@@ -57,7 +57,7 @@ Page({
             },
             method: "GET",
           },
-          "sampleOrderDetail&params1=id%3D" + id
+          "/sampleOrderDetail/sampleOrderDetail&id=" + id
         ).then((res) => {
           item.progress = res.data.data.progress;
           item.update_time = res.data.data.update_time;
@@ -77,7 +77,7 @@ Page({
         },
         method: "GET",
       },
-      "sampleOrderDetail&params1=id%3D" + id
+      "/sampleOrderDetail/sampleOrderDetail&id=" + id
     ).then((res) => {
       this.setData({
         confirmSampleInfo: res.data.data.filter((item) => item.status === 2),
@@ -94,7 +94,7 @@ Page({
         },
         method: "GET",
       },
-      "sampleOrderDetail&params1=id%3D" + id
+      "/sampleOrderDetail/sampleOrderDetail&id=" + id
     ).then((res) => {
       res.data.data.product_total_price = res.data.data.product.reduce(
         (total, cur) => {
@@ -207,7 +207,7 @@ Page({
             },
             method: "POST",
           },
-          "sampleOrderDetail&params1=id%3D" + _this.data.id
+          "/sampleOrderDetail/sampleOrderDetail&id=" + id
         ).then((res) => {
           if (res.data.status) {
             // console.log(status);

@@ -83,7 +83,7 @@ Page({
       data: {
         id: this.data.id,
       },
-    },'quotedPriceDetail&params1=id%3D'+this.data.id).then((res) => {
+    },'/quotedPriceDetail/quotedPriceDetail&id='+this.data.id).then((res) => {
       let data = res.data.data;
       data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
       data.product_data.forEach((item) => {
@@ -146,7 +146,7 @@ Page({
         is_check: this.data.current,
         desc: this.data.textInputDesc,
       },
-    },'quotedPriceDetail&params1=id%3D'+this.data.id).then((res) => {
+    },'/quotedPriceDetail/quotedPriceDetail&id='+this.data.id).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({
           type: "success",

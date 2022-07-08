@@ -17,7 +17,25 @@ Page({
   },
 
   onLoad: function (options) {
-    this.setData(options);
+    let path = "";
+
+    // 拼接参数
+    for (let key in options) {
+      let value = options[key];
+      if (key === "path") {
+        path = ".." + value;
+      } else {
+        path += "&" + key + "=" + value;
+      }
+    }
+
+    // 把第一个连接符号变成问号
+    path = path.replace("&", "?");
+
+    // 赋值
+    this.setData({
+      path,
+    });
 
     wx.hideHomeButton();
   },
@@ -57,8 +75,8 @@ Page({
           });
 
           return;
-				}
-				
+        }
+
         if (res.data) {
           wx.setStorageSync("isLogin", true);
           wx.setStorageSync("loginTime", new Date());
@@ -101,19 +119,7 @@ Page({
 
   // 去其他界面
   toOtherPage() {
-    let url = "";
-
-    if (this.data.params1) {
-      url =
-        "../" +
-        this.data.path +
-        "/" +
-        this.data.path +
-        "?" +
-        decodeURIComponent(this.data.params1);
-    } else {
-      url = "../" + this.data.path + "/" + this.data.path;
-    }
+    let url = this.data.path || "../index/index";
 
     wx.reLaunch({
       url,

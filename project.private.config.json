@@ -55,13 +55,6 @@
 					"scene": null
 				},
 				{
-					"name": "生产验收（扫码进）",
-					"pathName": "pages/outsourcingAcceptance/outsourcingAcceptance",
-					"query": "isCodeIn=true",
-					"launchMode": "default",
-					"scene": null
-				},
-				{
 					"name": "报价单列表",
 					"pathName": "pages/quotedPrice/quotedPrice",
 					"query": "",
@@ -85,6 +78,13 @@
 				{
 					"name": "订单列表",
 					"pathName": "pages/order/order",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
+				},
+				{
+					"name": "首页",
+					"pathName": "pages/index/index",
 					"query": "",
 					"launchMode": "default",
 					"scene": null

@@ -74,32 +74,28 @@ Page({
       type,
     });
 
-    if (isLogin) {
-      getClientList();
-      getProcessList();
-      getGroupList();
-      getUserList();
+    getClientList("/ourFactory/ourFactory&type=" + (type || 2));
+    getProcessList("/ourFactory/ourFactory&type=" + (type || 2));
+    getGroupList("/ourFactory/ourFactory&type=" + (type || 2));
+    getUserList("/ourFactory/ourFactory&type=" + (type || 2));
 
-      let arr = [
-        {
-          text: "全部",
-          id: "",
-          children: [
-            { text: "全部", id: "", children: [{ text: "全部", id: "" }] },
-          ],
-        },
-      ];
+    let arr = [
+      {
+        text: "全部",
+        id: "",
+        children: [
+          { text: "全部", id: "", children: [{ text: "全部", id: "" }] },
+        ],
+      },
+    ];
 
-      this.setData({
-        clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
-        processList: wx.getStorageSync("processList"),
-        groupList: wx.getStorageSync("groupList"),
-        userList: wx.getStorageSync("userList"),
-      });
-      this.reqOrder();
-    } else {
-      this.toLogin();
-    }
+    this.setData({
+      clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
+      processList: wx.getStorageSync("processList"),
+      groupList: wx.getStorageSync("groupList"),
+      userList: wx.getStorageSync("userList"),
+    });
+    this.reqOrder();
   },
 
   // 打开选择器
@@ -267,7 +263,7 @@ Page({
         method: "GET",
         data: params,
       },
-      "ourFactory&params1=type%3D2"
+      "/ourFactory/ourFactory&type=" + (this.data.type || 2)
     ).then((res) => {
       if (res.data.code === 200) {
         if ((this.data.page = 1)) {

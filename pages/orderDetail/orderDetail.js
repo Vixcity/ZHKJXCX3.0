@@ -31,7 +31,7 @@ Page({
         },
         method: "GET",
       },
-      "orderDetail&params1=id%3D" + id
+      "/orderDetail/orderDetail&id=" + id
     ).then((res) => {
       res.data.data.time_data.forEach((itemTime) => {
         itemTime.batch_data.forEach((itemBatch, indexBatch) => {
@@ -51,7 +51,7 @@ Page({
           data: { order_id: res.data.data.time_data[0].id },
           method: "GET",
         },
-        "orderDetail&params1=id%3D" + id
+        "/orderDetail/orderDetail&id=" + id
       ).then((ress) => {
         // console.log(ress.data.data);
         _this.setData({
@@ -69,7 +69,7 @@ Page({
           data: { order_time_id: res.data.data.time_data[0].id },
           method: "GET",
         },
-        "orderDetail&params1=id%3D" + id
+        "/orderDetail/orderDetail&id=" + id
       ).then((ress) => {
         _this.setData({
           productionDetail: ress.data.data.data,
@@ -85,7 +85,7 @@ Page({
         data: { order_id: id, product_id: "" },
         method: "GET",
       },
-      "orderDetail&params1=id%3D" + id
+      "/orderDetail/orderDetail&id=" + id
     ).then((res) => {
       res.data.data.product_total_price = res.data.data.product.reduce(
         (total, cur) => {
@@ -219,8 +219,8 @@ Page({
     this.setData({
       showCheJianPopup: false,
     });
-	},
-	
+  },
+
   closeShowPackPopup() {
     this.setData({
       showPackPopup: false,

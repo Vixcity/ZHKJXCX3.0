@@ -5,7 +5,7 @@
 			报价单详情
 		</view>
 	</nav-content>
-	<view class="card fz25">
+	<view class="card">
 		<view class="title">{{detailData.title}}</view>
 		<view>报价单号：{{detailData.code}}</view>
 		<view>询价公司：{{detailData.client_name}}{{detailData.contacts_name?('-'+detailData.contacts_name):''}}</view>
@@ -30,14 +30,14 @@
 		<van-image style="position: absolute;right:0;top:10%" width="130" height="94"
 			src="{{statusList[detailData.is_check]}}" />
 	</view>
-	<view class="card fz25">
+	<view class="card">
 		<view class="title">产品信息：</view>
 		<view class="flex jcsb" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 			wx:key="product-{{index}}">
 			<view class="flex aic">
 				<view class="bgColor27A2 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 500px;">{{index+1}}</view>
 				<view class="ml10 flex">
-					<van-image width="100" height="100" fit="cover"
+					<van-image width="60" height="60" fit="cover"
 						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
 						bind:click='clickImage'
 						data-img="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
@@ -48,7 +48,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="flex fdc jcsa aie">
+			<view class="flex fdc jcsa aic">
 				<view wx:if="{{item.rel_product_info.product_id}}" class="color27A2">{{item.rel_order_info.order_code}}</view>
 				<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange">可绑定订单</view>
 				<view></view>
@@ -56,9 +56,9 @@
 			</view>
 		</view>
 	</view>
-	<view class="card fz25">
-		<view class="title">报价信息</view>
-		<van-tabs z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
+	<view class="card">
+		<view class="title mb10">报价信息</view>
+		<van-tabs type="card" z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
 			<van-tab title="{{'产品' + (index+1)}}" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 				wx:key="product2-{{index}}">
 				<view class="sonMt10">
@@ -174,7 +174,7 @@
 					<view>{{item.transport_fee || 0}}元</view>
 				</view>
 				<view class="mt10">{{item.transport_fee_desc || '无'}}</view>
-				<view class="flex jcsb fz25 mt10 aic">
+				<view class="flex jcsb mt10 aic">
 					<view class="flex aic">
 						<view class="bgColor03d0 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">合
 						</view>
@@ -189,7 +189,7 @@
 			</van-tab>
 		</van-tabs>
 	</view>
-	<view class="card fz25">
+	<view class="card">
 		<view class="title">订单费用</view>
 		<view class="flex aic jcsb mt10">
 			<view class="flex aic">
@@ -215,7 +215,7 @@
 			<view>合计：{{detailData.profit_price || 0}}元</view>
 		</view>
 		<view class="mt10">{{detailData.profit_percentage || 0}}%</view>
-		<view class="flex jcsb fz25 mt10 aic">
+		<view class="flex jcsb mt10 aic">
 			<view class="flex aic">
 				<view class="bgColor03d0 colorWhite flex aic jcc" style="border-radius: 500px;width:24px;height: 24px;">合</view>
 				<view class="ml20">
@@ -228,7 +228,7 @@
 		</view>
 	</view>
 	<view class="card">
-		<view class="flex jcsb fz25" style="margin-top: 0;">
+		<view class="flex jcsb" style="margin-top: 0;">
 			<view>报价总额</view>
 			<view class="flex">
 				<view class="color27A2 mr5">{{detailData.system_total_price || 0}}{{detailData.settle_unit || '元'}}</view>
@@ -263,7 +263,7 @@
 			<view class="flex" wx:if="{{current === 2}}">
 				<view class="bold w30">驳回理由</view>
 				<van-checkbox-group value="{{ result }}" bind:change="checkBoxChange">
-					<van-checkbox icon-size="17" class="fz25" wx:for-items="{{reasonList}}" wx:key="{{item.value}}"
+					<van-checkbox icon-size="17" wx:for-items="{{reasonList}}" wx:key="{{item.value}}"
 						name="{{item.value}}">{{item.value}}</van-checkbox>
 				</van-checkbox-group>
 			</view>

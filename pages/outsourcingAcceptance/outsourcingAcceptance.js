@@ -76,7 +76,7 @@ Page({
           },
           method: "GET",
         },
-        "outsourcingAcceptance?isCodeIn=true"
+        "/outsourcingAcceptance/outsourcingAcceptance&?isCodeIn=true"
       ).then((res) => {
         let data = res.data.data;
         this.getWeavePlanProductList(
@@ -113,7 +113,7 @@ Page({
           },
           method: "GET",
         },
-        "outsourcingAcceptance"
+        "/outsourcingAcceptance/outsourcingAcceptance"
       ).then((res) => {
         this.data.detailInfo.item = res.data.data;
         this.setData({
@@ -150,8 +150,8 @@ Page({
         method: "GET",
       },
       this.data.isCodeIn
-        ? "outsourcingAcceptance?isCodeIn=true"
-        : "outsourcingAcceptance"
+        ? "/outsourcingAcceptance/outsourcingAcceptance&isCodeIn=true"
+        : "/outsourcingAcceptance/outsourcingAcceptance"
     ).then((res) => {
       let data = res.data.data;
       let arr = [];
@@ -227,7 +227,7 @@ Page({
         data: array,
       },
       method: "POST",
-    },this.data.isCodeIn?'outsourcingAcceptance?isCodeIn=true':'outsourcingAcceptance').then((res) => {
+    },this.data.isCodeIn?'/outsourcingAcceptance/outsourcingAcceptance&?isCodeIn=true':'/outsourcingAcceptance/outsourcingAcceptance').then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({
           type: "success",

@@ -66,11 +66,6 @@
 		style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
 		<van-icon name="scan" size="18px" />
 	</view>
-	<view wx:if="{{!isLogin}}">
-		<view class="mt20 submit">
-			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
-		</view>
-	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 
 	<!-- 下拉 -->

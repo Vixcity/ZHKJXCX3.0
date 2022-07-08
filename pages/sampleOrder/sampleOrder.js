@@ -40,9 +40,9 @@ Page({
   onLoad(options) {
     const isLogin = isIfLogin();
 
-    getGroupList("sampleOrder");
-    getUserList("sampleOrder");
-    getClientList("sampleOrder");
+    getGroupList("/sampleOrder/sampleOrder");
+    getUserList("/sampleOrder/sampleOrder");
+    getClientList("/sampleOrder/sampleOrder");
 
     let arr = [
       {
@@ -94,7 +94,7 @@ Page({
         },
         method: "GET",
       },
-      "sampleOrder"
+      "/sampleOrder/sampleOrder"
     ).then((res) => {
       if (res.data.data.items.length < 10) {
         this.setData({

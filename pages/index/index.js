@@ -31,7 +31,7 @@ Page({
       },
       {
         title: "单据管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
+        src: "/pages/billingManagement/rawMaterialPlan/rawMaterialPlan",
       },
       {
         title: "检验管理",
@@ -72,7 +72,7 @@ Page({
 
   toSignUp() {
     wx.navigateTo({
-      url: "/pages/signUp/signUp?path=index",
+      url: "/pages/signUp/signUp?path=/index/index",
     });
   },
 

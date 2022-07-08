@@ -666,6 +666,98 @@ const jsonClone = function (params) {
   return JSON.parse(JSON.stringify(params));
 };
 
+// 单据列表
+const getBillingList = function () {
+  return [
+    {
+      path: "/billingManagement/rawMaterialPlan/rawMaterialPlan",
+      name: "原料计划单",
+      id: "tab" + 0,
+    },
+    {
+      path: "/billingManagement/rawMaterialSupplement/rawMaterialSupplement",
+      name: "原料补充单",
+      id: "tab" + 1,
+    },
+    {
+      path:
+        "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder",
+      name: "原料订购单",
+      id: "tab" + 2,
+    },
+    {
+      path:
+        "/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrder",
+      name: "原料调取单",
+      id: "tab" + 3,
+    },
+    {
+      path:
+        "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder",
+      name: "原料加工单",
+      id: "tab" + 4,
+    },
+    {
+      path: "/billingManagement/productionPlan/productionPlan",
+      name: "生产计划单",
+      id: "tab" + 5,
+    },
+    {
+      path:
+        "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument",
+      name: "检验入库单据",
+      id: "tab" + 6,
+    },
+    {
+      path: "/billingManagement/workshopSettlementLog/workshopSettlementLog",
+      name: "车间结算日志",
+      id: "tab" + 7,
+    },
+    {
+      path:
+        "/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrder",
+      name: "辅料订购单",
+      id: "tab" + 8,
+    },
+    {
+      path: "/billingManagement/packingOrder/packingOrder",
+      name: "包装订购单",
+      id: "tab" + 9,
+    },
+    {
+      path:
+        "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
+      name: "运输出库单",
+      id: "tab" + 10,
+    },
+    {
+      path: "/billingManagement/deductionForm/deductionForm",
+      name: "我方扣款单据",
+      id: "tab" + 11,
+    },
+    {
+      path: "/billingManagement/ourInvoiceList/ourInvoiceList",
+      name: "我方发票单据",
+      id: "tab" + 12,
+    },
+    {
+      path: "/billingManagement/oppositeInvoicing/oppositeInvoicing",
+      name: "对方发票单据",
+      id: "tab" + 13,
+    },
+    {
+      path: "/billingManagement/collectionList/collectionList",
+      name: "收款单据",
+      id: "tab" + 14,
+    },
+    {
+      path: "/billingManagement/paymentDocument/paymentDocument",
+      name: "付款单据",
+      id: "tab" + 15,
+    },
+  ];
+};
+
 module.exports = {
   formatTime,
   wxReq,
@@ -695,4 +787,5 @@ module.exports = {
   getStatusImage,
   contentHtml,
   jsonClone,
+  getBillingList,
 };

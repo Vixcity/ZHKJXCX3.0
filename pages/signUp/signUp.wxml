@@ -1,6 +1,6 @@
 <view class="container">
-	<nav-content color='#27a2fd' white>
-		<view slot="after">登录</view>
+	<nav-content color='#27a2fd' showBack="{{false}}" showHome="{{false}}" white>
+		<view slot="after" class="tc vw100 pb10 fz35">登录</view>
 	</nav-content>
 	<view class="signUp noPad pt20">
 		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
