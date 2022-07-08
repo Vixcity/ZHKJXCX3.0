@@ -157,6 +157,7 @@ Page({
       noData: false,
     });
     this.reqOrder();
+    this.closePopup();
   },
 
   // 更改关键字
@@ -231,10 +232,10 @@ Page({
         list,
       });
     });
-	},
-	
-	// 查看原因
-	checkReason(e){
-		Toast(e.currentTarget.dataset.item.desc || '无')
-	},
+  },
+
+  // 查看原因
+  checkReason(e) {
+    Toast(e.currentTarget.dataset.item.desc || "无");
+  },
 });

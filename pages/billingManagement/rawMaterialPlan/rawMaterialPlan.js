@@ -177,6 +177,7 @@ Page({
       code: e.detail.value,
     });
     this.confirmData();
+    this.closePopup();
   },
 
   // 节流
