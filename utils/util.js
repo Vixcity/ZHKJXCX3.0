@@ -551,6 +551,32 @@ const getUserList = function (path) {
   });
 };
 
+// 获取仓库列表
+const getStoreList = function (path) {
+  wxReq(
+    {
+      url: "/store/lists",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = [
+      {
+        text: "全部",
+        id: "",
+      },
+    ];
+    res.data.data.forEach((item) => {
+      arr.push({
+        text: item.name,
+        id: item.id,
+        item,
+      });
+    });
+    wx.setStorageSync("storeList", arr);
+  });
+};
+
 // 获取日期范围
 const getSomeDateList = function () {
   let arr = [
@@ -777,7 +803,8 @@ module.exports = {
   getPackingList,
   getProcessList,
   getGroupList,
-  getUserList,
+	getUserList,
+	getStoreList,
   getProductTypeList,
   getDay,
   doHandleMonth,

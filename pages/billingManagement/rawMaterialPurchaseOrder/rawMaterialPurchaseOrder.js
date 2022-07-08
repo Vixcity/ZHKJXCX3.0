@@ -56,10 +56,10 @@ Page({
   },
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
-    getGroupList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
-    getClientList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
-    getSomeDateList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
+    getUserList("/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder");
+    getGroupList("/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder");
+    getClientList("/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder");
+    getSomeDateList("/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder");
 
     this.setData({
       user_id: "",
@@ -271,7 +271,7 @@ Page({
           material_type: 1,
         },
       },
-      "/billingManagement/rawMaterialPlan/rawMaterialPlan"
+      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
     ).then((res) => {
       let data = res.data.data.items;
 

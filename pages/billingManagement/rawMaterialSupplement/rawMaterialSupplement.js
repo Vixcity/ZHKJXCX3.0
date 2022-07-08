@@ -52,9 +52,9 @@ Page({
 
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
-    getGroupList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
-    getSomeDateList("/billingManagement/rawMaterialPlan/rawMaterialPlan");
+    getUserList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
+    getGroupList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
+    getSomeDateList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
 
     this.setData({
       user_id: "",
@@ -207,7 +207,7 @@ Page({
           limit: 10,
         },
       },
-      "/billingManagement/rawMaterialPlan/rawMaterialPlan"
+      "/billingManagement/rawMaterialSupplement/rawMaterialSupplement"
     ).then((res) => {
       let data = res.data.data.items;
 
