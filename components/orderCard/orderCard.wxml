@@ -13,7 +13,15 @@
 			<van-icon wx:if="{{showChangeIcon}}" class="ml10 color8D9F" name=exchange" size="18px"> </van-icon>
 		</view>
 		<view class="flex h90">
-			<view class="autoLogos pl10 pr10" style="font-size: 25rpx;">{{detailInfo.processName}}</view>
+			<view class="fz25">
+				<view wx:if="{{detailInfo.processName === '待审核'}}" style="border-radius: 500px;"
+					class="pl10 pr10 pt5 pb5 colorWhite bgColorOrange">待审核</view>
+				<view wx:elif="{{detailInfo.processName === '已审核'}}" style="border-radius: 500px;"
+					class="pl10 pr10 pt5 pb5 colorWhite bgColor27A2">已审核</view>
+				<view wx:elif="{{detailInfo.processName === '已驳回'}}" style="border-radius: 500px;"
+					class="pl10 pr10 pt5 pb5 colorWhite bgColorRed">已驳回</view>
+				<view wx:else class="autoLogos pl10 pr10" style="font-size: 25rpx;">{{detailInfo.processName}}</view>
+			</view>
 		</view>
 	</view>
 	<view class="fz25 mt20 mb20 flex jcsb aic">
