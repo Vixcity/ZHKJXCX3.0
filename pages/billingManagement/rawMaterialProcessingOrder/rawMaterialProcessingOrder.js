@@ -48,16 +48,16 @@ Page({
   // 拿到筛选列表
   getScreenList() {
     getUserList(
-      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+      "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder"
     );
     getGroupList(
-      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+      "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder"
     );
     getClientList(
-      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+      "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder"
     );
     getSomeDateList(
-      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+      "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder"
     );
 
     this.setData({
@@ -259,7 +259,7 @@ Page({
           limit: 10,
         },
       },
-      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+      "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder"
     ).then((res) => {
       let data = res.data.data.items;
 

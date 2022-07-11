@@ -1,35 +1,17 @@
-<!--pages/billingManagement/productionPlan/productionPlan.wxml-->
-<view id="productionPlan">
+<!--pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument.wxml-->
+<view id="inspectionReceiptDocument">
 	<nav-content>
 		<view slot="after">
-			<view>生产计划单</view>
+			<view>检验入库单据</view>
 		</view>
 	</nav-content>
 
 	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="计划单号/订单号" hide-label="{{true}}" />
+		<l-input class="w90" bind:lininput="changeParams" value="{{keyword}}" placeholder="检验单号/订单号" hide-label="{{true}}" />
 		<van-icon class="w10" name="more-o" bindtap="openPopup" />
 	</view>
 
 	<l-message content="{{content}}" />
-	<van-popup show="{{ showPopupProcess }}" bind:close="closePopupProcess" bind:click-overlay="closePopupProcess"
-		position="right">
-		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
-			<view class="vh12"></view>
-			<scroll-view>
-				<view class="mt20" wx:for="{{processList}}">
-					<view class="mb20 bold">{{item.text}}</view>
-					<view class="flex flexWarp">
-						<van-button class="ml10 mt10" wx:for="{{item.children}}" wx:for-item="itemSon" bind:click="checkProcess"
-							data-item="{{itemSon}}">
-							{{itemSon.text}}
-						</van-button>
-					</view>
-				</view>
-				<view class="vh8"></view>
-			</scroll-view>
-		</view>
-	</van-popup>
 	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
 			<view class="vh12"></view>
@@ -40,8 +22,7 @@
 						<van-collapse-item wx:for="{{item.children}}" wx:for-item="secondClient" title="{{secondClient.text}}"
 							name="{{secondClient.id}}">
 							<view class="flex flexWarp">
-								<van-button class="ml10 mt10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient"
-									bind:click="checkClient" data-item="{{thirdClient}}">
+								<van-button class="ml10 mt10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient" bind:click="checkClient" data-item="{{thirdClient}}">
 									{{thirdClient.text}}
 								</van-button>
 							</view>
@@ -57,10 +38,7 @@
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
 			<view class="vh12"></view>
 			<scroll-view>
-				<van-cell title="生产单位" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '请选择'}}" />
-				<view class="line"></view>
-				<van-cell title="工序筛选" is-link border="{{false}}" bind:click="openPopupProcess"
-					value="{{process_name || '请选择'}}" />
+				<van-cell title="检验单位" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '请选择'}}" />
 				<view class="line"></view>
 				<view>创建人：</view>
 				<view class="flex">
@@ -74,34 +52,10 @@
 					</radio-group>
 				</view>
 				<view class="line"></view>
-				<view>负责小组：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="group">
-						<label class="radio" wx:for="{{groupList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
 				<view>审核状态：</view>
 				<view class="flex">
 					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="status">
 						<label class="radio" wx:for="{{statusList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
-				<view>订单/样单：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="order_type">
-						<label class="radio" wx:for="{{orderType}}" wx:key="key">
 							<view>
 								<view class="label">{{item.text}}</view>
 								<radio value="{{index}}" checked="{{item.checked}}" />

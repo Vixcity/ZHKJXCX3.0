@@ -1,4 +1,4 @@
-// pages/billingManagement/productionPlan/productionPlan.js
+// pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument.js
 const {
   getBillingList,
   wxReq,
@@ -6,7 +6,6 @@ const {
   getUserList,
   getGroupList,
   getClientList,
-  getProcessList,
   getSomeDateList,
 } = require("../../../utils/util");
 
@@ -17,7 +16,6 @@ Page({
   data: {
     showPopup: false,
     showPopupSon: false,
-    showPopupProcess: false,
     showLoading: false,
     noData: false,
     isEnd: false,
@@ -28,11 +26,10 @@ Page({
     orderType: [],
     list: [],
     activeName: "",
-    code: "",
+    keyword: "",
     user_id: "",
     group_id: "",
     client_id: "",
-    process_name: "",
     client_name: "",
     is_check: "",
     order_type: "",
@@ -51,19 +48,16 @@ Page({
   // 拿到筛选列表
   getScreenList() {
     getUserList(
-      "/billingManagement/productionPlan/productionPlan"
+      "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"
     );
     getGroupList(
-      "/billingManagement/productionPlan/productionPlan"
+      "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"
     );
     getClientList(
-      "/billingManagement/productionPlan/productionPlan"
+      "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"
     );
     getSomeDateList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
-    getProcessList(
-      "/billingManagement/productionPlan/productionPlan"
+      "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"
     );
 
     this.setData({
@@ -75,8 +69,6 @@ Page({
           checked: false,
         };
       }),
-      process_name: "",
-      processList: wx.getStorageSync("processList"),
       group_id: "",
       groupList: wx.getStorageSync("groupList").map((item) => {
         return {
@@ -129,14 +121,6 @@ Page({
     });
   },
 
-  // 打开工序选择框
-  openPopupProcess(e) {
-    this.setData({
-      showPopupProcess: true,
-      showPopup: false,
-    });
-  },
-
   // 关闭选择框
   closePopup() {
     this.setData({
@@ -152,14 +136,6 @@ Page({
     });
   },
 
-  // 关闭子选择框
-  closePopupProcess() {
-    this.setData({
-      showPopupProcess: false,
-      showPopup: true,
-    });
-  },
-
   // 子选择框取消
   cancelPopupSon() {
     this.setData({
@@ -167,14 +143,6 @@ Page({
       client_name: "",
     });
     this.closePopupSon();
-  },
-
-  // 工序选择框取消
-  cancelPopupProcess() {
-    this.setData({
-      process_name: "",
-    });
-    this.closePopupProcess();
   },
 
   // 打开折叠面板
@@ -189,13 +157,6 @@ Page({
     const { text, id } = e.currentTarget.dataset.item;
     this.setData({ client_name: text, client_id: id });
     this.closePopupSon();
-  },
-
-  // 选择工序
-  checkProcess(e) {
-    const { text, id } = e.currentTarget.dataset.item;
-    this.setData({ process_name: text });
-    this.closePopupProcess();
   },
 
   // 更改选择
@@ -250,7 +211,7 @@ Page({
   // 更改关键字
   changeParams(e) {
     this.setData({
-      code: e.detail.value,
+      keyword: e.detail.value,
     });
     this.confirmData();
   },
@@ -272,35 +233,30 @@ Page({
 
     let {
       is_check,
-			user_id,
-			process_name,
-      group_id,
-      code,
+      user_id,
+      keyword,
       client_id,
-      order_type,
       start_time,
       end_time,
       page,
     } = this.data;
     wxReq(
       {
-        url: "/weave/plan/lists",
+        url: "/inspection/lists",
         method: "GET",
         data: {
           is_check,
           user_id,
-					group_id,
-					process_name,
-          code,
+          keyword,
           client_id,
-          order_type,
           start_time,
           end_time,
           page,
-          limit: 10,
+					limit: 10,
+					type:1
         },
       },
-      "/billingManagement/productionPlan/productionPlan"
+      "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"
     ).then((res) => {
       let data = res.data.data.items;
 
