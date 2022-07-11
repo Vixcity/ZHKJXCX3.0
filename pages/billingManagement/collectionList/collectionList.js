@@ -1,4 +1,4 @@
-// pages/billingManagement/oppositeInvoicing/oppositeInvoicing.js
+// pages/billingManagement/collectionList/collectionList.js
 const {
   getBillingList,
   wxReq,
@@ -47,10 +47,10 @@ Page({
   },
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/oppositeInvoicing/oppositeInvoicing");
-    getGroupList("/billingManagement/oppositeInvoicing/oppositeInvoicing");
-    getClientList("/billingManagement/oppositeInvoicing/oppositeInvoicing");
-    getSomeDateList("/billingManagement/oppositeInvoicing/oppositeInvoicing");
+    getUserList("/billingManagement/collectionList/collectionList");
+    getGroupList("/billingManagement/collectionList/collectionList");
+    getClientList("/billingManagement/collectionList/collectionList");
+    getSomeDateList("/billingManagement/collectionList/collectionList");
 
     this.setData({
       user_id: "",
@@ -226,19 +226,18 @@ Page({
     let { code, client_id, start_time, end_time, page } = this.data;
     wxReq(
       {
-        url: "/doc/invoice/lists",
+        url: "/doc/collect/lists",
         method: "GET",
         data: {
           order_code: code,
           client_id,
           start_time,
           end_time,
-          invoice_type: 2,
           page,
           limit: 10,
         },
       },
-      "/billingManagement/oppositeInvoicing/oppositeInvoicing"
+      "/billingManagement/collectionList/collectionList"
     ).then((res) => {
       let data = res.data.data.items;
 

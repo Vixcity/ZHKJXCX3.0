@@ -1,0 +1,86 @@
+/* pages/billingManagement/paymentDocument/paymentDocument.wxss */
+#paymentDocument {
+  .active {
+    color: #27a2fd;
+    padding-left: 2rpx;
+    padding-right: 2rpx;
+    border-bottom: 2px solid #27a2fd;
+  }
+
+  .van-cell {
+    padding: 0;
+    font-size: unset;
+  }
+
+  .card {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 95vw;
+  }
+
+  .title {
+    color: #666666;
+  }
+
+  .hideLabel {
+    padding-left: 20px;
+  }
+
+  .submit .van-button {
+    width: 32vw;
+  }
+
+  .radio-label label,
+  .checkbox-label label {
+    display: inline-block;
+  }
+
+  .input_list {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding-bottom: 20rpx;
+  }
+
+  radio .wx-radio-input {
+    width: 185rpx;
+    height: 60rpx;
+    margin-top: 20rpx;
+    background: #fff;
+    border: solid 1rpx #ccc;
+    border-radius: 10rpx;
+    float: left;
+  }
+
+  .radio-label .label {
+    z-index: 1;
+    position: absolute;
+    width: 185rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 60rpx;
+    line-height: 65rpx;
+    margin-top: 20rpx;
+    font-size: 28rpx;
+    color: #333;
+    text-align: center;
+    border-radius: 10rpx;
+  }
+
+  /*单选，多选按钮选中后背景样式 */
+  radio .wx-radio-input.wx-radio-input-checked {
+    width: 185rpx;
+    height: 60rpx;
+    background: #008df93d;
+    border: solid 1px #008df9;
+    border-radius: 10rpx;
+  }
+
+  /*单选，多选按钮选中后勾勾样式*/
+  radio .wx-radio-input.wx-radio-input-checked::before {
+    background: transparent;
+    border-radius: 10rpx;
+    content: "";
+  }
+}

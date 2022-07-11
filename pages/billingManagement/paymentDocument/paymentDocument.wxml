@@ -1,0 +1,65 @@
+<!--pages/billingManagement/paymentDocument/paymentDocument.wxml-->
+<view id="paymentDocument">
+	<nav-content>
+		<view slot="after">
+			<view>付款单据</view>
+		</view>
+	</nav-content>
+
+	<view class="flex bgColorWhite">
+		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号" hide-label="{{true}}" />
+		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	</view>
+
+	<l-message content="{{content}}" />
+	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
+		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
+			<view class="vh12"></view>
+			<scroll-view>
+				<view class="mt20" wx:for="{{clientList}}">
+					<view class="mb20 bold">{{item.text}}</view>
+					<van-collapse value="{{ activeName }}" bind:change="changeCollapse">
+						<van-collapse-item wx:for="{{item.children}}" wx:for-item="secondClient" title="{{secondClient.text}}"
+							name="{{secondClient.id}}">
+							<view class="flex flexWarp">
+								<van-button class="mt10 ml10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient"
+									bind:click="checkClient" data-item="{{thirdClient}}">
+									{{thirdClient.text}}
+								</van-button>
+							</view>
+							<view class="tc" wx:if="{{secondClient.children.length === 0}}">暂无数据</view>
+						</van-collapse-item>
+					</van-collapse>
+				</view>
+				<view class="vh8"></view>
+			</scroll-view>
+		</view>
+	</van-popup>
+	<van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="right">
+		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
+			<view class="vh12"></view>
+			<scroll-view>
+				<van-cell title="关联客户" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '请选择'}}" />
+				<view class="line"></view>
+				<view>创建时间：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="date">
+						<label class="radio" wx:for="{{dateList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="vh8"></view>
+			</scroll-view>
+			<view class="submit" style="position: sticky;bottom:5%;left:50%;z-index: 2;">
+				<view class="flex jcsa">
+					<van-button type="primary" size="small" bindtap="getScreenList">重置</van-button>
+					<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="confirmData">确认</van-button>
+				</view>
+			</view>
+		</view>
+	</van-popup>
+</view>
