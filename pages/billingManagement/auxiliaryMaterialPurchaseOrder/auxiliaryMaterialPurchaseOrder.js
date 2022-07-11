@@ -102,7 +102,7 @@ Page({
       ],
       client_name: "",
       client_id: "",
-      clientList: wx.getStorageSync("clientList").slice(4,5),
+      clientList: wx.getStorageSync("clientList").slice(4, 5),
     });
   },
 

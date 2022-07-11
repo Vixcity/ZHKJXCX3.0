@@ -1,4 +1,4 @@
-// pages/billingManagement/packingOrder/packingOrder.js
+// pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder.js
 const {
   getBillingList,
   wxReq,
@@ -47,10 +47,18 @@ Page({
   },
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/packingOrder/packingOrder");
-    getGroupList("/billingManagement/packingOrder/packingOrder");
-    getClientList("/billingManagement/packingOrder/packingOrder");
-    getSomeDateList("/billingManagement/packingOrder/packingOrder");
+    getUserList(
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder"
+    );
+    getGroupList(
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder"
+    );
+    getClientList(
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder"
+    );
+    getSomeDateList(
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder"
+    );
 
     this.setData({
       user_id: "",
@@ -94,7 +102,7 @@ Page({
       ],
       client_name: "",
       client_id: "",
-      clientList: wx.getStorageSync("clientList").slice(8, 9),
+      clientList: wx.getStorageSync("clientList").slice(9),
     });
   },
 
@@ -235,7 +243,7 @@ Page({
     } = this.data;
     wxReq(
       {
-        url: "/transport/dispatch/lists",
+        url: "/pack/order/lists",
         method: "GET",
         data: {
           is_check,
@@ -249,7 +257,7 @@ Page({
           limit: 10,
         },
       },
-      "/billingManagement/packingOrder/packingOrder"
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder"
     ).then((res) => {
       let data = res.data.data.items;
 
