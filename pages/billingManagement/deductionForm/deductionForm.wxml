@@ -1,0 +1,33 @@
+<!--pages/billingManagement/deductionForm/deductionForm.wxml-->
+<view id="deductionForm">
+	<nav-content>
+		<view slot="after">
+			<view>我方扣款单据</view>
+		</view>
+	</nav-content>
+
+	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+	</view>
+
+	<!-- 下拉 -->
+	<picker values="{{dateList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="date"
+		showDialog="{{showDate}}"></picker>
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
+		showDialog="{{showGroup}}"></picker>
+	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
+		showDialog="{{showUser}}"></picker>
+</view>
