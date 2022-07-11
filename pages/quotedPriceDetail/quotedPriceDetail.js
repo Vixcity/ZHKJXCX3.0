@@ -77,13 +77,16 @@ Page({
   },
 
   getDetail() {
-    wxReq({
-      url: "/quote/detail",
-      method: "GET",
-      data: {
-        id: this.data.id,
+    wxReq(
+      {
+        url: "/quote/detail",
+        method: "GET",
+        data: {
+          id: this.data.id,
+        },
       },
-    },'/quotedPriceDetail/quotedPriceDetail&id='+this.data.id).then((res) => {
+      "/quotedPriceDetail/quotedPriceDetail&id=" + this.data.id
+    ).then((res) => {
       let data = res.data.data;
       data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
       data.product_data.forEach((item) => {
@@ -101,8 +104,20 @@ Page({
         Number(data.rate_price)
       ).toFixed(2);
 
+      let realTotalPrice = (
+        Number(data.total_cost_price) /
+        (1 -
+          ((Number(data.commission_percentage) / 100 || 0) +
+            (Number(data.profit_percentage) / 100 || 0) +
+            Number(data.rate_taxation) / 100 || 0))
+			).toFixed(2);
+			
+			let realTotalPriceChange = ((Number(realTotalPrice) / Number(data.exchange_rate)) * 100).toFixed(2)
+
       this.setData({
-        detailData: data,
+				detailData: data,
+				realTotalPrice,
+				realTotalPriceChange
       });
     });
   },
@@ -133,20 +148,23 @@ Page({
   },
 
   confirmCheck(e) {
-    wxReq({
-      url: "/doc/check",
-      method: "POST",
-      data: {
-        check_type: 5,
-        pid: this.data.detailData.id,
-        check_desc:
-          this.data.current === 1
-            ? ""
-            : this.data.result.toString().replaceAll(",", ";"),
-        is_check: this.data.current,
-        desc: this.data.textInputDesc,
+    wxReq(
+      {
+        url: "/doc/check",
+        method: "POST",
+        data: {
+          check_type: 5,
+          pid: this.data.detailData.id,
+          check_desc:
+            this.data.current === 1
+              ? ""
+              : this.data.result.toString().replaceAll(",", ";"),
+          is_check: this.data.current,
+          desc: this.data.textInputDesc,
+        },
       },
-    },'/quotedPriceDetail/quotedPriceDetail&id='+this.data.id).then((res) => {
+      "/quotedPriceDetail/quotedPriceDetail&id=" + this.data.id
+    ).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({
           type: "success",

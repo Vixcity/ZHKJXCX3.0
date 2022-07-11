@@ -685,6 +685,10 @@ page {
 	width: 77%;
 }
 
+.w75 {
+	width: 75%;
+}
+
 .w70 {
 	width: 70%;
 }
@@ -1328,7 +1332,7 @@ page {
 	padding-top: 10px;
 	margin-right: 20px;
 	margin-left: 20px;
-	margin-top: 15px;
+	margin-top: 10px;
 	justify-content: space-between;
 	flex-wrap: wrap;
 	color: black;
