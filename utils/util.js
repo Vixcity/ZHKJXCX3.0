@@ -496,6 +496,31 @@ const getGroupList = function (path) {
   });
 };
 
+// 获取员工列表
+const getStaffList = function (path) {
+  wxReq(
+    {
+      url: "/staff/list",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = [
+      {
+        text: "全部",
+        id: "",
+      },
+    ];
+    res.data.data.forEach((item) => {
+      arr.push({
+        text: item.name,
+        id: item.id,
+      });
+    });
+    wx.setStorageSync("staffList", arr);
+  });
+};
+
 // 获取分类列表
 const getProductTypeList = function (path) {
   wxReq(
@@ -802,6 +827,7 @@ module.exports = {
   getAssistList,
   getPackingList,
   getProcessList,
+  getStaffList,
   getGroupList,
 	getUserList,
 	getStoreList,
