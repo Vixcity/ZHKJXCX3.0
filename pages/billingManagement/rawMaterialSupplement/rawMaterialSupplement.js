@@ -43,9 +43,15 @@ Page({
 
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
-    getGroupList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
-    getSomeDateList("/billingManagement/rawMaterialSupplement/rawMaterialSupplement");
+    getUserList(
+      "/billingManagement/rawMaterialSupplement/rawMaterialSupplement"
+    );
+    getGroupList(
+      "/billingManagement/rawMaterialSupplement/rawMaterialSupplement"
+    );
+    getSomeDateList(
+      "/billingManagement/rawMaterialSupplement/rawMaterialSupplement"
+    );
 
     this.setData({
       user_id: "",

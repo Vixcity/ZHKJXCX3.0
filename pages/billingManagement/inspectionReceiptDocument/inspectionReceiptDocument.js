@@ -252,8 +252,8 @@ Page({
           start_time,
           end_time,
           page,
-					limit: 10,
-					type:1
+          limit: 10,
+          type: 1,
         },
       },
       "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument"

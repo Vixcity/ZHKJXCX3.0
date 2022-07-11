@@ -3,8 +3,8 @@ const {
   getBillingList,
   wxReq,
   debounce,
-	getUserList,
-	getStaffList,
+  getUserList,
+  getStaffList,
   getGroupList,
   getSomeDateList,
 } = require("../../../utils/util");
@@ -45,10 +45,18 @@ Page({
 
   // 拿到筛选列表
   getScreenList() {
-    getUserList("/billingManagement/workshopSettlementLog/workshopSettlementLog");
-    getGroupList("/billingManagement/workshopSettlementLog/workshopSettlementLog");
-    getStaffList("/billingManagement/workshopSettlementLog/workshopSettlementLog");
-    getSomeDateList("/billingManagement/workshopSettlementLog/workshopSettlementLog");
+    getUserList(
+      "/billingManagement/workshopSettlementLog/workshopSettlementLog"
+    );
+    getGroupList(
+      "/billingManagement/workshopSettlementLog/workshopSettlementLog"
+    );
+    getStaffList(
+      "/billingManagement/workshopSettlementLog/workshopSettlementLog"
+    );
+    getSomeDateList(
+      "/billingManagement/workshopSettlementLog/workshopSettlementLog"
+    );
 
     this.setData({
       user_id: "",
@@ -124,8 +132,8 @@ Page({
         group_id: this.data.groupList[index].id,
       });
     }
-		
-		if (type === "staff") {
+
+    if (type === "staff") {
       this.setData({
         staff_id: this.data.staffList[index].id,
       });

@@ -86,7 +86,8 @@
 						<van-collapse-item wx:for="{{item.children}}" wx:for-item="secondClient" title="{{secondClient.text}}"
 							name="{{secondClient.id}}">
 							<view class="flex flexWarp">
-								<van-button class="mt10 ml10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient" bind:click="checkClient" data-item="{{thirdClient}}">
+								<van-button class="mt10 ml10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient"
+									bind:click="checkClient" data-item="{{thirdClient}}">
 									{{thirdClient.text}}
 								</van-button>
 							</view>

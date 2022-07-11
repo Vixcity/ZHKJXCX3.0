@@ -50,21 +50,11 @@ Page({
   },
   // 拿到筛选列表
   getScreenList() {
-    getUserList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
-    getGroupList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
-    getClientList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
-    getSomeDateList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
-    getProcessList(
-      "/billingManagement/productionPlan/productionPlan"
-    );
+    getUserList("/billingManagement/productionPlan/productionPlan");
+    getGroupList("/billingManagement/productionPlan/productionPlan");
+    getClientList("/billingManagement/productionPlan/productionPlan");
+    getSomeDateList("/billingManagement/productionPlan/productionPlan");
+    getProcessList("/billingManagement/productionPlan/productionPlan");
 
     this.setData({
       user_id: "",
@@ -272,8 +262,8 @@ Page({
 
     let {
       is_check,
-			user_id,
-			process_name,
+      user_id,
+      process_name,
       group_id,
       code,
       client_id,
@@ -289,8 +279,8 @@ Page({
         data: {
           is_check,
           user_id,
-					group_id,
-					process_name,
+          group_id,
+          process_name,
           code,
           client_id,
           order_type,
