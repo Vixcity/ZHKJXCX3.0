@@ -1,3 +1,4 @@
+// pages/billingManagement/oppositeInvoicing/oppositeInvoicing.js
 // pages/billingManagement/ourInvoiceList/ourInvoiceList.js
 const {
   getBillingList,
@@ -94,7 +95,7 @@ Page({
       ],
       client_name: "",
       client_id: "",
-      clientList: wx.getStorageSync("clientList").slice(0,2),
+      clientList: wx.getStorageSync("clientList").slice(0, 2),
     });
   },
 
@@ -233,7 +234,7 @@ Page({
           client_id,
           start_time,
           end_time,
-          invoice_type: 1,
+          invoice_type: 2,
           page,
           limit: 10,
         },
