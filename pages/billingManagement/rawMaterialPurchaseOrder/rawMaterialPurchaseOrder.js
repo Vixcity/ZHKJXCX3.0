@@ -145,7 +145,7 @@ Page({
   },
 
   // 选择公司
-  checkClien(e) {
+  checkClient(e) {
     const { text, id } = e.currentTarget.dataset.item;
     this.setData({ client_name: text, client_id: id });
     this.closePopupSon();

@@ -1,4 +1,4 @@
-// pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder.js
+// pages/billingManagement/productionPlan/productionPlan.js
 const {
   getBillingList,
   wxReq,
@@ -6,6 +6,7 @@ const {
   getUserList,
   getGroupList,
   getClientList,
+  getProcessList,
   getSomeDateList,
 } = require("../../../utils/util");
 
@@ -16,6 +17,7 @@ Page({
   data: {
     showPopup: false,
     showPopupSon: false,
+    showPopupProcess: false,
     showLoading: false,
     noData: false,
     isEnd: false,
@@ -30,6 +32,7 @@ Page({
     user_id: "",
     group_id: "",
     client_id: "",
+    process_name: "",
     client_name: "",
     is_check: "",
     order_type: "",
@@ -59,6 +62,9 @@ Page({
     getSomeDateList(
       "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
     );
+    getProcessList(
+      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
+    );
 
     this.setData({
       user_id: "",
@@ -69,6 +75,8 @@ Page({
           checked: false,
         };
       }),
+      process_name: "",
+      processList: wx.getStorageSync("processList"),
       group_id: "",
       groupList: wx.getStorageSync("groupList").map((item) => {
         return {
@@ -102,7 +110,7 @@ Page({
       ],
       client_name: "",
       client_id: "",
-      clientList: wx.getStorageSync("clientList").slice(5, 6),
+      clientList: wx.getStorageSync("clientList").slice(2, 4),
     });
   },
 
@@ -117,6 +125,14 @@ Page({
   openPopupSon(e) {
     this.setData({
       showPopupSon: true,
+      showPopup: false,
+    });
+  },
+
+  // 打开工序选择框
+  openPopupProcess(e) {
+    this.setData({
+      showPopupProcess: true,
       showPopup: false,
     });
   },
@@ -136,6 +152,14 @@ Page({
     });
   },
 
+  // 关闭子选择框
+  closePopupProcess() {
+    this.setData({
+      showPopupProcess: false,
+      showPopup: true,
+    });
+  },
+
   // 子选择框取消
   cancelPopupSon() {
     this.setData({
@@ -143,6 +167,14 @@ Page({
       client_name: "",
     });
     this.closePopupSon();
+  },
+
+  // 工序选择框取消
+  cancelPopupProcess() {
+    this.setData({
+      process_name: "",
+    });
+    this.closePopupProcess();
   },
 
   // 打开折叠面板
@@ -157,6 +189,13 @@ Page({
     const { text, id } = e.currentTarget.dataset.item;
     this.setData({ client_name: text, client_id: id });
     this.closePopupSon();
+  },
+
+  // 选择工序
+  checkProcess(e) {
+    const { text, id } = e.currentTarget.dataset.item;
+    this.setData({ process_name: text });
+    this.closePopupProcess();
   },
 
   // 更改选择
@@ -233,7 +272,8 @@ Page({
 
     let {
       is_check,
-      user_id,
+			user_id,
+			process_name,
       group_id,
       code,
       client_id,
@@ -244,12 +284,13 @@ Page({
     } = this.data;
     wxReq(
       {
-        url: "/material/process/lists",
+        url: "/weave/plan/lists",
         method: "GET",
         data: {
           is_check,
           user_id,
-          group_id,
+					group_id,
+					process_name,
           code,
           client_id,
           order_type,

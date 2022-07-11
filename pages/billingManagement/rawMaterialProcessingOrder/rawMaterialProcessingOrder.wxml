@@ -7,7 +7,7 @@
 	</nav-content>
 
 	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="调取单号/订单号" hide-label="{{true}}" />
+		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="加工单号/订单号" hide-label="{{true}}" />
 		<van-icon class="w10" name="more-o" bindtap="openPopup" />
 	</view>
 
@@ -22,7 +22,7 @@
 						<van-collapse-item wx:for="{{item.children}}" wx:for-item="secondClient" title="{{secondClient.text}}"
 							name="{{secondClient.id}}">
 							<view wx:for="{{secondClient.children}}" wx:for-item="thirdClient">
-								<van-button bind:click="checkClien" data-item="{{thirdClient}}">
+								<van-button bind:click="checkClient" data-item="{{thirdClient}}">
 									{{thirdClient.text}}
 								</van-button>
 							</view>
@@ -38,7 +38,7 @@
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
 			<view class="vh12"></view>
 			<scroll-view>
-				<van-cell title="订购公司" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '请选择'}}" />
+				<van-cell title="加工单位" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '请选择'}}" />
 				<view class="line"></view>
 				<view>创建人：</view>
 				<view class="flex">
