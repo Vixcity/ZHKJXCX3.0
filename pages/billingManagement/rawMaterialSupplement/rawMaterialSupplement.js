@@ -224,5 +224,12 @@ Page({
   // 查看原因
   checkReason(e) {
     Toast(e.currentTarget.dataset.item.desc || "无");
+	},
+	
+	toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "./rawMaterialSupplementDetail?id=" + item.id,
+    });
   },
 });

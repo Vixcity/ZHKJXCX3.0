@@ -1,0 +1,155 @@
+<!--pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail.wxml-->
+<view id="rawMaterialSupplementDetail">
+	<nav-content>
+		<view slot="after">
+			<view>原料补充单详情</view>
+		</view>
+	</nav-content>
+
+	<!-- 基础信息 -->
+	<view class="card fz28 por">
+		<view class="title">基础信息</view>
+		<view class="flex mt10">
+			<view class="w30 color6">补纱单</view>
+			<view class="w70">{{info.code}}</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">创建信息</view>
+			<view class="w70">
+				<view>{{info.created_at}}</view>
+				<view class="mt10">{{info.user_name || '无'}},{{info.user_phone}}</view>
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">订单号</view>
+			<view class="w70">
+				{{info.order_code}}
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">补纱单位</view>
+			<view class="w70">
+				{{info.client_name}}
+			</view>
+		</view>
+		<view wx:for="{{info.client_data}}">
+			<view class="flex mt10">
+				<view class="w30 color6">承担单位</view>
+				<view class="w70">
+					{{item.bear_client_name}}
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w30 color6">承担金额</view>
+				<view class="w70">
+					{{item.bear_price}} 元
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w30 color6">联系电话</view>
+				<view class="w70">
+					{{info.contacts_phone}}
+				</view>
+			</view>
+		</view>
+		<van-image style="position: absolute;right:0;top:0%" width="130" height="94"
+			src="{{statusImageList[info.is_check]}}" />
+	</view>
+
+	<!-- 原料信息 -->
+	<view class="card fz28">
+		<view class="title">原料信息</view>
+		<view wx:for="{{materialInfo}}">
+			<view class="flex mt10">
+				<view class="w30 color6">原料名称</view>
+				<view class="w70 color27A2">
+					{{ item.material_name }}
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w30 color6">合计值</view>
+				<view class="w70">
+					{{ item.total_price }}{{ item.childrenMergeInfo[0].unit }}
+				</view>
+			</view>
+			<view wx:for="{{item.childrenMergeInfo}}" wx:for-item="itemChild">
+				<view class="flex mt10">
+					<view class="w50 flex">
+						<view class="w60 color6">颜色</view>
+						<view class="w40">{{ itemChild.material_color }}</view>
+					</view>
+					<view class="w50 flex">
+						<view class="w60 color6">数量</view>
+						<view class="w40">{{ itemChild.number }}{{ itemChild.unit }}</view>
+					</view>
+				</view>
+				<!-- <view class="flex mt10">
+					<view class="w30 color6">原样颜色</view>
+					<view class="w70 color27A2">
+						{{ item.material_name }}
+					</view>
+				</view> -->
+			</view>
+		</view>
+	</view>
+
+	<view class="card fz28">
+		<view class="title">其它信息</view>
+		<view class="flex mt10">
+			<view class="w30 color6">补纱原因</view>
+			<view class="w70">
+				{{ info.desc || '无'}}
+			</view>
+		</view>
+		<!-- <view class="flex mt10">
+			<view class="w30 color6">注意事项</view>
+			<view class="w70 color27A2">
+				{{ info.desc || '无'}}
+			</view>
+		</view> -->
+	</view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa">
+			<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核补纱单</van-button>
+		</view>
+	</view>
+
+	<view class="vh12"></view>
+
+	<l-mask show="{{showShenHe}}" center>
+		<view class='card' style="padding-bottom:0;max-height: 70vh;padding-top:0">
+			<view class="flex pt10">
+				<view class="bold w25">审核结果</view>
+				<view class="w70">
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{1}}">通过</l-radio>
+						<l-radio key="{{2}}" style="margin-left: 10px;">驳回</l-radio>
+					</l-radio-group>
+				</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex mt10" wx:if="{{current === 2}}">
+				<view class="bold w25">驳回理由</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputReason" />
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="bold w25 pt10 pb10">备注信息</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputDesc" />
+				</view>
+			</view>
+			<view class="line" style="margin-bottom: 0;"></view>
+			<view class="flex" style="margin-top: 0;">
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
+			</view>
+		</view>
+	</l-mask>
+
+	<l-message content="{{content}}" />
+</view>

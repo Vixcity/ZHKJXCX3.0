@@ -31,7 +31,8 @@
 		"pages/billingManagement/workshopSettlementLog/workshopSettlementLog",
 		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
 		"pages/billingManagement/index",
-		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail"
+		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail",
+		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
