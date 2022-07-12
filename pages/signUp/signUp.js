@@ -121,7 +121,7 @@ Page({
   toOtherPage() {
     let url = this.data.path || "../index/index";
 
-    wx.reLaunch({
+    wx.redirectTo({
       url,
     });
   },

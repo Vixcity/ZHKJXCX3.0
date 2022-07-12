@@ -228,4 +228,11 @@ Page({
       });
     });
   },
+
+  toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "./rawMaterialPlanDetail?id=" + item.id,
+    });
+  },
 });

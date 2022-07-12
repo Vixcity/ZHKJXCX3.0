@@ -30,7 +30,8 @@
 		"pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrder",
 		"pages/billingManagement/workshopSettlementLog/workshopSettlementLog",
 		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
-		"pages/billingManagement/index"
+		"pages/billingManagement/index",
+		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",

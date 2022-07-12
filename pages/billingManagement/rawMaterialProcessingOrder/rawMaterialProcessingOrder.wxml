@@ -11,6 +11,68 @@
 		<van-icon class="w10" name="more-o" bindtap="openPopup" />
 	</view>
 
+	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view class="w100 flex aic">
+				<view class="title w32">调取单号：</view>
+				<view>{{item.code}}</view>
+				<view class="ml30 colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:if="{{item.is_check === 0}}">待审核</view>
+				<view class="ml30 colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 1}}">已审核</view>
+				<view class="ml30 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 2}}">已驳回</view>
+				<view class="ml20 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;" wx:else>单据异常</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">关联订单号：</view>
+				<view wx:if="{{item.order_type === 1}}" class="flex aic">
+					<view class="colorWhite bgColorOrange tc mr10 fz28"
+						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">订</view>
+					{{item.order_code || '无'}}
+				</view>
+				<view wx:if="{{item.order_type === 2}}" class="flex aic">
+					<view class="colorWhite bgColor27A2 tc mr10 fz28"
+						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">样</view>
+					{{item.order_code || '无'}}
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">创建人：</view>
+				<view>{{item.user_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">调取仓库：</view>
+				<view>{{item.store}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">调取数量：</view>
+					<view>{{item.total_number}}</view>
+				</view>
+				<view class="w50 flex">
+					<view class="title w65">调取金额：</view>
+					<view>{{item.total_price}}</view>
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">入库数量：</view>
+					<view>{{item.total_push_number}}</view>
+				</view>
+				<view class="w50 flex">
+					<view class="title w65">入库金额：</view>
+					<view>{{item.total_push_price}}</view>
+				</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
 	<l-message content="{{content}}" />
 	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">

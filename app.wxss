@@ -37,6 +37,10 @@ page {
 	color: #4D4D4D
 }
 
+.color6 {
+	color: #666
+}
+
 .color3 {
 	color: #333
 }

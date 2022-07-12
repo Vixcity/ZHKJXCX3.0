@@ -88,6 +88,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "单据管理",
+					"pathName": "pages/billingManagement/index",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

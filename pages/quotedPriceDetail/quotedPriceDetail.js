@@ -54,7 +54,7 @@ Page({
       { value: "基本利润偏低", isChecked: false, disabled: false },
       { value: "整体报价偏低", isChecked: false, disabled: false },
     ],
-    result: ["物料成本偏低", "加工成本偏低"],
+    result: [""],
     showShenHe: false,
     showPopup: false,
     current: 1,

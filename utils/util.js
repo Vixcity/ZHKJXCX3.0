@@ -809,6 +809,144 @@ const getBillingList = function () {
   ];
 };
 
+// 拿到对象的类型
+const getDataType = function (data) {
+	if (data === null) {
+		return 'Null'
+	} else if (data === undefined) {
+		return 'Undefined'
+	}
+	return Object.prototype.toString.call(data).split(' ')[1].split(']')[0]
+};
+
+// 克隆
+const clone = function (data) {
+	const type = getDataType(data)
+	let newData = null
+	if (type === 'Array') {
+		newData = []
+		data.forEach((item, index) => {
+			newData[index] = clone(item)
+		})
+	} else if (type === 'Object') {
+		newData = {}
+		let index
+		for (index of Object.keys(data)) {
+			newData[index] = clone(data[index])
+		}
+	} else {
+		newData = data ? JSON.parse(JSON.stringify(data)) : data
+	}
+	return newData
+};
+
+// 根据规则合并数据
+const mergeData = function (datas, rule) {
+	const data = clone(datas);
+  const newData = [];
+  if (getDataType(data) === "Array") {
+    data.forEach((item) => {
+      const ruleType = getDataType(rule.mainRule);
+      const flag = newData.find((value) => {
+        if (ruleType === "Array") {
+          // 处理根据多个key合并的情况
+          const itemStr = [];
+          const valueStr = [];
+          rule.mainRule.forEach((itemMain) => {
+            const mainName = itemMain.split("/");
+            itemStr.push(item[mainName[0]]);
+            valueStr.push(value[mainName[1] || mainName[0]]);
+          });
+          return itemStr.join("/") === valueStr.join("/");
+        } else if (ruleType === "String") {
+          const mainName = rule.mainRule.split("/");
+          return value[mainName[1] || mainName[0]] === item[mainName[0]];
+        }
+      });
+      const cloneItem = clone(item); // clone其他项数据以方便保留
+      if (!flag) {
+        const obj = {};
+        if (ruleType === "Array") {
+          rule.mainRule.forEach((itemRule) => {
+            const mainName = itemRule.split("/");
+            obj[mainName[1] || mainName[0]] = item[mainName[0]];
+            delete cloneItem[mainName[0]];
+          });
+        } else if (ruleType === "String") {
+          const mainName = rule.mainRule.split("/");
+          obj[mainName[1] || mainName[0]] = item[mainName[0]];
+          delete cloneItem[mainName[0]];
+        }
+        if (
+          getDataType(rule.otherRule) === "Array" &&
+          rule.otherRule.length > 0
+        ) {
+          rule.otherRule.forEach((itemRule) => {
+            const otherName = itemRule.name.split("/");
+            obj[otherName[1] || otherName[0]] = item[otherName[0]];
+            delete cloneItem[otherName[0]];
+          });
+        }
+        if (rule.childrenName) {
+          obj[rule.childrenName] = [cloneItem];
+        } else {
+          obj.childrenMergeInfo = [cloneItem];
+        }
+        newData.push(obj);
+      } else {
+        if (ruleType === "Array") {
+          rule.mainRule.forEach((itemMain) => {
+            const mainName = itemMain.split("/");
+            delete cloneItem[mainName[0]];
+          });
+        } else if (ruleType === "String") {
+          const mainName = rule.mainRule.split("/");
+          delete cloneItem[mainName[0]];
+        }
+        if (
+          getDataType(rule.otherRule) === "Array" &&
+          rule.otherRule.length > 0
+        ) {
+          rule.otherRule.forEach((itemRule) => {
+            const otherName = itemRule.name.split("/");
+            delete cloneItem[otherName[0]];
+            if (itemRule.type === "add") {
+              flag[otherName[1] || otherName[0]] =
+                (Number(flag[otherName[1] || otherName[0]]) || 0) +
+                (Number(item[otherName[0]]) || 0);
+            } else if (itemRule.type === "concat") {
+              flag[otherName[1] || otherName[0]] = flag[
+                otherName[1] || otherName[0]
+              ].concat(item[otherName[0]]);
+            }
+          });
+        }
+        if (rule.childrenName) {
+          flag[rule.childrenName].push(cloneItem);
+        } else {
+          flag.childrenMergeInfo.push(cloneItem);
+        }
+      }
+    });
+    if (rule.childrenRule) {
+      newData.forEach((item) => {
+        item[rule.childrenName || "childrenMergeInfo"] = mergeData(
+          item[rule.childrenName || "childrenMergeInfo"],
+          rule.childrenRule
+        );
+      });
+    }
+  } else {
+    const type = getDataType(data);
+    throw new TypeError(
+      'An unknown error occurred from the mergeData function, and the parameter "data" expects to get an "array" but gets an "' +
+        type +
+        '"'
+    );
+  }
+  return newData;
+};
+
 module.exports = {
   formatTime,
   wxReq,
@@ -829,8 +967,8 @@ module.exports = {
   getProcessList,
   getStaffList,
   getGroupList,
-	getUserList,
-	getStoreList,
+  getUserList,
+  getStoreList,
   getProductTypeList,
   getDay,
   doHandleMonth,
@@ -841,4 +979,7 @@ module.exports = {
   contentHtml,
   jsonClone,
   getBillingList,
+	mergeData,
+	getDataType,
+	clone,
 };
