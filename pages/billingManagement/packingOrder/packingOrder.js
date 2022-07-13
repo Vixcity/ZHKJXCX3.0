@@ -235,7 +235,7 @@ Page({
     } = this.data;
     wxReq(
       {
-        url: "/transport/dispatch/lists",
+        url: "/pack/order/lists",
         method: "GET",
         data: {
           is_check,

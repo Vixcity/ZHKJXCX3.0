@@ -12,6 +12,46 @@
 		<van-icon class="w10" name="more-o" bindtap="openPopup" />
 	</view>
 
+	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view class="w100 flex aic">
+				<view class="title w32">单据编号：</view>
+				<view>{{item.doc_code}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">创建人：</view>
+				<view>{{item.user_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">检验单位：</view>
+				<view>{{item.client_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">产品信息：</view>
+				<view>{{ item.product_code }}/{{ item.part_name }}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">次品原因：</view>
+				<view>{{item.shoddy_reason}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">检验数量：</view>
+					<view>{{item.number}}</view>
+				</view>
+				<view class="w50 flex">
+					<view class="title w65">半次/全次数：</view>
+					<view>{{item.part_shoddy_number || '0'}}/{{item.shoddy_number || '0'}}</view>
+				</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
 	<l-message content="{{content}}" />
 	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">

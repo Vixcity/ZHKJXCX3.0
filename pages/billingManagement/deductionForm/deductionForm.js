@@ -19,6 +19,7 @@ Page({
     showGroup: false,
     showUser: false,
     showLoading: false,
+    showPopup: false,
     noData: false,
     isEnd: false,
     userList: [],
@@ -37,6 +38,7 @@ Page({
     order_type: "",
     start_time: "",
     end_time: "",
+    img_url: "",
     page: 1,
   },
 
@@ -161,7 +163,7 @@ Page({
   confirmData(e) {
     const { type } = e.currentTarget.dataset;
     if (type === "date") {
-			console.log(e.detail.value)
+      console.log(e.detail.value);
       this.data.start_time = e.detail.value[0].id[0];
       this.data.end_time = e.detail.value[0].id[1];
     }
@@ -258,6 +260,21 @@ Page({
         showLoading: false,
         list,
       });
+    });
+  },
+
+  showImg(e) {
+    const { item } = e.currentTarget.dataset;
+    console.log(item);
+    this.setData({
+      img_url: item.file_url,
+      showPopup: true,
+    });
+  },
+
+  closePopup() {
+    this.setData({
+      showPopup: false,
     });
   },
 });

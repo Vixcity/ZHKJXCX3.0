@@ -11,6 +11,44 @@
 		<van-icon class="w10" name="more-o" bindtap="openPopup" />
 	</view>
 
+	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view class="w100 flex aic">
+				<view class="title w32">票据编号：</view>
+				<view>{{item.code}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">关联订单号：</view>
+				<view>{{item.order_code || '无'}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">操作人：</view>
+				<view>{{item.user_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">关联单位：</view>
+				<view>{{item.client.name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">开票金额：</view>
+				<view>{{item.price}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">发票号码 ：</view>
+				<view>{{item.invoice_code}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">备注信息：</view>
+				<view>{{item.desc}}</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
 	<l-message content="{{content}}" />
 	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
 		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
