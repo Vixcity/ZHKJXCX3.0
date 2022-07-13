@@ -1,4 +1,4 @@
-// pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail.js
+// pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail.js
 const {
   wxReq,
   formatDate,
@@ -13,9 +13,9 @@ Page({
     id: "",
     info: {},
     showShenHe: false,
-		current: 1,
-		textInputDesc:'',
-		textInputReason:'',
+    current: 1,
+    textInputDesc: "",
+    textInputReason: "",
     statusImageList: getStatusImage(),
   },
 
@@ -31,31 +31,31 @@ Page({
   getDetail() {
     wxReq(
       {
-        url: "/material/plan/detail",
+        url: "/material/order/detail",
         method: "GET",
         data: {
           id: this.data.id,
         },
       },
-      "/billingManagement/rawMaterialPlan/rawMaterialPlanDetail&id="+this.data.id
+      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail&id=" +
+        this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
-      let materialPlanInfo = mergeData(
-        res.data.data.material_plan_gather_data,
-        {
-          mainRule: ["material_name", "material_id"],
-        }
-      );
+      let materialInfo = mergeData(res.data.data.info_data, {
+        mainRule: ["material_name", "material_id"],
+      });
 
-      // 计算总价
-      materialPlanInfo.forEach((item) => {
+      materialInfo.forEach((item) => {
+        item.total_number = item.childrenMergeInfo.reduce(
+          (total, cur) => total + Number(cur.number),
+          0
+        );
         item.total_price = item.childrenMergeInfo.reduce(
-          (total, cur) => total + Number(cur.final_number),
+          (total, cur) => total + Number(cur.number) * Number(cur.price),
           0
         );
       });
 
-      this.setData({ info: res.data.data, materialPlanInfo });
+      this.setData({ info: res.data.data, materialInfo });
     });
   },
 
@@ -69,41 +69,39 @@ Page({
     this.setData({
       showShenHe: false,
     });
-	},
-	
-	changeRadio(e) {
-    this.setData({ current: +e.detail.currentKey });
-	},
+  },
 
-	inputDesc(e) {
+  changeRadio(e) {
+    this.setData({ current: +e.detail.currentKey });
+  },
+
+  inputDesc(e) {
     this.setData({
       textInputDesc: e.detail.value,
     });
   },
-	
-	inputReason(e) {
+
+  inputReason(e) {
     this.setData({
       textInputReason: e.detail.value,
     });
-	},
-	
-	confirmCheck(e) {
+  },
+
+  confirmCheck(e) {
     wxReq(
       {
         url: "/doc/check",
         method: "POST",
         data: {
-          check_type: 9,
+          check_type: 2,
           pid: this.data.id,
-          check_desc:
-            this.data.current === 1
-              ? ""
-              : this.data.textInputReason,
+          check_desc: this.data.current === 1 ? "" : this.data.textInputReason,
           is_check: this.data.current,
           desc: this.data.textInputDesc,
         },
       },
-      "/billingManagement/rawMaterialPlan/rawMaterialPlanDetail&id="+this.data.id
+      "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail&id=" +
+        this.data.id
     ).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({

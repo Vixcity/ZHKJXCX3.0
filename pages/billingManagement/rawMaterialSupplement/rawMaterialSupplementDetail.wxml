@@ -52,8 +52,9 @@
 				</view>
 			</view>
 		</view>
-		<van-image style="position: absolute;right:0;top:0%" width="130" height="94"
-			src="{{statusImageList[info.is_check]}}" />
+		<van-image wx:if="{{info.is_check !== 4 && info.is_check !== 3}}" style="position: absolute;right:0;top:0%"
+			width="130" height="94" src="{{statusImageList[info.is_check]}}" />
+		<view wx:else class="colorRed bold" style="position: absolute;right:5%;top:5%">单据异常</view>
 	</view>
 
 	<!-- 原料信息 -->

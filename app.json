@@ -32,7 +32,8 @@
 		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
 		"pages/billingManagement/index",
 		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail",
-		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail"
+		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail",
+		"pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",

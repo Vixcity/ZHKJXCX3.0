@@ -93,7 +93,7 @@ Page({
           desc: this.data.textInputDesc,
         },
       },
-      "/quotedPriceDetail/quotedPriceDetail&id=" + this.data.id
+      "/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail&id=" + this.data.id
     ).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({

@@ -285,5 +285,12 @@ Page({
         list,
       });
     });
+	},
+	
+	toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "./rawMaterialPurchaseOrderDetail?id=" + item.id,
+    });
   },
 });
