@@ -35,7 +35,8 @@
 		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail",
 		"pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail",
 		"pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail",
-		"pages/billingManagement/productionPlan/productionPlanDetail"
+		"pages/billingManagement/productionPlan/productionPlanDetail",
+		"pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
