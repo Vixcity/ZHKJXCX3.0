@@ -33,7 +33,8 @@
 		"pages/billingManagement/index",
 		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail",
 		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail",
-		"pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail"
+		"pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail",
+		"pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",

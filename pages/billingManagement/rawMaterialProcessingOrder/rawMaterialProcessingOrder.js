@@ -284,5 +284,12 @@ Page({
         list,
       });
     });
+	},
+	
+	toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "./rawMaterialProcessingOrderDetail?id=" + item.id,
+    });
   },
 });
