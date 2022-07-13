@@ -34,7 +34,8 @@
 		"pages/billingManagement/rawMaterialPlan/rawMaterialPlanDetail",
 		"pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail",
 		"pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail",
-		"pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail"
+		"pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail",
+		"pages/billingManagement/productionPlan/productionPlanDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",
@@ -62,9 +63,10 @@
 		"l-tabs": "/miniprogram_npm/lin-ui/tabs/index",
 		"l-tabpanel": "/miniprogram_npm/lin-ui/tabpanel/index",
 		"l-textarea": "/miniprogram_npm/lin-ui/textarea/index",
+		"t-image-viewer": "tdesign-miniprogram/image-viewer/image-viewer",
+		"t-icon": "tdesign-miniprogram/icon/icon",
 		"t-picker": "tdesign-miniprogram/picker/picker",
 		"t-picker-item": "tdesign-miniprogram/picker/picker-item",
-		"t-icon": "tdesign-miniprogram/icon/icon",
 		"van-action-sheet": "@vant/weapp/action-sheet/index",
 		"van-button": "@vant/weapp/button/index",
 		"van-cell": "@vant/weapp/cell/index",

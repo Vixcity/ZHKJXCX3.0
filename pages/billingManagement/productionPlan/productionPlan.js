@@ -315,5 +315,12 @@ Page({
         list,
       });
     });
+	},
+	
+	toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "./productionPlanDetail?id=" + item.id,
+    });
   },
 });
