@@ -37,7 +37,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onShow(options) {
     const isLogin = isIfLogin();
 
     getGroupList("/sampleOrder/sampleOrder");
@@ -68,6 +68,10 @@ Page({
       groupList: wx.getStorageSync("groupList"),
       userList: wx.getStorageSync("userList"),
       clientList: arr.concat(wx.getStorageSync("clientList").splice(0, 2)),
+      orderList: [],
+      isEnd: false,
+      noData: false,
+      page: 1,
     });
     this.getList();
   },

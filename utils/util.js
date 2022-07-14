@@ -41,7 +41,7 @@ const wxReq = (data, path) => {
         if (result.data.code === 200) {
           resolve(result);
         } else if (result.data.code === 401) {
-          wx.reLaunch({
+          wx.redirectTo({
             url: path
               ? "/pages/signUp/signUp?path=" + path
               : "/pages/signUp/signUp?path=" +

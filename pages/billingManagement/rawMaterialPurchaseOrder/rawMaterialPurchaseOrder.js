@@ -41,9 +41,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onShow(options) {
     this.getScreenList();
-    this.getList();
+    this.setData({ list: [] });
+    this.confirmData();
   },
   // 拿到筛选列表
   getScreenList() {
@@ -285,9 +286,9 @@ Page({
         list,
       });
     });
-	},
-	
-	toDetail(e) {
+  },
+
+  toDetail(e) {
     const { item } = e.currentTarget.dataset;
     wx.navigateTo({
       url: "./rawMaterialPurchaseOrderDetail?id=" + item.id,

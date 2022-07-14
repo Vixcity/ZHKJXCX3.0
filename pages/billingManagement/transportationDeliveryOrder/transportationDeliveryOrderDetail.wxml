@@ -1,0 +1,181 @@
+<!--pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail.wxml-->
+<view id="transportationDeliveryOrderDetail">
+	<nav-content>
+		<view slot="after">
+			<view>原料计划单详情</view>
+		</view>
+	</nav-content>
+
+	<!-- 基础信息 -->
+	<view class="card fz28 por">
+		<view class="title">基础信息</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输单号</view>
+			<view class="w70">{{info.code}}</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">创建信息</view>
+			<view class="w70">
+				<view>{{info.created_at}}</view>
+				<view class="mt10">{{info.user_name || '无'}},{{info.user_phone}}</view>
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输单位</view>
+			<view class="w70">
+				{{info.client_name}}
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输立方</view>
+			<view class="w70">
+				{{ info.total_bulk }}m³
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输金额</view>
+			<view class="w70">
+				{{info.total_price}}元
+			</view>
+		</view>
+		<van-image wx:if="{{info.is_check !== 4 && info.is_check !== 3}}" style="position: absolute;right:0;top:0%"
+			width="130" height="94" src="{{statusImageList[info.is_check]}}" />
+		<view wx:else class="colorRed bold" style="position: absolute;right:5%;top:5%">单据异常</view>
+	</view>
+
+	<!-- 运单信息 -->
+	<view class="card fz28">
+		<view class="title">运单信息</view>
+		<view class="flex mt10">
+			<view class="w30 color6">总箱数</view>
+			<view class="w70">
+				{{info.total_box}}箱
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">总毛重</view>
+			<view class="w70">
+				{{info.total_gross_weight}}kg
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">总净重</view>
+			<view class="w70">
+				{{info.total_net_weight}}kg
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">总体积</view>
+			<view class="w70">
+				{{info.total_bulk}}m³
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输单价</view>
+			<view class="w70">
+				{{info.price}}元/m³
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">体积价</view>
+			<view class="w70">
+				{{info.price_bulk}}元
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">额外费用</view>
+			<view class="w70">
+				{{info.others_fee}}元
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输总价</view>
+			<view class="w70">
+				{{info.total_price}}元
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">运输地址</view>
+			<view class="w70">
+				{{info.address}}
+			</view>
+		</view>
+	</view>
+
+	<!-- 产品信息 -->
+	<view class="card fz28">
+		<view class="title">产品信息</view>
+		<view wx:for="{{info.rel_batch}}">
+			<view class="flex mt10">
+				<view class="w30 color6">产品名称</view>
+				<view class="w70 color27A2">
+					{{ item.product_code }}({{ item.category }}/{{ item.secondary_category }})
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w30 color6">尺码颜色</view>
+				<view class="w70">
+					{{ item.size_name }}/{{ item.color_name }}
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w50 flex">
+					<view class="w60 color6">计划发货数</view>
+					<view class="w40">
+						{{ item.number }}
+					</view>
+				</view>
+				<view class="w50 flex">
+					<view class="w60 color6">实际发货数</view>
+					<view class="w40">
+						{{ item.transport_number }}
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa">
+			<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核出库单</van-button>
+		</view>
+	</view>
+
+	<view class="vh12"></view>
+
+	<l-mask show="{{showShenHe}}" center>
+		<view class='card' style="padding-bottom:0;max-height: 70vh;padding-top:0">
+			<view class="flex pt10">
+				<view class="bold w25">审核结果</view>
+				<view class="w70">
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{1}}">通过</l-radio>
+						<l-radio key="{{2}}" style="margin-left: 10px;">驳回</l-radio>
+					</l-radio-group>
+				</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex mt10" wx:if="{{current === 2}}">
+				<view class="bold w25">驳回理由</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputReason" />
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="bold w25 pt10 pb10">备注信息</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputDesc" />
+				</view>
+			</view>
+			<view class="line" style="margin-bottom: 0;"></view>
+			<view class="flex" style="margin-top: 0;">
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
+			</view>
+		</view>
+	</l-mask>
+
+	<l-message content="{{content}}" />
+</view>

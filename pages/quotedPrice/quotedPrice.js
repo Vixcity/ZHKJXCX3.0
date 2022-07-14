@@ -128,6 +128,12 @@ Page({
   },
 
   onShow() {
+    this.setData({
+      orderList: [],
+      isEnd: false,
+      noData: false,
+      page: 1,
+    });
     this.getList();
   },
 

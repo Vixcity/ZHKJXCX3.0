@@ -1075,7 +1075,7 @@ Page({
           top: getApp().globalData.navH,
         });
         setTimeout(function () {
-          wx.navigateTo({
+          wx.redirectTo({
             url:
               "/pages/quotedPriceDetail/quotedPriceDetail?id=" + res.data.data,
           });

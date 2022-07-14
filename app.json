@@ -37,7 +37,9 @@
 		"pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail",
 		"pages/billingManagement/productionPlan/productionPlanDetail",
 		"pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail",
-		"pages/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail"
+		"pages/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail",
+		"pages/billingManagement/packingOrder/packingOrderDetail",
+		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",

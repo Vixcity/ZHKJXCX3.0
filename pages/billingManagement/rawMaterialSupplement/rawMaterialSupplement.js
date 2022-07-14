@@ -36,9 +36,10 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  onShow(options) {
     this.getScreenList();
-    this.getList();
+    this.setData({ list: [] });
+    this.confirmData();
   },
 
   // 拿到筛选列表
@@ -224,9 +225,9 @@ Page({
   // 查看原因
   checkReason(e) {
     Toast(e.currentTarget.dataset.item.desc || "无");
-	},
-	
-	toDetail(e) {
+  },
+
+  toDetail(e) {
     const { item } = e.currentTarget.dataset;
     wx.navigateTo({
       url: "./rawMaterialSupplementDetail?id=" + item.id,

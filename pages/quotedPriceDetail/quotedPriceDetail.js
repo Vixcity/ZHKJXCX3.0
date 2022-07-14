@@ -140,7 +140,7 @@ Page({
   },
 
   updateQuotedPrice(e) {
-    wx.navigateTo({
+    wx.redirectTo({
       url:
         "/pages/quotedPriceCreate/quotedPriceCreate?isUpdate=true&id=" +
         this.data.id,

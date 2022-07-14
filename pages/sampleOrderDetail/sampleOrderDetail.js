@@ -195,8 +195,7 @@ Page({
       title: "",
       message: tipsArr[status],
       confirmButtonColor: "#27A2fd",
-    })
-      .then(() => {
+    }).then(() => {
         // 确认
         wxReq(
           {
@@ -207,7 +206,7 @@ Page({
             },
             method: "POST",
           },
-          "/sampleOrderDetail/sampleOrderDetail&id=" + id
+          "/sampleOrderDetail/sampleOrderDetail&id=" + this.data.id
         ).then((res) => {
           if (res.data.status) {
             // console.log(status);
@@ -244,8 +243,9 @@ Page({
           }
         });
       })
-      .catch(() => {
-        // 取消
+      .catch((e) => {
+				// 取消
+				console.log(e)
       });
   },
 
@@ -289,7 +289,7 @@ Page({
         showMaterialPopup: true,
       });
     } else if (type === "decorate") {
-			if (
+      if (
         this.data.financialInfo.material.decorate.detail.material_order
           .length === 0 &&
         this.data.financialInfo.material.decorate.detail.material_process
