@@ -1,13 +1,10 @@
-// pages/quotedPrice/quotedPrice.js
+// pages/reimbursementManage/reimbursementManage.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   isIfLogin,
   debounce,
   wxReq,
-  getChineseStatus,
-  formatDate,
-  getUserList,
-  getClientList,
+  getGroupList,
   getSomeDateList,
 } = require("../../utils/util");
 Page({
@@ -15,7 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userList: [],
+    groupList: [],
     statusList: [
       {
         text: "全部",
@@ -23,26 +20,32 @@ Page({
       },
       {
         text: "待审核",
-        id: 0,
-      },
-      {
-        text: "已审核",
         id: 1,
       },
       {
-        text: "已驳回",
+        text: "已审核",
         id: 2,
       },
+      {
+        text: "已驳回",
+        id: 3,
+      },
     ],
-    clientList: [],
     someDateList: [],
     orderList: [],
     page: 1,
     status: "",
-    user_id: "",
+    group_name: "",
     client_id: "",
     keyword: "",
-    chooseDate: ["", ""],
+    chooseDate: [
+      new Date().getFullYear() + "-01-01",
+      new Date().getFullYear() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getDate(),
+    ],
     isEnd: false,
     showLoading: false,
     noData: false,
@@ -59,24 +62,23 @@ Page({
       isLogin,
     });
 
-    getUserList("/quotedPrice/quotedPrice");
-    getClientList("/quotedPrice/quotedPrice");
+    getGroupList("/reimbursementManage/reimbursementManage");
+    getSomeDateList();
 
-    let arr = [
-      {
-        text: "全部",
-        id: "",
-        children: [
-          { text: "全部", id: "", children: [{ text: "全部", id: "" }] },
-        ],
-      },
+		let someDateList = wx.getStorageSync("someDateList");
+		someDateList[0].text = '今年到当前日期'
+    someDateList[0].id = [
+      new Date().getFullYear() + "-01-01",
+      new Date().getFullYear() +
+        "-" +
+        (new Date().getMonth() + 1) +
+        "-" +
+        new Date().getDate(),
     ];
 
-    getSomeDateList();
     this.setData({
-      clientList: arr.concat(wx.getStorageSync("clientList").slice(0, 2)),
-      userList: wx.getStorageSync("userList"),
-      someDateList: wx.getStorageSync("someDateList"),
+      groupList: wx.getStorageSync("groupList"),
+      someDateList,
     });
   },
 
@@ -101,24 +103,19 @@ Page({
 
     wxReq(
       {
-        url: "/quote/lists",
+        url: "/receipt/list",
         method: "GET",
         data: {
           keyword: this.data.keyword,
-          is_check: this.data.status,
-          user_id: this.data.user_id,
-          client_id: this.data.client_id,
+          status: this.data.status,
+          group: this.data.group_name,
           page: this.data.page,
-          group_id: "",
-          contacts_id: "",
-          min_price: "",
-          max_price: "",
-          start_time: this.data.chooseDate[0],
-          end_time: this.data.chooseDate[1],
+          start_time: this.data.chooseDate[0] + " 00:00:00",
+          end_time: this.data.chooseDate[1] + " 23:59:59",
           limit: 10,
         },
       },
-      "/quotedPrice/quotedPrice"
+      "/reimbursementManage/reimbursementManage"
     ).then((res) => {
       let data = res.data.data.items;
 
@@ -139,17 +136,23 @@ Page({
         this.data.orderList.push({
           id: item.id,
           customer: item.client_name,
-          title: item.title,
-          quoteCode: item.code,
-          date: formatDate(item.created_at),
-          systemPrice: item.system_total_price,
-          customer: item.client_name,
+          title: item.code || "无报销单编号",
+          quoteCode: item.name + "-" + (item.group || "无小组") || '暂无报销人员小组信息',
+          date: item.reviewer.name?'审核人：' + item.reviewer.name : "暂未审核",
+          reimbursementPrice: item.amount,
           unit: item.settle_unit,
-          user: item.user_name,
+          user: item.user.name || "无创建人信息",
           imgSrc:
-            item.product_data[0].image[0] ||
+            item.certificate?.split(",")[0] ||
             "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-          processName: getChineseStatus(item.is_check),
+          processName:
+            item.status === 1
+              ? "待审核"
+              : item.status === 2
+              ? "已审核"
+              : item.status === 3
+              ? "已驳回"
+              : "状态异常",
         });
       });
 
@@ -169,21 +172,15 @@ Page({
       });
     }
 
-    if (type === "user") {
+    if (type === "group") {
       this.setData({
-        showUser: true,
+        showGroup: true,
       });
     }
 
     if (type === "date") {
       this.setData({
         showDate: true,
-      });
-    }
-
-    if (type === "client") {
-      this.setData({
-        showClient: true,
       });
     }
   },
@@ -197,21 +194,15 @@ Page({
       });
     }
 
-    if (type === "user") {
+    if (type === "group") {
       this.setData({
-        showUser: false,
+        showGroup: false,
       });
     }
 
     if (type === "date") {
       this.setData({
         showDate: false,
-      });
-    }
-
-    if (type === "client") {
-      this.setData({
-        showClient: false,
       });
     }
   },
@@ -223,25 +214,12 @@ Page({
       this.data.status = e.detail.value[0].id;
     }
 
-    if (type === "user") {
-      this.data.user_id = e.detail.value[0].id;
+    if (type === "group") {
+      this.data.group_name = e.detail.value[0].text;
     }
 
     if (type === "date") {
       this.data.chooseDate = e.detail.value[0].id;
-    }
-
-    if (type === "client") {
-      if (!e.detail.value[2]) {
-        wx.lin.showMessage({
-          type: "error",
-          duration: 3000,
-          content: "当前没有选中公司，请重新选择",
-          top: getApp().globalData.navH,
-        });
-        return;
-      }
-      this.data.client_id = e.detail.value[2].id;
     }
 
     this.data.page = 1;
@@ -295,13 +273,15 @@ Page({
   toDetail(e) {
     let { item } = e.currentTarget.dataset;
     wx.navigateTo({
-      url: "/pages/quotedPriceDetail/quotedPriceDetail?id=" + item.id,
+      url:
+        "/pages/reimbursementManageDetail/reimbursementManageDetail?id=" +
+        item.id,
     });
   },
 
   toCreate() {
     wx.navigateTo({
-      url: "/pages/quotedPriceCreate/quotedPriceCreate",
+      url: "/pages/reimbursementManageCreate/reimbursementManageCreate",
     });
   },
 });

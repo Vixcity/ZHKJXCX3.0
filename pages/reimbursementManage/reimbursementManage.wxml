@@ -1,0 +1,66 @@
+<!--pages/reimbursementManage/reimbursementManage.wxml-->
+<view id="quotedPrice">
+	<!-- <nav-content showBack="{{false}}"> -->
+	<nav-content showBack="{{false}}">
+		<view slot="after">
+			<input wx:if="{{isLogin}}"
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
+				type="text" bindinput="onSearch" placeholder="单据编号/报销人姓名" />
+			<input wx:else disabled
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
+				type="text" bindinput="onSearch" placeholder="单据编号/报销人姓名" />
+		</view>
+	</nav-content>
+
+	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+	</view>
+
+
+	<scroll-view scroll-y class="vh80" bindscrolltolower="getList">
+		<order-card wx:for="{{orderList}}" notShowProLen data-item="{{item}}" wx:for-item="item" wx:key="item"
+			wx:for-index="index" detailInfo="{{item}}" bindtap="toDetail"></order-card>
+		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20 color91">暂无数据</view>
+		</view>
+		<view class="vh60" wx:if="{{showLoading && orderList.length === 0}}"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view style="height: 8vh;"></view>
+	</scroll-view>
+
+	<view wx:if="{{!isLogin}}">
+		<view class="mt20 submit">
+			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
+		</view>
+	</view>
+	<view wx:if="{{isLogin}}">
+		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+			<van-button type="primary" size="small" bindtap="toCreate">创建报销单</van-button>
+		</view>
+	</view>
+	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+	<l-message content="{{content}}" />
+	<van-popup show="{{ show }}" bind:close="onClose" position="bottom" close-on-click-overlay="{{true}}" round>
+		<van-datetime-picker type="date" value="{{ currentDate }}" min-date="{{ minDate }}" max-date="{{ maxDate }}"
+			bind:input="onInput" bind:confirm="onConfirm" bind:cancel="onCancel" />
+	</van-popup>
+
+	<!-- 下拉 -->
+	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+		showDialog="{{showStatus}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
+		showDialog="{{showGroup}}"></picker>
+	<picker values="{{someDateList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="date" showDialog="{{showDate}}"></picker>
+</view>

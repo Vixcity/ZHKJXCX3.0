@@ -39,7 +39,9 @@
 		"pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail",
 		"pages/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail",
 		"pages/billingManagement/packingOrder/packingOrderDetail",
-		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail"
+		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail",
+		"pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail",
+		"pages/reimbursementManage/reimbursementManage"
 	],
 	"window": {
 		"navigationStyle": "custom",

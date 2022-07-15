@@ -27,7 +27,7 @@ Page({
       },
       {
         title: "报销单管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
+        src: "/pages/reimbursementManage/reimbursementManage",
       },
       {
         title: "单据管理",
