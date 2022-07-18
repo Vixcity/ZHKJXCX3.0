@@ -467,7 +467,9 @@ const getStatusImage = function () {
   return [
     "https://file.zwyknit.com/waiting.png",
     "https://file.zwyknit.com/pass.png",
-    "https://file.zwyknit.com/return.png",
+		"https://file.zwyknit.com/return.png",
+		"https://file.zwyknit.com/error.png",
+		"https://file.zwyknit.com/error.png"
   ];
 };
 

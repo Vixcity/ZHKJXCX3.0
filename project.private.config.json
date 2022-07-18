@@ -95,6 +95,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "报销单列表",
+					"pathName": "pages/reimbursementManage/reimbursementManage",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

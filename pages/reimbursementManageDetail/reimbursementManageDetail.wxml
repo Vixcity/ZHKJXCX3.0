@@ -1,0 +1,113 @@
+<!--pages/reimbursementManageDetail/reimbursementManageDetail.wxml-->
+<view id="reimbursementManageDetail">
+	<nav-content>
+		<view slot="after">
+			报销单详情
+		</view>
+	</nav-content>
+	<view class="card por">
+		<view class="title">报销信息</view>
+		<view class="flex">
+			<view class="w30">报销单号</view>
+			<view>{{detailData.code}}</view>
+		</view>
+		<view class="flex">
+			<view class="w30">报销人</view>
+			<view>{{detailData.name || '无'}}</view>
+		</view>
+		<view class="flex">
+			<view class="w30">所属小组</view>
+			<view>{{detailData.group || '无'}}</view>
+		</view>
+		<view class="flex">
+			<view class="w30">创建人</view>
+			<view>{{detailData.user.name || '无'}}</view>
+		</view>
+		<view class="flex">
+			<view class="w30">创建时间</view>
+			<view>{{detailData.created_at}}</view>
+		</view>
+		<view class="flex">
+			<view class="w30">相关凭证</view>
+			<view class="flex flexWarp w70">
+				<van-image class="ml10 mt10" wx:for="{{detailData.certificate}}" width="90" height="90" fit="contain"
+					src="{{item}}" bindtap="openShowImg" />
+			</view>
+		</view>
+		<van-image style="position: absolute;right:0;top:5%" width="130" height="94"
+			src="{{statusList[detailData.status]}}" />
+		<t-image-viewer background-color="rgba(0,0,0,0.6)" visible="{{showImg}}" images="{{detailData.certificate}}"
+			bind:close="closeShowImg" />
+	</view>
+	<view class="card">
+		<view class="title">报销明细</view>
+		<view class="flex">
+			<view class="w20 color6">序号</view>
+			<view class="w50 color6">报销内容</view>
+			<view class="w30 color6">报销金额(元)</view>
+		</view>
+		<view class="flex" wx:for="{{detailData.receipt_contents}}">
+			<view class="w20">{{index+1}}</view>
+			<view class="w50">{{ item.name || '无' }}</view>
+			<view class="w30 tr">{{ item.amount || '无' }}</view>
+		</view>
+		<view class="flex jcsb">
+			<view>合计</view>
+			<view class="color27A2">{{detailData.amount}}</view>
+		</view>
+	</view>
+	<view class="vh12"></view>
+	<view wx:if="{{isLogin}}">
+		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+			<view class="flex jcsa">
+				<van-button type="primary" size="small" bindtap="update">修改报销单</van-button>
+				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报销单</van-button>
+			</view>
+		</view>
+	</view>
+	<l-mask show="{{showShenHe}}" center>
+		<view class='card' style="padding-bottom:0;max-height: 70vh;padding-top:0">
+			<view class="flex">
+				<view class="bold w25">审核结果</view>
+				<view class="w70">
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{2}}">通过</l-radio>
+						<l-radio key="{{3}}" style="margin-left: 10px;">驳回</l-radio>
+					</l-radio-group>
+				</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex" wx:if="{{current === 3}}">
+				<view class="bold w25">驳回理由</view>
+				<view class="fz60 w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputReason" />
+				</view>
+			</view>
+			<view class="flex">
+				<view class="bold w25 pt10 pb10">备注信息</view>
+				<view class="fz60 w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputDesc" />
+				</view>
+			</view>
+			<view class="line" style="margin-bottom: 0;"></view>
+			<view class="flex" style="margin-top: 0;">
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
+			</view>
+		</view>
+	</l-mask>
+	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+	<l-message content="{{content}}" />
+
+	<!-- 弹出框 -->
+	<van-popup show="{{showPopup}}" bindtap="closePopup">
+		<view class="overfh por">
+			<view class="tc vw100 h100">
+				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{clickImg}}" style="display:block">
+				</image>
+			</view>
+		</view>
+	</van-popup>
+</view>

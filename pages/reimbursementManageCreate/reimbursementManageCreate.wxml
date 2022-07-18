@@ -1,0 +1,75 @@
+<!--pages/reimbursementManageCreate/reimbursementManageCreate.wxml-->
+<view id="reimbursementManageCreate">
+	<nav-content>
+		<view slot="after">
+			{{isUpdate?'修改报销单':'添加报销单'}}
+		</view>
+	</nav-content>
+
+	<!-- 基本信息 -->
+	<view class="card">
+		<view class="title">报销信息</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox w30" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;">* </text>报销人
+			</text>
+			<view class="ml10 color91" wx:if="{{!group}}" bindtap="openPopup">点击选择</view>
+			<view class="ml10" wx:else bindtap="openPopup">{{group}},{{name}}</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view wx:for="{{staff_departments}}">
+			<view class="flex por fz28 color3">
+				<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+					<text style="color: #e23;vertical-align: middle;">* </text>报销内容{{index+1}}
+				</text>
+				<view class="flex aic w70">
+					<l-input placeholder="点击输入" hide-label="{{true}}" type="digit" value="{{item.name}}"
+						bind:lininput="changeInput" data-type="name" style="width: 60%;" data-index="{{index}}" />
+					<view class="w40 flex">
+						<view class="mr10 color27A2" bindtap="add">添加</view>|
+						<view class="ml10 colorRed" bindtap="delete" data-index="{{index}}">删除</view>
+					</view>
+				</view>
+				<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+			</view>
+			<view class="flex por fz28 color3">
+				<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+					<text style="color: #e23;vertical-align: middle;">* </text>报销金额
+				</text>
+				<view class="flex aic w70">
+					<l-input placeholder="点击输入" hide-label="{{true}}" type="digit" value="{{item.amount}}"
+						bind:lininput="changeInput" data-type="amount" style="width: 40%;" data-index="{{index}}" />
+					元
+				</view>
+				<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+			</view>
+		</view>
+		<view class="flex pl15 mt10 fz28">
+			<view class="w30">合计费用</view>
+			<view class="color27A2 bold">{{amount}}</view>
+		</view>
+	</view>
+
+	<!-- 报销凭证 -->
+	<view class="card">
+		<view class="title mb10">报销凭证</view>
+		<van-uploader file-list="{{certificate}}" bind:before-read="beforeRead" data-index="{{index}}"
+			bind:delete="deleteImage" bind:after-read="afterRead" />
+	</view>
+
+	<view class="vh12"></view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index:2">
+		<view class="flex jcsa">
+			<van-button style="margin-left: 20px;" type="primary" size="small" bind:click="submitAllInfo"
+				data-isCaogao="{{false}}">提交</van-button>
+		</view>
+	</view>
+
+	<l-message content="{{content}}" />
+	<van-popup custom-class='vh30' show="{{ showPicker }}" style="height: 20vh;" position="bottom"
+		custom-style="height: 20%">
+		<van-picker columns="{{ columns }}" show-toolbar title="{{title || '请选择'}}" bind:cancel="closeShowPicker"
+			bind:confirm="onConfirm" />
+	</van-popup>
+</view>

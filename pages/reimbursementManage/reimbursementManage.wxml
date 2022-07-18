@@ -1,5 +1,5 @@
 <!--pages/reimbursementManage/reimbursementManage.wxml-->
-<view id="quotedPrice">
+<view id="reimbursementManage">
 	<!-- <nav-content showBack="{{false}}"> -->
 	<nav-content showBack="{{false}}">
 		<view slot="after">

@@ -282,5 +282,15 @@ Page({
         list,
       });
     });
+	},
+	
+	toDetail(e) {
+		const { item } = e.currentTarget.dataset;
+		
+		// wx.setStorageSync('inspectionReceiptDocumentDetail', item)
+
+    wx.navigateTo({
+      url: "./inspectionReceiptDocumentDetail?id=" + item.order_id,
+    });
   },
 });

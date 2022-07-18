@@ -1,0 +1,76 @@
+/* pages/reimbursementManageCreate/reimbursementManageCreate.wxss */
+#reimbursementManageCreate {
+  .ui-radio-index--icon-select {
+    color: #27a2fd;
+  }
+
+  .t-dropdown-item__foot {
+    display: none;
+  }
+
+  .productTypeIconHidden {
+    .t-dropdown-menu__icon-- {
+      display: none;
+    }
+
+    .t-dropdown-menu__bar {
+      background-color: #f5f5f5;
+    }
+
+    .t-dropdown-item {
+      top: 460px !important;
+    }
+  }
+
+  .van-popup {
+    height: 30vh !important;
+  }
+
+  .yarnTypeListIconHidden {
+    .t-dropdown-menu__icon--,
+    .t-dropdown-menu__icon,
+    .t-dropdown-menu__icon--active {
+      display: none;
+    }
+
+    .t-dropdown-menu__bar::after {
+      border: none;
+    }
+
+    .t-dropdown-item {
+      top: 460px !important;
+    }
+
+    .t-dropdown-menu__title {
+      color: #27a2fd;
+      font-size: 25rpx;
+    }
+  }
+
+  .van-tabs__line {
+    background-color: #27a2fd;
+  }
+
+  .van-tabs__nav--complete {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .van-tabs__scroll--card {
+    margin: 0;
+    width: 100%;
+    border-color: #27a2fd;
+  }
+
+  .van-tab {
+    color: #27a2fd;
+  }
+
+  .van-tab.van-tab--active {
+    background-color: #27a2fd;
+    color: #fff;
+  }
+  .van-tabs__nav--card .van-tab {
+    border-right-color: #27a2fd;
+  }
+}

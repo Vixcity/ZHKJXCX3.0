@@ -41,7 +41,9 @@
 		"pages/billingManagement/packingOrder/packingOrderDetail",
 		"pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail",
 		"pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail",
-		"pages/reimbursementManage/reimbursementManage"
+		"pages/reimbursementManage/reimbursementManage",
+		"pages/reimbursementManageDetail/reimbursementManageDetail",
+		"pages/reimbursementManageCreate/reimbursementManageCreate"
 	],
 	"window": {
 		"navigationStyle": "custom",
