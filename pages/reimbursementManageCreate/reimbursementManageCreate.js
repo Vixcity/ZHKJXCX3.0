@@ -4,7 +4,6 @@ const {
   getGroupList,
   getStaffList,
   jsonClone,
-  contentHtml,
   wxReq,
 } = require("../../utils/util");
 Page({

@@ -290,7 +290,7 @@ Page({
 		// wx.setStorageSync('inspectionReceiptDocumentDetail', item)
 
     wx.navigateTo({
-      url: "./inspectionReceiptDocumentDetail?id=" + item.order_id,
+      url: "./inspectionReceiptDocumentDetail?id=" + item.order_id + '&pid=' + item.id,
     });
   },
 });

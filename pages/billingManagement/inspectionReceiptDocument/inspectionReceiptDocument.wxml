@@ -18,6 +18,13 @@
 			<view class="w100 flex aic">
 				<view class="title w32">单据编号：</view>
 				<view>{{item.doc_code}}</view>
+				<view class="ml20 colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:if="{{item.is_check === 0}}">待审核</view>
+				<view class="ml20 colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 1}}">已审核</view>
+				<view class="ml20 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;"
+					wx:elif="{{item.is_check === 2}}">已驳回</view>
+				<view class="ml15 colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px;" wx:else>单据异常</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">创建人：</view>
