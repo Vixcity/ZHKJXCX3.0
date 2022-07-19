@@ -1,41 +1,33 @@
+// pages/dataReport/index.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-// index.js
 const { isIfLogin } = require("../../utils/util");
 
 Page({
   data: {
     list: [
       {
-        title: "本厂生产中",
+        title: "订单数据图表",
         src: "/pages/ourFactory/ourFactory?type=1",
       },
       {
-        title: "外协生产中",
+        title: "样单数据图表",
         src: "/pages/ourFactory/ourFactory?type=2",
       },
       {
-        title: "报价单管理",
+        title: "原料使用图表",
         src: "/pages/quotedPrice/quotedPrice",
       },
       {
-        title: "样单管理",
+        title: "辅料使用图表",
         src: "/pages/sampleOrder/sampleOrder",
       },
       {
-        title: "订单管理",
+        title: "生产数据图表",
         src: "/pages/order/order",
       },
       {
-        title: "报销单管理",
+        title: "其它费用图表",
         src: "/pages/reimbursementManage/reimbursementManage",
-      },
-      {
-        title: "单据管理",
-        src: "/pages/billingManagement/index",
-      },
-      {
-        title: "检验管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
       },
     ],
   },
@@ -58,7 +50,7 @@ Page({
 
     if (typeof this.getTabBar === "function" && this.getTabBar()) {
       this.getTabBar().setData({
-        selected: 0,
+        selected: 1,
       });
     }
   },
