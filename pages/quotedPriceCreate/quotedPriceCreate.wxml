@@ -106,11 +106,11 @@
 
 	<!-- 报价信息 -->
 	<view class="card">
-		<view class="title">报价信息</view>
 		<view class="mt10">
 			<van-tabs type="card" animated swipeable lazy-render ellipsis="{{false}}" swipe-threshold="{{4}}">
 				<van-tab wx:for="{{productList}}" wx:key="item" wx:for-index="index" wx:for-item="item" title="产品 {{index+1}}"
 					class="fz30">
+					<view class="title mt10 bold">报价信息</view>
 					<!-- 原料 -->
 					<view class="mt10" wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
 						wx:for-item="materialItem">
@@ -243,16 +243,16 @@
 						</view>
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 mt20 w60 pl10 pb10 pt10">
-								<view class="tc mb10">费用说明</view>
+								<view class="tc mb10">织造说明</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
 									data-itemIndex="{{indexWeaveData}}" data-itemType="weave_data" value="{{itemWeaveData.desc}}"
-									placeholder="费用说明" />
+									placeholder="织造说明" />
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexWeaveData}}" data-itemType="weave_data" value="{{itemWeaveData.total_price}}"
-									placeholder="总价" />
+									placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -285,16 +285,16 @@
 						</view>
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 mt20 w60 pl10 pb10 pt10">
-								<view class="tc mb10">费用说明</view>
+								<view class="tc mb10">加工说明</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
 									data-itemIndex="{{indexHalf}}" data-itemType="semi_product_data" value="{{itemHalf.desc}}"
-									placeholder="费用说明" />
+									placeholder="加工说明" />
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexHalf}}" data-itemType="semi_product_data" value="{{itemHalf.total_price}}"
-									placeholder="总价" />
+									placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -326,16 +326,16 @@
 						</view>
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 mt20 w60 pl10 pb10 pt10">
-								<view class="tc mb10">费用说明</view>
+								<view class="tc mb10">加工说明</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
 									data-itemIndex="{{indexPD}}" data-itemType="production_data" value="{{itemPD.desc}}"
-									placeholder="费用说明" />
+									placeholder="加工说明" />
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPD}}" data-itemType="production_data" value="{{itemPD.total_price}}"
-									placeholder="总价" />
+									placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -368,16 +368,16 @@
 						</view>
 						<view class="flex jcsb mb10">
 							<view class="bgColorF5 mt20 w60 pl10 pb10 pt10">
-								<view class="tc mb10">费用说明</view>
+								<view class="tc mb10">辅料说明</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
 									data-itemIndex="{{indexPack}}" data-itemType="pack_material_data" value="{{itemPack.desc}}"
-									placeholder="费用说明" />
+									placeholder="辅料说明" />
 							</view>
 							<view class="bgColorF5 mt20 w30 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPack}}" data-itemType="pack_material_data" value="{{itemPack.total_price}}"
-									placeholder="总价" />
+									placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -415,10 +415,10 @@
 									value="{{itemOtherFeeData.desc}}" placeholder="费用说明" />
 							</view>
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexOtherFeeData}}" data-itemType="other_fee_data"
-									value="{{itemOtherFeeData.total_price}}" placeholder="总价" />
+									value="{{itemOtherFeeData.total_price}}" placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -456,10 +456,10 @@
 									value="{{itemNoProductFeeData.desc}}" placeholder="费用说明" />
 							</view>
 							<view class="bgColorF5 mt20 w28 pl10 pb10 pt10">
-								<view class="tc mb10">总价</view>
+								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexNoProductFeeData}}" data-itemType="no_production_fee_data"
-									value="{{itemNoProductFeeData.total_price}}" placeholder="总价" />
+									value="{{itemNoProductFeeData.total_price}}" placeholder="小计" />
 							</view>
 						</view>
 					</view>

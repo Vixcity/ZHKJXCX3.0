@@ -5,10 +5,10 @@ const { isIfLogin } = require("../../utils/util");
 Page({
   data: {
     list: [
-      {
-        title: "本厂生产中",
-        src: "/pages/ourFactory/ourFactory?type=1",
-      },
+      // {
+      //   title: "本厂生产中",
+      //   src: "/pages/ourFactory/ourFactory?type=1",
+      // },
       {
         title: "外协生产中",
         src: "/pages/ourFactory/ourFactory?type=2",
@@ -33,10 +33,10 @@ Page({
         title: "单据管理",
         src: "/pages/billingManagement/index",
       },
-      {
-        title: "检验管理",
-        src: "/pages/ourFactory/ourFactory?type=3",
-      },
+      // {
+      //   title: "检验管理",
+      //   src: "/pages/ourFactory/ourFactory?type=3",
+      // },
     ],
   },
 

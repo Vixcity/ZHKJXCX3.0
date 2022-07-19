@@ -33,7 +33,7 @@ Page({
     group_id: "",
     groupList: [],
     // 币种汇率
-    exchange_rate: "",
+    exchange_rate: 100,
     settle_unit: "元",
     // 产品
     productTypeList: [],
@@ -1068,12 +1068,12 @@ Page({
         : "/quotedPriceCreate/quotedPriceCreate"
     ).then((res) => {
       if (res.data.status) {
-        wx.lin.showMessage({
-          type: "success",
-          duration: 3000,
-          content: "保存成功，三秒后跳转详情页",
-          top: getApp().globalData.navH,
-        });
+        // wx.lin.showMessage({
+        //   type: "success",
+        //   duration: 3000,
+        //   content: "保存成功，三秒后跳转详情页",
+        //   top: getApp().globalData.navH,
+        // });
         setTimeout(function () {
           wx.redirectTo({
             url:

@@ -31,7 +31,7 @@
 			src="{{statusList[detailData.is_check]}}" />
 	</view>
 	<view class="card">
-		<view class="title">产品信息：</view>
+		<view class="title">产品信息</view>
 		<view class="flex jcsb" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 			wx:key="product-{{index}}">
 			<view class="flex aic">
@@ -59,10 +59,10 @@
 		</view>
 	</view>
 	<view class="card">
-		<view class="title mb10">报价信息</view>
 		<van-tabs type="card" z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
 			<van-tab title="{{'产品' + (index+1)}}" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 				wx:key="product2-{{index}}">
+				<view class="title mt10 bold">报价信息</view>
 				<view class="sonMt10">
 					<view wx:for="{{item.material_data}}" wx:for-item="itemMaterial" wx:for-index="indexMaterial"
 						wx:key="material-{{indexMaterial}}">

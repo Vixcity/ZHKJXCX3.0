@@ -1,0 +1,10 @@
+<!--pages/staffList/staffList.wxml-->
+<view id="staffList">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			<view class="tc vh4">员工管理</view>
+		</view>
+	</nav-content>
+
+	<list-card cardInfoData="{{cardInfoData}}"></list-card>
+</view>

@@ -52,11 +52,11 @@
 			</view>
 		</view>
 	</view>
-	<view class="card">
-		<view class="title mb20">打样记录</view>
+	<view class="card pt10">
 		<van-tabs swipeable animated active="{{sampleOrderDetail.time_data.length}}" type="card" ellipsis="{{false}}">
 			<van-tab title="{{index+1}}次打样" name="{{index+1}}" wx:for="{{sampleOrderDetail.time_data}}" wx:for-item="item"
 				wx:key="item" wx:for-index="index">
+				<view class="title mt10 bold">打样记录</view>
 				<view class="flexTitle">
 					<view class="w40">打样款数</view>
 					<view style="color: #333333;" class="w60">{{item.total_style}} 款 / {{item.total_number}} 件</view>
@@ -230,6 +230,7 @@
 	</view>
 	<view class="card">
 		<view class="title">财务概览</view>
+		<view class="mt10">点击表格可查看详情</view>
 		<view class="tc">
 			<view class="flex">
 				<view class="w33 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'

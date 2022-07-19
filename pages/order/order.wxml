@@ -12,16 +12,16 @@
 	</nav-content>
 
 	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
 		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 	</view>

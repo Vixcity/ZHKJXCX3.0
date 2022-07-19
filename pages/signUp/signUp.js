@@ -97,7 +97,7 @@ Page({
 
               wx.lin.showMessage({
                 type: "success",
-                duration: 3000,
+                duration: 1000,
                 content: "登录成功，即将返回刚才的页面",
                 top: getApp().globalData.navH,
               });
@@ -119,7 +119,7 @@ Page({
 
   // 去其他界面
   toOtherPage() {
-    let url = this.data.path || "../index/index";
+    let url = this.data.path || "/pages/index/index";
 
     wx.redirectTo({
       url,

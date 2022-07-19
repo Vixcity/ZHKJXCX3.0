@@ -22,18 +22,11 @@ Page({
         index: 2,
       },
       {
-        title: "数据统计",
-        path: "../statistics/statistics",
-        icon:
-          "https://file.zwyknit.com/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1-01.png",
-        index: 3,
-      },
-      {
         title: "员工管理",
-        path: "../workerManage/workerManage",
+        path: "../staffList/staffList",
         icon:
           "https://file.zwyknit.com/%E5%91%98%E5%B7%A5%E7%AE%A1%E7%90%86-01.png",
-        index: 4,
+        index: 3,
       },
     ],
   },
@@ -46,7 +39,7 @@ Page({
 
     if (typeof this.getTabBar === "function" && this.getTabBar()) {
       this.getTabBar().setData({
-        selected: 2,
+        selected: 1,
       });
     }
     if (this.data.userInfo === null) {
@@ -62,7 +55,6 @@ Page({
         userInfo: userInfo,
       });
     }
-    this.getUserInfoData();
   },
   onHide: function () {
     this.setData({
@@ -73,31 +65,6 @@ Page({
   toSignUp() {
     wx.navigateTo({
       url: "../signUp/signUp",
-    });
-  },
-  getUserInfoData() {
-    let _this = this;
-    wxReq({
-      url: "/user/info",
-      method: "GET",
-    }).then(function (res) {
-      if (res.data.code === 200) {
-        let allUserinfo = wx.getStorageSync("userInfo");
-        allUserinfo.userinfo = res.data.data;
-        allUserinfo.userinfo.process = allUserinfo.userinfo.process.split(",");
-        wx.setStorageSync("userInfo", allUserinfo);
-        // 作坊主 == 3
-        // 员工 == 2
-        // 路人 == 1
-        let userRole = allUserinfo.userinfo.role;
-        _this.setData(_this.getPageList(userRole));
-        _this.setData({
-          userInfo: allUserinfo,
-        });
-      } else {
-        let userRole = wx.getStorageSync("userInfo").userinfo.role;
-        _this.setData(_this.getPageList(userRole));
-      }
     });
   },
   toWitchPage(e) {

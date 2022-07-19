@@ -49,9 +49,9 @@
 
   .van-tabs__line {
     background-color: #27a2fd;
-	}
-	
-	.van-tabs__nav--complete {
+  }
+
+  .van-tabs__nav--complete {
     padding-left: 0;
     padding-right: 0;
   }
@@ -72,5 +72,11 @@
   }
   .van-tabs__nav--card .van-tab {
     border-right-color: #27a2fd;
+  }
+
+  .van-uploader__preview-delete-icon {
+    font-size: 60rpx!important;
+    background-color: rgba(0, 0, 0, 1);
+    transform: translateX(10px) scale(0.7) translateY(-7px)!important;
   }
 }

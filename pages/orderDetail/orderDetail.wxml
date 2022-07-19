@@ -298,6 +298,7 @@
 	<!-- 财务概览 -->
 	<view class="card">
 		<view class="title">财务概览</view>
+		<view class="mt10">点击表格可查看详情</view>
 		<view class="tc">
 			<view class="flex">
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'

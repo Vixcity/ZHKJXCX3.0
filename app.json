@@ -44,7 +44,7 @@
 		"pages/reimbursementManage/reimbursementManage",
 		"pages/reimbursementManageDetail/reimbursementManageDetail",
 		"pages/reimbursementManageCreate/reimbursementManageCreate",
-		"pages/dataReport/index"
+		"pages/staffList/staffList"
 	],
 	"window": {
 		"navigationStyle": "custom",
@@ -110,10 +110,6 @@
 			{
 				"pagePath": "pages/index/index",
 				"text": "首页"
-			},
-			{
-				"pagePath": "pages/dataReport/index",
-				"text": "数据报表"
 			},
 			{
 				"pagePath": "pages/manage/manage",
