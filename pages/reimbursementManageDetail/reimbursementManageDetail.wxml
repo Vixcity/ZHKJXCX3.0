@@ -56,9 +56,9 @@
 			<view class="color27A2">{{detailData.amount}}</view>
 		</view>
 	</view>
-	<view class="vh12"></view>
+	<view class="vh8"></view>
 	<view wx:if="{{isLogin}}">
-		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
 				<van-button type="primary" size="small" bindtap="update">修改报销单</van-button>
 				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报销单</van-button>

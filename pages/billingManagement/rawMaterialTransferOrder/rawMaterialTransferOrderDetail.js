@@ -1,4 +1,4 @@
-// pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail.js
+// pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail.js
 const {
   wxReq,
   getStatusImage,
@@ -27,9 +27,23 @@ Page({
   },
 
   getDetail() {
-    this.setData({
-      info: wx.getStorageSync("workshopSettlementLogDetail"),
-      id: wx.getStorageSync("workshopSettlementLogDetail").id,
+    wxReq(
+      {
+        url: "/store/log/detail",
+        method: "GET",
+        data: {
+          id: this.data.id,
+        },
+      },
+      "/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail&id=" +
+        this.data.id
+    ).then((res) => {
+			let item = wx.getStorageSync('rawMaterialTransferOrderDetail')
+			res.data.data.total_number = item.total_number
+			res.data.data.total_price = item.total_price
+			res.data.data.total_push_number = item.total_push_number
+			res.data.data.total_push_price = item.total_push_price
+      this.setData({ info: res.data.data });
     });
   },
 
@@ -67,14 +81,14 @@ Page({
         url: "/doc/check",
         method: "POST",
         data: {
-          check_type: 14,
+          check_type: 6,
           pid: this.data.id,
           check_desc: this.data.current === 1 ? "" : this.data.textInputReason,
           is_check: this.data.current,
           desc: this.data.textInputDesc,
         },
       },
-      "/billingManagement/workshopSettlementLog/workshopSettlementLogDetail&id=" +
+      "/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail&id=" +
         this.data.id
     ).then((res) => {
       if (res.data.status) {
@@ -84,8 +98,6 @@ Page({
           content: "审核成功",
           top: getApp().globalData.navH,
         });
-				this.data.info.is_check = this.data.current
-				wx.setStorageSync("workshopSettlementLogDetail",this.data.info)
         this.getDetail();
         this.setData({
           showShenHe: false,

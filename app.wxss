@@ -37,6 +37,10 @@ page {
 	color: #4D4D4D
 }
 
+.color9 {
+	color: #999
+}
+
 .color6 {
 	color: #666
 }
@@ -275,6 +279,10 @@ page {
 
 .mt5 {
 	margin-top: 5px;
+}
+
+.mt2 {
+	margin-top: 2px;
 }
 
 /* margin-left */

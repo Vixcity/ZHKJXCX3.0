@@ -1,7 +1,6 @@
 // pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
   mergeData,
 } = require("../../../utils/util");
@@ -41,7 +40,7 @@ Page({
       "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
+      res.data.data.created_at = res.data.data.created_at;
 
       this.setData({ info: res.data.data });
 

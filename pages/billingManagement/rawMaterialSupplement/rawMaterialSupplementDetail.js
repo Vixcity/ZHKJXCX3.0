@@ -1,7 +1,6 @@
 // pages/billingManagement/rawMaterialSupplement/rawMaterialSupplementDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
   mergeData,
 } = require("../../../utils/util");

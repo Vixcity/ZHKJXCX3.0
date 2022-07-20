@@ -13,30 +13,30 @@
 		</view>
 		<view class="flexTitle">
 			<view class="w40">下单公司</view>
-			<view class="w60" style="color: #333333;">
+			<view class="w60 {{sampleOrderDetail.contacts_name?'color3':'color9'}}">
 				{{sampleOrderDetail.client_name}}-{{sampleOrderDetail.contacts_name||'无'}}</view>
 		</view>
 		<view class="flexTitle">
 			<view class="w40">创建人</view>
-			<view class="w60" style="color: #333333;">{{sampleOrderDetail.user_name}}</view>
+			<view class="w60 {{sampleOrderDetail.user_name?'color3':'color9'}}">{{sampleOrderDetail.user_name}}</view>
 		</view>
 		<view class="flexTitle">
 			<view class="w40">创建时间</view>
-			<view class="w60" style="color: #333333;">{{sampleOrderDetail.created_at}}</view>
+			<view class="w60 {{sampleOrderDetail.created_at?'color3':'color9'}}">{{sampleOrderDetail.created_at}}</view>
 		</view>
 		<view class="flexTitle">
 			<view class="w40">负责小组/人</view>
-			<view class="w60" style="color: #333333;">{{sampleOrderDetail.group_name||'无'}}</view>
+			<view class="w60 {{sampleOrderDetail.group_name?'color3':'color9'}}">{{sampleOrderDetail.group_name||'无'}}</view>
 		</view>
 		<view>
 			<view style="color: #666666;">备注信息</view>
-			<view class="mt10" style="color: #333333;">{{sampleOrderDetail.desc||'无'}}</view>
+			<view class="mt10 {{sampleOrderDetail.desc?'color3':'color9'}}">{{sampleOrderDetail.desc||'无'}}</view>
 		</view>
 	</view>
 
 	<view class="card">
 		<view class="title">已确认样品</view>
-		<view wx:if="{{confirmSampleInfo.length === 0}}">暂无确认的样品信息</view>
+		<view wx:if="{{confirmSampleInfo.length === 0}}" class="color9">暂无确认的样品信息</view>
 		<view class="flex jcsa" wx:for="{{confirmSampleInfo}}" wx:for-item="item" wx:key="item" wx:for-index="index">
 			<view class="w30">
 				<van-image width="80" height="80" fit="cover"
@@ -59,19 +59,19 @@
 				<view class="title mt10 bold">打样记录</view>
 				<view class="flexTitle">
 					<view class="w40">打样款数</view>
-					<view style="color: #333333;" class="w60">{{item.total_style}} 款 / {{item.total_number}} 件</view>
+					<view class="w60 color3">{{item.total_style}} 款 / {{item.total_number}} 件</view>
 				</view>
 				<view class="flexTitle">
 					<view class="w40">打样总额</view>
-					<view style="color: #333333;" class="w60">{{item.total_price}} 元</view>
+					<view class="w60 color3">{{item.total_price}} 元</view>
 				</view>
 				<view class="flexTitle">
 					<view class="w40">下单时间</view>
-					<view style="color: #333333;" class="w60">{{item.order_time || '未填写'}}</view>
+					<view class="w60 color3">{{item.order_time || '未填写'}}</view>
 				</view>
 				<view class="flexTitle">
 					<view class="w40">完成时间</view>
-					<view style="color: #333333;" class="w60 flex">
+					<view class="w60 color3 flex">
 						{{item.complete_time || '未填写'}}
 						<view wx:if="{{item.status === 1}}" class="pl10 pr10 colorOrange">已创建</view>
 						<view wx:if="{{item.status === 2}}" class="pl10 pr10 colorOrange">进行中</view>
@@ -275,7 +275,7 @@
 			</view>
 		</view>
 	</view>
-	<view class="vh12"></view>
+	<view class="vh5"></view>
 	<!-- <view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 		<view class="flex jcsa">
 			<van-button type="primary" size="small" bindtap="showAssociatedDocument">查看关联单据</van-button>

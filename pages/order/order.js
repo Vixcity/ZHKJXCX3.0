@@ -112,7 +112,8 @@ Page({
         });
       }
       this.data.page += 1;
-      this.data.orderList = this.data.orderList.concat(res.data.data.items);
+			this.data.orderList = this.data.orderList.concat(res.data.data.items);
+			console.log(res.data.data.items)
 
       this.setData({
         orderList: this.data.orderList,

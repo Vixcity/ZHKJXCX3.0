@@ -37,24 +37,25 @@
 			<view class="flex aic">
 				<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
 					{{index+1}}</view>
-				<view class="ml10 flex">
+				<view class="ml10 flex aic mt10" style="width: calc(100% - 25px);">
 					<van-image width="60" height="60" fit="cover"
 						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
 						bind:click='clickImage'
 						data-img="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
 					<view class="flex fdc jcsa ml10">
-						<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
-						<view>{{item.desc || ''}}</view>
-						<view>{{item.client_target_price || 0}} 元</view>
+						<view class="flex jcsb">
+							<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
+							<view wx:if="{{item.rel_product_info.product_id}}" class="color27A2">{{item.rel_order_info.order_code}}
+							</view>
+							<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange">可绑定订单</view>
+						</view>
+						<view class="mt10">{{item.desc || ''}}</view>
+						<view class="flex jcsb mt10">
+							<view>{{item.client_target_price || 0}} 元</view>
+							<view style="text-align: end;">{{item.start_order_number || 0}}件</view>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="flex fdc jcsa aic">
-				<view wx:if="{{item.rel_product_info.product_id}}" class="color27A2 w100">{{item.rel_order_info.order_code}}
-				</view>
-				<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange w100">可绑定订单</view>
-				<view></view>
-				<view class="w100" style="text-align: end;">{{item.start_order_number || 0}}件</view>
 			</view>
 		</view>
 	</view>
@@ -253,14 +254,14 @@
 			</view>
 		</view>
 	</view>
-	<view class="vh12"></view>
+	<view class="vh8"></view>
 	<view wx:if="{{!isLogin}}">
 		<view class="mt20 submit">
 			<van-button type="primary" size="small" bindtap="toLogin">登录</van-button>
 		</view>
 	</view>
 	<view wx:if="{{isLogin}}">
-		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
 				<van-button type="primary" size="small" bindtap="updateQuotedPrice">修改报价</van-button>
 				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报价</van-button>

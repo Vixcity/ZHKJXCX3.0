@@ -97,9 +97,11 @@ Page({
           receipt_contents,
         } = data;
 
-        certificate = certificate?certificate.split(",").map((item) => {
-          return { url: item, name: "" };
-        }):[]
+        certificate = certificate
+          ? certificate.split(",").map((item) => {
+              return { url: item, name: "" };
+            })
+          : [];
 
         this.setData({
           name,
@@ -265,19 +267,19 @@ Page({
         : "/reimbursementManageCreate/reimbursementManageCreate"
     ).then((res) => {
       if (res.data.status) {
-        wx.lin.showMessage({
-          type: "success",
-          duration: 3000,
-          content: "保存成功，三秒后跳转详情页",
-          top: getApp().globalData.navH,
-        });
+        // wx.lin.showMessage({
+        //   type: "success",
+        //   duration: 3000,
+        //   content: "保存成功，三秒后跳转详情页",
+        //   top: getApp().globalData.navH,
+        // });
         setTimeout(function () {
           wx.redirectTo({
             url:
               "/pages/reimbursementManageDetail/reimbursementManageDetail?id=" +
               res.data.data,
           });
-        }, 3000);
+        }, 0);
       }
     });
   },

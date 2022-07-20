@@ -1,9 +1,7 @@
 // pages/billingManagement/packingOrder/packingOrderDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
-  mergeData,
 } = require("../../../utils/util");
 Page({
   /**
@@ -39,7 +37,7 @@ Page({
       },
       "/billingManagement/packingOrder/packingOrderDetail&id="+this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
+      res.data.data.created_at = res.data.data.created_at;
 
 			let packingOrderDetail = wx.getStorageSync('packingOrderDetail')
 			res.data.data.is_check = packingOrderDetail.is_check

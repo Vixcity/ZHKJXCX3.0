@@ -2,7 +2,6 @@
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   isIfLogin,
-  debounce,
   wxReq,
   formatDate,
   getStatusImage,

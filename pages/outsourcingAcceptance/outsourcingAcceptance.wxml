@@ -89,9 +89,9 @@
 				</van-popup>
 			</view>
 			<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
-			<view wx:if="{{!isCheck}}" class="vh10"></view>
+			<view wx:if="{{!isCheck}}" class="vh8"></view>
 			<view wx:if="{{!isCheck && !showChooseCiPinReason}}" class="tc mt10 color91 submit"
-				style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index: 99999999;">
+				style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index: 99999999;">
 				<van-button type="primary" size="small" bindtap="buttonCommit">录入验收信息</van-button>
 			</view>
 		</view>

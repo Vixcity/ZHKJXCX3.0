@@ -1079,7 +1079,7 @@ Page({
             url:
               "/pages/quotedPriceDetail/quotedPriceDetail?id=" + res.data.data,
           });
-        }, 3000);
+        }, 0);
       }
     });
   },

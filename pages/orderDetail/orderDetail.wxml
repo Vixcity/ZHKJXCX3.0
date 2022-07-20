@@ -353,7 +353,7 @@
 		</view>
 	</view>
 
-	<view class="vh12"></view>
+	<view class="vh5"></view>
 	<!-- <view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 		<view class="flex jcsa">
 			<van-button type="primary" size="small" bindtap="showAssociatedDocument">查看关联单据</van-button>

@@ -3,7 +3,6 @@ import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   isIfLogin,
   wxReq,
-  formatDate,
 } = require("../../utils/util");
 
 Page({
@@ -91,7 +90,7 @@ Page({
       "/reimbursementManageDetail/reimbursementManageDetail&id=" + this.data.id
     ).then((res) => {
       let data = res.data.data;
-      data.created_at = formatDate(data.created_at, "YYYY-MM-DD");
+      data.created_at = data.created_at.slice(0,10);
       data.certificate = data.certificate ? data.certificate.split(",") : [];
 
       this.setData({

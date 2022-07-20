@@ -23,7 +23,7 @@
 					<text style="color: #e23;vertical-align: middle;">* </text>报销内容{{index+1}}
 				</text>
 				<view class="flex aic w70">
-					<l-input placeholder="点击输入" hide-label="{{true}}" type="digit" value="{{item.name}}"
+					<l-textarea auto-height="{{true}}" placeholder="点击输入" border="{{false}}" hide-label="{{true}}" type="text" value="{{item.name}}"
 						bind:lininput="changeInput" data-type="name" style="width: 60%;" data-index="{{index}}" />
 					<view class="w40 flex">
 						<view class="mr10 color27A2" bindtap="add">添加</view>|

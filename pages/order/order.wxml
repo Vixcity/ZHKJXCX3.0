@@ -12,10 +12,10 @@
 	</nav-content>
 
 	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">下单公司
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">负责小组
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
@@ -48,7 +48,7 @@
 			</view>
 			<view>{{item.client_name || '未填写'}}</view>
 			<view class="flex mt10">
-				<image
+				<image style="align-self: flex-end;"
 					src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
 					class="image" />
 				<view class="pl10 w100 flex fdc jcsb">
@@ -57,76 +57,76 @@
 						<view style="transform: translateY(-15%)">
 							<view class="w100 flex jcsa">
 								<!-- 报 -->
-								<view wx:if="{{item.has_quote.status===1}}" class="ml10 iconfont icon-baojiadan1 color03d0 fz40"></view>
-								<view wx:if="{{item.has_quote.status===2}}" class="ml10 iconfont icon-baojiadan1 color9E fz40"></view>
-								<view wx:if="{{item.has_quote.status===3}}" class="ml10 iconfont icon-baojiadan1 colorOrange fz40">
+								<view wx:if="{{item.has_quote.status===1}}" class="ml5 iconfont icon-baojiadan1 color03d0 fz40"></view>
+								<view wx:if="{{item.has_quote.status===2}}" class="ml5 iconfont icon-baojiadan1 color9E fz40"></view>
+								<view wx:if="{{item.has_quote.status===3}}" class="ml5 iconfont icon-baojiadan1 colorOrange fz40">
 								</view>
 								<!-- 计 -->
 								<view wx:if="{{item.has_material_plan.status===1}}"
-									class="ml10 iconfont icon-yuanliaojihua1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-yuanliaojihua1 color03d0 fz40"></view>
 								<view wx:if="{{item.has_material_plan.status===2}}"
-									class="ml10 iconfont icon-yuanliaojihua1 color9E fz40">
+									class="ml5 iconfont icon-yuanliaojihua1 color9E fz40">
 								</view>
 								<view wx:if="{{item.has_material_plan.status===3}}"
-									class="ml10 iconfont icon-yuanliaojihua1 colorOrange fz40"></view>
+									class="ml5 iconfont icon-yuanliaojihua1 colorOrange fz40"></view>
 								<!-- 采 -->
 								<view wx:if="{{item.has_material_order.status===1}}"
-									class="ml10 iconfont icon-yuanliaocaigou1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-yuanliaocaigou1 color03d0 fz40"></view>
 								<view wx:if="{{item.has_material_order.status===2}}"
-									class="ml10 iconfont icon-yuanliaocaigou1 color9E fz40"></view>
+									class="ml5 iconfont icon-yuanliaocaigou1 color9E fz40"></view>
 								<!-- 入 -->
 								<view wx:if="{{item.push_progress.progress===100||item.push_progress.progress>100}}"
-									class="ml10 iconfont icon-yuanliaoruku1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-yuanliaoruku1 color03d0 fz40"></view>
 								<view wx:if="{{item.push_progress.progress>0 && item.push_progress.progress<100}}"
-									class="ml10 iconfont icon-yuanliaoruku1 colorOrange fz40"></view>
-								<view wx:if="{{!item.push_progress.progress}}" class="ml10 iconfont icon-yuanliaoruku1 color9E fz40">
+									class="ml5 iconfont icon-yuanliaoruku1 colorOrange fz40"></view>
+								<view wx:if="{{!item.push_progress.progress}}" class="ml5 iconfont icon-yuanliaoruku1 color9E fz40">
 								</view>
 								<!-- 出 -->
 								<view wx:if="{{item.pop_progress.progress===100||item.pop_progress.progress>100}}"
-									class="ml10 iconfont icon-yuanliaochuku1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-yuanliaochuku1 color03d0 fz40"></view>
 								<view wx:if="{{item.pop_progress.progress>0 && item.pop_progress.progress<100}}"
-									class="ml10 iconfont icon-yuanliaochuku1 colorOrange fz40"></view>
-								<view wx:if="{{!item.pop_progress.progress}}" class="ml10 iconfont icon-yuanliaochuku1 color9E fz40">
+									class="ml5 iconfont icon-yuanliaochuku1 colorOrange fz40"></view>
+								<view wx:if="{{!item.pop_progress.progress}}" class="ml5 iconfont icon-yuanliaochuku1 color9E fz40">
 								</view>
 							</view>
-							<view class="w100 flex jcsa mt10">
+							<view class="w100 flex jcsa mt5">
 								<!-- 产 -->
 								<view wx:if="{{item.has_weave_plan.status===1}}"
-									class="ml10 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
+									class="ml5 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
 								<view wx:if="{{item.has_weave_plan.status===2}}"
-									class="ml10 iconfont icon-shengchanjihua3 color9E fz40">
+									class="ml5 iconfont icon-shengchanjihua3 color9E fz40">
 								</view>
 								<!-- 检 -->
 								<view
 									wx:if="{{item.inspection_push_progress.progress===100||item.inspection_push_progress.progress>100}}"
-									class="ml10 iconfont icon-jianyanchuku color03d0 fz40"></view>
+									class="ml5 iconfont icon-jianyanchuku color03d0 fz40"></view>
 								<view wx:if="{{item.inspection_push_progress.progress>0 && item.inspection_push_progress.progress<100}}"
-									class="ml10 iconfont icon-jianyanchuku colorOrange fz40"></view>
+									class="ml5 iconfont icon-jianyanchuku colorOrange fz40"></view>
 								<view wx:if="{{!item.inspection_push_progress.progress}}"
-									class="ml10 iconfont icon-jianyanchuku color9E fz40"></view>
+									class="ml5 iconfont icon-jianyanchuku color9E fz40"></view>
 								<!-- 包 -->
 								<view wx:if="{{item.has_pack_order.status===1}}"
-									class="ml10 iconfont icon-baozhuangcaigou1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-baozhuangcaigou1 color03d0 fz40"></view>
 								<view wx:if="{{item.has_pack_order.status===2}}"
-									class="ml10 iconfont icon-baozhuangcaigou1 color9E fz40">
+									class="ml5 iconfont icon-baozhuangcaigou1 color9E fz40">
 								</view>
 								<!-- 箱 -->
 								<view wx:if="{{item.transport_progress>=100}}"
-									class="ml10 iconfont icon-zhuangxiangchuku1 color03d0 fz40"></view>
+									class="ml5 iconfont icon-zhuangxiangchuku1 color03d0 fz40"></view>
 								<view wx:if="{{item.transport_progress>0&&item.transport_progress<100}}"
-									class="ml10 iconfont icon-zhuangxiangchuku1 colorOrange fz40"></view>
-								<view wx:if="{{item.transport_progress===0}}" class="ml10 iconfont icon-zhuangxiangchuku1 color9E fz40">
+									class="ml5 iconfont icon-zhuangxiangchuku1 colorOrange fz40"></view>
+								<view wx:if="{{item.transport_progress===0}}" class="ml5 iconfont icon-zhuangxiangchuku1 color9E fz40">
 								</view>
 								<!-- 票 -->
-								<view wx:if="{{item.has_invoice.status===1}}" class="ml10 iconfont icon-caiwukaipiao1 color03d0 fz40">
+								<view wx:if="{{item.has_invoice.status===1}}" class="ml5 iconfont icon-caiwukaipiao1 color03d0 fz40">
 								</view>
-								<view wx:if="{{item.has_invoice.status===2}}" class="ml10 iconfont icon-caiwukaipiao1 color9E fz40">
+								<view wx:if="{{item.has_invoice.status===2}}" class="ml5 iconfont icon-caiwukaipiao1 color9E fz40">
 								</view>
 							</view>
 						</view>
 					</view>
 					<view class="flex jcsb">
-						<view></view>
+						<view>创建时间：{{item.created_at}}</view>
 						<view>￥{{item.total_price}}</view>
 					</view>
 				</view>

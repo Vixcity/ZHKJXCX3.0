@@ -1,7 +1,6 @@
 // pages/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrderDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
   mergeData,
 } = require("../../../utils/util");

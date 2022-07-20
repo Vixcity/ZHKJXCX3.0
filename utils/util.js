@@ -193,7 +193,13 @@ const dateDiff = function (nowTime, compairTime) {
 
 // 格式化时间
 const formatDate = function (time, format = "yyyy-MM-DD") {
-  let t = new Date(time);
+  if (time[time.length - 1] === "Z") {
+    let timeArr = time.split("T");
+    timeArr[1] = timeArr[1].split(".")[0];
+    time = timeArr[0].replaceAll("-", "/") + " " + timeArr[1];
+  }
+
+	let t = new Date(time);
   let tf = function (i) {
     return (i < 10 ? "0" : "") + i;
   };
@@ -467,9 +473,9 @@ const getStatusImage = function () {
   return [
     "https://file.zwyknit.com/waiting.png",
     "https://file.zwyknit.com/pass.png",
-		"https://file.zwyknit.com/return.png",
-		"https://file.zwyknit.com/error.png",
-		"https://file.zwyknit.com/error.png"
+    "https://file.zwyknit.com/return.png",
+    "https://file.zwyknit.com/error.png",
+    "https://file.zwyknit.com/error.png",
   ];
 };
 
@@ -813,38 +819,38 @@ const getBillingList = function () {
 
 // 拿到对象的类型
 const getDataType = function (data) {
-	if (data === null) {
-		return 'Null'
-	} else if (data === undefined) {
-		return 'Undefined'
-	}
-	return Object.prototype.toString.call(data).split(' ')[1].split(']')[0]
+  if (data === null) {
+    return "Null";
+  } else if (data === undefined) {
+    return "Undefined";
+  }
+  return Object.prototype.toString.call(data).split(" ")[1].split("]")[0];
 };
 
 // 克隆
 const clone = function (data) {
-	const type = getDataType(data)
-	let newData = null
-	if (type === 'Array') {
-		newData = []
-		data.forEach((item, index) => {
-			newData[index] = clone(item)
-		})
-	} else if (type === 'Object') {
-		newData = {}
-		let index
-		for (index of Object.keys(data)) {
-			newData[index] = clone(data[index])
-		}
-	} else {
-		newData = data ? JSON.parse(JSON.stringify(data)) : data
-	}
-	return newData
+  const type = getDataType(data);
+  let newData = null;
+  if (type === "Array") {
+    newData = [];
+    data.forEach((item, index) => {
+      newData[index] = clone(item);
+    });
+  } else if (type === "Object") {
+    newData = {};
+    let index;
+    for (index of Object.keys(data)) {
+      newData[index] = clone(data[index]);
+    }
+  } else {
+    newData = data ? JSON.parse(JSON.stringify(data)) : data;
+  }
+  return newData;
 };
 
 // 根据规则合并数据
 const mergeData = function (datas, rule) {
-	const data = clone(datas);
+  const data = clone(datas);
   const newData = [];
   if (getDataType(data) === "Array") {
     data.forEach((item) => {
@@ -981,7 +987,7 @@ module.exports = {
   contentHtml,
   jsonClone,
   getBillingList,
-	mergeData,
-	getDataType,
-	clone,
+  mergeData,
+  getDataType,
+  clone,
 };

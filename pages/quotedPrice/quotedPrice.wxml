@@ -39,7 +39,7 @@
 		<view class="vh60" wx:if="{{showLoading && orderList.length === 0}}"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view style="height: 8vh;"></view>
+		<view style="height: 3vh;"></view>
 	</scroll-view>
 
 	<view wx:if="{{!isLogin}}">
@@ -48,7 +48,7 @@
 		</view>
 	</view>
 	<view wx:if="{{isLogin}}">
-		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<van-button type="primary" size="small" bindtap="toCreate">创建报价单</van-button>
 		</view>
 	</view>

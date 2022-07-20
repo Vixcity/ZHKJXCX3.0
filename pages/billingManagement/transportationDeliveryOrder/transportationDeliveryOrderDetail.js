@@ -1,9 +1,7 @@
 // pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
-  mergeData,
 } = require("../../../utils/util");
 Page({
   /**
@@ -40,7 +38,7 @@ Page({
       "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
+      res.data.data.created_at = res.data.data.created_at;
       let transportationDeliveryOrderDetail = wx.getStorageSync(
         "transportationDeliveryOrderDetail"
       );

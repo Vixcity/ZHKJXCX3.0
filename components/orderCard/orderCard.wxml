@@ -41,7 +41,7 @@
 	</view>
 	<view class="flex aic">
 		<image class="size-l radius-m image" catchtap="showImage" src="{{detailInfo.imgSrc}}" mode="aspectFill" />
-		<view class="por ml10 fz25 flex jcsa fdc w100" style="height: 144rpx;">
+		<view class="por ml10 fz25 flex jcsb fdc w100" style="height: 118rpx;">
 			<view class="flex w100">
 				<view wx:if="{{!detailInfo.productLen && !detailInfo.quoteCode}}"
 					class="{{(showEnterPrice && (enterPricce !== '0.00'))?'w70':'w100'}}">

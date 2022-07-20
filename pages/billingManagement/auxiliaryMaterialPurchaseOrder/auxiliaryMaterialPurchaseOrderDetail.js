@@ -1,9 +1,7 @@
 // pages/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail.js
 const {
   wxReq,
-  formatDate,
   getStatusImage,
-  mergeData,
 } = require("../../../utils/util");
 Page({
   /**
@@ -39,7 +37,7 @@ Page({
       },
       "/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail&id="+this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
+      res.data.data.created_at = res.data.data.created_at;
 			let infoData = wx.getStorageSync('auxiliaryMaterialPurchaseOrderDetail')
 			res.data.data.total_number = +infoData.total_number
 			res.data.data.total_price = infoData.total_price.toFixed(2)

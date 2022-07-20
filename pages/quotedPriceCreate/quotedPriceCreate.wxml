@@ -85,23 +85,24 @@
 				</view>
 				<view class="bgColorF5 w30">
 					<view class="tc pt10">目标价格</view>
-					<input style="display: block;height: 48px;" value="{{item.client_target_price}}" class="pl10 pr10"
+					<input style="display: block;height: 48px;" value="{{item.client_target_price}}" class="pl10 tc pr10"
 						type="digit" bindinput="changeProInput" data-index="{{index}}" data-type="client_target_price"
 						placeholder="目标价格" />
 				</view>
 				<view class="bgColorF5 w30">
 					<view class="tc pt10">起订量</view>
-					<input style="display: block;height: 48px;" value="{{item.start_order_number}}" class="pl10 pr10"
+					<input style="display: block;height: 48px;" value="{{item.start_order_number}}" class="pl10 tc pr10"
 						type="number" bindinput="changeProInput" data-index="{{index}}" data-type="start_order_number"
 						placeholder="起订量" />
 				</view>
 			</view>
-			<l-textarea bind:lininput="changeProInput" indicator="{{true}}" border="{{false}}" data-index="{{index}}"
-				value="{{item.desc}}" data-type="desc" maxlength="200" auto-height="{{true}}" placeholder="点击输入产品描述信息" />
+			<l-textarea l-class="nopadding" bind:lininput="changeProInput" indicator="{{true}}" border="{{false}}"
+				data-index="{{index}}" value="{{item.desc}}" data-type="desc" maxlength="200" auto-height="{{true}}"
+				placeholder="点击输入产品描述信息" />
 			<van-uploader file-list="{{item.image_data}}" bind:before-read="beforeRead" data-index="{{index}}"
 				bind:delete="deleteImage" bind:after-read="afterRead" />
 		</view>
-		<view class="color27A2 tc mt10" bindtap="addProduct">新增产品描述</view>
+		<view class="color27A2 tc mt2" bindtap="addProduct">新增产品描述</view>
 	</view>
 
 	<!-- 报价信息 -->
@@ -140,25 +141,25 @@
 								<view class="tc mb10">预计数量</view>
 								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="weight"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.weight}}"
-									placeholder="预计数量" />
+									placeholder="预计数量" class="tc" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计损耗</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
-									data-itemIndex="{{materialIndex}}" data-itemType="material_data" maxlength="3"
+									data-itemIndex="{{materialIndex}}" data-itemType="material_data" maxlength="3" class="tc"
 									value="{{materialItem.loss}}" placeholder="预计损耗" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">单价</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.price}}"
-									placeholder="单价" />
+									placeholder="单价" class="tc" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.total_price}}"
-									placeholder="小计" />
+									placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -192,25 +193,25 @@
 								<view class="tc mb10">预计数量</view>
 								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="number"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.number}}"
-									placeholder="预计数量" />
+									placeholder="预计数量" class="tc" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计损耗</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" maxlength="3"
-									value="{{assistItem.loss}}" placeholder="预计损耗" />
+									value="{{assistItem.loss}}" placeholder="预计损耗" class="tc" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">单价</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.price}}"
-									placeholder="单价" />
+									placeholder="单价" class="tc" />
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data"
-									value="{{assistItem.total_price}}" placeholder="小计" />
+									value="{{assistItem.total_price}}" placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -252,7 +253,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexWeaveData}}" data-itemType="weave_data" value="{{itemWeaveData.total_price}}"
-									placeholder="小计" />
+									placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -294,7 +295,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexHalf}}" data-itemType="semi_product_data" value="{{itemHalf.total_price}}"
-									placeholder="小计" />
+									placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -335,7 +336,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPD}}" data-itemType="production_data" value="{{itemPD.total_price}}"
-									placeholder="小计" />
+									placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -377,7 +378,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexPack}}" data-itemType="pack_material_data" value="{{itemPack.total_price}}"
-									placeholder="小计" />
+									placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -418,7 +419,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexOtherFeeData}}" data-itemType="other_fee_data"
-									value="{{itemOtherFeeData.total_price}}" placeholder="小计" />
+									value="{{itemOtherFeeData.total_price}}" placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -459,7 +460,7 @@
 								<view class="tc mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
 									data-itemIndex="{{indexNoProductFeeData}}" data-itemType="no_production_fee_data"
-									value="{{itemNoProductFeeData.total_price}}" placeholder="小计" />
+									value="{{itemNoProductFeeData.total_price}}" placeholder="小计" class="tc" />
 							</view>
 						</view>
 					</view>
@@ -470,7 +471,7 @@
 						<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
 							<view class="tc mb10">运输费用</view>
 							<input type="digit" bindinput="changeProInput" data-type="transport_fee" data-index="{{index}}"
-								value="{{item.transport_fee}}" placeholder="运输费用" />
+								value="{{item.transport_fee}}" placeholder="运输费用" class="tc" />
 						</view>
 						<view class="bgColorF5 mt20 w45 pl10 pb10 pt10">
 							<view class="tc mb10">费用说明</view>
@@ -497,8 +498,11 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">客户佣金百分比</view>
-				<input type="digit" style="display: block;height: 48px;" bindinput="inputCommission"
-					value="{{commission_percentage}}" placeholder="客户佣金百分比" />
+				<view class="flex aic pr25">
+					<input type="digit" style="display: block;height: 48px;" bindinput="inputCommission"
+						value="{{commission_percentage}}" placeholder="百分比" class="tc" />
+					<view>%</view>
+				</view>
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>佣金费用</view>
@@ -506,8 +510,11 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计税率百分比</view>
-				<input type="digit" style="display: block;height: 48px;" bindinput="inputRateTaxation" value="{{rate_taxation}}"
-					placeholder="预计税率百分比" />
+				<view class="flex aic pr25">
+					<input type="digit" style="display: block;height: 48px;" bindinput="inputRateTaxation"
+						value="{{rate_taxation}}" placeholder="百分比" class="tc" />
+					<view>%</view>
+				</view>
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>税费</view>
@@ -515,8 +522,11 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">预计利润百分比</view>
-				<input type="digit" style="display: block;height: 48px;" value="{{profit_percentage}}"
-					bindinput="inputProfitPercentage" placeholder="预计利润百分比" />
+				<view class="flex aic pr25">
+					<input type="digit" style="display: block;height: 48px;" value="{{profit_percentage}}"
+						bindinput="inputProfitPercentage" placeholder="百分比" class="tc" />
+					<view>%</view>
+				</view>
 			</view>
 			<view class="bgColorF5 w48 mt10 pt10 pb10 tc">
 				<view>利润</view>
@@ -528,15 +538,18 @@
 			</view>
 			<view class="bgColorF5 w45 mt10 pt10 pb10 pl10">
 				<view class="tc">最终客户报价</view>
-				<input type="digit" style="display: block;height: 48px;" placeholder="最终客户报价" bindinput="changeRealQuotePrice"
-					value="{{real_quote_price}}" />
+				<view class="flex aic pr20">
+					<input type="digit" style="display: block;height: 48px;" placeholder="客户报价" bindinput="changeRealQuotePrice"
+					value="{{real_quote_price}}" class="tc" />
+					<view>元</view>
+				</view>
 			</view>
 		</view>
 	</view>
 
-	<view class="vh12"></view>
+	<view class="vh8"></view>
 
-	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);z-index:2">
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index:2">
 		<view class="flex jcsa">
 			<van-button type="primary" size="small" bind:click="submitAllInfo" data-isCaogao="{{true}}">保存为草稿</van-button>
 			<van-button style="margin-left: 20px;" type="primary" size="small" bind:click="submitAllInfo"

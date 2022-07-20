@@ -243,5 +243,13 @@ Page({
         list,
       });
     });
+	},
+	
+	toDetail(e) {
+		const { item } = e.currentTarget.dataset;
+		wx.setStorageSync('rawMaterialTransferOrderDetail', item)
+    wx.navigateTo({
+      url: "./rawMaterialTransferOrderDetail?id=" + item.id,
+    });
   },
 });
