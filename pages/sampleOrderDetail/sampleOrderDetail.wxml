@@ -154,75 +154,105 @@
 							style="border-radius: 1000px;width: {{item.progress.material_pop>100?100:item.progress.material_pop}}%; height: 25px;">
 						</view>
 					</view>
-					<view class="mt20" wx:for="{{item.materialDetail}}" wx:for-item="itemMaterialDetail"
-						wx:key="itemMaterialDetail" wx:for-index="indexMaterialDetail">
-						<view class="flex jcsb" wx:for="{{itemMaterialDetail.color_info}}" wx:for-item="itemMaterialColor"
-							wx:key="itemMaterialColor" wx:for-index="indexMaterialColor" style="background: rgba(0,0,0,0.1);">
-							<view>{{itemMaterialDetail.material_name}}</view>
-							<view>{{itemMaterialColor.material_color}}</view>
-							<view>{{itemMaterialColor.number||'未填写'}}/{{itemMaterialColor.unit||'未填写'}}</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:for="{{itemMaterialDetail.material_transfer_info}}"
-							wx:for-item="itemMaterialTrans" wx:key="itemMaterialTrans" wx:for-index="indexMaterialTrans">
-							<text class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">调</text>
-							<view class="flex aic w90 jcsb">
-								<view>{{itemMaterialTrans.store_name}}</view>
-								<view>{{itemMaterialTrans.number}}</view>
+					<view class="overfh mt10" style="height:{{isShow?'auto':0}}px">
+						<view class="mt20" wx:for="{{item.materialDetail}}" wx:for-item="itemMaterialDetail"
+							wx:key="itemMaterialDetail" wx:for-index="indexMaterialDetail">
+							<view wx:for="{{itemMaterialDetail.data}}" wx:for-item="itemChild" wx:for-index="indexChild">
+								<view class="flex jcsb" style="background: rgba(0,0,0,0.1);">
+									<view>{{itemChild.material_name}}</view>
+									<view>{{itemChild.material_color}}</view>
+									<view>{{itemChild.number||'未填写'}}/{{itemChild.unit||'未填写'}}</view>
+								</view>
+
+								<!-- 调 -->
+								<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.material_transfer}}"
+									wx:for-item="itemMaterialTrans" wx:key="itemMaterialTrans" wx:for-index="indexMaterialTrans">
+									<text class="bgColor27A2 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">调</text>
+									<view class="flex aic w90 jcsb">
+										<view>{{itemMaterialTrans.store}}</view>
+										<view>{{itemMaterialTrans.material_color}}</view>
+										<view>{{itemMaterialTrans.number}}</view>
+									</view>
+								</view>
+								<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_transfer.length === 0}}">
+									<view class="bgColorD8 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">调</view>
+									<view class="w90 tc color9E">无调取信息</view>
+								</view>
+
+								<!-- 采 -->
+								<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.material_order}}" wx:for-item="itemMaterialOrder"
+									wx:key="itemMaterialOrder" wx:for-index="indexMaterialOrder">
+									<text class="bgColor27A2 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">采</text>
+									<view class="w90 flex jcsb aic">
+										<view>{{itemMaterialOrder.client_name}}</view>
+										<view>{{itemMaterialOrder.material_color}}</view>
+										<view>{{itemMaterialOrder.number}}{{itemMaterialOrder.unit}}</view>
+									</view>
+								</view>
+								<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_order.length === 0}}">
+									<view class="bgColorD8 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">采</view>
+									<view class="w90 tc color9E">无订购信息</view>
+								</view>
+
+								<!-- 加 -->
+								<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.material_process}}"
+									wx:for-item="itemMaterialProcess" wx:key="itemMaterialProcess" wx:for-index="indexMaterialProcess">
+									<text class="bgColor27A2 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">加</text>
+									<view class="w90 flex jcsb aic">
+										<view>{{itemMaterialProcess.client_name}}</view>
+										<view>{{itemMaterialProcess.process}}</view>
+										<view>{{itemMaterialProcess.number}}{{itemMaterialProcess.unit}}</view>
+									</view>
+								</view>
+								<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_process.length === 0}}">
+									<view class="bgColorD8 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">加</view>
+									<view class="w90 tc color9E">无加工信息</view>
+								</view>
+
+								<!-- 入 -->
+								<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.final_push}}" wx:for-item="itemMaterialPush"
+									wx:key="itemMaterialPush" wx:for-index="indexMaterialPush">
+									<text class="bgColor27A2 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">入</text>
+									<view class="w90 flex jcsb aic">
+										<view>{{itemMaterialPush.client_name}}</view>
+										<view>{{itemMaterialPush.number}}{{itemMaterialPush.unit}}</view>
+									</view>
+								</view>
+								<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.final_push.length === 0}}">
+									<view class="bgColorD8 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">入</view>
+									<view class="w90 tc color9E">无入库信息</view>
+								</view>
+
+								<!-- 出 -->
+								<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.final_pop}}" wx:for-item="itemMaterialPop"
+									wx:key="itemMaterialPop" wx:for-index="indexMaterialPop">
+									<text class="bgColor27A2 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">出</text>
+									<view class="w90 flex jcsb aic">
+										<view>{{itemMaterialPop.client_name}}</view>
+										<view>{{itemMaterialPop.number}}{{itemMaterialPop.unit}}</view>
+									</view>
+								</view>
+								<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.final_pop.length === 0}}">
+									<view class="bgColorD8 colorWhite tc"
+										style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">出</view>
+									<view class="w90 tc color9E">无出库信息</view>
+								</view>
 							</view>
 						</view>
-						<view class="flex jcsb mt10 mb20" wx:if="{{itemMaterialDetail.material_transfer_info.length === 0}}">
-							<view class="bgColorD8 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">调</view>
-							<view class="w90 tc color9E">无调取信息</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:for="{{itemMaterialDetail.material_order_info}}"
-							wx:for-item="itemMaterialOrder" wx:key="itemMaterialOrder" wx:for-index="indexMaterialOrder">
-							<text class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">采</text>
-							<view class="w90 flex jcsb aic">
-								<view>{{itemMaterialOrder.client_name}}</view>
-								<view>{{itemMaterialOrder.number}}{{itemMaterialOrder.unit}}</view>
-							</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:if="{{itemMaterialDetail.material_order_info.length === 0}}">
-							<view class="bgColorD8 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">采</view>
-							<view class="w90 tc color9E">无订购信息</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:for="{{itemMaterialDetail.material_process_info}}"
-							wx:for-item="itemMaterialProcess" wx:key="itemMaterialProcess" wx:for-index="indexMaterialProcess">
-							<text class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">加</text>
-							<view class="w90 flex jcsb aic">
-								<view>{{itemMaterialProcess.client_name}}</view>
-								<view>{{itemMaterialProcess.process}}</view>
-								<view>{{itemMaterialProcess.number}}{{itemMaterialProcess.unit}}</view>
-							</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:if="{{itemMaterialDetail.material_process_info.length === 0}}">
-							<view class="bgColorD8 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">加</view>
-							<view class="w90 tc color9E">无加工信息</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:for="{{itemMaterialDetail.final_push_info}}"
-							wx:for-item="itemMaterialPush" wx:key="itemMaterialPush" wx:for-index="indexMaterialPush">
-							<text class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">入</text>
-							<view class="w90 flex jcsb aic">
-								<view>{{itemMaterialPush.client_name}}</view>
-								<view>{{itemMaterialPush.number}}{{itemMaterialPush.unit}}</view>
-							</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:if="{{itemMaterialDetail.final_push_info.length === 0}}">
-							<view class="bgColorD8 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">入</view>
-							<view class="w90 tc color9E">无入库信息</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:for="{{itemMaterialDetail.final_pop_info}}"
-							wx:for-item="itemMaterialPop" wx:key="itemMaterialPop" wx:for-index="indexMaterialPop">
-							<text class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">出</text>
-							<view class="w90 flex jcsb aic">
-								<view>{{itemMaterialPop.client_name}}</view>
-								<view>{{itemMaterialPop.number}}{{itemMaterialPop.unit}}</view>
-							</view>
-						</view>
-						<view class="flex jcsb mt10 mb20" wx:if="{{itemMaterialDetail.final_pop_info.length === 0}}">
-							<view class="bgColorD8 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">出</view>
-							<view class="w90 tc color9E">无出库信息</view>
-						</view>
+					</view>
+					<view class="color27A2 tc" bindtap='changeIsShow'>
+						{{isShow?'点击收起':'点击展开'}}
+						<van-icon name="arrow-down" wx:if="{{!isShow}}" />
+						<van-icon name="arrow-up" wx:if="{{isShow}}" />
 					</view>
 				</view>
 			</van-tab>

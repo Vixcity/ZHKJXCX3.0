@@ -8,6 +8,8 @@ Page({
    */
   data: {
     id: "",
+    isShow: false,
+    isShow2: false,
     orderDetail: {},
     productList: [],
   },
@@ -47,7 +49,7 @@ Page({
 
       wxReq(
         {
-          url: "/order/material/info",
+          url: "/order/material/info/new",
           data: { order_id: res.data.data.time_data[0].id },
           method: "GET",
         },
@@ -99,6 +101,18 @@ Page({
       });
     });
   },
+
+	changeIsShow(){
+		this.setData({
+			isShow: !this.data.isShow
+		})
+	},
+
+	changeIsShow2(){
+		this.setData({
+			isShow2: !this.data.isShow2
+		})
+	},
 
   // 弹窗
   showFinancialPopup(e) {
@@ -229,4 +243,12 @@ Page({
 
   // 查看关联单据
   showAssociatedDocument(e) {},
+
+  toQuotePriceDetail(e) {
+    wx.navigateTo({
+      url:
+        "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
+        e.currentTarget.dataset.id,
+    });
+  },
 });

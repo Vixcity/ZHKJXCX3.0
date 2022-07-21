@@ -6,7 +6,10 @@
 		</view>
 	</nav-content>
 
-	<view class="bgColor03d0 colorWhite mt10 pt10 pb10" wx:for="{{tabList}}" bindtap='toOtherBillingPage' data-item="{{item}}">
+	<!-- <view class="bgColor03d0 colorWhite mt10 pt10 pb10" wx:for="{{tabList}}" bindtap='toOtherBillingPage' data-item="{{item}}">
+		{{item.name}}
+	</view> -->
+	<view class="card" wx:for="{{tabList}}" bindtap='toOtherBillingPage' data-item="{{item}}">
 		{{item.name}}
 	</view>
 	<view class="vh5"></view>

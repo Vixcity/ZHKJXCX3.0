@@ -186,14 +186,30 @@ Page({
     const { type } = e.currentTarget.dataset;
     if (type === "status") {
       this.data.is_check = e.detail.value[0].id;
+      this.setData({
+        status_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
+    }
+
+    if (type === "keyword") {
+      this.data.keyword = e.detail.value;
     }
 
     if (type === "user") {
-      this.data.user_id = e.detail.value[0].id;
+			this.data.user_id = e.detail.value[0].id;
+			this.setData({
+        user_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "group") {
-      this.data.group_id = e.detail.value[0].id;
+			this.data.group_id = e.detail.value[0].id;
+			this.setData({
+        group_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "client") {
@@ -206,7 +222,11 @@ Page({
         });
         return;
       }
-      this.data.client_id = e.detail.value[2].id;
+			this.data.client_id = e.detail.value[2].id;
+			this.setData({
+        client_name:
+          e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
+      });
     }
 
     this.data.page = 1;

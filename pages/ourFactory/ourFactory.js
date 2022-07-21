@@ -54,6 +54,8 @@ Page({
     group_id: "",
     user_id: "",
     keyWord: "",
+    group_name: "",
+    user_name: "",
     showUser: false,
     showGroup: false,
     showProcess: false,
@@ -89,9 +91,17 @@ Page({
       },
     ];
 
+    let arr1 = [
+      {
+        text: "全部",
+        id: "",
+        children: [{ text: "全部", id: "" }],
+      },
+    ];
+
     this.setData({
       clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
-      processList: wx.getStorageSync("processList"),
+      processList: arr1.concat(wx.getStorageSync("processList")),
       groupList: wx.getStorageSync("groupList"),
       userList: wx.getStorageSync("userList"),
     });
@@ -159,14 +169,24 @@ Page({
     const { type } = e.currentTarget.dataset;
     if (type === "user") {
       this.data.user_id = e.detail.value[0].id;
+      this.setData({
+        user_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "group") {
       this.data.group_id = e.detail.value[0].id;
+      this.setData({
+        group_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "process") {
-      this.data.process_name = e.detail.value[1].id;
+      this.setData({
+        process_name: e.detail.value[1].id,
+      });
     }
 
     if (type === "client") {
@@ -180,6 +200,10 @@ Page({
         return;
       }
       this.data.client_id = e.detail.value[2].id;
+      this.setData({
+        client_name:
+          e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
+      });
     }
 
     this.data.page = 1;

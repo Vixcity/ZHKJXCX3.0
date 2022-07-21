@@ -4,24 +4,24 @@
 		<view slot="after">
 			<input wx:if="{{isLogin}}" class="fz25"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="changeSingleSelect" data-type="keyword" placeholder="筛选报价/产品/样品编号" />
+				type="text" bindinput="confirmData" data-type="keyword" placeholder="单据编号/产品编号/产品名" />
 			<input wx:else disabled class="fz25"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="changeSingleSelect" data-type="keyword" placeholder="筛选报价/产品/样品编号" />
+				type="text" bindinput="confirmData" data-type="keyword" placeholder="单据编号/产品编号/产品名" />
 		</view>
 	</nav-content>
 
 	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">下单公司
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '下单公司'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">负责小组
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">{{group_name || '负责小组'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">{{user_name || '创建人'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">{{status_name || '状态'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 	</view>
@@ -126,7 +126,7 @@
 						</view>
 					</view>
 					<view class="flex jcsb">
-						<view>创建时间：{{item.created_at}}</view>
+						<view>下单总数：{{item.total_number}}</view>
 						<view>￥{{item.total_price}}</view>
 					</view>
 				</view>

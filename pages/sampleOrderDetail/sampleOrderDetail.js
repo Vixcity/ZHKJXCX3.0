@@ -17,6 +17,7 @@ Page({
     showDecoratePopup: false,
     showWeavePopup: false,
     showCheJianPopup: false,
+    isShow: false,
     indexweave: 0,
     indexpro: 0,
     chooseStatusList: [],
@@ -51,7 +52,7 @@ Page({
       this.data.sampleOrderDetail.time_data.forEach((item) => {
         wxReq(
           {
-            url: "/order/material/info",
+            url: "/order/material/info/new",
             data: {
               order_id: item.id,
             },
@@ -108,6 +109,12 @@ Page({
       });
     });
   },
+
+	changeIsShow(){
+		this.setData({
+			isShow: !this.data.isShow
+		})
+	},
 
   openStatusChoose(e) {
     const { index, indexpro } = e.currentTarget.dataset;

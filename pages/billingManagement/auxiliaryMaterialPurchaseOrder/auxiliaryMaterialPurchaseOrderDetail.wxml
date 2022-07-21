@@ -66,7 +66,13 @@
 		<view class="title">订购信息</view>
 		<view wx:for="{{info.info_data}}">
 			<view class="flex mt10">
-				<view class="w30 color6">辅料名称</view>
+				<view class="w30 color6 flex">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						{{index+1}}
+					</view>
+					<view class="ml10">辅料名称</view>
+				</view>
 				<view class="w70 color27A2">
 					{{ item.material_name }}
 				</view>

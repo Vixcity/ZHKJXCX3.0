@@ -27,16 +27,16 @@
 	</nav-content>
 	<view wx:if="{{type === '2' && isLogin}}">
 		<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="process">工序
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="process">{{process_name || '工序'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">{{group_name || '小组'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">{{user_name || '创建人'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">单位
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '单位'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
 		</view>

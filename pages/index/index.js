@@ -11,27 +11,37 @@ Page({
       // },
       {
         title: "外协生产中",
-        src: "/pages/ourFactory/ourFactory?type=2",
+				src: "/pages/ourFactory/ourFactory?type=2",
+				icon:'https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png'
       },
       {
         title: "报价单管理",
         src: "/pages/quotedPrice/quotedPrice",
+        icon:
+          "https://file.zwyknit.com/%E6%8A%A5%E4%BB%B7%E7%AE%A1%E7%90%86.png",
       },
       {
         title: "样单管理",
         src: "/pages/sampleOrder/sampleOrder",
+        icon:
+          "https://file.zwyknit.com/%E6%A0%B7%E5%8D%95%E7%AE%A1%E7%90%86.png",
       },
       {
         title: "订单管理",
         src: "/pages/order/order",
+        icon:
+          "https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86%20.png",
       },
       {
         title: "报销单管理",
-        src: "/pages/reimbursementManage/reimbursementManage",
+				src: "/pages/reimbursementManage/reimbursementManage",
+				icon:'https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png'
       },
       {
         title: "单据管理",
         src: "/pages/billingManagement/index",
+        icon:
+          "https://file.zwyknit.com/%E5%8D%95%E6%8D%AE%E7%AE%A1%E7%90%86.png",
       },
       // {
       //   title: "检验管理",

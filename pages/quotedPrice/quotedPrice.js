@@ -46,6 +46,10 @@ Page({
     showLoading: false,
     noData: false,
     status: "",
+    status_name: "",
+    user_name: "",
+    date_name: "",
+    client_name: "",
   },
 
   /**
@@ -220,14 +224,26 @@ Page({
     const { type } = e.currentTarget.dataset;
     if (type === "status") {
       this.data.status = e.detail.value[0].id;
+      this.setData({
+        status_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "user") {
-      this.data.user_id = e.detail.value[0].id;
+			this.data.user_id = e.detail.value[0].id;
+			this.setData({
+        user_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "date") {
-      this.data.chooseDate = e.detail.value[0].id;
+			this.data.chooseDate = e.detail.value[0].id;
+			this.setData({
+        date_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "client") {
@@ -240,7 +256,11 @@ Page({
         });
         return;
       }
-      this.data.client_id = e.detail.value[2].id;
+			this.data.client_id = e.detail.value[2].id;
+			this.setData({
+        client_name:
+          e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
+      });
     }
 
     this.data.page = 1;

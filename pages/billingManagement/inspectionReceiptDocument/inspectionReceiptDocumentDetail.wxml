@@ -51,8 +51,12 @@
 			<van-tab title="{{item.process_name}}" wx:for="{{productionPlanMergeList}}">
 				<view wx:for="{{item.childrenMergeInfo}}" wx:for-item="itemChild">
 					<view class="flex mt10">
-						<view class="w30 color6">
-							生产单号
+						<view class="w30 color6 flex">
+							<view class="bgColor27A2 colorWhite tc"
+								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+								{{index+1}}
+							</view>
+							<view class="ml10">生产单号</view>
 						</view>
 						<view class="w70">
 							{{itemChild.code}}
@@ -134,7 +138,13 @@
 		<view class="title">检验入库日志</view>
 		<view wx:for="{{pushList}}">
 			<view class="flex mt10">
-				<view class="w30 color6">单据编号</view>
+				<view class="w30 color6 flex">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						{{index+1}}
+					</view>
+					<view class="ml10">单据编号</view>
+				</view>
 				<view class="w70">
 					{{ item.doc_code }}
 				</view>
@@ -217,7 +227,13 @@
 		<view class="title">生产出库日志</view>
 		<view wx:for="{{productOutList}}">
 			<view class="flex mt10">
-				<view class="w30 color6">单据编号</view>
+				<view class="w30 color6 flex">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						{{index+1}}
+					</view>
+					<view class="ml10">单据编号</view>
+				</view>
 				<view class="w70">
 					{{ item.doc_code }}
 				</view>
@@ -285,7 +301,13 @@
 		<view class="title">成品入库日志</view>
 		<view wx:for="{{overPushList}}">
 			<view class="flex mt10">
-				<view class="w30 color6">单据编号</view>
+				<view class="w30 color6 flex">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						{{index+1}}
+					</view>
+					<view class="ml10">单据编号</view>
+				</view>
 				<view class="w70">
 					{{ item.doc_code }}
 				</view>

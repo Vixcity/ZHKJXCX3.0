@@ -5,24 +5,24 @@
 		<view slot="after">
 			<input wx:if="{{isLogin}}"
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
-				type="text" bindinput="onSearch" placeholder="单据编号" />
+				type="text" bindinput="onSearch" placeholder="单据编号/产品样品编号" />
 			<input wx:else disabled
 				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
-				type="text" bindinput="onSearch" placeholder="单据编号" />
+				type="text" bindinput="onSearch" placeholder="单据编号/产品样品编号" />
 		</view>
 	</nav-content>
 
 	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">{{status_name || '状态'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '公司'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">创建人
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">{{user_name || '创建人'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">{{date_name || '日期'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 	</view>

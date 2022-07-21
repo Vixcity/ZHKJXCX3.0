@@ -65,8 +65,8 @@ Page({
     getGroupList("/reimbursementManage/reimbursementManage");
     getSomeDateList();
 
-		let someDateList = wx.getStorageSync("someDateList");
-		someDateList[0].text = '今年到当前日期'
+    let someDateList = wx.getStorageSync("someDateList");
+    someDateList[0].text = "今年到当前日期";
     someDateList[0].id = [
       new Date().getFullYear() + "-01-01",
       new Date().getFullYear() +
@@ -137,8 +137,12 @@ Page({
           id: item.id,
           customer: item.client_name,
           title: item.code || "无报销单编号",
-          quoteCode: item.name + "-" + (item.group || "无小组") || '暂无报销人员小组信息',
-          date: item.reviewer.name?'审核人：' + item.reviewer.name : "暂未审核",
+          quoteCode:
+            item.name + "-" + (item.group || "无小组") ||
+            "暂无报销人员小组信息",
+          date: item.reviewer.name
+            ? "审核人：" + item.reviewer.name
+            : "暂未审核",
           reimbursementPrice: item.amount,
           unit: item.settle_unit,
           user: item.user.name || "无创建人信息",
@@ -212,14 +216,25 @@ Page({
     const { type } = e.currentTarget.dataset;
     if (type === "status") {
       this.data.status = e.detail.value[0].id;
+      this.setData({
+        status_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "group") {
-      this.data.group_name = e.detail.value[0].text;
+      this.setData({
+        group_name:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      });
     }
 
     if (type === "date") {
       this.data.chooseDate = e.detail.value[0].id;
+      this.setData({
+        date_name:
+          e.detail.value[0].text !== "今年到当前日期" ? e.detail.value[0].text : "",
+      });
     }
 
     this.data.page = 1;
