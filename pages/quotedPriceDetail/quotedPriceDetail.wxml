@@ -49,7 +49,7 @@
 							</view>
 							<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange">可绑定订单</view>
 						</view>
-						<view class="mt10">{{item.desc || ''}}</view>
+						<rich-text nodes="{{item.desc}}"></rich-text>
 						<view class="flex jcsb mt10">
 							<view>{{item.client_target_price || 0}} 元</view>
 							<view style="text-align: end;">{{item.start_order_number || 0}}件</view>
@@ -305,10 +305,10 @@
 	<l-message content="{{content}}" />
 
 	<!-- 弹出框 -->
-	<van-popup show="{{showPopup}}" bindtap="closePopup">
+	<van-popup show="{{showPopup}}" bindtap="closePopup" custom-class="noBgColor">
 		<view class="overfh por">
 			<view class="tc vw100 h100">
-				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{clickImg}}" style="display:block">
+				<image mode="widthFix" show-menu-by-longpress="{{true}}" src="{{clickImg}}">
 				</image>
 			</view>
 		</view>

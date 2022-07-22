@@ -102,17 +102,17 @@ Page({
     });
   },
 
-	changeIsShow(){
-		this.setData({
-			isShow: !this.data.isShow
-		})
-	},
+  changeIsShow() {
+    this.setData({
+      isShow: !this.data.isShow,
+    });
+  },
 
-	changeIsShow2(){
-		this.setData({
-			isShow2: !this.data.isShow2
-		})
-	},
+  changeIsShow2() {
+    this.setData({
+      isShow2: !this.data.isShow2,
+    });
+  },
 
   // 弹窗
   showFinancialPopup(e) {
@@ -249,6 +249,46 @@ Page({
       url:
         "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
         e.currentTarget.dataset.id,
+    });
+  },
+
+  showDetailPro(e) {
+    const { item } = e.currentTarget.dataset;
+    wxReq(
+      {
+        url: "/product/detail",
+        method: "GET",
+        data: {
+          id: item.product_id,
+        },
+      },
+      "/orderDetail/orderDetail&id=" + this.data.id
+    ).then((res) => {
+      res.data.data.style_data = res.data.data.style_data
+        .map((item) => item.name)
+        .join(",");
+      res.data.data.desc =res.data.data.desc || "无";
+      this.setData({ productInfo: res.data.data, showPro: true });
+    });
+  },
+
+  openShowImage() {
+    this.setData({
+      showImage: true,
+      showPro: false,
+    });
+  },
+
+  closeShowImage() {
+    this.setData({
+      showImage: false,
+      showPro: true,
+    });
+  },
+
+  closePro() {
+    this.setData({
+      showPro: false,
     });
   },
 });

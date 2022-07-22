@@ -237,6 +237,9 @@ Page({
     profit_price: 0,
     desc: "",
     real_quote_price: "",
+
+    // 弹窗
+    materialItemShow: false,
   },
 
   onLoad(options) {
@@ -408,6 +411,11 @@ Page({
   openPicker(e) {
     const { type, index, itemindex, itemtype } = e.currentTarget.dataset;
 
+    this.setData({
+      index,
+      itemindex,
+    });
+
     if (type === "client") {
       this.setData({
         showClient: true,
@@ -434,10 +442,9 @@ Page({
     }
 
     if (type === "productSon") {
-      this.data.productList[index][itemtype][itemindex].show = true;
-      this.setData({
-        productList: this.data.productList,
-      });
+      let obj = {};
+      obj[itemtype] = true;
+      this.setData(obj);
     }
   },
 
@@ -471,16 +478,16 @@ Page({
     }
 
     if (type === "productSon") {
-      this.data.productList[index][itemtype][itemindex].show = false;
-      this.setData({
-        productList: this.data.productList,
-      });
+      let obj = {};
+      obj[itemtype] = false;
+      this.setData(obj);
     }
   },
 
   // 选择器提交
   confirmData(e) {
-    const { type, index, itemtype, itemindex } = e.currentTarget.dataset;
+    let { type, itemtype } = e.currentTarget.dataset;
+    const { index, itemindex } = this.data;
 
     if (type === "client") {
       if (!e.detail.value[2]) {
@@ -518,11 +525,16 @@ Page({
     }
 
     if (type === "product") {
-      this.data.productList[index].category_name = e.detail.value[0].text;
-      this.data.productList[index].secondary_category = e.detail.value[1].text;
-      this.data.productList[index].category_id = e.detail.value[0].id;
-      this.data.productList[index].secondary_category_id = e.detail.value[1].id;
-      this.data.productList[index].type = [
+      this.data.productList[e.currentTarget.dataset.index].category_name =
+        e.detail.value[0].text;
+      this.data.productList[e.currentTarget.dataset.index].secondary_category =
+        e.detail.value[1].text;
+      this.data.productList[e.currentTarget.dataset.index].category_id =
+        e.detail.value[0].id;
+      this.data.productList[
+        e.currentTarget.dataset.index
+      ].secondary_category_id = e.detail.value[1].id;
+      this.data.productList[e.currentTarget.dataset.index].type = [
         e.detail.value[0].id,
         e.detail.value[1].id,
       ];
@@ -532,36 +544,57 @@ Page({
     }
 
     if (type === "productSon") {
-      if (itemtype === "material_data") {
-        this.data.productList[index][itemtype][itemindex].material_name =
+      // 原料
+      if (itemtype === "materialItemShow") {
+        this.data.productList[index]["material_data"][itemindex].material_name =
           e.detail.value[2].text;
-        this.data.productList[index][itemtype][itemindex].material_id =
+        this.data.productList[index]["material_data"][itemindex].material_id =
+          e.detail.value[2].id;
+        console.log(e.detail.value);
+        this.data.productList[index]["material_data"][itemindex].tree_data =
+          e.detail.value[0].id +
+          "," +
+          e.detail.value[1].id +
+          "," +
           e.detail.value[2].id;
       }
 
-      if (itemtype === "assist_material_data") {
-        this.data.productList[index][itemtype][itemindex].material_name =
-          e.detail.value[0].text;
-        this.data.productList[index][itemtype][itemindex].material_id =
-          e.detail.value[0].id;
-        this.data.productList[index][itemtype][itemindex].unit =
+      // 辅料
+      if (itemtype === "assistItemShow") {
+        this.data.productList[index]["assist_material_data"][
+          itemindex
+        ].material_name = e.detail.value[0].text;
+        this.data.productList[index]["assist_material_data"][
+          itemindex
+        ].material_id = e.detail.value[0].id;
+        this.data.productList[index]["assist_material_data"][itemindex].unit =
           e.detail.value[0].unit;
       }
 
-      if (
-        itemtype === "weave_data" ||
-        itemtype === "semi_product_data" ||
-        itemtype === "production_data"
-      ) {
-        this.data.productList[index][itemtype][itemindex].name =
+      // 织造
+      if (itemtype === "itemWeaveDataShow") {
+        this.data.productList[index]["weave_data"][itemindex].name =
           e.detail.value[0].text;
       }
 
-      if (itemtype === "pack_material_data") {
-        this.data.productList[index][itemtype][itemindex].material_name =
+      // 半成品
+      if (itemtype === "itemHalfShow") {
+        this.data.productList[index]["semi_product_data"][itemindex].name =
           e.detail.value[0].text;
-        this.data.productList[index][itemtype][itemindex].material_id =
-          e.detail.value[0].id;
+      }
+
+      if (itemtype === "itemPDShow") {
+        this.data.productList[index]["production_data"][itemindex].name =
+          e.detail.value[0].text;
+      }
+
+      if (itemtype === "itemPackShow") {
+        this.data.productList[index]["pack_material_data"][
+          itemindex
+        ].material_name = e.detail.value[0].text;
+        this.data.productList[index]["pack_material_data"][
+          itemindex
+        ].material_id = e.detail.value[0].id;
       }
 
       this.setData({
@@ -597,6 +630,9 @@ Page({
     const { index, type } = e.currentTarget.dataset;
     this.data.productList[index][type] = e.detail.value;
 
+    if (type === "transport_fee") {
+      this.getProductTotalPrice(e);
+    }
     this.getTotalPrice();
 
     this.setData({
@@ -882,29 +918,28 @@ Page({
     let commission_price = (
       (this.data.total_cost_price /
         (1 -
-          (this.data.commission_percentage || 0) / 100 +
-          (this.data.profit_percentage || 0) / 100 +
-          (this.data.rate_taxation || 0) / 100)) *
-      ((this.data.commission_percentage || 0) / 100)
+          ((this.data.commission_percentage / 100 || 0) +
+            (this.data.profit_percentage / 100 || 0) +
+            (this.data.rate_taxation / 100 || 0)))) *
+      (this.data.commission_percentage / 100 || 0)
     ).toFixed(2);
 
     let rate_price = (
       (this.data.total_cost_price /
         (1 -
-          (this.data.commission_percentage || 0) / 100 +
-          (this.data.profit_percentage || 0) / 100 +
-          (this.data.rate_taxation || 0) / 100)) *
-      ((this.data.rate_taxation || 0) / 100)
+          ((this.data.commission_percentage || 0) / 100 +
+            (this.data.profit_percentage || 0) / 100 +
+            (this.data.rate_taxation / 100 || 0)))) *
+      (this.data.rate_taxation / 100 || 0)
     ).toFixed(2);
 
     let profit_price = (
-      (this.data.total_cost_price ||
-        0 /
-          (1 -
-            (this.data.commission_percentage || 0) / 100 +
+      (this.data.total_cost_price /
+        (1 -
+          ((this.data.commission_percentage || 0) / 100 +
             (this.data.profit_percentage || 0) / 100 +
-            (this.data.rate_taxation || 0) / 100)) *
-      ((this.data.profit_percentage || 0) / 100)
+            (this.data.rate_taxation / 100 || 0)))) *
+      (this.data.profit_percentage / 100 || 0)
     ).toFixed(2);
 
     let system_total_price =
@@ -1052,7 +1087,7 @@ Page({
       title: this.data.title,
       system_total_price: this.data.system_total_price,
       total_cost_price: this.data.total_cost_price,
-      total_number: this.data.total_number,
+      total_number: this.data.productList.length,
       tree_data: this.data.tree_data.toString(),
     };
 

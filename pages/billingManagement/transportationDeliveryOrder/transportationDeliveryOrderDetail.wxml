@@ -114,7 +114,7 @@
 					</view>
 					<view class="ml10">产品名称</view>
 				</view>
-				<view class="w70 color27A2">
+				<view class="w70 color27A2" bindtap='showDetailPro' data-item="{{item}}">
 					{{ item.product_code }}({{ item.category }}/{{ item.secondary_category }})
 				</view>
 			</view>
@@ -184,4 +184,71 @@
 	</l-mask>
 
 	<l-message content="{{content}}" />
+
+	<van-popup round show="{{ showPro }}" catchtouchmove='false'>
+		<scroll-view style="height: 50vh;" scroll-y>
+			<view class="tc">
+				<image class="vw50 vh30" wx:if="{{productInfo.image_data.length === 0}}" mode="aspectFit"
+					src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png">
+				</image>
+				<image class="vw50 vh30" wx:else="{{productInfo.image_data.length !== 0}}" mode="aspectFit"
+					src="{{productInfo.image_data[0]}}" bindtap="openShowImage">
+				</image>
+				<view class="mt10 flex jcc aic">
+					<view>{{productInfo.product_code}}</view>
+					<view wx:if="{{productInfo.craft_list_id}}" class="ml10"
+						style="border: 1px solid #03d0a2; border-radius: 200px;width: 25px;height: 25px; color: #03d0a2;">工</view>
+					<view wx:else class="ml10"
+						style="border: 1px solid #999; border-radius: 200px;width: 25px;height: 25px; color: #999;">工</view>
+				</view>
+			</view>
+			<view>
+				<view class="bold mt10">基本信息</view>
+				<view class="flex mt10">
+					<view class="w30 color6">产品名称</view>
+					<view class="w70 {{productInfo.name?'color27A2':'color9'}}">{{productInfo.name || '无'}}</view>
+				</view>
+				<view class="flex mt10">
+					<view class="flex w50">
+						<view class="w60 color6">客户款号</view>
+						<view class="w40 {{productInfo.style_code?'color3':'color9'}}">{{productInfo.style_code || '无'}}</view>
+					</view>
+					<view class="flex w50">
+						<view class="w60 color6"> 产品款式</view>
+						<view class="w40 {{productInfo.style_data?'color3':'color9'}}">{{productInfo.style_data || '无'}}</view>
+					</view>
+				</view>
+				<view class="flex mt10">
+					<view class="w30 color6">产品配色</view>
+					<view class="w70">
+						<text wx:for="{{productInfo.color_data}}">{{item.name}}<text
+								wx:if="{{index+1!==productInfo.color_data.length}}">/</text>
+						</text>
+					</view>
+				</view>
+				<view class="flex mt10">
+					<view class="w30 color6">产品描述</view>
+					<rich-text class="w70" nodes="{{productInfo.desc}}"></rich-text>
+				</view>
+				<view class="bold mt10">大身信息</view>
+				<view class="flex mt10">
+					<view class="w30 color6">大身成分</view>
+					<view class="w70">
+						<text wx:for="{{productInfo.component_data}}">{{item.name}}{{item.number||0}}%</text>
+					</view>
+				</view>
+				<view class="flex mt10">
+					<view class="w30 color6">大身尺码</view>
+					<view class="w70">
+						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g {{item.size_info}}
+						</view>
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+		<view class="line"></view>
+		<view class="tc" bindtap="closePro">关闭</view>
+	</van-popup>
+	<t-image-viewer visible="{{showImage}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
+		bind:close="closeShowImage" />
 </view>

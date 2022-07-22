@@ -20,10 +20,9 @@
 			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;">* </text>询价公司
 			</text>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '公司'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
-			{{client_name}}
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
 		</view>
 		<view class="flex aic por fz28 color3">
@@ -124,14 +123,11 @@
 									<view class="ml10">{{materialItem.material_name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="material_data" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更</view>
-								<picker values="{{yarnType}}" level="3" data-type="productSon" data-itemindex="{{materialIndex}}"
-									data-itemtype="material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{materialItem.show}}"></picker>
+									data-itemtype="materialItemShow" data-index="{{index}}">点击变更</view>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
-									data-index="{{index}}" data-type="material_data">添加</view>
+									data-index="{{index}}" data-itemindex="{{materialIndex}}" data-type="material_data">添加</view>
 								<view wx:if="{{materialIndex !== 0}}" class="colorE800 pl5" bindtap="deleteProductType"
 									data-index="{{index}}" data-type="material_data" data-itemIndex="{{materialIndex}}">删除</view>
 							</view>
@@ -175,11 +171,8 @@
 									<view class="ml10">{{assistItem.material_name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="assist_material_data" data-index="{{index}}" data-itemindex="{{assistIndex}}">点击变更
+									data-itemtype="assistItemShow" data-index="{{index}}" data-itemindex="{{assistIndex}}">点击变更
 								</view>
-								<picker values="{{assistList}}" data-type="productSon" data-itemindex="{{assistIndex}}"
-									data-itemtype="assist_material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{assistItem.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{assistIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -226,12 +219,9 @@
 									</view>
 									<view class="ml20">{{itemWeaveData.name || '暂未选择'}}</view>
 								</view>
-								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon" data-itemtype="weave_data"
-									data-index="{{index}}" data-itemindex="{{indexWeaveData}}">点击变更
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="itemWeaveDataShow" data-index="{{index}}" data-itemindex="{{indexWeaveData}}">点击变更
 								</view>
-								<picker values="{{weaveList}}" data-type="productSon" data-itemindex="{{indexWeaveData}}"
-									data-itemtype="weave_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{itemWeaveData.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexWeaveData === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -269,11 +259,8 @@
 									<view class="ml20">{{itemHalf.name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="semi_product_data" data-index="{{index}}" data-itemindex="{{indexHalf}}">点击变更
+									data-itemtype="itemHalfShow" data-index="{{index}}" data-itemindex="{{indexHalf}}">点击变更
 								</view>
-								<picker values="{{halfProcessList}}" data-type="productSon" data-itemindex="{{indexHalf}}"
-									data-itemtype="semi_product_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{itemHalf.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexHalf === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -310,12 +297,9 @@
 									</view>
 									<view class="ml20">{{itemPD.name || '暂未选择'}}</view>
 								</view>
-								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="production_data" data-index="{{index}}" data-itemindex="{{indexPD}}">点击变更
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon" data-itemtype="itemPDShow"
+									data-index="{{index}}" data-itemindex="{{indexPD}}">点击变更
 								</view>
-								<picker values="{{processList}}" data-type="productSon" data-itemindex="{{indexPD}}"
-									data-itemtype="production_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{itemPD.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexPD === 0}}" class="color27A2 pr5" data-index="{{index}}" data-type="production_data"
@@ -352,11 +336,8 @@
 									<view class="ml20">{{itemPack.material_name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="pack_material_data" data-index="{{index}}" data-itemindex="{{indexPack}}">点击变更
+									data-itemtype="itemPackShow" data-index="{{index}}" data-itemindex="{{indexPack}}">点击变更
 								</view>
-								<picker values="{{packingList}}" data-type="productSon" data-itemindex="{{indexPack}}"
-									data-itemtype="pack_material_data" data-index="{{index}}" bind:cancel="closeShowPicker"
-									bind:confirm="confirmData" showDialog="{{itemPack.show}}"></picker>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{indexPack === 0}}" class="color27A2 pr5" data-index="{{index}}"
@@ -540,7 +521,7 @@
 				<view class="tc">最终客户报价</view>
 				<view class="flex aic pr20">
 					<input type="digit" style="display: block;height: 48px;" placeholder="客户报价" bindinput="changeRealQuotePrice"
-					value="{{real_quote_price}}" class="tc" />
+						value="{{real_quote_price}}" class="tc" />
 					<view>元</view>
 				</view>
 			</view>
@@ -564,4 +545,22 @@
 		data-type="concat" showDialog="{{showConcat}}"></picker>
 	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
 		showDialog="{{showGroup}}"></picker>
+	<!-- 原料 -->
+	<picker values="{{yarnType}}" level="3" data-type="productSon" data-itemtype="materialItemShow"
+		bind:cancel="closeShowPicker" bind:confirm="confirmData" showDialog="{{materialItemShow}}"></picker>
+	<!-- 辅料 -->
+	<picker values="{{assistList}}" data-type="productSon" data-itemtype="assistItemShow" bind:cancel="closeShowPicker"
+		bind:confirm="confirmData" showDialog="{{assistItemShow}}"></picker>
+	<!-- 织造 -->
+	<picker values="{{weaveList}}" data-type="productSon" data-itemtype="itemWeaveDataShow" bind:cancel="closeShowPicker"
+		bind:confirm="confirmData" showDialog="{{itemWeaveDataShow}}"></picker>
+	<!-- 半成品 -->
+	<picker values="{{halfProcessList}}" data-type="productSon" data-itemtype="itemHalfShow" bind:cancel="closeShowPicker"
+		bind:confirm="confirmData" showDialog="{{itemHalfShow}}"></picker>
+	<!-- 成品 -->
+	<picker values="{{processList}}" data-type="productSon" data-itemtype="itemPDShow" bind:cancel="closeShowPicker"
+		bind:confirm="confirmData" showDialog="{{itemPDShow}}"></picker>
+	<!-- 包装 -->
+	<picker values="{{packingList}}" data-type="productSon" data-itemtype="itemPackShow" bind:cancel="closeShowPicker"
+		bind:confirm="confirmData" showDialog="{{itemPackShow}}"></picker>
 </view>

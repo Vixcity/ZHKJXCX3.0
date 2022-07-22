@@ -2,7 +2,7 @@
 const {
   wxReq,
   formatDate,
-  getStatusImage,
+	getStatusImage,
   mergeData,
 } = require("../../../utils/util");
 Page({
@@ -171,5 +171,46 @@ Page({
     this.setData({
       showImage: false,
     });
+	},
+	
+	showDetailPro(e) {
+    const { item } = e.currentTarget.dataset;
+    wxReq(
+      {
+        url: "/product/detail",
+        method: "GET",
+        data: {
+          id: item.product_id,
+        },
+      },
+      "/billingManagement/productionPlan/productionPlanDetail&id=" +
+        this.data.id
+    ).then((res) => {
+      res.data.data.style_data = res.data.data.style_data
+        .map((item) => item.name)
+				.join(",");
+			res.data.data.desc =res.data.data.desc || "无";
+      this.setData({ productInfo: res.data.data, showPro: true });
+    });
   },
+
+  openShowImage() {
+    this.setData({
+      showImage1: true,
+      showPro: false,
+    });
+  },
+
+  closeShowImage() {
+    this.setData({
+      showImage1: false,
+      showPro: true,
+    });
+	},
+	
+	closePro(){
+		this.setData({
+      showPro: false,
+    });
+	}
 });

@@ -110,11 +110,11 @@ Page({
     });
   },
 
-	changeIsShow(){
-		this.setData({
-			isShow: !this.data.isShow
-		})
-	},
+  changeIsShow() {
+    this.setData({
+      isShow: !this.data.isShow,
+    });
+  },
 
   openStatusChoose(e) {
     const { index, indexpro } = e.currentTarget.dataset;
@@ -202,7 +202,8 @@ Page({
       title: "",
       message: tipsArr[status],
       confirmButtonColor: "#27A2fd",
-    }).then(() => {
+    })
+      .then(() => {
         // 确认
         wxReq(
           {
@@ -251,8 +252,8 @@ Page({
         });
       })
       .catch((e) => {
-				// 取消
-				console.log(e)
+        // 取消
+        console.log(e);
       });
   },
 
@@ -365,4 +366,44 @@ Page({
 
   // 查看关联单据
   showAssociatedDocument(e) {},
+
+  showDetailPro(e) {
+    const { item } = e.currentTarget.dataset;
+    wxReq(
+      {
+        url: "/product/detail",
+        method: "GET",
+        data: {
+          id: item.product_id,
+        },
+      },
+      "/sampleOrderDetail/sampleOrderDetail&id=" + this.data.id
+    ).then((res) => {
+      res.data.data.style_data = res.data.data.style_data
+        .map((item) => item.name)
+				.join(",");
+			res.data.data.desc =res.data.data.desc || "无";
+      this.setData({ productInfo: res.data.data, showPro: true });
+    });
+  },
+
+  openShowImage() {
+    this.setData({
+      showImage: true,
+      showPro: false,
+    });
+  },
+
+  closeShowImage() {
+    this.setData({
+      showImage: false,
+      showPro: true,
+    });
+  },
+
+  closePro() {
+    this.setData({
+      showPro: false,
+    });
+  },
 });

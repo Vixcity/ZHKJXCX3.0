@@ -5,7 +5,6 @@ const {
   wxReq,
   formatDate,
   getStatusImage,
-  contentHtml,
 } = require("../../utils/util");
 
 Page({
@@ -95,7 +94,6 @@ Page({
         if (item.desc === null) {
           item.desc = "";
         }
-        item.desc = contentHtml(item.desc);
       });
       data.allPrice = (
         Number(data.commission_price) +

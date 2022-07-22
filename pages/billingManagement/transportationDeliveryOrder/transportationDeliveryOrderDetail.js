@@ -1,8 +1,5 @@
 // pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail.js
-const {
-  wxReq,
-  getStatusImage,
-} = require("../../../utils/util");
+const { wxReq, getStatusImage } = require("../../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -42,8 +39,8 @@ Page({
       let transportationDeliveryOrderDetail = wx.getStorageSync(
         "transportationDeliveryOrderDetail"
       );
-			res.data.data.is_check = transportationDeliveryOrderDetail.is_check;
-			
+      res.data.data.is_check = transportationDeliveryOrderDetail.is_check;
+
       this.setData({ info: res.data.data });
     });
   },
@@ -98,16 +95,57 @@ Page({
           duration: 2000,
           content: "审核成功",
           top: getApp().globalData.navH,
-				});
+        });
 
-				this.data.info.is_check = this.data.current
-				wx.setStorageSync('transportationDeliveryOrderDetail', this.data.info)
+        this.data.info.is_check = this.data.current;
+        wx.setStorageSync("transportationDeliveryOrderDetail", this.data.info);
 
         this.getDetail();
         this.setData({
           showShenHe: false,
         });
       }
+    });
+  },
+
+  showDetailPro(e) {
+    const { item } = e.currentTarget.dataset;
+    wxReq(
+      {
+        url: "/product/detail",
+        method: "GET",
+        data: {
+          id: item.product_id,
+        },
+      },
+      "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail&id=" +
+        this.data.id
+    ).then((res) => {
+      res.data.data.style_data = res.data.data.style_data
+        .map((item) => item.name)
+				.join(",");
+			res.data.data.desc =res.data.data.desc || "无";
+      this.setData({ productInfo: res.data.data, showPro: true });
+    });
+  },
+
+  openShowImage() {
+    this.setData({
+      showImage: true,
+      showPro: false,
+    });
+  },
+
+  closeShowImage() {
+    this.setData({
+      showImage: false,
+      showPro: true,
+    });
+  },
+
+  closePro() {
+    this.setData({
+      showPro: false,
     });
   },
 });
