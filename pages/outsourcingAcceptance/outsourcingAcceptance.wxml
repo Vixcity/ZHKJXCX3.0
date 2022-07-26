@@ -33,9 +33,9 @@
 					<van-field value="{{ item.cipinNumber }}" data-index="{{index}}" bind:change="getCiPinNumber" type="number"
 						clearable label="次品数" placeholder="请输入次品数" />
 					<view class="flex pl15 pr15 pt10 pb10 jcsb" style="font-size:14px;">
-						<view style="width:20%">次品原因</view>
-						<view style="width:65%;{{item.cipinReason?'color:#000000':'color:#cccccc'}}" data-index="{{index}}"
-							bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
+						<view style="width:6.2em;margin-right: 12px;">次品原因</view>
+						<view style="flex:1;{{item.cipinReason?'color:#000000':'color:#cccccc'}}"
+							data-index="{{index}}" bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
 					</view>
 				</view>
 				<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
@@ -74,9 +74,9 @@
 				<van-field value="{{ item.cipinNumber }}" data-index="{{index}}" bind:change="getCiPinNumber" type="number"
 					clearable label="次品数" placeholder="请输入次品数" />
 				<view class="flex pl15 pr15 pt10 pb10 jcsb" style="font-size:14px;">
-					<view style="width:20%">次品原因</view>
-					<view style="width:65%; {{item.cipinReason?'color:#000000':'color:#cccccc'}}" data-index="{{index}}"
-						bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
+					<view style="width:6.2em;margin-right: 12px;">次品原因</view>
+					<view style="flex:1;{{item.cipinReason?'color:#000000':'color:#cccccc'}}"
+						data-index="{{index}}" bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
 				</view>
 				<van-popup round bind:close="closePopup" closeable close-on-click-overlay position="bottom"
 					show="{{ item.showChooseCiPinReason }}" data-index="{{index}}">

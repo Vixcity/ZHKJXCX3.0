@@ -1,4 +1,5 @@
 // manages.js
+import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 import { wxReq } from "../../utils/util";
 
 Page({
@@ -178,4 +179,115 @@ Page({
       url: "../signUp/signUp",
     });
   },
+
+  bindCompany() {
+    if (this.data.userInfo.bind_wechat === 1) {
+      Dialog.confirm({
+        title: "要解除绑定该工厂吗？",
+        message: "不影响原账号在工厂的使用，只是小程序上无法再操作工厂业务。",
+        zIndex: 11601,
+      })
+        .then(() => {
+          wxReq(
+            {
+              url: "/wechat/rid/user",
+              method: "POST",
+            },
+            "/pages/manage/manage"
+          ).then((res) => {
+            if (res.data.status) {
+              wx.lin.showMessage({
+                type: "success",
+                duration: 3000,
+                content: "解绑成功",
+                top: getApp().globalData.navH,
+              });
+              this.getUserInfo();
+            }
+          });
+        })
+        .catch(() => {
+          wx.lin.showMessage({
+            duration: 3000,
+            content: "您已取消解绑",
+            top: getApp().globalData.navH,
+          });
+        });
+    } else if (this.data.userInfo.bind_wechat === 2) {
+      wx.login({
+        success: (res) => {
+          if (res.code) {
+            wxReq(
+              {
+                url: "/wechat/bind/user",
+                data: {
+                  code: res.code,
+                },
+                method: "POST",
+              },
+              "/pages/manage/manage"
+            ).then((res) => {
+              if (res.data.status) {
+                wx.lin.showMessage({
+                  type: "success",
+                  duration: 3000,
+                  content: "绑定成功",
+                  top: getApp().globalData.navH,
+                });
+                this.getUserInfo();
+              }
+            });
+          }
+        },
+      });
+    }
+  },
+
+  getUserInfo() {
+    wxReq(
+      {
+        url: "/auth/info",
+        method: "post",
+      },
+      "/pages/manage/manage"
+    ).then((ress) => {
+      if (ress.data.status) {
+        ress.data.data.quanxianLen = ress.data.data.module_info.filter(
+          (item) => {
+            return typeof item !== "number";
+          }
+        ).length;
+        wx.setStorageSync("userInfo", ress.data.data);
+        this.setData({
+          userInfo: ress.data.data,
+        });
+      }
+    });
+  },
+
+  GetSandCode() {
+    wx.scanCode({
+      scanType: "qrCode",
+      success: (res) => {
+        if (
+          res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
+        ) {
+          let { company_id, hash, id } = urlParams(res.result);
+          console.log(company_id, hash, id);
+
+          // this.toOutsourcingAcceptance1(company_id, hash, id);
+        } else {
+        }
+      },
+      fail: (res) => {
+        console.log(res);
+      },
+    });
+	},
+	
+	toMyJurisdiction(){
+		wx.navigateTo({
+			url: '/pages/myJurisdiction/myJurisdiction',
+		})
+	},
 });

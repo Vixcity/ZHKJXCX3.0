@@ -112,7 +112,8 @@
 					class="fz30">
 					<view class="title mt10 bold">报价信息</view>
 					<!-- 原料 -->
-					<view class="mt10" wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
+					<view class="mt10 {{materialItem.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
 						wx:for-item="materialItem">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
@@ -123,7 +124,7 @@
 									<view class="ml10">{{materialItem.material_name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="materialItemShow" data-index="{{index}}">点击变更</view>
+									data-itemtype="materialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更</view>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -160,7 +161,8 @@
 						</view>
 					</view>
 					<!-- 辅料 -->
-					<view class="mt10" wx:for="{{item.assist_material_data}}" wx:key="assistItem" wx:for-index="assistIndex"
+					<view class="mt10 {{assistItem.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.assist_material_data}}" wx:key="assistItem" wx:for-index="assistIndex"
 						wx:for-item="assistItem">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
@@ -209,7 +211,8 @@
 						</view>
 					</view>
 					<!-- 织造 -->
-					<view class="mt10" wx:for="{{item.weave_data}}" wx:key="itemWeaveData" wx:for-index="indexWeaveData"
+					<view class="mt10 {{itemWeaveData.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.weave_data}}" wx:key="itemWeaveData" wx:for-index="indexWeaveData"
 						wx:for-item="itemWeaveData">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
@@ -248,8 +251,8 @@
 						</view>
 					</view>
 					<!-- 半成品 -->
-					<view class="mt10" wx:for="{{item.semi_product_data}}" wx:key="itemHalf" wx:for-index="indexHalf"
-						wx:for-item="itemHalf">
+					<view class="mt10 {{itemHalf.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.semi_product_data}}" wx:key="itemHalf" wx:for-index="indexHalf" wx:for-item="itemHalf">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
@@ -287,8 +290,8 @@
 						</view>
 					</view>
 					<!-- 成品 -->
-					<view class="mt10" wx:for="{{item.production_data}}" wx:key="itemPD" wx:for-index="indexPD"
-						wx:for-item="itemPD">
+					<view class="mt10 {{itemPD.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.production_data}}" wx:key="itemPD" wx:for-index="indexPD" wx:for-item="itemPD">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
@@ -325,8 +328,8 @@
 						</view>
 					</view>
 					<!-- 包装 -->
-					<view class="mt10" wx:for="{{item.pack_material_data}}" wx:key="itemPack" wx:for-index="indexPack"
-						wx:for-item="itemPack">
+					<view class="mt10 {{itemPack.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.pack_material_data}}" wx:key="itemPack" wx:for-index="indexPack" wx:for-item="itemPack">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
@@ -364,7 +367,8 @@
 						</view>
 					</view>
 					<!-- 其它费用 -->
-					<view class="mt10" wx:for="{{item.other_fee_data}}" wx:key="itemOtherFeeData" wx:for-index="indexOtherFeeData"
+					<view class="mt10 {{itemOtherFeeData.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.other_fee_data}}" wx:key="itemOtherFeeData" wx:for-index="indexOtherFeeData"
 						wx:for-item="itemOtherFeeData">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
@@ -405,8 +409,9 @@
 						</view>
 					</view>
 					<!-- 非生产型费用 -->
-					<view class="mt10" wx:for="{{item.no_production_fee_data}}" wx:key="itemNoProductFeeData"
-						wx:for-index="indexNoProductFeeData" wx:for-item="itemNoProductFeeData">
+					<view class="mt10 {{itemNoProductFeeData.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.no_production_fee_data}}" wx:key="itemNoProductFeeData" wx:for-index="indexNoProductFeeData"
+						wx:for-item="itemNoProductFeeData">
 						<view class="flex jcsb aic">
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
@@ -526,6 +531,10 @@
 				</view>
 			</view>
 		</view>
+	</view>
+
+	<view class="card">
+		合计结算总价：<text class="color27A2 bold">{{system_total_price}}元</text>
 	</view>
 
 	<view class="vh8"></view>

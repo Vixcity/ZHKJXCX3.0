@@ -1,8 +1,5 @@
 // pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail.js
-const {
-  wxReq,
-  getStatusImage,
-} = require("../../../utils/util");
+const { wxReq, getStatusImage } = require("../../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -84,13 +81,56 @@ Page({
           content: "审核成功",
           top: getApp().globalData.navH,
         });
-				this.data.info.is_check = this.data.current
-				wx.setStorageSync("workshopSettlementLogDetail",this.data.info)
+        this.data.info.is_check = this.data.current;
+				wx.setStorageSync("workshopSettlementLogDetail", this.data.info);
+				wx.setStorageSync("isDo", true);
         this.getDetail();
         this.setData({
           showShenHe: false,
         });
       }
+    });
+  },
+
+  showDetailPro(e) {
+		const { item } = e.currentTarget.dataset;
+		console.log(item)
+    wxReq(
+      {
+        url: "/product/detail",
+        method: "GET",
+        data: {
+          id: item.product_id,
+        },
+      },
+      "/billingManagement/workshopSettlementLog/workshopSettlementLogDetail&id=" +
+        this.data.id
+    ).then((res) => {
+      res.data.data.style_data = res.data.data.style_data
+        .map((item) => item.name)
+        .join(",");
+      res.data.data.desc = res.data.data.desc || "无";
+      this.setData({ productInfo: res.data.data, showPro: true });
+    });
+  },
+
+  openShowImage() {
+    this.setData({
+      showImage1: true,
+      showPro: false,
+    });
+  },
+
+  closeShowImage() {
+    this.setData({
+      showImage1: false,
+      showPro: true,
+    });
+  },
+
+  closePro() {
+    this.setData({
+      showPro: false,
     });
   },
 });

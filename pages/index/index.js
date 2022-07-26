@@ -1,6 +1,6 @@
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 // index.js
-const { isIfLogin } = require("../../utils/util");
+const { isIfLogin, urlParams } = require("../../utils/util");
 
 Page({
   data: {
@@ -10,9 +10,10 @@ Page({
       //   src: "/pages/ourFactory/ourFactory?type=1",
       // },
       {
-        title: "外协生产中",
-				src: "/pages/ourFactory/ourFactory?type=2",
-				icon:'https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png'
+        title: "检验收发",
+        src: "/pages/ourFactory/ourFactory?type=2",
+        icon:
+          "https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png",
       },
       {
         title: "报价单管理",
@@ -34,8 +35,9 @@ Page({
       },
       {
         title: "报销单管理",
-				src: "/pages/reimbursementManage/reimbursementManage",
-				icon:'https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png'
+        src: "/pages/reimbursementManage/reimbursementManage",
+        icon:
+          "https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png",
       },
       {
         title: "单据管理",
@@ -107,5 +109,25 @@ Page({
           });
         });
     }
+  },
+
+  GetSandCode() {
+    wx.scanCode({
+      scanType: "qrCode",
+      success: (res) => {
+        if (
+          res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
+        ) {
+					let { company_id, hash, id } = urlParams(res.result);
+					console.log(company_id, hash, id)
+
+          // this.toOutsourcingAcceptance1(company_id, hash, id);
+        } else {
+        }
+      },
+      fail: (res) => {
+        console.log(res);
+      },
+    });
   },
 });

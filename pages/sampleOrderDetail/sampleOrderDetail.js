@@ -21,6 +21,13 @@ Page({
     indexweave: 0,
     indexpro: 0,
     chooseStatusList: [],
+    statusList: [
+      "https://file.zwyknit.com/waiting.png",
+      "https://file.zwyknit.com/pass.png",
+      "https://file.zwyknit.com/return.png",
+      "https://file.zwyknit.com/error.png",
+      "https://file.zwyknit.com/error.png",
+    ],
     financialInfo: {},
   },
 
@@ -381,8 +388,8 @@ Page({
     ).then((res) => {
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
-				.join(",");
-			res.data.data.desc =res.data.data.desc || "无";
+        .join(",");
+      res.data.data.desc = res.data.data.desc || "无";
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },

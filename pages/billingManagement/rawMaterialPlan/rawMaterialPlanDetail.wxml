@@ -186,12 +186,6 @@
 	<van-popup round show="{{ showPro }}" catchtouchmove='false'>
 		<scroll-view style="height: 50vh;" scroll-y>
 			<view class="tc">
-				<image class="vw50 vh30" wx:if="{{productInfo.image_data.length === 0}}" mode="aspectFit"
-					src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png">
-				</image>
-				<image class="vw50 vh30" wx:else="{{productInfo.image_data.length !== 0}}" mode="aspectFit"
-					src="{{productInfo.image_data[0]}}" bindtap="openShowImage">
-				</image>
 				<view class="mt10 flex jcc aic">
 					<view>{{productInfo.product_code}}</view>
 					<view wx:if="{{productInfo.craft_list_id}}" class="ml10"
@@ -241,6 +235,14 @@
 						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g {{item.size_info}}
 						</view>
 					</view>
+				</view>
+				<view class="tc mt10">
+					<image class="vw50 vh30" wx:if="{{productInfo.image_data.length === 0}}" mode="aspectFit"
+						src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png">
+					</image>
+					<image class="vw50 vh30" wx:else="{{productInfo.image_data.length !== 0}}" mode="aspectFit"
+						src="{{productInfo.image_data[0]}}" bindtap="openShowImage">
+					</image>
 				</view>
 			</view>
 		</scroll-view>

@@ -184,9 +184,9 @@ const dateDiff = function (nowTime, compairTime) {
   //nowTime和compairTime是yyyy-MM-dd格式
   let aDate, oDate1, oDate2, iDays;
   aDate = nowTime.split("-");
-  oDate1 = new Date(aDate[0] + "-" + aDate[1] + "-" + aDate[2]); //转换为yyyy-MM-dd格式
+  oDate1 = new Date(aDate[0] + "/" + aDate[1] + "/" + aDate[2]); //转换为yyyy/MM/dd格式
   aDate = compairTime.split("-");
-  oDate2 = new Date(aDate[0] + "-" + aDate[1] + "-" + aDate[2]);
+  oDate2 = new Date(aDate[0] + "/" + aDate[1] + "/" + aDate[2]);
   iDays = parseInt((oDate2 - oDate1) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
   return iDays; //返回相差天数
 };
@@ -199,7 +199,7 @@ const formatDate = function (time, format = "yyyy-MM-DD") {
     time = timeArr[0].replaceAll("-", "/") + " " + timeArr[1];
   }
 
-	let t = new Date(time);
+  let t = new Date(time);
   let tf = function (i) {
     return (i < 10 ? "0" : "") + i;
   };
@@ -300,6 +300,7 @@ const getClientList = function (path) {
   });
 };
 
+// 获取原料列表
 const getYarnType = function (path) {
   wxReq(
     {
@@ -608,6 +609,18 @@ const getStoreList = function (path) {
     });
     wx.setStorageSync("storeList", arr);
   });
+};
+
+const getOrderStatusList = function () {
+  return [
+    { id: 0, text: "", color: "" },
+    { id: 1, text: "已创建", color: "colorOrange" },
+    { id: 2, text: "进行中", color: "color27A2" },
+    { id: 3, text: "已完成", color: "color03d3" },
+    { id: 4, text: "已结算", color: "color03d3" },
+    { id: 5, text: "已取消", color: "color6" },
+    { id: 6, text: "已逾期", color: "colorRed" },
+  ];
 };
 
 // 获取日期范围
@@ -955,6 +968,647 @@ const mergeData = function (datas, rule) {
   return newData;
 };
 
+const systemModule = [
+  {
+    id: 1,
+    name: "报价管理",
+    detail: [
+      {
+        id: "1-1",
+        name: "添加单据",
+      },
+      {
+        id: "1-2",
+        name: "修改单据",
+      },
+      {
+        id: "1-3",
+        name: "单据列表",
+      },
+      {
+        id: "1-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "样单管理",
+    detail: [
+      {
+        id: "2-1",
+        name: "添加单据",
+      },
+      {
+        id: "2-2",
+        name: "修改单据",
+      },
+      {
+        id: "2-3",
+        name: "单据列表",
+      },
+      {
+        id: "2-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "订单管理",
+    detail: [
+      {
+        id: "3-1",
+        name: "添加单据",
+      },
+      {
+        id: "3-2",
+        name: "修改单据",
+      },
+      {
+        id: "3-3",
+        name: "单据列表",
+      },
+      {
+        id: "3-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "物料计划",
+    detail: [
+      {
+        id: "4-1",
+        name: "添加单据",
+      },
+      {
+        id: "4-2",
+        name: "修改单据",
+      },
+      {
+        id: "4-3",
+        name: "单据列表",
+      },
+      {
+        id: "4-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 5,
+    name: "原料管理",
+    detail: [
+      {
+        id: "5-1",
+        name: "添加单据",
+      },
+      {
+        id: "5-2",
+        name: "修改单据",
+      },
+      {
+        id: "5-3",
+        name: "单据列表",
+      },
+      {
+        id: "5-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 6,
+    name: "辅料管理",
+    detail: [
+      {
+        id: "6-1",
+        name: "添加单据",
+      },
+      {
+        id: "6-2",
+        name: "修改单据",
+      },
+      {
+        id: "6-3",
+        name: "单据列表",
+      },
+      {
+        id: "6-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 7,
+    name: "物料出入库",
+    detail: [
+      {
+        id: "7-1",
+        name: "添加单据",
+      },
+      {
+        id: "7-2",
+        name: "修改单据",
+      },
+      {
+        id: "7-3",
+        name: "单据列表",
+      },
+      {
+        id: "7-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 8,
+    name: "生产计划",
+    detail: [
+      {
+        id: "8-1",
+        name: "添加单据",
+      },
+      {
+        id: "8-2",
+        name: "修改单据",
+      },
+      {
+        id: "8-3",
+        name: "单据列表",
+      },
+      {
+        id: "8-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 9,
+    name: "产品检验",
+    detail: [
+      {
+        id: "9-1",
+        name: "添加单据",
+      },
+      {
+        id: "9-2",
+        name: "修改单据",
+      },
+      {
+        id: "9-3",
+        name: "单据列表",
+      },
+      {
+        id: "9-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 10,
+    name: "装箱计划",
+    detail: [
+      {
+        id: "10-1",
+        name: "添加单据",
+      },
+      {
+        id: "10-2",
+        name: "修改单据",
+      },
+      {
+        id: "10-3",
+        name: "单据列表",
+      },
+      {
+        id: "10-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 11,
+    name: "包装管理",
+    detail: [
+      {
+        id: "11-1",
+        name: "添加单据",
+      },
+      {
+        id: "11-2",
+        name: "修改单据",
+      },
+      {
+        id: "11-3",
+        name: "单据列表",
+      },
+      {
+        id: "11-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 12,
+    name: "仓库管理",
+    detail: [
+      {
+        id: "12-1",
+        name: "纱线仓库",
+      },
+      {
+        id: "12-2",
+        name: "面料仓库",
+      },
+      {
+        id: "12-3",
+        name: "辅料仓库",
+      },
+      {
+        id: "12-4",
+        name: "产品仓库",
+      },
+    ],
+  },
+  {
+    id: 13,
+    name: "客户与合作商管理",
+    detail: [
+      {
+        id: "13-1",
+        name: "添加单据",
+      },
+      {
+        id: "13-2",
+        name: "修改单据",
+      },
+      {
+        id: "13-3",
+        name: "单据列表",
+      },
+      {
+        id: "13-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 14,
+    name: "原料预订购",
+    detail: [
+      {
+        id: "14-1",
+        name: "添加单据",
+      },
+      {
+        id: "14-2",
+        name: "修改单据",
+      },
+      {
+        id: "14-3",
+        name: "单据列表",
+      },
+      {
+        id: "14-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 15,
+    name: "工艺单管理",
+    detail: [
+      {
+        id: "15-1",
+        name: "添加单据",
+      },
+      {
+        id: "15-2",
+        name: "修改单据",
+      },
+      {
+        id: "15-3",
+        name: "单据列表",
+      },
+      {
+        id: "15-4",
+        name: "删除单据",
+      },
+    ],
+  },
+  {
+    id: 16,
+    name: "系统设置",
+    detail: [
+      {
+        id: "16-1",
+        name: "产品设置",
+      },
+      {
+        id: "16-2",
+        name: "订单设置",
+      },
+      {
+        id: "16-3",
+        name: "报价单设置",
+      },
+      {
+        id: "16-4",
+        name: "工序设置",
+      },
+      {
+        id: "16-5",
+        name: "工艺单设置",
+      },
+      {
+        id: "16-6",
+        name: "物料设置",
+      },
+      {
+        id: "16-7",
+        name: "工厂信息设置",
+      },
+      {
+        id: "16-8",
+        name: "系统账户设置",
+      },
+    ],
+  },
+  {
+    id: 17,
+    name: "员工管理",
+    detail: [
+      {
+        id: "17-1",
+        name: "添加员工",
+      },
+      {
+        id: "17-2",
+        name: "修改员工",
+      },
+      {
+        id: "17-3",
+        name: "员工列表",
+      },
+      {
+        id: "17-4",
+        name: "删除员工",
+      },
+    ],
+  },
+  {
+    id: 18,
+    name: "报销单管理",
+    detail: [
+      {
+        id: "18-1",
+        name: "添加报销单",
+      },
+      {
+        id: "18-2",
+        name: "修改报销单",
+      },
+      {
+        id: "18-3",
+        name: "报销单列表",
+      },
+      {
+        id: "18-4",
+        name: "删除报销单",
+      },
+    ],
+  },
+  {
+    id: 19,
+    name: "车间管理",
+    detail: [
+      {
+        id: "19-1",
+        name: "添加单据",
+      },
+      {
+        id: "19-2",
+        name: "修改单据",
+      },
+      {
+        id: "19-3",
+        name: "按订单录入列表",
+      },
+      {
+        id: "19-4",
+        name: "删除单据",
+      },
+      {
+        id: "19-5",
+        name: "按员工录入列表",
+      },
+    ],
+  },
+  {
+    id: 20,
+    name: "数据报表",
+    detail: [
+      {
+        id: "20-1",
+        name: "订单数据图表",
+      },
+      {
+        id: "20-2",
+        name: "样单数据图表",
+      },
+      {
+        id: "20-3",
+        name: "计划数据统计",
+      },
+      {
+        id: "20-4",
+        name: "订购数据统计",
+      },
+      {
+        id: "20-5",
+        name: "调取数据统计",
+      },
+      {
+        id: "20-6",
+        name: "加工数据统计",
+      },
+      {
+        id: "20-7",
+        name: "原料库存数据统计",
+      },
+      {
+        id: "20-8",
+        name: "装饰辅料订购图表",
+      },
+      {
+        id: "20-9",
+        name: "包装辅料订购图表",
+      },
+      {
+        id: "20-10",
+        name: "生产计划图表",
+      },
+      {
+        id: "20-11",
+        name: "检验收发图表",
+      },
+      {
+        id: "20-12",
+        name: "车间工资图表",
+      },
+      {
+        id: "20-13",
+        name: "运输出库图表",
+      },
+      {
+        id: "20-14",
+        name: "报销费用图表",
+      },
+    ],
+  },
+  {
+    id: 21,
+    name: "系统单据管理",
+    detail: [
+      {
+        id: "21-1",
+        name: "单据管理-原料计划单",
+      },
+      {
+        id: "21-2",
+        name: "单据管理-原料补充单",
+      },
+      {
+        id: "21-3",
+        name: "单据管理-原料订购单",
+      },
+      {
+        id: "21-4",
+        name: "单据管理-原料调取单",
+      },
+      {
+        id: "21-5",
+        name: "单据管理-原料加工单",
+      },
+      {
+        id: "21-6",
+        name: "单据管理-生产计划单",
+      },
+      {
+        id: "21-7",
+        name: "单据管理-车间结算日志",
+      },
+      {
+        id: "21-8",
+        name: "单据管理-辅料订购单",
+      },
+      {
+        id: "21-9",
+        name: "单据管理-包装订购单",
+      },
+      {
+        id: "21-10",
+        name: "单据管理-运输出库单",
+      },
+      {
+        id: "21-11",
+        name: "单据管理-我方扣款单据",
+      },
+      {
+        id: "21-12",
+        name: "单据管理-我方发票单据",
+      },
+      {
+        id: "21-13",
+        name: "单据管理-收款单据",
+      },
+      {
+        id: "21-14",
+        name: "单据管理-付款单据",
+      },
+      {
+        id: "21-15",
+        name: "单据管理-检验入库单据",
+      },
+      {
+        id: "21-16",
+        name: "单据管理-对方发票单据",
+      },
+      {
+        id: "21-17",
+        name: "单据管理-订单报价单对比单据",
+      },
+    ],
+  },
+  {
+    id: 22,
+    name: "客户结算",
+    detail: [
+      {
+        id: "22-1",
+        name: "客户收款列表",
+      },
+      {
+        id: "22-2",
+        name: "客户收款列表",
+      },
+      {
+        id: "22-3",
+        name: "客户付款列表",
+      },
+      {
+        id: "22-4",
+        name: "客户付款详情",
+      },
+    ],
+  },
+  {
+    id: 23,
+    name: "文件管理",
+    detail: [
+      {
+        id: "23-1",
+        name: "文件列表",
+      },
+    ],
+  },
+  {
+    id: 24,
+    name: "产品管理",
+    detail: [
+      {
+        id: "24-3",
+        name: "产品列表",
+      },
+    ],
+  },
+  {
+    id: 25,
+    name: "单证管理",
+    detail: [
+      {
+        id: "25-1",
+        name: "添加单证",
+      },
+      {
+        id: "25-2",
+        name: "修改单证",
+      },
+      {
+        id: "25-3",
+        name: "单证列表",
+      },
+      {
+        id: "25-4",
+        name: "删除单证",
+      },
+    ],
+  },
+];
+
 module.exports = {
   formatTime,
   wxReq,
@@ -978,6 +1632,7 @@ module.exports = {
   getUserList,
   getStoreList,
   getProductTypeList,
+  getOrderStatusList,
   getDay,
   doHandleMonth,
   getDateList,
@@ -989,5 +1644,6 @@ module.exports = {
   getBillingList,
   mergeData,
   getDataType,
-  clone,
+	systemModule,
+	clone,
 };

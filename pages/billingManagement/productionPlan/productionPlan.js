@@ -41,13 +41,22 @@ Page({
     page: 1,
   },
 
+  onLoad(options) {
+    this.getScreenList();
+    this.setData({ list: [] });
+    this.confirmData();
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onShow(options) {
-    this.getScreenList();
-    this.setData({ list: [] });
-    this.confirmData();
+    if (wx.getStorageSync("isDo")) {
+      this.getScreenList();
+      this.setData({ list: [] });
+      this.confirmData();
+      wx.setStorageSync("isDo", false);
+    }
   },
   // 拿到筛选列表
   getScreenList() {
@@ -316,10 +325,11 @@ Page({
         list,
       });
     });
-	},
-	
-	toDetail(e) {
+  },
+
+  toDetail(e) {
     const { item } = e.currentTarget.dataset;
+    wx.setStorageSync("productionPlanDetail", item);
     wx.navigateTo({
       url: "./productionPlanDetail?id=" + item.id,
     });

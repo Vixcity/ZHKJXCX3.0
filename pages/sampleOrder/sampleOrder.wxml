@@ -62,8 +62,7 @@
 							<!-- 计 -->
 							<view wx:if="{{item.has_material_plan.status===1}}"
 								class="ml5 iconfont icon-yuanliaojihua1 color03d0 fz40"></view>
-							<view wx:if="{{item.has_material_plan.status===2}}"
-								class="ml5 iconfont icon-yuanliaojihua1 color9E fz40">
+							<view wx:if="{{item.has_material_plan.status===2}}" class="ml5 iconfont icon-yuanliaojihua1 color9E fz40">
 							</view>
 							<view wx:if="{{item.has_material_plan.status===3}}"
 								class="ml5 iconfont icon-yuanliaojihua1 colorOrange fz40"></view>
@@ -87,15 +86,15 @@
 							<view wx:if="{{!item.pop_progress.progress}}" class="ml5 iconfont icon-yuanliaochuku1 color9E fz40">
 							</view>
 							<!-- 产 -->
-							<view wx:if="{{item.has_weave_plan.status===1}}"
-								class="ml5 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
+							<view wx:if="{{item.has_weave_plan.status===1}}" class="ml5 iconfont icon-shengchanjihua3 color03d0 fz40">
+							</view>
 							<view wx:if="{{item.has_weave_plan.status===2}}" class="ml5 iconfont icon-shengchanjihua3 color9E fz40">
 							</view>
 						</view>
 					</view>
 					<view class="flex jcsb">
-						<view></view>
-						<view>￥{{item.total_price}}</view>
+						<view>打样次数：{{item.product_data.length}}</view>
+						<view>打样数量：{{item.total_number}}</view>
 					</view>
 				</view>
 			</view>

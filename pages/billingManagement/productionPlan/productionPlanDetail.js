@@ -3,7 +3,8 @@ const {
   wxReq,
   formatDate,
 	getStatusImage,
-  mergeData,
+	mergeData,
+	getOrderStatusList,
 } = require("../../../utils/util");
 Page({
   /**
@@ -18,6 +19,7 @@ Page({
     textInputDesc: "",
     textInputReason: "",
     statusImageList: getStatusImage(),
+    orderStatusList: getOrderStatusList(),
     image_data: [],
   },
 
@@ -77,7 +79,23 @@ Page({
         total_number,
         total_price,
       });
-    });
+		});
+		
+		wxReq(
+      {
+        url: "/order/detail",
+        method: "GET",
+        data: {
+          id: wx.getStorageSync('productionPlanDetail').top_order_id,
+        },
+      },
+      "/billingManagement/productionPlan/productionPlanDetail&id=" +
+        this.data.id
+    ).then((res) => {
+			this.setData({
+				orderInfo:res.data.data
+			})
+		})
   },
 
   openCheck() {
@@ -125,6 +143,7 @@ Page({
         this.data.id
     ).then((res) => {
       if (res.data.status) {
+				wx.setStorageSync('isDo', true)
         wx.lin.showMessage({
           type: "success",
           duration: 2000,

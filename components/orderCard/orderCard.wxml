@@ -3,7 +3,7 @@
 <view id="orderCard" wx:if="{{smallThan24h}}" bindtap="changeCheck"
 	class="ml10 mr10 mt10 bgColorWhite jcsb flexWarp borderRadius16 borderBox pt10 pb10 colorBlack por overfh {{isBig?'':'vw98 shadow pl10 pr10'}}">
 	<view class="flex jcsb aic">
-		<view class="fz35 flex blod aic" bind:click="someFunction" catchtap="changeShow">
+		<view class="fz28 flex bold aic" bind:click="someFunction" catchtap="changeShow">
 			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;"
 				wx:if="{{detailInfo.display === 0}}">{{detailInfo.title || detailInfo.code}}</view>
 			<view class="overfh vw53" style="text-overflow:ellipsis;white-space: nowrap;"
@@ -60,7 +60,7 @@
 			<view wx:if="{{showPrice}}" class="poa fz25 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
 			<view class="flex jcsb">
 				<view wx:if="{{detailInfo.date}}">{{detailInfo.date}}</view>
-				<view wx:if="{{detailInfo.systemPrice}}">系统报价：{{detailInfo.systemPrice}}{{detailInfo.unit}}</view>
+				<view wx:if="{{detailInfo.systemPrice}}">系统报价：<text class="color27A2">{{detailInfo.systemPrice}}{{detailInfo.unit}}</text></view>
 				<view wx:if="{{detailInfo.reimbursementPrice}}">￥{{detailInfo.reimbursementPrice}}</view>
 			</view>
 			<view wx:if="{{detailInfo.productLen && !notShowProLen}}" class="poa fz25" style="right:0;bottom:25%">

@@ -93,6 +93,11 @@ Page({
             method: "post",
           }).then((ress) => {
             if (ress.data.status) {
+              ress.data.data.quanxianLen = ress.data.data.module_info.filter(
+                (item) => {
+                  return typeof item !== "number";
+                }
+              ).length;
               wx.setStorageSync("userInfo", ress.data.data);
 
               wx.lin.showMessage({

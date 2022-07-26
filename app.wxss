@@ -924,8 +924,16 @@ page {
 	height: 100%;
 }
 
+.vh1 {
+	height: 1vh;
+}
+
 .vh2 {
 	height: 2vh;
+}
+
+.vh3 {
+	height: 3vh;
 }
 
 .vh4 {

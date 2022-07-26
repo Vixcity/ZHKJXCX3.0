@@ -141,12 +141,11 @@ Page({
       data.forEach((item, index) => {
         this.data.orderList.push({
           id: item.id,
-          customer: item.client_name,
-          title: item.title,
-          quoteCode: item.code,
+          title: item.code,
+          quoteCode: item.client_name,
           date: item.created_at,
           systemPrice: item.system_total_price,
-          customer: item.client_name,
+          customer: item.title || '暂无标题',
           unit: item.settle_unit,
           user: item.user_name,
           imgSrc:

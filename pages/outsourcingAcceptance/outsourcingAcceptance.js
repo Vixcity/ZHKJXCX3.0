@@ -53,7 +53,7 @@ Page({
     ],
     cipinReasonArr: [],
     userInfo: wx.getStorageSync("userInfo"),
-    date: "",
+    date: getDay(0),
   },
 
   /**

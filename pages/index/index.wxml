@@ -29,4 +29,8 @@
 	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<l-message content="{{content}}" />
+	<view class="pof bgColor27A2 colorWhite tc"
+		style="right:10%;bottom:12%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
+		<van-icon name="scan" size="18px" />
+	</view>
 </view>

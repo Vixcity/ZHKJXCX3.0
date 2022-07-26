@@ -45,7 +45,8 @@
 		"pages/reimbursementManageDetail/reimbursementManageDetail",
 		"pages/reimbursementManageCreate/reimbursementManageCreate",
 		"pages/staffList/staffList",
-		"pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail"
+		"pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail",
+		"pages/myJurisdiction/myJurisdiction"
 	],
 	"window": {
 		"navigationStyle": "custom",

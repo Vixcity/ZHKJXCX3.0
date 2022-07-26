@@ -37,7 +37,8 @@ Page({
     ).then((res) => {
       res.data.data.time_data.forEach((itemTime) => {
         itemTime.batch_data.forEach((itemBatch, indexBatch) => {
-          itemBatch.isOut = dateDiff(getDay(0), itemBatch.delivery_time) <= 0;
+					itemBatch.isOut = dateDiff(getDay(0), itemBatch.delivery_time) <= 0;
+					itemBatch.otherDay = Math.abs(dateDiff(getDay(0), itemBatch.delivery_time))
           _this.data.productList = _this.data.productList.concat(
             itemBatch.product_data.map((item) => {
               item.batchIndex = indexBatch + 1;

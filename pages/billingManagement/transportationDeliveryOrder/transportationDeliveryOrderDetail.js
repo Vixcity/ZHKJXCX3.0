@@ -97,6 +97,7 @@ Page({
           top: getApp().globalData.navH,
         });
 
+        wx.setStorageSync("isDo", true);
         this.data.info.is_check = this.data.current;
         wx.setStorageSync("transportationDeliveryOrderDetail", this.data.info);
 
@@ -123,8 +124,8 @@ Page({
     ).then((res) => {
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
-				.join(",");
-			res.data.data.desc =res.data.data.desc || "无";
+        .join(",");
+      res.data.data.desc = res.data.data.desc || "无";
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },

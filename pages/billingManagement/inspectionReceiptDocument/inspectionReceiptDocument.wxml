@@ -40,7 +40,7 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">次品原因：</view>
-				<view>{{item.shoddy_reason}}</view>
+				<view>{{item.shoddy_reason || '无'}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="w50 flex">

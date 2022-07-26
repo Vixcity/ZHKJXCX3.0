@@ -1,9 +1,5 @@
 // pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail.js
-const {
-  wxReq,
-  getStatusImage,
-  mergeData,
-} = require("../../../utils/util");
+const { wxReq, getStatusImage, mergeData } = require("../../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -79,17 +75,21 @@ Page({
         {
           url: "/inspection/lists",
           method: "GET",
-          data: { order_id: this.data.info.time_data[0].id},
+          data: { order_id: this.data.info.time_data[0].id },
         },
         "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail&id=" +
           this.data.id
       ).then((resInspection) => {
-				console.log(resInspection.data.data)
         let inspectionList = resInspection.data.data;
         let pushList = inspectionList.filter((item) => item.type === 1);
         let productOutList = inspectionList.filter((item) => item.type === 2);
         let overPushList = inspectionList.filter((item) => item.type === 3);
-        this.setData({ inspectionList, pushList, productOutList, overPushList });
+        this.setData({
+          inspectionList,
+          pushList,
+          productOutList,
+          overPushList,
+        });
       });
     });
   },
@@ -145,6 +145,7 @@ Page({
           content: "审核成功",
           top: getApp().globalData.navH,
         });
+        wx.setStorageSync("isDo", true);
         this.getDetail();
         this.setData({
           showShenHe: false,

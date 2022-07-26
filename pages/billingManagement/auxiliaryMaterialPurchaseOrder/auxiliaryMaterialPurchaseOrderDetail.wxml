@@ -33,13 +33,13 @@
 			</view>
 		</view>
 		<view class="flex mt10">
-			<view class="w30 color6">计划数量</view>
+			<view class="w30 color6">订购数量</view>
 			<view class="w70">
 				{{info.total_number}}
 			</view>
 		</view>
 		<view class="flex mt10">
-			<view class="w30 color6">计划金额</view>
+			<view class="w30 color6">订购金额</view>
 			<view class="w70">
 				{{info.total_price}}
 			</view>
@@ -98,7 +98,7 @@
 			<view class="flex mt10">
 				<view class="w30 color6">订购单价</view>
 				<view class="w70">
-					{{ itemChild.price }}元
+					{{ item.price }}元
 				</view>
 			</view>
 		</view>

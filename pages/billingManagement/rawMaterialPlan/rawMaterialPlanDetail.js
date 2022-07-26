@@ -110,7 +110,8 @@ Page({
           duration: 2000,
           content: "审核成功",
           top: getApp().globalData.navH,
-        });
+				});
+				wx.setStorageSync('isDo', true)
         this.getDetail();
         this.setData({
           showShenHe: false,

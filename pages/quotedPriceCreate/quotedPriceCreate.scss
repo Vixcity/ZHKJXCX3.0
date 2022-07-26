@@ -83,4 +83,9 @@
 	.nopadding{
 		padding: 0;
 	}
+
+	.animated{
+		transform: translateY(-20px);
+		opacity: 0
+	}
 }

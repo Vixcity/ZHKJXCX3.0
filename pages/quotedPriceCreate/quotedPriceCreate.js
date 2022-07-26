@@ -118,7 +118,7 @@ Page({
           created_at: "",
           desc: "",
           id: "",
-          name: "",
+          name: "打样费",
           quote_rel_product_id: "",
           total_price: "",
           updated_at: "",
@@ -129,7 +129,7 @@ Page({
           created_at: "",
           desc: "",
           id: "",
-          name: "",
+          name: "管理费",
           quote_rel_product_id: "",
           total_price: "",
           updated_at: "",
@@ -549,8 +549,8 @@ Page({
         this.data.productList[index]["material_data"][itemindex].material_name =
           e.detail.value[2].text;
         this.data.productList[index]["material_data"][itemindex].material_id =
-          e.detail.value[2].id;
-        console.log(e.detail.value);
+					e.detail.value[2].id;
+					
         this.data.productList[index]["material_data"][itemindex].tree_data =
           e.detail.value[0].id +
           "," +
@@ -755,9 +755,22 @@ Page({
       );
     }
 
+		this.data.productList[index][type][
+			this.data.productList[index][type].length - 1
+		].show = true;
+
     this.setData({
       productList: this.data.productList,
     });
+
+    setTimeout((params) => {
+      this.data.productList[index][type][
+        this.data.productList[index][type].length - 1
+      ].show = false;
+      this.setData({
+        productList: this.data.productList,
+      });
+    }, 100);
   },
 
   // 产品费用详情删除
@@ -943,10 +956,10 @@ Page({
     ).toFixed(2);
 
     let system_total_price =
-      Number(this.data.total_cost_price) +
+      (Number(this.data.total_cost_price) +
       Number(commission_price) +
       Number(rate_price) +
-      Number(profit_price);
+      Number(profit_price)).toFixed(2);
 
     this.setData({
       commission_price,

@@ -1,0 +1,21 @@
+<!--pages/myJurisdiction/myJurisdiction.wxml-->
+<view id="myJurisdiction">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			<view class="tc vh4">查看账号权限</view>
+		</view>
+	</nav-content>
+	<view class="card" wx:for="{{selfModule}}">
+		<view class="fz28 bold">
+			{{item.name}}
+		</view>
+		<view class="line" style="margin-bottom: unset;"></view>
+		<view class="flex flexWarp">
+			<view class="mr10 mt10" wx:for="{{item.children}}" wx:for-item="itemChild" wx:for-index="indexChild">
+				<text>{{itemChild.name}}</text>
+				<text class="pl10" wx:if="{{indexChild !== item.children.length-1}}">|</text>
+			</view>
+		</view>
+	</view>
+	<view class="vh3"></view>
+</view>

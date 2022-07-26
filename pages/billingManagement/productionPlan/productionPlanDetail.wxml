@@ -39,6 +39,18 @@
 			</view>
 		</view>
 		<view class="flex mt10">
+			<view class="w30 color6">工序说明</view>
+			<view class="w70">
+				{{ info.process_desc || '无'}}
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="w30 color6">订单状态</view>
+			<view class="w70 {{orderStatusList[orderInfo.status].color}}">
+				{{orderStatusList[orderInfo.status].text}}
+			</view>
+		</view>
+		<view class="flex mt10">
 			<view class="w30 color6">开单日期</view>
 			<view class="w70">
 				{{info.created_at}}
@@ -81,8 +93,14 @@
 	<view class="card fz28">
 		<view class="title">产品信息</view>
 		<view wx:for="{{info.product_info_data}}">
-			<view class="flex mt10">
-				<view class="w30 color6">产品名</view>
+			<view class="flex mt10 aic">
+				<view class="w30 flex aic">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						{{index+1}}
+					</view>
+					<view class="color6 ml10">编号品类</view>
+				</view>
 				<view class="w70 color27A2" bindtap="showDetailPro" data-item="{{item}}">
 					{{ item.product_code || item.system_code }}（{{ item.category_name }}/{{ item.secondary_category_name }}）
 				</view>
@@ -103,14 +121,9 @@
 			<view class="flex mt10" wx:for="{{item.rel_component}}" wx:for-item="itemPart" wx:for-index="indexPart">
 				<view class="w30 color6">产品部位</view>
 				<view class="w70">
-					{{item.part_name}}/{{itemPart.component_name}}{{item.number}}%
+					{{item.part_name}}
+					<!-- {{item.part_name}}/{{itemPart.component_name}}{{item.number}}% -->
 					<text wx:if="{{indexPart!==item.rel_component.length-1}}">+</text>
-				</view>
-			</view>
-			<view class="flex mt10" wx:for="{{item.rel_component}}" wx:for-item="itemPart" wx:for-index="indexPart">
-				<view class="w30 color6">尺寸克重</view>
-				<view class="w70">
-					{{item.size_info}}/{{item.weight||0}}g
 				</view>
 			</view>
 			<view class="flex mt10">
@@ -163,12 +176,6 @@
 
 	<view class="card fz28">
 		<view class="title">其它信息</view>
-		<view class="flex mt10">
-			<view class="w30 color6">工序说明</view>
-			<view class="w70">
-				{{ info.process_desc || '无'}}
-			</view>
-		</view>
 		<view class="flex mt10">
 			<view class="w30 color6">备注信息</view>
 			<view class="w70">
@@ -231,12 +238,6 @@
 	<van-popup round show="{{ showPro }}" catchtouchmove='false'>
 		<scroll-view style="height: 50vh;" scroll-y>
 			<view class="tc">
-				<image class="vw50 vh30" wx:if="{{productInfo.image_data.length === 0}}" mode="aspectFit"
-					src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png">
-				</image>
-				<image class="vw50 vh30" wx:else="{{productInfo.image_data.length !== 0}}" mode="aspectFit"
-					src="{{productInfo.image_data[0]}}" bindtap="openShowImage">
-				</image>
 				<view class="mt10 flex jcc aic">
 					<view>{{productInfo.product_code}}</view>
 					<view wx:if="{{productInfo.craft_list_id}}" class="ml10"
@@ -283,10 +284,19 @@
 				<view class="flex mt10">
 					<view class="w30 color6">大身尺码</view>
 					<view class="w70">
-						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g {{item.size_info}}
+						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g
+							{{item.size_info}}
 						</view>
 					</view>
 				</view>
+			</view>
+			<view class="tc mt10">
+				<image class="vw50 vh30" wx:if="{{productInfo.image_data.length === 0}}" mode="aspectFit"
+					src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png">
+				</image>
+				<image class="vw50 vh30" wx:else="{{productInfo.image_data.length !== 0}}" mode="aspectFit"
+					src="{{productInfo.image_data[0]}}" bindtap="openShowImage">
+				</image>
 			</view>
 		</scroll-view>
 		<view class="line"></view>
