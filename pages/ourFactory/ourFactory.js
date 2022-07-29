@@ -290,7 +290,7 @@ Page({
       "/ourFactory/ourFactory&type=" + (this.data.type || 2)
     ).then((res) => {
       if (res.data.code === 200) {
-        if ((this.data.page = 1)) {
+        if (this.data.page === 1) {
           orderList = [];
         }
 
@@ -335,7 +335,8 @@ Page({
 
         this.setData({
           showLoading: false,
-          orderList,
+					orderList,
+					total:res.data.data.total
         });
       }
 

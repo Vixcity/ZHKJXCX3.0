@@ -5,54 +5,83 @@
 			<view class="vw100 tc vh4">管理</view>
 		</view>
 	</nav-content>
-	<view class="h100 bg">
-		<view class="flex pr20 pl20 jcsb aic borderBox colorWhite w100 manage-list">
-			<view class="flex userInfo" bindtap="bindViewTap">
+	<view class="h100">
+		<view class="flex pr20 pl20 jcsb aic borderBox vw100 manage-list bgColorWhite"
+			style="box-shadow: 0px 5px 20px #00000014;">
+			<view class="flex userInfo fdc" bindtap="bindViewTap">
 				<view class="flex aic">
 					<view style="width:100rpx;height:100rpx;border-radius: 500px;overflow: hidden;">
 						<open-data class="logo" type="userAvatarUrl"></open-data>
 					</view>
-					<view class="ml20">{{userInfo.name + '(' + userInfo.station +')'}}</view>
+					<view wx:if="{{isLogin}}">
+						<view class="ml20">{{userInfo.name + '(' + userInfo.station +')'}}</view>
+						<view class="ml20 mt10 flex aic">
+							<view class="color9">{{userInfo.alias}}</view>
+						</view>
+					</view>
+					<view class="ml20" wx:else bindtap="toSignUp"> 暂未登录，点击登录</view>
 				</view>
 			</view>
 		</view>
 
 		<!-- 菜单 -->
-		<view
-			class="ml20 mr20 bgColorWhite vw90 flex jcsb flexWarp borderBox pl20 pr20 pt20 pb20 fz30 tc borderRadius16 shadow">
+		<view wx:if="{{isLogin}}"
+			class="ml20 mt20 mr20 bgColorWhite vw90 flex jcsb flexWarp borderBox pl20 pr20 pt20 pb20 fz30 tc borderRadius16 shadow">
 			<view class="flex jcsb w100">
 				<view class="color9">手机号</view>
-				<view>{{userInfo.user_name}}</view>
+				<view>{{userInfo.phone}}</view>
 			</view>
 			<view class="line"></view>
 			<view class="flex jcsb w100" bindtap="bindCompany">
-				<view class="color9">绑定工厂</view>
-				<view>{{userInfo.bind_wechat===1?userInfo.alias:"未绑定"}}
+				<view class="color9">微信通知</view>
+				<view class="{{userInfo.bind_wechat===1?'':'colorRed'}}">{{userInfo.bind_wechat===1?"已开启":"点击开启"}}
 					<van-icon name="arrow" />
 				</view>
 			</view>
 		</view>
 
-		<view
+		<view wx:if="{{isLogin}}"
 			class="ml20 mr20 mt20 bgColorWhite vw90 flex jcsb flexWarp borderBox pl20 pr20 pt20 pb20 fz30 tc borderRadius16 shadow">
 			<view class="flex jcsb w100" bindtap='toMyJurisdiction'>
 				<view class="color9">我的权限</view>
-				<view>共{{userInfo.quanxianLen}}项<van-icon name="arrow" /></view>
+				<view>共{{userInfo.quanxianLen}}项
+					<van-icon name="arrow" />
+				</view>
 			</view>
 			<view class="line"></view>
-			<view class="flex jcsb w100" bindtap="bindCompany">
+			<view class="flex jcsb w100" bindtap="toEditPwd">
 				<view class="color9">修改密码</view>
-				<view>{{userInfo.bind_wechat===1?userInfo.alias:"未绑定"}}
+				<view>点击进入
 					<van-icon name="arrow" />
 				</view>
 			</view>
 		</view>
+	</view>
+
+	<view wx:if="{{isLogin}}">
+		<view class="mt20 submit" style="position: fixed;bottom:20%;left:50%;transform: translateX(-50%);">
+			<van-button type="primary" size="small" bindtap="logOut">退出登录</van-button>
+		</view>
+	</view>
+
+	<view class="tab-bar" style="overflow:unset">
+		<view class="tab-bar-border"></view>
+		<cover-view class="tab-bar-item" bindtap="toIndex">
+			<cover-image src="https://file.zwyknit.com/%E9%A6%96%E9%A1%B5%EF%BC%88%E7%81%B0%E8%89%B2%EF%BC%89-01.png">
+			</cover-image>
+			<cover-view class="color91">首页</cover-view>
+		</cover-view>
+		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
+			<van-icon name="scan" size="50px" class="color91"
+				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" />
+		</view>
+		<cover-view class="tab-bar-item">
+			<cover-image src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86-01.png">
+			</cover-image>
+			<cover-view class="color27A2">管理</cover-view>
+		</cover-view>
 	</view>
 
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<l-message content="{{content}}" />
-	<view class="pof bgColor27A2 colorWhite tc"
-		style="right:10%;bottom:12%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
-		<van-icon name="scan" size="18px" />
-	</view>
 </view>

@@ -111,6 +111,13 @@
 				<van-tab wx:for="{{productList}}" wx:key="item" wx:for-index="index" wx:for-item="item" title="产品 {{index+1}}"
 					class="fz30">
 					<view class="title mt10 bold">报价信息</view>
+					<view class="flex mt10">
+						<view>导入报价模板</view>
+						<view class="color6 ml10" bindtap="openPicker" data-type="searchModele" data-itemtype="showModuleList"
+							data-index="{{index}}">{{quoteModuleName||"报价模板"}}
+							<van-icon class="ml5 pt5" name="arrow-down" />
+						</view>
+					</view>
 					<!-- 原料 -->
 					<view class="mt10 {{materialItem.show?'animated':''}}" style="transition: all .5s;"
 						wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
@@ -134,11 +141,19 @@
 							</view>
 						</view>
 						<view class="flex flexWarp jcsb mb20">
-							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
-								<view class="tc mb10">预计数量</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="weight"
-									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.weight}}"
-									placeholder="预计数量" class="tc" />
+							<view class="bgColorF5 w45 mt20 pl10 pr10 pt10 pb10">
+								<view class="flex mb10">
+									<view class="w70">预计数量</view>
+									<view class="w30">单位</view>
+								</view>
+								<view class="flex">
+									<input class="w70" type="number" bindinput="changeProductTypeDetail" data-index="{{index}}"
+										data-type="weight" data-itemIndex="{{materialIndex}}" data-itemType="material_data"
+										value="{{materialItem.weight}}" placeholder="预计数量" />
+									<input class="w30" bindinput="changeProductTypeDetail" data-index="{{index}}"
+										data-type="unit" data-itemIndex="{{materialIndex}}" data-itemType="material_data"
+										value="{{materialItem.unit}}" placeholder="单位" />
+								</view>
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">预计损耗</view>
@@ -146,11 +161,15 @@
 									data-itemIndex="{{materialIndex}}" data-itemType="material_data" maxlength="3" class="tc"
 									value="{{materialItem.loss}}" placeholder="预计损耗" />
 							</view>
-							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
+							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10 pr10">
 								<view class="tc mb10">单价</view>
-								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
-									data-itemIndex="{{materialIndex}}" data-itemType="material_data" value="{{materialItem.price}}"
-									placeholder="单价" class="tc" />
+								<view class="flex jcsa">
+									<input class="w70" type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}"
+										data-type="price" data-itemIndex="{{materialIndex}}" data-itemType="material_data"
+										value="{{materialItem.price}}" placeholder="单价" />
+									<view class="w30">{{materialItem.unit==='g'?'kg':materialItem.unit}}/元
+									</view>
+								</view>
 							</view>
 							<view class="bgColorF5 w45 mt20 pl10 pt10 pb10">
 								<view class="tc mb10">小计</view>
@@ -534,7 +553,7 @@
 	</view>
 
 	<view class="card">
-		合计结算总价：<text class="color27A2 bold">{{system_total_price}}元</text>
+		合计系统报价：<text class="color27A2 bold">{{system_total_price || 0}}元</text>
 	</view>
 
 	<view class="vh8"></view>
@@ -548,6 +567,7 @@
 	</view>
 
 	<l-message content="{{content}}" />
+	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
 		showDialog="{{showClient}}"></picker>
 	<picker values="{{concatList}}" reload="{{true}}" bind:cancel="closeShowPicker" bind:confirm="confirmData"
@@ -572,4 +592,7 @@
 	<!-- 包装 -->
 	<picker values="{{packingList}}" data-type="productSon" data-itemtype="itemPackShow" bind:cancel="closeShowPicker"
 		bind:confirm="confirmData" showDialog="{{itemPackShow}}"></picker>
+	<!-- 报价单模板 -->
+	<picker values="{{searchPickerList}}" reload data-type="searchModele" data-itemtype="showModuleList"
+		bind:cancel="closeShowPicker" bind:confirm="confirmData" showDialog="{{showModuleList}}"></picker>
 </view>

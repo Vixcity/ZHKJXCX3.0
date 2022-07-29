@@ -46,7 +46,8 @@
 		"pages/reimbursementManageCreate/reimbursementManageCreate",
 		"pages/staffList/staffList",
 		"pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail",
-		"pages/myJurisdiction/myJurisdiction"
+		"pages/myJurisdiction/myJurisdiction",
+		"pages/editPassWord/editPassWord"
 	],
 	"window": {
 		"navigationStyle": "custom",
@@ -101,23 +102,6 @@
 		"van-toast": "@vant/weapp/toast/index",
 		"van-tree-select": "@vant/weapp/tree-select/index",
 		"van-uploader": "@vant/weapp/uploader/index"
-	},
-	"tabBar": {
-		"custom": true,
-		"color": "#7A7E83",
-		"selectedColor": "#3cc51f",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "pages/index/index",
-				"text": "首页"
-			},
-			{
-				"pagePath": "pages/manage/manage",
-				"text": "管理"
-			}
-		]
 	},
 	"sitemapLocation": "sitemap.json"
 }

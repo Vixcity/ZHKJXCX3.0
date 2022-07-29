@@ -37,7 +37,8 @@ Page({
         title: "报销单管理",
         src: "/pages/reimbursementManage/reimbursementManage",
         icon:
-          "https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png",
+          // "https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png",
+          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729095659-1.png",
       },
       {
         title: "单据管理",
@@ -67,12 +68,6 @@ Page({
     this.setData({
       userInfo: wx.getStorageSync("userInfo"),
     });
-
-    if (typeof this.getTabBar === "function" && this.getTabBar()) {
-      this.getTabBar().setData({
-        selected: 0,
-      });
-    }
   },
 
   toDetailPage(e) {
@@ -118,8 +113,8 @@ Page({
         if (
           res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
         ) {
-					let { company_id, hash, id } = urlParams(res.result);
-					console.log(company_id, hash, id)
+          let { company_id, hash, id } = urlParams(res.result);
+          console.log(company_id, hash, id);
 
           // this.toOutsourcingAcceptance1(company_id, hash, id);
         } else {
@@ -128,6 +123,12 @@ Page({
       fail: (res) => {
         console.log(res);
       },
+    });
+  },
+
+  toManage() {
+    wx.redirectTo({
+      url: "/pages/manage/manage",
     });
   },
 });

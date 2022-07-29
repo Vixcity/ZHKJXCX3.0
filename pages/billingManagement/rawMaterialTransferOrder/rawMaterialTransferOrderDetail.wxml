@@ -93,17 +93,15 @@
 				</view>
 			</view>
 			<view class="flex mt10">
-				<view class="w50 flex">
-					<view class="w60 color6">批/缸/色号</view>
-					<view class="w40">
-						{{ item.batch_code || '无' }}/{{ item.vat_code || '无' }}/{{ item.color_code || '无' }}
-					</view>
+				<view class="w30 color6">批/缸/色号</view>
+				<view class="w70">
+					{{ item.batch_code || '无' }}/{{ item.vat_code || '无' }}/{{ item.color_code || '无' }}
 				</view>
-				<view class="w50 flex">
-					<view class="w60 color6">调取单价</view>
-					<view class="w40">
-						{{ item.price || 0 }}元
-					</view>
+			</view>
+			<view class="flex mt10">
+				<view class="w30 color6">调取单价</view>
+				<view class="w70">
+					{{ item.price || 0 }}元
 				</view>
 			</view>
 			<view class="flex mt10">

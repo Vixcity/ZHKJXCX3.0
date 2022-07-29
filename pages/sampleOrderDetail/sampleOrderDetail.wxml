@@ -121,22 +121,25 @@
 							<view>{{itemPro.category || '无'}}/{{itemPro.secondary_category || '无'}}</view>
 							<view class="flex jcsb pr10">
 								<view>{{itemPro.system_code}}</view>
-								<view bindtap="openStatusChoose" data-index="{{index}}" data-indexPro="{{indexPro}}" class="color27A2">
-									操作<text class="colorWhite bgColor27A2 pl5 pr5 ml5 bold">+</text></view>
+								<view wx:if="{{itemPro.craft_list_id}}" class="color03d0 tc"
+									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2">工</view>
+								<view wx:if="{{!itemPro.craft_list_id}}" class="color9E tc"
+									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">工</view>
+								<view wx:if="{{itemPro.rel_quote_info.quote_id}}" class="color03d0 tc"
+									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2"
+									bindtap="toQuotePriceDetail" data-id="{{itemPro.rel_quote_info.quote_id}}">报</view>
+								<view wx:if="{{!itemPro.rel_quote_info.quote_id}}" class="color9E tc"
+									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">报</view>
+								<!-- <view bindtap="openStatusChoose" data-index="{{index}}" data-status_choose="{{itemPro.status}}"
+									data-indexPro="{{indexPro}}" class="color27A2">
+									操作<text class="colorWhite bgColor27A2 pl5 pr5 ml5 bold">+</text></view> -->
 							</view>
-							<t-picker visible="{{itemPro.showStatusChoose}}" value="{{itemPro.status}}" cancel-btn="取消"
-								confirm-btn="确认" data-index="{{index}}" data-indexPro="{{indexPro}}" bindconfirm="confirmStatusChoose"
-								bindcancel="closeStatusChoose">
-								<t-picker-item options="{{chooseStatusList}}" />
-							</t-picker>
 						</view>
 						<view class="flex fdc w100">
 							<view wx:for="{{itemPro.product_info}}" wx:for-item="itemProInfo" wx:key="itemProInfo"
 								wx:for-index="indexProInfo" class="flex jcsb mt10">
-								<view class="w30">{{itemProInfo.size_name}}/{{itemProInfo.color_name}}</view>
-								<view class="w50">{{itemProInfo.price}}元/{{itemProInfo.number}}件</view>
-								<view wx:if="{{itemPro.craft_list_id}}" class="color27A2">有工艺单</view>
-								<view wx:if="{{!itemPro.craft_list_id}}" class="color9E">无工艺单</view>
+								<view>{{itemProInfo.size_name}}/{{itemProInfo.color_name}}</view>
+								<view>{{itemProInfo.price}}元/{{itemProInfo.number}}件</view>
 							</view>
 						</view>
 					</view>
@@ -942,4 +945,8 @@
 	</van-popup>
 	<t-image-viewer visible="{{showImage1}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
 		bind:close="closeShowImage" />
+	<!-- <t-picker visible="{{showStatusChoose}}" value="{{status_choose}}" cancel-btn="取消" confirm-btn="确认"
+		bindconfirm="confirmStatusChoose" bindcancel="closeStatusChoose">
+		<t-picker-item options="{{chooseStatusList}}" />
+	</t-picker> -->
 </page-meta>

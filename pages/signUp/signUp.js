@@ -8,12 +8,8 @@ import {
 // index.js
 Page({
   data: {
-    user_name: "17602103060",
-    // user_name: "15068715652",
-    // user_name: "",
-    // password: "",
-    // password: "15068715652",
-    password: "123456",
+    user_name: "18958643187",
+    password: "18958643187",
   },
 
   onLoad: function (options) {
@@ -24,6 +20,13 @@ Page({
       let value = options[key];
       if (key === "path") {
         path = ".." + value;
+      } else if (key === "isEditPwd") {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 3000,
+          content: "修改密码成功，请重新登录",
+          top: getApp().globalData.navH,
+        });
       } else {
         path += "&" + key + "=" + value;
       }

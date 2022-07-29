@@ -102,6 +102,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "修改密码",
+					"pathName": "pages/editPassWord/editPassWord",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

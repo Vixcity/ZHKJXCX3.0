@@ -968,6 +968,7 @@ const mergeData = function (datas, rule) {
   return newData;
 };
 
+// 权限
 const systemModule = [
   {
     id: 1,

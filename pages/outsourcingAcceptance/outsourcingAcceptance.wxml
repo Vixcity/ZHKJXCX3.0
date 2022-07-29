@@ -34,8 +34,8 @@
 						clearable label="次品数" placeholder="请输入次品数" />
 					<view class="flex pl15 pr15 pt10 pb10 jcsb" style="font-size:14px;">
 						<view style="width:6.2em;margin-right: 12px;">次品原因</view>
-						<view style="flex:1;{{item.cipinReason?'color:#000000':'color:#cccccc'}}"
-							data-index="{{index}}" bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
+						<view style="flex:1;{{item.cipinReason?'color:#000000':'color:#cccccc'}}" data-index="{{index}}"
+							bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
 					</view>
 				</view>
 				<view wx:if="{{isCheck}}" class="tc mt10 color91">该生产流转码已验收，不支持修改。</view>
@@ -52,7 +52,7 @@
 			</van-tab>
 		</van-tabs>
 		<view wx:if="{{!isCodeIn}}">
-			<van-field value="{{ detailInfo.item.user_name }}" disabled clearable label="用户名" placeholder="请输入用户名" />
+			<van-field value="{{ detailInfo.item.user_name }}" disabled clearable label="单据创建人" placeholder="请输入单据创建人" />
 			<view class="flex pt10 pb10">
 				<view class="pl10 mr30 fz25" style="color:#646566">验收类型</view>
 				<van-radio-group value="{{ type }}" bind:change="onChange">
@@ -75,16 +75,33 @@
 					clearable label="次品数" placeholder="请输入次品数" />
 				<view class="flex pl15 pr15 pt10 pb10 jcsb" style="font-size:14px;">
 					<view style="width:6.2em;margin-right: 12px;">次品原因</view>
-					<view style="flex:1;{{item.cipinReason?'color:#000000':'color:#cccccc'}}"
-						data-index="{{index}}" bindtap="chooseCiPinReason">{{item.cipinReason?item.cipinReason:'请选择次品原因'}}</view>
+					<view style="flex:1;{{(item.cipinReason ||item.cipinReasonText)?'color:#000000':'color:#cccccc'}}"
+						data-index="{{index}}" bindtap="chooseCiPinReason">
+						<view wx:if="{{item.cipinReasonText}}">{{item.cipinReasonText}}</view>
+						<view class="mt10" wx:if="{{item.cipinReason}}">{{item.cipinReason}}</view>
+						<view wx:if="{{!item.cipinReasonText && !item.cipinReason}}">请选择次品原因</view>
+						<!-- {{item.cipinReason?
+							item.cipinReasonText?
+								item.cipinReason+','+item.cipinReasonText:
+							item.cipinReason:
+						item.cipinReasonText?
+							item.cipinReasonText:
+							'请选择次品原因'}} -->
+					</view>
 				</view>
 				<van-popup round bind:close="closePopup" closeable close-on-click-overlay position="bottom"
 					show="{{ item.showChooseCiPinReason }}" data-index="{{index}}">
-					<view class="pl20 pt30 pr20 pb30 flex">
-						<van-checkbox-group value="{{ item.cipinReason }}" data-index="{{index}}" bind:change="changeCiPinReason">
-							<van-checkbox wx:for="{{reasonArr}}" wx:for-item="el" wx:key="el" wx:for-index="elindex" name="{{el}}">
-								{{el}}</van-checkbox>
-						</van-checkbox-group>
+					<view class="pl20 pt30 pr20 pb30">
+						<input type="text" placeholder="请输入次品原因" bindblur='inputReason' data-index="{{index}}" />
+						<view class="line"></view>
+						<view class="flex">
+							<van-checkbox-group class="w100" value="{{ item.cipinReason }}" data-index="{{index}}"
+								bind:change="changeCiPinReason">
+								<van-checkbox class="w100" wx:for="{{reasonArr}}" wx:for-item="el" wx:key="el" wx:for-index="elindex"
+									name="{{el}}">
+									{{el}}</van-checkbox>
+							</van-checkbox-group>
+						</view>
 					</view>
 				</van-popup>
 			</view>

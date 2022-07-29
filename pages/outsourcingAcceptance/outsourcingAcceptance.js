@@ -51,6 +51,7 @@ Page({
       "手工原因",
       "其它原因",
     ],
+    cipinReasonText: "",
     cipinReasonArr: [],
     userInfo: wx.getStorageSync("userInfo"),
     date: getDay(0),
@@ -217,17 +218,23 @@ Page({
         part_shoddy_number: null,
         client: "",
         shoddy_number: item.cipinNumber,
-        shoddy_reason: item.cipinReason.toString(),
+        shoddy_reason:
+          item.cipinReason.toString() + (item.cipinReasonText || ""),
       });
     });
 
-    wxReq({
-      url: "/inspection/save",
-      data: {
-        data: array,
+    wxReq(
+      {
+        url: "/inspection/save",
+        data: {
+          data: array,
+        },
+        method: "POST",
       },
-      method: "POST",
-    },this.data.isCodeIn?'/outsourcingAcceptance/outsourcingAcceptance&?isCodeIn=true':'/outsourcingAcceptance/outsourcingAcceptance').then((res) => {
+      this.data.isCodeIn
+        ? "/outsourcingAcceptance/outsourcingAcceptance&?isCodeIn=true"
+        : "/outsourcingAcceptance/outsourcingAcceptance"
+    ).then((res) => {
       if (res.data.status) {
         wx.lin.showMessage({
           type: "success",
@@ -296,6 +303,15 @@ Page({
   changeCiPinReason(e) {
     let index = e.currentTarget.dataset.index;
     this.data.detailInfo.item.product_info_data[index].cipinReason = e.detail;
+    this.setData({
+      detailInfo: this.data.detailInfo,
+    });
+  },
+
+  inputReason(e) {
+    let index = e.currentTarget.dataset.index;
+    this.data.detailInfo.item.product_info_data[index].cipinReasonText =
+      e.detail.value;
     this.setData({
       detailInfo: this.data.detailInfo,
     });

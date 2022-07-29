@@ -32,28 +32,28 @@
 	</view>
 	<view class="card">
 		<view class="title">产品信息</view>
-		<view class="flex jcsb" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
+		<view class="flex jcsb aic" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 			wx:key="product-{{index}}">
-			<view class="flex aic">
-				<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-					{{index+1}}</view>
-				<view class="ml10 flex aic mt10" style="width: calc(100% - 25px);">
-					<van-image width="60" height="60" fit="cover"
-						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
-						bind:click='clickImage'
-						data-img="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
-					<view class="flex fdc jcsa ml10">
-						<view class="flex jcsb">
-							<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
-							<view wx:if="{{item.rel_product_info.product_id}}" class="color27A2">{{item.rel_order_info.order_code}}
-							</view>
-							<view wx:else bindtap="goBind" data-item="{{item}}" class="colorOrange">可绑定订单</view>
+			<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+				{{index+1}}</view>
+			<view class="ml10 flex aic mt10" style="width: calc(100% - 25px);">
+				<van-image width="60" height="60" fit="cover"
+					src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+					bind:click='clickImage'
+					data-img="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}" />
+				<view class="flex fdc jcsa ml10 w100">
+					<view class="flex jcsb">
+						<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
+						<view wx:if="{{item.rel_order_info.order_id}}" data-type="{{irem.rel_order_info.order_type}}"
+							class="color27A2" bindtap="toOrderDetail" data-id="{{item.rel_order_info.order_id}}">
+							{{item.rel_order_info.order_code}}
 						</view>
-						<rich-text nodes="{{item.desc}}"></rich-text>
-						<view class="flex jcsb mt10">
-							<view>{{item.client_target_price || 0}} 元</view>
-							<view style="text-align: end;">{{item.start_order_number || 0}}件</view>
-						</view>
+						<view wx:else class="color9E">未绑定订单</view>
+					</view>
+					<rich-text nodes="{{item.desc}}"></rich-text>
+					<view class="flex jcsb mt10">
+						<view>{{item.client_target_price || 0}} 元</view>
+						<view style="text-align: end;">{{item.start_order_number || 0}}件</view>
 					</view>
 				</view>
 			</view>
@@ -63,10 +63,10 @@
 		<van-tabs type="card" z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
 			<van-tab title="{{'产品' + (index+1)}}" wx:for="{{detailData.product_data}}" wx:for-item="item" wx:for-index="index"
 				wx:key="product2-{{index}}">
-				<view class="title mt10 bold">报价信息</view>
-				<view class="sonMt10">
-					<view wx:for="{{item.material_data}}" wx:for-item="itemMaterial" wx:for-index="indexMaterial"
-						wx:key="material-{{indexMaterial}}">
+				<view class="title mt10 bold" style="margin-bottom: 5px;">报价信息</view>
+				<view class="sonPt10">
+					<view wx:for="{{item.material_data}}" class="bgColorChange" wx:for-item="itemMaterial"
+						wx:for-index="indexMaterial" wx:key="material-{{indexMaterial}}">
 						<view class="flex aic">
 							<view class="bgColorOrange colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
@@ -81,8 +81,8 @@
 							<view style="flex: 1;">{{itemMaterial.total_price || 0}}元</view>
 						</view>
 					</view>
-					<view wx:for="{{item.assist_material_data}}" wx:for-item="itemDecorateMaterial" wx:for-index="indexMaterial"
-						wx:key="material-{{indexMaterial}}">
+					<view wx:for="{{item.assist_material_data}}" class="bgColorChange" wx:for-item="itemDecorateMaterial"
+						wx:for-index="indexMaterial" wx:key="material-{{indexMaterial}}">
 						<view class="flex aic">
 							<view class="bgColor03d0 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
@@ -99,8 +99,8 @@
 					</view>
 				</view>
 				<view wx:for="{{item.weave_data}}" wx:for-item="itemWeave" wx:for-index="indexWeave"
-					wx:key="itemWeave-{{indexWeave}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemWeave-{{indexWeave}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">织
@@ -109,11 +109,11 @@
 						</view>
 						<view>{{itemWeave.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemWeave.desc || '无'}}</view>
+					<view>{{itemWeave.desc || '无'}}</view>
 				</view>
 				<view wx:for="{{item.semi_product_data}}" wx:for-item="itemHalfProcess" wx:for-index="indexWeave"
-					wx:key="itemHalfProcess-{{indexWeave}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemHalfProcess-{{indexWeave}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">半
@@ -122,11 +122,11 @@
 						</view>
 						<view>{{itemHalfProcess.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemHalfProcess.desc || '无'}}</view>
+					<view>{{itemHalfProcess.desc || '无'}}</view>
 				</view>
 				<view wx:for="{{item.production_data}}" wx:for-item="itemFinishedProcess" wx:for-index="indexFinishedProcess"
-					wx:key="itemFinishedProcess-{{indexFinishedProcess}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemFinishedProcess-{{indexFinishedProcess}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">成
@@ -135,11 +135,11 @@
 						</view>
 						<view>{{itemFinishedProcess.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemFinishedProcess.desc || '无'}}</view>
+					<view>{{itemFinishedProcess.desc || '无'}}</view>
 				</view>
 				<view wx:for="{{item.pack_material_data}}" wx:for-item="itemPackMaterial" wx:for-index="indexPackMaterial"
-					wx:key="itemPackMaterial-{{indexPackMaterial}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemPackMaterial-{{indexPackMaterial}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">包
@@ -148,11 +148,11 @@
 						</view>
 						<view>{{itemPackMaterial.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemPackMaterial.desc || '无'}}</view>
+					<view>{{itemPackMaterial.desc || '无'}}</view>
 				</view>
 				<view wx:for="{{item.other_fee_data}}" wx:for-item="itemOther" wx:for-index="indexOther"
-					wx:key="itemOther-{{indexOther}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemOther-{{indexOther}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">其
@@ -161,11 +161,11 @@
 						</view>
 						<view>{{itemOther.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemOther.desc || '无'}}</view>
+					<view>{{itemOther.desc || '无'}}</view>
 				</view>
 				<view wx:for="{{item.no_production_fee_data}}" wx:for-item="itemOther" wx:for-index="indexOther"
-					wx:key="itemOther-{{indexOther}}">
-					<view class="flex aic jcsb mt10">
+					wx:key="itemOther-{{indexOther}}" class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
 						<view class="flex aic">
 							<view class="bgColor27A2 colorWhite tc"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">非
@@ -174,19 +174,21 @@
 						</view>
 						<view>{{itemOther.total_price || 0}}元</view>
 					</view>
-					<view class="mt10">{{itemOther.desc || '无'}}</view>
+					<view>{{itemOther.desc || '无'}}</view>
 				</view>
-				<view class="flex aic jcsb mt10">
-					<view class="flex aic">
-						<view class="bgColor27A2 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">运
+				<view class="bgColorChange sonPt10">
+					<view class="flex aic jcsb">
+						<view class="flex aic">
+							<view class="bgColor27A2 colorWhite tc"
+								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">运
+							</view>
+							<view class="ml20">{{item.transport_fee?'运输费用':'无'}}</view>
 						</view>
-						<view class="ml20">{{item.transport_fee?'运输费用':'无'}}</view>
+						<view>{{item.transport_fee || 0}}元</view>
 					</view>
-					<view>{{item.transport_fee || 0}}元</view>
+					<view>{{item.transport_fee_desc || '无'}}</view>
 				</view>
-				<view class="mt10">{{item.transport_fee_desc || '无'}}</view>
-				<view class="flex jcsb mt10 aic">
+				<view class="flex jcsb bgColorChange sonPt10 aic">
 					<view class="flex aic">
 						<view class="bgColor03d0 colorWhite tc"
 							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">合
@@ -203,44 +205,56 @@
 		</van-tabs>
 	</view>
 	<view class="card">
-		<view class="title">订单费用</view>
-		<view class="flex aic jcsb mt10">
-			<view class="flex aic">
-				<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-					佣</view>
-				<view class="ml20">客户佣金</view>
-			</view>
-			<view>{{detailData.commission_price || 0}}元</view>
-		</view>
-		<view class="mt10">{{detailData.commission_percentage || 0}}%</view>
-		<view class="flex aic jcsb mt10">
-			<view class="flex aic">
-				<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-					税</view>
-				<view class="ml20">预计税率</view>
-			</view>
-			<view>{{detailData.rate_price || 0}}元</view>
-		</view>
-		<view class="mt10">{{detailData.rate_taxation || 0}}%</view>
-		<view class="flex aic jcsb mt10">
-			<view class="flex aic">
-				<view class="bgColor27A2 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-					利</view>
-				<view class="ml20">预计利润</view>
-			</view>
-			<view>{{detailData.profit_price || 0}}元</view>
-		</view>
-		<view class="mt10">{{detailData.profit_percentage || 0}}%</view>
-		<view class="flex jcsb mt10 aic">
-			<view class="flex aic">
-				<view class="bgColor03d0 colorWhite tc" style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-					合</view>
-				<view class="ml20">
-					订单合计费用
+		<view class="title" style="padding-bottom: 5px;">订单费用</view>
+		<view class="bgColorChange sonPt10">
+			<view class="flex aic jcsb">
+				<view class="flex aic">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						佣</view>
+					<view class="ml20">客户佣金</view>
 				</view>
+				<view>{{detailData.commission_price || 0}}元</view>
 			</view>
-			<view>
-				<text class="color27A2">{{detailData.allPrice || 0}}</text> 元
+			<view>{{detailData.commission_percentage || 0}}%</view>
+		</view>
+		<view class="bgColorChange sonPt10">
+			<view class="flex aic jcsb">
+				<view class="flex aic">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						税</view>
+					<view class="ml20">预计税率</view>
+				</view>
+				<view>{{detailData.rate_price || 0}}元</view>
+			</view>
+			<view>{{detailData.rate_taxation || 0}}%</view>
+		</view>
+		<view class="bgColorChange sonPt10">
+			<view class="flex aic jcsb">
+				<view class="flex aic">
+					<view class="bgColor27A2 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						利</view>
+					<view class="ml20">预计利润</view>
+				</view>
+				<view>{{detailData.profit_price || 0}}元</view>
+			</view>
+			<view>{{detailData.profit_percentage || 0}}%</view>
+		</view>
+		<view class="bgColorChange sonPt10">
+			<view class="flex jcsb mt10 aic">
+				<view class="flex aic">
+					<view class="bgColor03d0 colorWhite tc"
+						style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+						合</view>
+					<view class="ml20">
+						订单合计费用
+					</view>
+				</view>
+				<view>
+					<text class="color27A2">{{detailData.allPrice || 0}}</text> 元
+				</view>
 			</view>
 		</view>
 	</view>

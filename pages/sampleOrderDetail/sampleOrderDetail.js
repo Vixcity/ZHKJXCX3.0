@@ -124,7 +124,9 @@ Page({
   },
 
   openStatusChoose(e) {
-    const { index, indexpro } = e.currentTarget.dataset;
+    const { index, indexpro, status_choose } = e.currentTarget.dataset;
+    this.data.index = index;
+    this.data.indexpro = indexpro;
     const item = this.data.sampleOrderDetail.time_data[index].batch_data[0]
       .product_data[indexpro];
     if (item.status === 3 || item.status === 4) {
@@ -160,12 +162,11 @@ Page({
       });
     }
 
-    // 显示弹窗
-    item.showStatusChoose = true;
-
     this.setData({
       chooseStatusList: this.data.chooseStatusList,
       sampleOrderDetail: this.data.sampleOrderDetail,
+      showStatusChoose: true,
+      status_choose,
     });
     // 该样品是否需要重新打样？
     // 是否确认该样品已经被客户确认完成？
@@ -173,27 +174,21 @@ Page({
     // 该样品客户是否确认取消打样？
   },
 
-  closeStatusChoose(e) {
-    const { index, indexpro } = e.currentTarget.dataset;
-    const item = this.data.sampleOrderDetail.time_data[index].batch_data[0]
-      .product_data[indexpro];
-
-    // 关闭弹窗
-    item.showStatusChoose = false;
-
+  closeStatusChoose() {
     this.setData({
       sampleOrderDetail: this.data.sampleOrderDetail,
+      showStatusChoose: false,
     });
   },
 
-  confirmStatusChoose(e) {
+  confirmStatusChoose() {
     const _this = this;
-    const { index, indexpro } = e.currentTarget.dataset;
-    const status = e.detail.value[0].value;
-    const item = this.data.sampleOrderDetail.time_data[index].batch_data[0]
+    const { index, indexpro } = _this.data;
+    const status = _this.data.status_choose;
+    const item = _this.data.sampleOrderDetail.time_data[index].batch_data[0]
       .product_data[indexpro];
 
-    this.closeStatusChoose(e);
+    this.closeStatusChoose();
 
     const tipsArr = [
       "",
@@ -411,6 +406,14 @@ Page({
   closePro() {
     this.setData({
       showPro: false,
+    });
+	},
+	
+	toQuotePriceDetail(e) {
+    wx.navigateTo({
+      url:
+        "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
+        e.currentTarget.dataset.id,
     });
   },
 });

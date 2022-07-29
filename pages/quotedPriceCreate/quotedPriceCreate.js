@@ -300,6 +300,29 @@ Page({
     productList.push(jsonClone(this.data.productObj));
     groupList.shift();
 
+    // 导入报价模板
+    wxReq(
+      {
+        url: "/quote/demo/lists",
+        method: "GET",
+      },
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    ).then((res) => {
+      this.data.searchQuotedPriceList = res.data.data;
+      let arr = res.data.data.map((item) => {
+        return {
+          text: item.title,
+          id: item.id,
+        };
+      });
+      this.setData({
+        searchPickerList: arr,
+      });
+    });
+
     if (isUpdate) {
       this.setData({ isUpdate, id });
 
@@ -342,7 +365,7 @@ Page({
           product_data,
         } = data;
 
-        console.log(data);
+        // console.log(data);
         product_data.forEach((item) => {
           item.type = [item.category_id, item.secondary_category_id];
           item.image_data.forEach((img, index) => {
@@ -441,6 +464,12 @@ Page({
       });
     }
 
+    if (type === "searchModele") {
+      this.setData({
+        showModuleList: true,
+      });
+    }
+
     if (type === "productSon") {
       let obj = {};
       obj[itemtype] = true;
@@ -474,6 +503,12 @@ Page({
       this.data.productList[index].show = false;
       this.setData({
         productList: this.data.productList,
+      });
+    }
+
+    if (type === "searchModele") {
+      this.setData({
+        showModuleList: false,
       });
     }
 
@@ -543,6 +578,45 @@ Page({
       });
     }
 
+    if (type === "searchModele") {
+      Dialog.confirm({
+        title: "提示",
+        message: "选择模版后，会替换当前已选的工序和输入的价格，是否继续？",
+        zIndex: 11601,
+      })
+        .then(() => {
+          let quoteModule = this.data.searchQuotedPriceList[e.detail.index[0]];
+          let product = this.data.productList[index];
+
+          product.weave_data = JSON.parse(quoteModule.weave_data);
+          product.semi_product_data = JSON.parse(quoteModule.semi_product_data);
+          product.production_data = JSON.parse(quoteModule.production_data);
+          product.pack_material_data = JSON.parse(
+            quoteModule.pack_material_data
+          );
+
+          product.pack_material_data.forEach((item) => {
+            this.data.packingList.forEach((itemP) => {
+              if (item.material_id == itemP.id) {
+                item.material_name = itemP.text;
+              }
+            });
+          });
+
+          this.setData({
+            quoteModuleName: quoteModule.title,
+            productList: this.data.productList,
+          });
+        })
+        .catch(() => {
+          wx.lin.showMessage({
+            duration: 1500,
+            content: "已取消",
+            top: getApp().globalData.navH,
+          });
+        });
+    }
+
     if (type === "productSon") {
       // 原料
       if (itemtype === "materialItemShow") {
@@ -551,6 +625,12 @@ Page({
         this.data.productList[index]["material_data"][itemindex].material_id =
 					e.detail.value[2].id;
 					
+        if (e.detail.value[0].text === "纱线") {
+          this.data.productList[index]["material_data"][itemindex].unit = "g";
+        } else if (e.detail.value[0].text === "面料") {
+          this.data.productList[index]["material_data"][itemindex].unit = "米";
+        }
+
         this.data.productList[index]["material_data"][itemindex].tree_data =
           e.detail.value[0].id +
           "," +
@@ -755,9 +835,9 @@ Page({
       );
     }
 
-		this.data.productList[index][type][
-			this.data.productList[index][type].length - 1
-		].show = true;
+    this.data.productList[index][type][
+      this.data.productList[index][type].length - 1
+    ].show = true;
 
     this.setData({
       productList: this.data.productList,
@@ -789,11 +869,19 @@ Page({
 
     if (itemtype === "material_data" && type !== "total_price") {
       let data = this.data.productList[index].material_data[itemindex];
-      data.total_price = +(
-        (data.weight / 1000) *
-        (1 + data.loss / 100) *
-        data.price
-      ).toFixed(2);
+      if (data.unit === "g") {
+        data.total_price = +(
+          (data.weight / 1000) *
+          (1 + data.loss / 100) *
+          data.price
+        ).toFixed(2);
+      } else {
+        data.total_price = +(
+          data.weight *
+          (1 + data.loss / 100) *
+          data.price
+        ).toFixed(2);
+      }
     }
 
     if (itemtype === "assist_material_data" && type !== "total_price") {
@@ -955,11 +1043,12 @@ Page({
       (this.data.profit_percentage / 100 || 0)
     ).toFixed(2);
 
-    let system_total_price =
-      (Number(this.data.total_cost_price) +
+    let system_total_price = (
+      Number(this.data.total_cost_price) +
       Number(commission_price) +
       Number(rate_price) +
-      Number(profit_price)).toFixed(2);
+      Number(profit_price)
+    ).toFixed(2);
 
     this.setData({
       commission_price,

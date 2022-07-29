@@ -1,28 +1,36 @@
 <view class="container">
-	<nav-content color='#27a2fd' showBack="{{false}}" showHome="{{false}}" white>
+	<nav-content showBack="{{false}}" showHome="{{false}}">
 		<view slot="after" class="tc vw100 pb10 fz35">登录</view>
 	</nav-content>
-	<view class="signUp noPad pt20">
-		<view class="flex pr20 pl20 pb20 pt20 fdc mt20 bgColorWhite vw100 aic bgColorD8 signUpBanner">
-			<view class="tc h40 flex jcc aic h50 fz30">
-				<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix">
-				</van-image>
-			</view>
-			<view class="tc h40 flex mt30 jcc aic h50 blod fz40">织为云-协同制造云平台</view>
+	<view class="pt10 card" style="width: 95vw;">
+		<view class="flex mt10 bgColorWhite aic jcsa fz30 bgColorD8 signUpBanner">
+			<van-image
+				src="https://file.zwyknit.com/%E6%AC%A2%E8%BF%8E%E5%9B%9E%E6%9D%A5_%20%E7%BB%87%E4%B8%BA%E4%BA%91%E5%8D%8F%E5%90%8C%E7%BB%87%E9%80%A0%E5%B9%B3%E5%8F%B0.svg"
+				width="180" fit="widthFix">
+			</van-image>
+			<van-image src="https://file.zwyknit.com/%E7%BB%87%E4%B8%BA%E4%BA%91logo.png" width="100" fit="widthFix">
+			</van-image>
 		</view>
-		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox pl20 pr20 pt20 pb20 color9E fz30 tc"
+		<view class="ma mt20 bgColorWhite vw90 flex jcsb fdc borderBox color9E fz30"
 			style="position: relative;">
-			<view class="flex jcsb aic mt10">
-				<text>账号</text><input placeholder="请输入账号" bindinput="bindKeyInput" data-type="{{1}}" value="{{user_name}}" />
+			<view class="flex mt10">
+				<text class="w30">微信昵称</text>
+				<open-data class="w70" type="userNickName" style="color:#000"></open-data>
 			</view>
-			<view class="flex jcsb aic mt10">
-				<text>密码</text><input placeholder="请输入密码" bindinput="bindKeyInput" data-type="{{2}}" type="password"
-					value="{{password}}" />
+			<view class="line"></view>
+			<view class="flex mt10">
+				<text class="w30">账号</text>
+				<input class="w70" placeholder="请输入账号" bindinput="bindKeyInput" data-type="{{1}}" value="{{user_name}}" />
+			</view>
+			<view class="line"></view>
+			<view class="flex mt10 pb10">
+				<text class="w30">密码</text>
+				<input class="w70" placeholder="请输入密码" bindinput="bindKeyInput" data-type="{{2}}" type="password" value="{{password}}" />
 			</view>
 		</view>
-		<view class="mt20 submit">
-			<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
-		</view>
+	</view>
+	<view class="mt20 submit poa" style="bottom: 15%;">
+		<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
 	</view>
 	<l-message content="{{content}}" />
 </view>

@@ -40,7 +40,7 @@
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
 		</view>
-		<view class="fz25 tc color91 mt10 mb10">共检索到{{orderList.length}}条数据</view>
+		<view class="fz25 tc color91 mt10 mb10">共检索到{{total}}条数据</view>
 		<scroll-view scroll-y="true" bindscrolltolower="reqOrder" style="height:calc(100vh - 200px)">
 			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index"
 				detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>

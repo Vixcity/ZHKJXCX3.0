@@ -131,7 +131,10 @@
 			<view wx:for="{{itemBatch.product_data}}" wx:for-item="itemPro" wx:key="itemPro" wx:for-index="indexPro">
 				<view class="flex jcsb mt10" wx:for="{{itemPro.product_info}}" wx:for-item="itemChild" wx:key="itemChild"
 					wx:for-index="indexChild">
-					<view class="w33">{{itemPro.product_code||itemPro.system_code||'无编号'}}</view>
+					<view class="w33">
+						<view>{{itemPro.product_code||itemPro.system_code||'无编号'}}</view>
+						<view class="color91">({{itemPro.category}}/{{itemPro.secondary_category}})</view>
+					</view>
 					<view class="w33">{{itemChild.size_name}}/{{itemChild.color_name}}</view>
 					<view class="w33">{{itemChild.number}}/{{itemChild.transport_number||0}}</view>
 				</view>

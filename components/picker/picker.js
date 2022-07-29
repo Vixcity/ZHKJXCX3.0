@@ -23,7 +23,7 @@ Component({
 
   lifetimes: {
     ready: function () {
-      // 初始化，默认不进行热重载
+			// 初始化，默认不进行热重载
       let { values, level } = this.data;
       if (level === 2) {
         this.setData({
@@ -156,7 +156,7 @@ Component({
   methods: {
     // 提交事件
     supplyAreaConfirm(event) {
-      this.triggerEvent("confirm", event.detail);
+			this.triggerEvent("confirm", event.detail);
     },
 
     // 关闭事件

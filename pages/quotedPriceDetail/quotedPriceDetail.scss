@@ -9,14 +9,14 @@
     margin-left: 10px;
   }
 
-	.noTopRightLeft{
-		border-top: 0px;
-		border-left: 0px;
-		border-right: 0px;
-	}
-	
-  .card > view {
-    margin-top: 10px;
+  .noTopRightLeft {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+  }
+
+  .bgColorChange:nth-child(2n) {
+    background-color: #f2f2f2;
   }
 
   .l-title-class {
@@ -34,6 +34,13 @@
     margin-top: 10px;
   }
 
+  .sonPt10 > view {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
   .van-tabs__line {
     background-color: #27a2fd;
   }
@@ -49,13 +56,13 @@
   .checkbox-index--van-checkbox__icon--checked {
     background-color: #27a2fd;
     border-color: #27a2fd;
-	}
-	
-	.van-tabs__line {
+  }
+
+  .van-tabs__line {
     background-color: #27a2fd;
-	}
-	
-	.van-tabs__nav--complete {
+  }
+
+  .van-tabs__nav--complete {
     padding-left: 0;
     padding-right: 0;
   }
@@ -76,9 +83,9 @@
   }
   .van-tabs__nav--card .van-tab {
     border-right-color: #27a2fd;
-	}
-	
-	.noBgColor{
-		background-color: transparent;
-	}
+  }
+
+  .noBgColor {
+    background-color: transparent;
+  }
 }

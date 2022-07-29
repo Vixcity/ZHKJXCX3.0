@@ -94,7 +94,7 @@ page {
 }
 
 .colorRed {
-	color: red
+	color: #E80000;
 }
 
 .colorOrange {
@@ -1192,7 +1192,7 @@ page {
 }
 
 .bgColorRed {
-	background-color: red;
+	background-color: #E80000;
 }
 
 .bgColorOrange {

@@ -107,14 +107,17 @@ Page({
           ((Number(data.commission_percentage) / 100 || 0) +
             (Number(data.profit_percentage) / 100 || 0) +
             Number(data.rate_taxation) / 100 || 0))
-			).toFixed(2);
-			
-			let realTotalPriceChange = ((Number(realTotalPrice) / Number(data.exchange_rate)) * 100).toFixed(2)
+      ).toFixed(2);
+
+      let realTotalPriceChange = (
+        (Number(realTotalPrice) / Number(data.exchange_rate)) *
+        100
+      ).toFixed(2);
 
       this.setData({
-				detailData: data,
-				realTotalPrice,
-				realTotalPriceChange
+        detailData: data,
+        realTotalPrice,
+        realTotalPriceChange,
       });
     });
   },
@@ -230,5 +233,20 @@ Page({
 
   checkBoxChange(e) {
     this.setData({ result: e.detail });
+  },
+
+  toOrderDetail(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type == 1) {
+      wx.redirectTo({
+        url: "/pages/orderDetail/orderDetail?id=" + e.currentTarget.dataset.id,
+      });
+    } else {
+      wx.redirectTo({
+        url:
+          "/pages/sampleOrderDetail/sampleOrderDetail?id=" +
+          e.currentTarget.dataset.id,
+      });
+    }
   },
 });

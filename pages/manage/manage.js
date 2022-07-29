@@ -1,6 +1,6 @@
 // manages.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-import { wxReq } from "../../utils/util";
+import { wxReq, isIfLogin } from "../../utils/util";
 
 Page({
   data: {
@@ -35,14 +35,15 @@ Page({
   onShow: function () {
     let _this = this;
 
+    const isLogin = isIfLogin();
+
+    this.setData({
+      isLogin,
+    });
+
     // 订单管理初始化
     wx.setStorageSync("orderChooseIndex", "");
 
-    if (typeof this.getTabBar === "function" && this.getTabBar()) {
-      this.getTabBar().setData({
-        selected: 1,
-      });
-    }
     if (this.data.userInfo === null) {
       let userInfo = wx.getStorageSync("userInfo");
       if (userInfo === "") {
@@ -57,6 +58,7 @@ Page({
       });
     }
   },
+
   onHide: function () {
     this.setData({
       showPopup: false,
@@ -68,6 +70,7 @@ Page({
       url: "../signUp/signUp",
     });
   },
+
   toWitchPage(e) {
     wx.navigateTo({
       url: e.currentTarget.dataset.path,
@@ -183,8 +186,8 @@ Page({
   bindCompany() {
     if (this.data.userInfo.bind_wechat === 1) {
       Dialog.confirm({
-        title: "要解除绑定该工厂吗？",
-        message: "不影响原账号在工厂的使用，只是小程序上无法再操作工厂业务。",
+        title: "要将平台账号与微信解绑吗？",
+        message: "不影响平台账号使用，只是无法通过微信收取业务通知。",
         zIndex: 11601,
       })
         .then(() => {
@@ -283,11 +286,39 @@ Page({
         console.log(res);
       },
     });
-	},
-	
-	toMyJurisdiction(){
-		wx.navigateTo({
-			url: '/pages/myJurisdiction/myJurisdiction',
-		})
-	},
+  },
+
+  toMyJurisdiction() {
+    wx.navigateTo({
+      url: "/pages/myJurisdiction/myJurisdiction",
+    });
+  },
+
+  toEditPwd() {
+    wx.navigateTo({
+      url: "/pages/editPassWord/editPassWord",
+    });
+  },
+
+  logOut() {
+    Dialog.confirm({
+      title: "要退出登录吗？",
+      message: "退出登录后无法使用小程序，需要重新登录。",
+      zIndex: 11601,
+    }).then(() => {
+      wx.setStorageSync("sessionid", "");
+      wx.setStorageSync("isLogin", false);
+      wx.setStorageSync("userInfo", false);
+      this.setData({
+        userInfo: null,
+        isLogin: false,
+      });
+    });
+  },
+
+  toIndex() {
+    wx.redirectTo({
+      url: "/pages/index/index",
+    });
+  },
 });
