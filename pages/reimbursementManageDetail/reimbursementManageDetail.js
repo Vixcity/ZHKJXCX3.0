@@ -1,9 +1,6 @@
 // pages/reimbursementManageDetail/reimbursementManageDetail.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const {
-  isIfLogin,
-  wxReq,
-} = require("../../utils/util");
+const { isIfLogin, wxReq, isHasPermissions } = require("../../utils/util");
 
 Page({
   /**
@@ -90,11 +87,12 @@ Page({
       "/reimbursementManageDetail/reimbursementManageDetail&id=" + this.data.id
     ).then((res) => {
       let data = res.data.data;
-      data.created_at = data.created_at.slice(0,10);
+      data.created_at = data.created_at.slice(0, 10);
       data.certificate = data.certificate ? data.certificate.split(",") : [];
 
       this.setData({
         detailData: data,
+        hasCreateModule: isHasPermissions("18-2"),
       });
     });
   },
@@ -126,8 +124,8 @@ Page({
     this.setData({
       textInputReason: e.detail.value,
     });
-	},
-	
+  },
+
   inputDesc(e) {
     this.setData({
       textInputDesc: e.detail.value,

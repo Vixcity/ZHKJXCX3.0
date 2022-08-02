@@ -6,9 +6,22 @@
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号/产品编号" hide-label="{{true}}" />
-		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	<view class="bgColorWhite">
+		<view class="flex">
+			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号/产品编号" hide-label="{{true}}" />
+			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+		</view>
+
+		<view class="flex jcsb" style="padding: 10px;">
+			<view class="w25">
+				<view>完成数</view>
+				<view class="mt10 color03d0 bold">{{ additional.total_number || 0 }} 万件</view>
+			</view>
+			<view class="w25">
+				<view>完成金额</view>
+				<view class="mt10 color03d0 bold">{{ additional.total_price || 0 }} 万元</view>
+			</view>
+		</view>
 	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
@@ -17,13 +30,16 @@
 			<view class="w100 flex aic">
 				<view class="title w32">序号：</view>
 				<view>{{item.id}}</view>
-				<view class="colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;"
-					wx:if="{{item.is_check === 0}}">待审核</view>
-				<view class="colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;"
-					wx:elif="{{item.is_check === 1}}">已审核</view>
-				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;"
-					wx:elif="{{item.is_check === 2}}">已驳回</view>
-				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:else>单据异常</view>
+				<view class="colorWhite bgColorOrange pl10 pr10 pt5 pb5"
+					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:if="{{item.is_check === 0}}">待审核</view>
+				<view class="colorWhite bgColor27A2 pl10 pr10 pt5 pb5"
+					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 1}}">已审核
+				</view>
+				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5"
+					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 2}}">已驳回
+				</view>
+				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5"
+					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:else>单据异常</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">关联订单号：</view>

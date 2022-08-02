@@ -286,12 +286,29 @@ Page({
         });
       }
 
-      let list = this.data.list.concat(res.data.data.items);
+			let list = this.data.list.concat(res.data.data.items);
+			let additional = res.data.data.additional;
+      additional.total_order_number = (
+        additional.total_order_number / 10000
+      ).toFixed(2);
+
+      additional.total_order_price = (
+        additional.total_order_price / 10000
+      ).toFixed(2);
+
+      additional.total_push_number = (
+        additional.total_push_number / 10000
+      ).toFixed(2);
+			
+			additional.total_push_price = (
+        additional.total_push_price / 10000
+      ).toFixed(2);
 
       this.data.page += 1;
       this.setData({
         showLoading: false,
-        list,
+				list,
+				additional
       });
     });
 	},

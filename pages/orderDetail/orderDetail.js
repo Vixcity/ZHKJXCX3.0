@@ -1,6 +1,11 @@
 // pages/order/orderDetail/orderDetail.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { wxReq, dateDiff, getDay } = require("../../utils/util");
+const {
+  wxReq,
+  dateDiff,
+  getDay,
+	isHasPermissions,
+} = require("../../utils/util");
 
 Page({
   /**
@@ -37,8 +42,10 @@ Page({
     ).then((res) => {
       res.data.data.time_data.forEach((itemTime) => {
         itemTime.batch_data.forEach((itemBatch, indexBatch) => {
-					itemBatch.isOut = dateDiff(getDay(0), itemBatch.delivery_time) <= 0;
-					itemBatch.otherDay = Math.abs(dateDiff(getDay(0), itemBatch.delivery_time))
+          itemBatch.isOut = dateDiff(getDay(0), itemBatch.delivery_time) <= 0;
+          itemBatch.otherDay = Math.abs(
+            dateDiff(getDay(0), itemBatch.delivery_time)
+          );
           _this.data.productList = _this.data.productList.concat(
             itemBatch.product_data.map((item) => {
               item.batchIndex = indexBatch + 1;
@@ -246,11 +253,13 @@ Page({
   showAssociatedDocument(e) {},
 
   toQuotePriceDetail(e) {
-    wx.navigateTo({
-      url:
-        "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
-        e.currentTarget.dataset.id,
-    });
+    if (isHasPermissions("1-3")) {
+      wx.navigateTo({
+        url:
+          "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
+          e.currentTarget.dataset.id,
+      });
+    }
   },
 
   showDetailPro(e) {
@@ -268,7 +277,7 @@ Page({
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
         .join(",");
-      res.data.data.desc =res.data.data.desc || "无";
+      res.data.data.desc = res.data.data.desc || "无";
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },

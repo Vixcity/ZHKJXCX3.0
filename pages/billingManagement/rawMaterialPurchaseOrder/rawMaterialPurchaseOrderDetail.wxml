@@ -126,9 +126,7 @@
 				<view class="flex mt10">
 					<view class="w50 flex">
 						<view class="w60 color6">单价</view>
-						<view class="w40">
-							{{ itemChild.price }}元
-						</view>
+						<view class="w40">{{ itemChild.settle_price || itemChild.price || 0 }}元</view>
 					</view>
 					<view class="w50 flex">
 						<view class="w60 color6">数量</view>

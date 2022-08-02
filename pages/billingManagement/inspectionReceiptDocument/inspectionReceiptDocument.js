@@ -38,10 +38,10 @@ Page({
     page: 1,
   },
 
-	onLoad(options) {
+  onLoad(options) {
     this.getScreenList();
     this.setData({ list: [] });
-		this.confirmData();
+    this.confirmData();
   },
 
   /**
@@ -51,8 +51,8 @@ Page({
     if (wx.getStorageSync("isDo")) {
       this.getScreenList();
       this.setData({ list: [] });
-			this.confirmData();
-			wx.setStorageSync('isDo', false)
+      this.confirmData();
+      wx.setStorageSync("isDo", false);
     }
   },
 
@@ -285,22 +285,33 @@ Page({
       }
 
       let list = this.data.list.concat(res.data.data.items);
+      let additional = res.data.data.additional;
+      additional.total_number = (additional.total_number / 10000).toFixed(2);
+
+      additional.total_deduct_price = (
+        additional.total_deduct_price / 10000
+      ).toFixed(2);
 
       this.data.page += 1;
       this.setData({
         showLoading: false,
         list,
+        additional,
       });
     });
-	},
-	
-	toDetail(e) {
-		const { item } = e.currentTarget.dataset;
-		
-		// wx.setStorageSync('inspectionReceiptDocumentDetail', item)
+  },
+
+  toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+
+    // wx.setStorageSync('inspectionReceiptDocumentDetail', item)
 
     wx.navigateTo({
-      url: "./inspectionReceiptDocumentDetail?id=" + item.order_id + '&pid=' + item.id,
+      url:
+        "./inspectionReceiptDocumentDetail?id=" +
+        item.order_id +
+        "&pid=" +
+        item.id,
     });
   },
 });

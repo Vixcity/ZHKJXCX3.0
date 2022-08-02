@@ -4,7 +4,8 @@ const {
   isIfLogin,
   wxReq,
   formatDate,
-  getStatusImage,
+	getStatusImage,
+	isHasPermissions,
 } = require("../../utils/util");
 
 Page({
@@ -68,7 +69,8 @@ Page({
 
     this.setData({
       isLogin,
-      id: options.id,
+			id: options.id,
+			hasCreateModule: isHasPermissions('1-2'),
     });
 
     this.getDetail();

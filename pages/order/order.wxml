@@ -146,7 +146,7 @@
 	<l-message content="{{content}}" />
 
 	<!-- 下拉 -->
-	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+	<picker values="{{orderStatusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
 		showDialog="{{showStatus}}"></picker>
 	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
 		showDialog="{{showClient}}"></picker>

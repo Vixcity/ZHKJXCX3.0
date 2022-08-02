@@ -1,6 +1,6 @@
 // pages/sampleOrder/sampleOrderDetail/sampleOrderDetail.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { wxReq } = require("../../utils/util");
+const { wxReq, isHasPermissions } = require("../../utils/util");
 
 Page({
   /**
@@ -185,8 +185,10 @@ Page({
     const _this = this;
     const { index, indexpro } = _this.data;
     const status = _this.data.status_choose;
-    const item = _this.data.sampleOrderDetail.time_data[index].batch_data[0]
-      .product_data[indexpro];
+    const item =
+      _this.data.sampleOrderDetail.time_data[index].batch_data[0].product_data[
+        indexpro
+      ];
 
     this.closeStatusChoose();
 
@@ -407,13 +409,15 @@ Page({
     this.setData({
       showPro: false,
     });
-	},
-	
-	toQuotePriceDetail(e) {
-    wx.navigateTo({
-      url:
-        "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
-        e.currentTarget.dataset.id,
-    });
+  },
+
+  toQuotePriceDetail(e) {
+    if (isHasPermissions("1-3")) {
+      wx.navigateTo({
+        url:
+          "/pages/quotedPriceDetail/quotedPriceDetail?id=" +
+          e.currentTarget.dataset.id,
+      });
+    }
   },
 });

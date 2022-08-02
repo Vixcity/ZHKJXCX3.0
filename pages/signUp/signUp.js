@@ -8,11 +8,22 @@ import {
 // index.js
 Page({
   data: {
-    user_name: "18958643187",
-    password: "18958643187",
+    user_name: "",
+    password: "",
+    rememberPwd: true,
   },
 
   onLoad: function (options) {
+    this.setData({
+      rememberPwd: wx.getStorageSync("rememberPwd") === false ? false : true,
+    });
+    if (wx.getStorageSync("rememberPwd") === true) {
+      this.setData({
+        user_name: wx.getStorageSync("user_name"),
+        password: wx.getStorageSync("password"),
+      });
+    }
+
     let path = "";
 
     // 拼接参数
@@ -60,6 +71,11 @@ Page({
   // 点击登录
   postSignUp() {
     let _this = this;
+    if (this.data.rememberPwd) {
+      wx.setStorageSync("user_name", this.data.user_name);
+      wx.setStorageSync("password", this.data.password);
+    }
+    wx.setStorageSync("rememberPwd", this.data.rememberPwd);
 
     wx.request({
       url: getApp().globalData.api.slice(0, -4) + "/api/auth/login",
@@ -122,6 +138,12 @@ Page({
           });
         }
       },
+    });
+  },
+
+  onChangeRemenber(e) {
+    this.setData({
+      rememberPwd: !this.data.rememberPwd,
     });
   },
 

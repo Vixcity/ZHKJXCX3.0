@@ -1,56 +1,15 @@
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 // index.js
-const { isIfLogin, urlParams } = require("../../utils/util");
+const {
+  isIfLogin,
+  urlParams,
+  isHasPermissions,
+  wxReq,
+} = require("../../utils/util");
 
 Page({
   data: {
-    list: [
-      // {
-      //   title: "本厂生产中",
-      //   src: "/pages/ourFactory/ourFactory?type=1",
-      // },
-      {
-        title: "检验收发",
-        src: "/pages/ourFactory/ourFactory?type=2",
-        icon:
-          "https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png",
-      },
-      {
-        title: "报价单管理",
-        src: "/pages/quotedPrice/quotedPrice",
-        icon:
-          "https://file.zwyknit.com/%E6%8A%A5%E4%BB%B7%E7%AE%A1%E7%90%86.png",
-      },
-      {
-        title: "样单管理",
-        src: "/pages/sampleOrder/sampleOrder",
-        icon:
-          "https://file.zwyknit.com/%E6%A0%B7%E5%8D%95%E7%AE%A1%E7%90%86.png",
-      },
-      {
-        title: "订单管理",
-        src: "/pages/order/order",
-        icon:
-          "https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86%20.png",
-      },
-      {
-        title: "报销单管理",
-        src: "/pages/reimbursementManage/reimbursementManage",
-        icon:
-          // "https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png",
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729095659-1.png",
-      },
-      {
-        title: "单据管理",
-        src: "/pages/billingManagement/index",
-        icon:
-          "https://file.zwyknit.com/%E5%8D%95%E6%8D%AE%E7%AE%A1%E7%90%86.png",
-      },
-      // {
-      //   title: "检验管理",
-      //   src: "/pages/ourFactory/ourFactory?type=3",
-      // },
-    ],
+    list: [],
   },
 
   onShow() {
@@ -61,12 +20,129 @@ Page({
     });
 
     if (!isLogin) {
-      this.toLogin();
+      this.toSignUp();
     }
 
     wx.hideHomeButton();
+    let userInfo = wx.getStorageSync("userInfo");
+    if (
+      isLogin &&
+      wx.getStorageSync("refuses") === "" &&
+      userInfo.bind_wechat !== 1
+    ) {
+      Dialog.confirm({
+        title: "建议开启通知",
+        message: "开启后，会收到平台系统消息通知",
+      })
+        .then(() => {
+          wx.login({
+            success: (res) => {
+              if (res.code) {
+                wxReq(
+                  {
+                    url: "/wechat/bind/user",
+                    data: {
+                      code: res.code,
+                    },
+                    method: "POST",
+                  },
+                  "/pages/index/index"
+                ).then((res) => {
+                  if (res.data.status) {
+                    wx.lin.showMessage({
+                      type: "success",
+                      duration: 3000,
+                      content: "绑定成功",
+                      top: getApp().globalData.navH,
+                    });
+                    this.getUserInfo();
+                  }
+                });
+              }
+            },
+          });
+        })
+        .catch(() => {
+          wx.setStorageSync("refuses", false);
+        });
+    }
     this.setData({
-      userInfo: wx.getStorageSync("userInfo"),
+      userInfo,
+      list: [
+        // {
+        //   title: "本厂生产中",
+        //   src: "/pages/ourFactory/ourFactory?type=1",
+        // },
+        {
+          title: "检验收发",
+          src: "/pages/ourFactory/ourFactory?type=2",
+          show: isHasPermissions("9-3"),
+          icon:
+            "https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png",
+        },
+        {
+          title: "报价单管理",
+          src: "/pages/quotedPrice/quotedPrice",
+          show: isHasPermissions("1-3"),
+          icon:
+            "https://file.zwyknit.com/%E6%8A%A5%E4%BB%B7%E7%AE%A1%E7%90%86.png",
+        },
+        {
+          title: "样单管理",
+          src: "/pages/sampleOrder/sampleOrder",
+          show: isHasPermissions("2-3"),
+          icon:
+            "https://file.zwyknit.com/%E6%A0%B7%E5%8D%95%E7%AE%A1%E7%90%86.png",
+        },
+        {
+          title: "订单管理",
+          src: "/pages/order/order",
+          show: isHasPermissions("3-3"),
+          icon:
+            "https://file.zwyknit.com/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86%20.png",
+        },
+        {
+          title: "报销单管理",
+          src: "/pages/reimbursementManage/reimbursementManage",
+          show: isHasPermissions("18-3"),
+          icon:
+            // "https://file.zwyknit.com/%E6%92%A4%E9%94%80%E5%8D%95%E7%AE%A1%E7%90%86.png",
+            "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220729095659-1.png",
+        },
+        {
+          title: "单据管理",
+          src: "/pages/billingManagement/index",
+          show: isHasPermissions(21),
+          icon:
+            "https://file.zwyknit.com/%E5%8D%95%E6%8D%AE%E7%AE%A1%E7%90%86.png",
+        },
+        // {
+        //   title: "检验管理",
+        //   src: "/pages/ourFactory/ourFactory?type=3",
+        // },
+      ],
+    });
+  },
+
+  getUserInfo() {
+    wxReq(
+      {
+        url: "/auth/info",
+        method: "post",
+      },
+      "/pages/index/index"
+    ).then((ress) => {
+      if (ress.data.status) {
+        ress.data.data.quanxianLen = ress.data.data.module_info.filter(
+          (item) => {
+            return typeof item !== "number";
+          }
+        ).length;
+        wx.setStorageSync("userInfo", ress.data.data);
+        this.setData({
+          userInfo: ress.data.data,
+        });
+      }
     });
   },
 

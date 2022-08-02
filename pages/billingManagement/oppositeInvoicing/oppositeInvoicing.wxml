@@ -6,9 +6,16 @@
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号" hide-label="{{true}}" />
-		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	<view class="bgColorWhite">
+		<view class="flex">
+			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号" hide-label="{{true}}" />
+			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+		</view>
+
+		<view class="flex jcsb" style="padding: 10px;">
+			<view>开票金额</view>
+			<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
+		</view>
 	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">

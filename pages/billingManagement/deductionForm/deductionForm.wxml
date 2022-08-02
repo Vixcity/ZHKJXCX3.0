@@ -6,18 +6,24 @@
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
-			<van-icon class="ml5 pt5" name="arrow-down" />
+	<view class="bgColorWhite">
+		<view class="flex jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="date">日期
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
 		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">公司
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">小组
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
-			<van-icon class="ml5 pt5" name="arrow-down" />
+		<view class="flex jcsb" style="padding: 10px;">
+			<view>扣款金额</view>
+			<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
 		</view>
 	</view>
 

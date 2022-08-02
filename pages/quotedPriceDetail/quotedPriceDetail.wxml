@@ -7,26 +7,49 @@
 	</nav-content>
 	<view class="card">
 		<view class="title">{{detailData.title}}</view>
-		<view>报价单号：{{detailData.code}}</view>
-		<view>询价公司：{{detailData.client_name}}{{detailData.contacts_name?('-'+detailData.contacts_name):''}}</view>
-		<view>客户报价：
-			<text wx:if="{{detailData.real_quote_price}}">
-				<text class="color27A2">{{detailData.real_quote_price}}</text>{{detailData.settle_unit}}
-			</text>
-			<text wx:else>
-				<text>无</text>
-			</text>
+		<view class="flex mt10">
+			<view class="color6 w30">报价单号</view>
+			<view>{{detailData.code}}</view>
 		</view>
-		<view>系统报价：
-			<text wx:if="{{detailData.system_total_price}}">
-				<text class="color27A2">{{detailData.system_total_price}}</text>{{detailData.settle_unit}}
-			</text>
-			<text wx:else>
-				<text>无</text>
-			</text>
+		<view class="flex mt10">
+			<view class="color6 w30">询价公司</view>
+			<view>{{detailData.client_name}}{{detailData.contacts_name?('-'+detailData.contacts_name):''}}</view>
 		</view>
-		<view>创建人：{{detailData.user_name || '无'}}</view>
-		<view>更新时间：{{detailData.created_at}}</view>
+		<view class="flex mt10">
+			<view class="color6 w30">客户报价</view>
+			<view>
+				<text wx:if="{{detailData.real_quote_price}}">
+					<text class="color27A2">{{detailData.real_quote_price}}</text>{{detailData.settle_unit}}
+				</text>
+				<text wx:else>
+					<text>无</text>
+				</text>
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="color6 w30">系统报价</view>
+			<view>
+				<text wx:if="{{detailData.system_total_price}}">
+					<text class="color27A2">{{detailData.system_total_price}}</text>{{detailData.settle_unit}}
+				</text>
+				<text wx:else>
+					<text>无</text>
+				</text>
+			</view>
+		</view>
+		<view class="flex mt10">
+			<view class="color6 w30">创建人</view>
+			<view>{{detailData.user_name || '无'}}</view>
+		</view>
+		<view class="flex mt10">
+			<view class="color6 w30">更新时间</view>
+			<view>{{detailData.created_at}}</view>
+		</view>
+		<picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+			<view class="picker">
+				当前选择: {{date}}
+			</view>
+		</picker>
 		<van-image style="position: absolute;right:0;top:10%" width="130" height="94"
 			src="{{statusList[detailData.is_check]}}" />
 	</view>
@@ -277,8 +300,10 @@
 	<view wx:if="{{isLogin}}">
 		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
-				<van-button type="primary" size="small" bindtap="updateQuotedPrice">修改报价</van-button>
-				<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="openCheck">审核报价</van-button>
+				<van-button wx:if="{{hasCreateModule}}" type="primary" size="small" bindtap="updateQuotedPrice">修改报价
+				</van-button>
+				<van-button class="{{hasCreateModule?'ml20':''}}" type="primary" size="small" bindtap="openCheck">审核报价
+				</van-button>
 			</view>
 		</view>
 	</view>

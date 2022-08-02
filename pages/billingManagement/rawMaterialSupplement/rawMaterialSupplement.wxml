@@ -6,9 +6,27 @@
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="补充单号/订单号" hide-label="{{true}}" />
-		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	<view class="bgColorWhite">
+		<view class="flex">
+			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="补充单号/订单号" hide-label="{{true}}" />
+			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+		</view>
+		<view class="flex jcsb" style="padding: 10px;">
+			<view class="w33">
+				<view>补充数</view>
+				<view class="mt10 color03d0 bold">{{additional.total_number || 0}} 吨或千米</view>
+			</view>
+			<view class="w33">
+				<view>本厂承担</view>
+				<view class="mt10 color03d0 bold">
+					-{{additional.self_client_price || 0}} 万元
+				</view>
+			</view>
+			<view class="w33">
+				<view>外协承担</view>
+				<view class="mt10 color03d0 bold">{{ additional.client_price || 0 }} 万元</view>
+			</view>
+		</view>
 	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">

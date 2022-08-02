@@ -36,7 +36,7 @@ Page({
   onLoad(options) {
     this.getScreenList();
     this.setData({ list: [] });
-		this.confirmData();
+    this.confirmData();
   },
 
   /**
@@ -46,8 +46,8 @@ Page({
     if (wx.getStorageSync("isDo")) {
       this.getScreenList();
       this.setData({ list: [] });
-			this.confirmData();
-			wx.setStorageSync('isDo', false)
+      this.confirmData();
+      wx.setStorageSync("isDo", false);
     }
   },
 
@@ -229,12 +229,22 @@ Page({
         });
       }
 
-      let list = this.data.list.concat(res.data.data.items);
+			let list = this.data.list.concat(res.data.data.items);
+			console.log(data)
+      let additional = res.data.data.additional;
+      additional.total_production_number = (
+        additional.total_production_number / 10000
+			).toFixed(2);
+			
+      additional.total_material_number = (
+        additional.total_material_number / 1000
+      ).toFixed(2);
 
       this.data.page += 1;
       this.setData({
         showLoading: false,
         list,
+        additional,
       });
     });
   },

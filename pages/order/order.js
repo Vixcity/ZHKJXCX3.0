@@ -5,6 +5,7 @@ const {
   getGroupList,
   getClientList,
   getUserList,
+  getOrderStatusList,
 } = require("../../utils/util");
 
 // pages/order/order.js
@@ -19,6 +20,7 @@ Page({
       { text: "已审核", id: "1" },
       { text: "已驳回", id: "2" },
     ],
+    orderStatusList: [],
     groupList: [],
     userList: [],
     clientList: [],
@@ -43,6 +45,10 @@ Page({
     getGroupList("/order/order");
     getUserList("/order/order");
     getClientList("/order/order");
+
+    let orderStatusList = getOrderStatusList();
+    orderStatusList[0].text = "全部";
+    orderStatusList[0].id = "";
 
     let arr = [
       {
@@ -72,6 +78,7 @@ Page({
       isEnd: false,
       noData: false,
       page: 1,
+      orderStatusList,
     });
     this.getList();
   },
@@ -93,7 +100,7 @@ Page({
           client_id: this.data.client_id,
           user_id: this.data.user_id,
           keyword: this.data.keyword,
-          is_check: this.data.is_check,
+          status: this.data.is_check,
           group_id: this.data.group_id,
         },
         method: "GET",
@@ -112,8 +119,8 @@ Page({
         });
       }
       this.data.page += 1;
-			this.data.orderList = this.data.orderList.concat(res.data.data.items);
-			// console.log(res.data.data.items)
+      this.data.orderList = this.data.orderList.concat(res.data.data.items);
+      // console.log(res.data.data.items)
 
       this.setData({
         orderList: this.data.orderList,
@@ -186,28 +193,28 @@ Page({
   confirmData(e) {
     const { type } = e.currentTarget.dataset;
     if (type === "status") {
-			this.data.is_check = e.detail.value[0].id;
-			this.setData({
+      this.data.is_check = e.detail.value[0].id;
+      this.setData({
         status_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
       });
     }
 
     if (type === "user") {
-			this.data.user_id = e.detail.value[0].id;
-			this.setData({
+      this.data.user_id = e.detail.value[0].id;
+      this.setData({
         user_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
       });
     }
-		
-		if (type === "keyword") {
+
+    if (type === "keyword") {
       this.data.keyword = e.detail.value;
     }
 
     if (type === "group") {
-			this.data.group_id = e.detail.value[0].id;
-			this.setData({
+      this.data.group_id = e.detail.value[0].id;
+      this.setData({
         group_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
       });
@@ -223,8 +230,8 @@ Page({
         });
         return;
       }
-			this.data.client_id = e.detail.value[2].id;
-			this.setData({
+      this.data.client_id = e.detail.value[2].id;
+      this.setData({
         client_name:
           e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
       });

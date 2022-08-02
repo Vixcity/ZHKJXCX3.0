@@ -6,6 +6,7 @@ const {
   wxReq,
   getGroupList,
   getSomeDateList,
+  isHasPermissions,
 } = require("../../utils/util");
 Page({
   /**
@@ -49,6 +50,7 @@ Page({
     isEnd: false,
     showLoading: false,
     noData: false,
+    hasCreateModule: false,
     status: "",
   },
 
@@ -88,6 +90,7 @@ Page({
       isEnd: false,
       noData: false,
       page: 1,
+      hasCreateModule: isHasPermissions("18-1"),
     });
     this.getList();
   },
@@ -233,7 +236,9 @@ Page({
       this.data.chooseDate = e.detail.value[0].id;
       this.setData({
         date_name:
-          e.detail.value[0].text !== "今年到当前日期" ? e.detail.value[0].text : "",
+          e.detail.value[0].text !== "今年到当前日期"
+            ? e.detail.value[0].text
+            : "",
       });
     }
 

@@ -29,6 +29,9 @@
 			</view>
 		</view>
 	</view>
+	<view class="mt10 vw95 ml30">
+		<van-checkbox value="{{ rememberPwd }}" checked-color="#27A2FD" bind:change="onChangeRemenber">记住密码</van-checkbox>
+	</view>
 	<view class="mt20 submit poa" style="bottom: 15%;">
 		<van-button type="primary" size="small" bindtap="postSignUp">登录</van-button>
 	</view>

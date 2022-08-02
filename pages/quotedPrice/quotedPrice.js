@@ -8,6 +8,7 @@ const {
   getUserList,
   getClientList,
   getSomeDateList,
+  isHasPermissions,
 } = require("../../utils/util");
 Page({
   /**
@@ -45,6 +46,7 @@ Page({
     isEnd: false,
     showLoading: false,
     noData: false,
+    hasCreateModule: false,
     status: "",
     status_name: "",
     user_name: "",
@@ -89,6 +91,7 @@ Page({
       isEnd: false,
       noData: false,
       page: 1,
+      hasCreateModule: isHasPermissions('1-1'),
     });
     this.getList();
   },
@@ -145,7 +148,7 @@ Page({
           quoteCode: item.client_name,
           date: item.created_at,
           systemPrice: item.system_total_price,
-          customer: item.title || '暂无标题',
+          customer: item.title || "暂无标题",
           unit: item.settle_unit,
           user: item.user_name,
           imgSrc:
@@ -230,16 +233,16 @@ Page({
     }
 
     if (type === "user") {
-			this.data.user_id = e.detail.value[0].id;
-			this.setData({
+      this.data.user_id = e.detail.value[0].id;
+      this.setData({
         user_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
       });
     }
 
     if (type === "date") {
-			this.data.chooseDate = e.detail.value[0].id;
-			this.setData({
+      this.data.chooseDate = e.detail.value[0].id;
+      this.setData({
         date_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
       });
@@ -255,8 +258,8 @@ Page({
         });
         return;
       }
-			this.data.client_id = e.detail.value[2].id;
-			this.setData({
+      this.data.client_id = e.detail.value[2].id;
+      this.setData({
         client_name:
           e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
       });

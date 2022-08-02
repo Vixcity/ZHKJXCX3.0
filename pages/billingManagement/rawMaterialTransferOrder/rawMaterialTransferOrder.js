@@ -236,18 +236,35 @@ Page({
       }
 
       let list = this.data.list.concat(res.data.data.items);
+      let additional = res.data.data.additional;
+      additional.total_number = (
+        additional.total_number / 1000
+      ).toFixed(2);
+
+      additional.total_price = (
+        additional.total_price / 10000
+      ).toFixed(2);
+
+      additional.total_push_number = (
+        additional.total_push_number / 1000
+      ).toFixed(2);
+
+      additional.total_push_price = (
+        additional.total_push_price / 10000
+      ).toFixed(2);
 
       this.data.page += 1;
       this.setData({
         showLoading: false,
         list,
+        additional,
       });
     });
-	},
-	
-	toDetail(e) {
-		const { item } = e.currentTarget.dataset;
-		wx.setStorageSync('rawMaterialTransferOrderDetail', item)
+  },
+
+  toDetail(e) {
+    const { item } = e.currentTarget.dataset;
+    wx.setStorageSync("rawMaterialTransferOrderDetail", item);
     wx.navigateTo({
       url: "./rawMaterialTransferOrderDetail?id=" + item.id,
     });

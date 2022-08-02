@@ -6,10 +6,33 @@
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite">
-		<l-input class="w90" bind:lininput="changeParams" value="{{keyword}}" placeholder="检验单号/订单号"
-			hide-label="{{true}}" />
-		<van-icon class="w10" name="more-o" bindtap="openPopup" />
+	<view class="bgColorWhite">
+		<view class="flex">
+			<l-input class="w90" bind:lininput="changeParams" value="{{keyword}}" placeholder="检验单号/订单号"
+				hide-label="{{true}}" />
+			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+		</view>
+
+		<view class="flex jcsb" style="padding: 10px;">
+			<view class="w25">
+				<view>检验数</view>
+				<view class="mt10 color03d0 bold">{{additional.total_number || 0}} 万件</view>
+			</view>
+			<view class="w25">
+				<view>半次(b品)数</view>
+				<view class="mt10 color03d0 bold">
+					{{additional.total_part_shoddy_number || 0}} 件
+				</view>
+			</view>
+			<view class="w25">
+				<view>全次数</view>
+				<view class="mt10 color03d0 bold">{{ additional.total_shoddy_number || 0 }} 件</view>
+			</view>
+			<view class="w25">
+				<view>扣款金额</view>
+				<view class="mt10 color03d0 bold">{{ additional.total_deduct_price || 0 }} 万元</view>
+			</view>
+		</view>
 	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
