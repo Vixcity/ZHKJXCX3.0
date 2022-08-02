@@ -230,7 +230,6 @@ Page({
       }
 
 			let list = this.data.list.concat(res.data.data.items);
-			console.log(data)
       let additional = res.data.data.additional;
       additional.total_production_number = (
         additional.total_production_number / 10000

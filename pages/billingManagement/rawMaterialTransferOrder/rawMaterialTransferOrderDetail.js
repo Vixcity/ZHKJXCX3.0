@@ -45,6 +45,18 @@ Page({
 			res.data.data.total_push_price = item.total_push_price
       this.setData({ info: res.data.data });
     });
+	},
+	
+	openCheckDetail() {
+    this.setData({
+      showCheckDetail: true,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
+    });
   },
 
   openCheck() {

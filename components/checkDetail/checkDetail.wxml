@@ -1,0 +1,56 @@
+<!--components/checkDetail/checkDetail.wxml-->
+<view id="chcekDetail">
+	<van-popup show="{{ show }}" closeable bind:close="closeCheckDetail">
+		<view class="vh4"></view>
+		<view style="max-height: 60vh;overflow-y: scroll;">
+			<view wx:for="{{reasonList}}">
+				<view class="mt10 flex">
+					<view class="w30 color6">
+						审核人
+					</view>
+					<view class="w70">
+						{{item.check_user_name}}
+					</view>
+				</view>
+				<view class="mt10 flex">
+					<view class="w30 color6">
+						审核状态
+					</view>
+					<view class="w70 {{item.is_check === 1?'color03d0':item.is_check === 2?'colorE800':''}}">
+						{{item.is_check === 1?'通过':'不通过'}}
+					</view>
+				</view>
+				<view class="mt10 flex">
+					<view class="w30 color6">审核时间</view>
+					<view class="w70">
+						{{item.check_time}}
+					</view>
+				</view>
+				<view class="mt10 flex">
+					<view class="w30 color6">驳回理由</view>
+					<view class="w70">
+						{{item.check_desc || '无'}}
+					</view>
+				</view>
+				<view class="mt10 flex">
+					<view class="w30 color6">备注信息</view>
+					<view class="w70">
+						{{item.desc || '无'}}
+					</view>
+				</view>
+				<view class="line" wx:if="{{reasonList.length - 1 !== index}}"></view>
+			</view>
+		</view>
+		<view wx:if="{{reasonList.length === 0 && is_check != 3 && is_check != 4}}" class="tc color9E pb30">暂无数据</view>
+		<view wx:if="{{is_check == 3 || is_check == 4}}">
+			<view class="bold">单据异常处理</view>
+			<view class="mt10">情况一：由于【计划原料数量】发生了修改。该原料采购单已变为异常状态。以下为异常单据处理办法：</view>
+			<view class="mt10">1. 修改此原料订购单，同步最新的原料数量。注意：已采购的原料不能删除，但可以将数量改为0。实际已入库的原料，可以在原料出入库页面进行结余操作。</view>
+			<view class="mt10">2. 如果该单据没有后续加工单、入库单，您也可以删除该单据再新建一张。</view>
+			<view class="mt10">3. 如果您不想修改原料订购单，您也可以直接点击审核通过，并新建一张原料订购单，以补充新的订购数量。</view>
+			<view class="mt10">情况二：提交超出数量，导致单据异常。以下为异常单据处理办法：</view>
+			<view class="mt10">1. 检查订购数量，如果数量录入错误，您可以修改单据，或删除重新创建。</view>
+			<view class="mt10">2. 如果录入的数量为实际订购数量，则无需操作，或点击审核通过即可。</view>
+		</view>
+	</van-popup>
+</view>

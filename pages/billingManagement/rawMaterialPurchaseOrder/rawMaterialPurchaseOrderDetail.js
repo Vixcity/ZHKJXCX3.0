@@ -58,6 +58,18 @@ Page({
     });
   },
 
+	openCheckDetail() {
+    this.setData({
+      showCheckDetail: true,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
+    });
+  },
+
   openCheck() {
     this.setData({
       showShenHe: true,

@@ -39,9 +39,9 @@
 			</view>
 		</view>
 		<view class="flex mt10">
-			<view class="w30 color6">计划单</view>
+			<view class="w30 color6">关联计划单</view>
 			<view class="w70">
-				{{info.plan_code}}
+				{{info.plan_code || '无'}}
 			</view>
 		</view>
 		<view class="flex mt10">
@@ -75,9 +75,9 @@
 			</view>
 		</view>
 		<van-image wx:if="{{info.is_check !== 4 && info.is_check !== 3}}" style="position: absolute;right:0;top:0%"
-			width="130" height="94" src="{{statusImageList[info.is_check]}}" />
+			width="130" height="94" src="{{statusImageList[info.is_check]}}" bindtap="openCheckDetail"/>
 		<van-image wx:else style="position: absolute;right:2%;top:2%" width="90" height="90"
-			src="{{statusImageList[info.is_check]}}" />
+			src="{{statusImageList[info.is_check]}}" bindtap="openCheckDetail"/>
 	</view>
 
 	<!-- 原料信息 -->
@@ -202,4 +202,5 @@
 	</l-mask>
 
 	<l-message content="{{content}}" />
+	<check-detail show="{{showCheckDetail}}" pid="{{id}}" check_type="2" is_check="{{info.is_check}}" bind:cancel="closeCheckDetail"></check-detail>
 </view>

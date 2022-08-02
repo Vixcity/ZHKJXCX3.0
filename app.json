@@ -58,7 +58,7 @@
     "list-card": "./components/listCard/listCard",
     "order-card": "./components/orderCard/orderCard",
     "nav-content": "./components/navContent/navContent",
-    "check-detail": "./components/checkDetail/checkDetai",
+    "check-detail": "./components/checkDetail/checkDetail",
     "l-album": "/miniprogram_npm/lin-ui/album/index",
     "l-button": "/miniprogram_npm/lin-ui/button/index",
     "l-capsule-bar": "/miniprogram_npm/lin-ui/capsule-bar/index",

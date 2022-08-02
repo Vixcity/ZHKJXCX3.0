@@ -13,6 +13,7 @@ Page({
     id: "",
     info: {},
     showShenHe: false,
+    showCheckDetail: false,
     current: 1,
     textInputDesc: "",
     textInputReason: "",
@@ -57,6 +58,18 @@ Page({
       });
 
       this.setData({ info: res.data.data, materialPlanInfo });
+    });
+  },
+
+  openCheckDetail() {
+    this.setData({
+      showCheckDetail: true,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
     });
   },
 
@@ -110,8 +123,8 @@ Page({
           duration: 2000,
           content: "审核成功",
           top: getApp().globalData.navH,
-				});
-				wx.setStorageSync('isDo', true)
+        });
+        wx.setStorageSync("isDo", true);
         this.getDetail();
         this.setData({
           showShenHe: false,
@@ -135,8 +148,8 @@ Page({
     ).then((res) => {
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
-				.join(",");
-			res.data.data.desc =res.data.data.desc || "无";
+        .join(",");
+      res.data.data.desc = res.data.data.desc || "无";
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },
@@ -153,11 +166,11 @@ Page({
       showImage: false,
       showPro: true,
     });
-	},
-	
-	closePro(){
-		this.setData({
+  },
+
+  closePro() {
+    this.setData({
       showPro: false,
     });
-	}
+  },
 });
