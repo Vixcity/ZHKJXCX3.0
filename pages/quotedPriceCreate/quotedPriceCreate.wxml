@@ -20,7 +20,7 @@
 			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
 				<text style="color: #e23;vertical-align: middle;">* </text>询价公司
 			</text>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '公司'}}
+			<view class="h100 flex aic pl25r" bindtap="openPicker" data-type="client">{{client_name || '公司'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
 			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>

@@ -1084,34 +1084,37 @@ Page({
 
     // 没填佣金百分比
     if (!this.data.commission_percentage) {
-      wx.lin.showMessage({
-        type: "error",
-        duration: 3000,
-        content: "请填写佣金百分比",
-        top: getApp().globalData.navH,
-      });
-      return;
+			this.data.commission_percentage = 0
+      // wx.lin.showMessage({
+      //   type: "error",
+      //   duration: 3000,
+      //   content: "请填写佣金百分比",
+      //   top: getApp().globalData.navH,
+      // });
+      // return;
     }
 
     // 没填预计税率百分比
     if (!this.data.rate_taxation) {
-      wx.lin.showMessage({
-        type: "error",
-        duration: 3000,
-        content: "请填写预计税率百分比",
-        top: getApp().globalData.navH,
-      });
-      return;
+			this.data.rate_taxation = 0
+      // wx.lin.showMessage({
+      //   type: "error",
+      //   duration: 3000,
+      //   content: "请填写预计税率百分比",
+      //   top: getApp().globalData.navH,
+      // });
+      // return;
     }
 
     if (!this.data.profit_percentage) {
-      wx.lin.showMessage({
-        type: "error",
-        duration: 3000,
-        content: "请填写预计利润百分比",
-        top: getApp().globalData.navH,
-      });
-      return;
+			this.data.profit_percentage = 0
+      // wx.lin.showMessage({
+      //   type: "error",
+      //   duration: 3000,
+      //   content: "请填写预计利润百分比",
+      //   top: getApp().globalData.navH,
+      // });
+      // return;
     }
 
     // 没填运费、产品品类、原料

@@ -37,7 +37,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onShow(options) {
+  onLoad(options) {
     const isLogin = isIfLogin();
 
     getGroupList("/sampleOrder/sampleOrder");

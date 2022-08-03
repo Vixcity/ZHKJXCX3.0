@@ -76,8 +76,8 @@
 				</view>
 				<view class="w70 flex fdc jcsb pl10">
 					<view bindtap='showDetailPro' data-item="{{item}}">
-						<view class="color27A2">{{item.product_code}}</view>
 						<view>{{item.name}}</view>
+						<view class="color27A2">{{item.product_code}}</view>
 					</view>
 					<view class="flex jcsb aic">
 						<view>{{item.category}}/{{item.secondary_category}}</view>
@@ -354,20 +354,20 @@
 	<!-- 财务概览 -->
 	<view class="card">
 		<view class="title">财务概览</view>
-		<view class="mt10">点击表格可查看详情</view>
+		<view class="mt10 colorOrange">点击具体费用表格可查看详情</view>
 		<view class="tc">
 			<view class="flex">
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'
 					data-type='product'>
 					<view>产品费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.product_total_price}} 元
 					</view>
 				</view>
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-left: none;"
 					bindtap='showFinancialPopup' data-type='material'>
 					<view>原料费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.material.material.gather.plan_price}} 元
 					</view>
 				</view>
@@ -376,14 +376,14 @@
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);border-top: none;"
 					bindtap='showFinancialPopup' data-type='decorate'>
 					<view>辅料费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.material.decorate.gather.plan_price}} 元
 					</view>
 				</view>
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-top: none;border-left: none;"
 					bindtap='showFinancialPopup' data-type='pack'>
 					<view>包装辅料</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.pack.gather.total_price}} 元
 					</view>
 				</view>
@@ -393,7 +393,7 @@
 					wx:key="itemWeave" wx:for-index="indexWeave" bindtap='showFinancialPopup' data-indexWeave="{{indexWeave}}"
 					data-type='weave' data-index='{{indexWeave}}'>
 					<view>生产费用-{{itemWeave.process_name}}</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{itemWeave.total_price}} 元
 					</view>
 				</view>
@@ -401,7 +401,7 @@
 					wx:key="itemPro" wx:for-index="indexPro" bindtap='showFinancialPopup' data-type='production_inspection'
 					data-index='{{indexPro}}' data-indexpro='{{indexPro}}'>
 					<view>车间工资-{{itemPro.process_name}}</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{itemPro.total_price}} 元
 					</view>
 				</view>

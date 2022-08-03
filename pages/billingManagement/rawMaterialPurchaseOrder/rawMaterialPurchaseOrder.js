@@ -107,9 +107,16 @@ Page({
       ],
       order_type: "",
       orderType: [
-        { text: "全部", id: "", checked: false },
+				{ text: "全部", id: "", checked: false },
         { text: "订单", id: 1, checked: false },
         { text: "样单", id: 2, checked: false },
+      ],
+			order_types: "",
+      orderTypes: [
+        { text: "全部", id: "", checked: false },
+        { text: "计划订购", id: "plan", checked: false },
+        { text: "补纱订购", id: "sup", checked: false },
+        { text: "预订购", id: "reserve", checked: false },
       ],
       client_name: "",
       client_id: "",
@@ -205,6 +212,12 @@ Page({
         end_time: this.data.dateList[index].id[1],
       });
     }
+
+    if (type === "orderTypes") {
+      this.setData({
+        order_types: this.data.orderTypes[index].id,
+      });
+    }
   },
 
   // 提交
@@ -250,26 +263,32 @@ Page({
       client_id,
       order_type,
       start_time,
+      order_types,
       end_time,
       page,
     } = this.data;
+
+    let obj = {
+      is_check,
+      user_id,
+      group_id,
+      code,
+      client_id,
+      order_type,
+      start_time,
+      end_time,
+      page,
+      limit: 10,
+      material_type: 1,
+    };
+    if (!!order_types) {
+      obj[order_types] = 1;
+    }
     wxReq(
       {
         url: "/material/order/lists",
         method: "GET",
-        data: {
-          is_check,
-          user_id,
-          group_id,
-          code,
-          client_id,
-          order_type,
-          start_time,
-          end_time,
-          page,
-          limit: 10,
-          material_type: 1,
-        },
+        data: obj,
       },
       "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder"
     ).then((res) => {
@@ -301,8 +320,8 @@ Page({
       additional.total_push_number = (
         additional.total_push_number / 1000
       ).toFixed(2);
-			
-			additional.total_push_price = (
+
+      additional.total_push_price = (
         additional.total_push_price / 10000
       ).toFixed(2);
 

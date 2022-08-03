@@ -7,9 +7,9 @@
 	</nav-content>
 
 	<view class="bgColorWhite">
-		<view class="flex">
+		<view class="flex aic">
 			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订购单号/订单号" hide-label="{{true}}" />
-			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+			<view class="w10 color27A2" bindtap="openPopup">筛选</view>
 		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view class="w25">
@@ -38,7 +38,7 @@
 		<view wx:for="{{list}}" class="card flex" bindtap="toDetail" data-item="{{item}}">
 			<view class="w100 flex aic">
 				<view class="title w32">订购单号：</view>
-				<view>{{item.code}}</view>
+				<view class="w38" style="word-break: break-word;">{{item.code}}</view>
 				<view class="ml20 colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px;"
 					wx:if="{{item.is_check === 0}}">待审核</view>
 				<view class="ml20 colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px;"
@@ -60,6 +60,12 @@
 			<view class="w100 flex aic mt10">
 				<view class="title w32">创建人：</view>
 				<view>{{item.user_name}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">订购类型：</view>
+				<view wx:if="{{item.plan_id}}">计划订购</view>
+				<view wx:if="{{item.sup_id}}">补纱订购</view>
+				<view wx:if="{{item.reserve_id}}">预订购</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">订购单位：</view>
@@ -164,6 +170,18 @@
 				<view class="flex">
 					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="date">
 						<label class="radio" wx:for="{{dateList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>订购类型：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="orderTypes">
+						<label class="radio" wx:for="{{orderTypes}}" wx:key="key">
 							<view>
 								<view class="label">{{item.text}}</view>
 								<radio value="{{index}}" checked="{{item.checked}}" />

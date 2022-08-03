@@ -7,9 +7,11 @@
 	</nav-content>
 
 	<view class="bgColorWhite">
-		<view class="flex">
-			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号" hide-label="{{true}}" />
-			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+		<l-input bind:lininput="changeParams" data-type="code" value="{{code}}" placeholder="票据编号" hide-label="{{true}}" />
+		<view class="flex aic">
+			<l-input class="w90" bind:lininput="changeParams" data-type="order_code" value="{{order_code}}" placeholder="订单号"
+				hide-label="{{true}}" />
+			<view class="w10 color27A2" bindtap="openPopup">筛选</view>
 		</view>
 
 		<view class="flex jcsb" style="padding: 10px;">
@@ -18,7 +20,7 @@
 		</view>
 	</view>
 
-	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+	<scroll-view scroll-y class="vh72" bindscrolltolower="reqOrder">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex">
 			<view class="w100 flex aic">

@@ -109,7 +109,7 @@
 						</view>
 						<view class="w70 flex fdc jcsb pb5">
 							<view class="flex jcsb">
-								<view bindtap='showDetailPro' data-item="{{itemPro}}" class="color27A2">{{itemPro.name}}</view>
+								<view>{{itemPro.system_code}}</view>
 								<view wx:if="{{itemPro.status === 1}}" class="colorOrange">待确认</view>
 								<view wx:elif="{{itemPro.status === 2}}" class="color03d0">确认大货生产</view>
 								<view wx:elif="{{itemPro.status === 3}}" class="colorOrange">已修改</view>
@@ -120,16 +120,21 @@
 							</view>
 							<view>{{itemPro.category || '无'}}/{{itemPro.secondary_category || '无'}}</view>
 							<view class="flex jcsb pr10">
-								<view>{{itemPro.system_code}}</view>
-								<view wx:if="{{itemPro.craft_list_id}}" class="color03d0 tc"
-									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2">工</view>
-								<view wx:if="{{!itemPro.craft_list_id}}" class="color9E tc"
-									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">工</view>
-								<view wx:if="{{itemPro.rel_quote_info.quote_id}}" class="color03d0 tc"
-									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2"
-									bindtap="toQuotePriceDetail" data-id="{{itemPro.rel_quote_info.quote_id}}">报</view>
-								<view wx:if="{{!itemPro.rel_quote_info.quote_id}}" class="color9E tc"
-									style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">报</view>
+								<view bindtap='showDetailPro' data-item="{{itemPro}}" class="color27A2">{{itemPro.name}}</view>
+								<view class="flex">
+									<view wx:if="{{itemPro.craft_list_id}}" class="color03d0 tc"
+										style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2">工
+									</view>
+									<view wx:if="{{!itemPro.craft_list_id}}" class="color9E tc"
+										style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">工
+									</view>
+									<view wx:if="{{itemPro.rel_quote_info.quote_id}}" class="color03d0 tc ml10"
+										style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #03d0a2"
+										bindtap="toQuotePriceDetail" data-id="{{itemPro.rel_quote_info.quote_id}}">报</view>
+									<view wx:if="{{!itemPro.rel_quote_info.quote_id}}" class="color9E tc ml10"
+										style="border-radius: 500px;width:25px;height:25px;line-height:25px;border:1px solid #9E9E9E">报
+									</view>
+								</view>
 								<!-- <view bindtap="openStatusChoose" data-index="{{index}}" data-status_choose="{{itemPro.status}}"
 									data-indexPro="{{indexPro}}" class="color27A2">
 									操作<text class="colorWhite bgColor27A2 pl5 pr5 ml5 bold">+</text></view> -->
@@ -267,27 +272,27 @@
 	</view>
 	<view class="card">
 		<view class="title">财务概览</view>
-		<view class="mt10">点击表格可查看详情</view>
+		<view class="mt10 colorOrange">点击具体费用表格可查看详情</view>
 		<view class="tc">
 			<view class="flex">
 				<view class="w33 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'
 					data-type='product'>
 					<view>样品费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.product_total_price}} 元
 					</view>
 				</view>
 				<view class="w33 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-left: none;"
 					bindtap='showFinancialPopup' data-type='material'>
 					<view>原料费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.material.material.gather.plan_price}} 元
 					</view>
 				</view>
 				<view class="w33 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1); border-left: none;"
 					bindtap='showFinancialPopup' data-type='decorate'>
 					<view>辅料费用</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{financialInfo.material.decorate.gather.plan_price}} 元
 					</view>
 				</view>
@@ -297,7 +302,7 @@
 					wx:key="itemWeave" wx:for-index="indexWeave" bindtap='showFinancialPopup' data-indexWeave="{{indexWeave}}"
 					data-type='weave' data-index='{{indexWeave}}'>
 					<view>生产费用-{{itemWeave.process_name}}</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{itemWeave.total_price}} 元
 					</view>
 				</view>
@@ -305,7 +310,7 @@
 					wx:key="itemPro" wx:for-index="indexPro" bindtap='showFinancialPopup' data-type='production_inspection'
 					data-index='{{indexPro}}' data-indexpro='{{indexPro}}'>
 					<view>车间工资-{{itemPro.process_name}}</view>
-					<view class="mt10">
+					<view class="mt10 color27A2">
 						{{itemPro.total_price}} 元
 					</view>
 				</view>

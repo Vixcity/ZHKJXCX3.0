@@ -129,6 +129,12 @@ Page({
         showClient: true,
       });
     }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: true,
+      });
+    }
   },
 
   // 关闭选择器
@@ -157,6 +163,12 @@ Page({
         showClient: false,
       });
     }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: false,
+      });
+    }
   },
 
   // 选择器提交
@@ -174,6 +186,10 @@ Page({
 
     if (type === "group") {
       this.data.group_id = e.detail.value[0].id;
+    }
+
+    if (type === "status") {
+      this.data.is_check = e.detail.value[0].id;
     }
 
     if (type === "client") {
@@ -220,6 +236,7 @@ Page({
       client_id,
       start_time,
       end_time,
+      is_check,
       page,
     } = this.data;
     wxReq(
@@ -230,6 +247,7 @@ Page({
           user_id,
           group_id,
           client_id,
+          is_check,
           start_time,
           end_time,
           page,
@@ -253,8 +271,8 @@ Page({
         });
       }
 
-			let list = this.data.list.concat(res.data.data.items);
-			let additional = res.data.data.additional;
+      let list = this.data.list.concat(res.data.data.items);
+      let additional = res.data.data.additional;
       additional.total_price = (additional.total_price / 10000).toFixed(2);
 
       this.data.page += 1;

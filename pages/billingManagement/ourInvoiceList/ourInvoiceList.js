@@ -26,6 +26,7 @@ Page({
     orderType: [],
     list: [],
     activeName: "",
+    order_code: "",
     code: "",
     user_id: "",
     group_id: "",
@@ -202,9 +203,11 @@ Page({
 
   // 更改关键字
   changeParams(e) {
-    this.setData({
-      code: e.detail.value,
-    });
+    let type = e.currentTarget.dataset.type;
+    let obj = {};
+
+    obj[type] = e.detail.value;
+    this.setData(obj);
     this.confirmData();
   },
 
@@ -223,13 +226,14 @@ Page({
       showLoading: true,
     });
 
-    let { code, client_id, start_time, end_time, page } = this.data;
+    let { order_code, code, client_id, start_time, end_time, page } = this.data;
     wxReq(
       {
         url: "/doc/invoice/lists",
         method: "GET",
         data: {
-          order_code: code,
+          order_code,
+          code,
           client_id,
           start_time,
           end_time,
@@ -257,9 +261,7 @@ Page({
 
       let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;
-      additional.total_price = (
-        additional.total_price / 10000
-      ).toFixed(2);
+      additional.total_price = (additional.total_price / 10000).toFixed(2);
 
       this.data.page += 1;
       this.setData({

@@ -20,6 +20,9 @@
 			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">负责人
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">状态
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
 		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view>扣款金额</view>
@@ -58,7 +61,7 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">扣款原因：</view>
-				<view>{{item.reason}}</view>
+				<view class="{{item.reason?'':'color6'}}">{{item.reason || '无'}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">相关图片：</view>
@@ -81,8 +84,12 @@
 		showDialog="{{showGroup}}"></picker>
 	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
 		showDialog="{{showUser}}"></picker>
+	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+		showDialog="{{showStatus}}"></picker>
 
-	<van-popup show="{{ showPopup }}" catchtap="closePopup">
-		<van-image width="99vw" height="99vh" fit="contain" src="{{img_url}}" />
-	</van-popup>
+	<view class="trans">
+		<van-popup show="{{ showPopup }}" catchtap="closePopup">
+			<van-image width="99vw" height="99vh" fit="contain" src="{{img_url}}" />
+		</van-popup>
+	</view>
 </view>

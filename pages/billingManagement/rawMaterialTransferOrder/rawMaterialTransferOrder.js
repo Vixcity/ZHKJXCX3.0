@@ -83,6 +83,12 @@ Page({
           checked: false,
         };
       }),
+      order_type: "",
+      orderType: [
+        { text: "全部", id: "", checked: false },
+        { text: "订单", id: 1, checked: false },
+        { text: "样单", id: 2, checked: false },
+      ],
       is_check: "",
       statusList: [
         { text: "全部", id: "", checked: false },
@@ -136,6 +142,12 @@ Page({
     if (type === "status") {
       this.setData({
         is_check: this.data.statusList[index].id,
+      });
+    }
+		
+		if (type === "order_type") {
+      this.setData({
+        order_type: this.data.orderType[index].id,
       });
     }
 
@@ -196,6 +208,7 @@ Page({
       code,
       start_time,
       end_time,
+      order_type,
       page,
     } = this.data;
 
@@ -211,6 +224,7 @@ Page({
           start_time,
           end_time,
           store_id,
+          order_type,
           page,
           limit: 10,
         },
@@ -237,13 +251,9 @@ Page({
 
       let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;
-      additional.total_number = (
-        additional.total_number / 1000
-      ).toFixed(2);
+      additional.total_number = (additional.total_number / 1000).toFixed(2);
 
-      additional.total_price = (
-        additional.total_price / 10000
-      ).toFixed(2);
+      additional.total_price = (additional.total_price / 10000).toFixed(2);
 
       additional.total_push_number = (
         additional.total_push_number / 1000

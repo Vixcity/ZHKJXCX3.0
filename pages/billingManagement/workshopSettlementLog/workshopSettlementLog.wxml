@@ -7,9 +7,9 @@
 	</nav-content>
 
 	<view class="bgColorWhite">
-		<view class="flex">
+		<view class="flex aic">
 			<l-input class="w90" bind:lininput="changeParams" value="{{code}}" placeholder="订单号/产品编号" hide-label="{{true}}" />
-			<van-icon class="w10" name="more-o" bindtap="openPopup" />
+			<view class="w10 color27A2" bindtap="openPopup">筛选</view>
 		</view>
 
 		<view class="flex jcsb" style="padding: 10px;">
