@@ -4,7 +4,7 @@ const {
   wxReq,
   dateDiff,
   getDay,
-	isHasPermissions,
+  isHasPermissions,
 } = require("../../utils/util");
 
 Page({
@@ -103,6 +103,76 @@ Page({
         },
         0
       );
+
+      res.data.data.product.forEach((item) => {
+        if (item.quote_info) {
+          if (item.quote_info.change.indexOf("上浮") !== -1) {
+            item.quote_info.class = "colorE800";
+          } else if (item.quote_info.change.indexOf("下降") !== -1) {
+            item.quote_info.class = "color03d0";
+          }
+        }
+      });
+			
+			res.data.data.weave.forEach((item) => {
+        if (item.quote_info) {
+          if (item.quote_info.change.indexOf("上浮") !== -1) {
+            item.quote_info.class = "colorE800";
+          } else if (item.quote_info.change.indexOf("下降") !== -1) {
+            item.quote_info.class = "color03d0";
+          }
+        }
+      });
+
+      if (res.data.data.material.material.gather.quote_info) {
+        if (
+          res.data.data.material.material.gather.quote_info.change.indexOf(
+            "上浮"
+          ) !== -1
+        ) {
+					console.log(1)
+          res.data.data.material.material.gather.quote_info.class = "colorE800";
+        } else if (
+          res.data.data.material.material.gather.quote_info.change.indexOf(
+            "下降"
+          ) !== -1
+        ) {
+					console.log(2)
+          res.data.data.material.material.gather.quote_info.class = "color03d0";
+        }
+      }
+			
+			if (res.data.data.material.decorate.gather.quote_info) {
+        if (
+          res.data.data.material.decorate.gather.quote_info.change.indexOf(
+            "上浮"
+          ) !== -1
+        ) {
+          res.data.data.material.decorate.gather.quote_info.class = "colorE800";
+        } else if (
+          res.data.data.material.decorate.gather.quote_info.change.indexOf(
+            "下降"
+          ) !== -1
+        ) {
+          res.data.data.material.decorate.gather.quote_info.class = "color03d0";
+        }
+			}
+			
+			if(res.data.data.pack.gather.quote_info){
+				if (
+          res.data.data.pack.gather.quote_info.change.indexOf(
+            "上浮"
+          ) !== -1
+        ) {
+          res.data.data.pack.gather.quote_info.class = "colorE800";
+        } else if (
+          res.data.data.pack.gather.quote_info.change.indexOf(
+            "下降"
+          ) !== -1
+        ) {
+          res.data.data.pack.gather.quote_info.class = "color03d0";
+        }
+			}
 
       this.setData({
         financialInfo: res.data.data,

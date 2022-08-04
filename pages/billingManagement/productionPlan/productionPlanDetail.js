@@ -2,9 +2,9 @@
 const {
   wxReq,
   formatDate,
-	getStatusImage,
-	mergeData,
-	getOrderStatusList,
+  getStatusImage,
+  mergeData,
+  getOrderStatusList,
 } = require("../../../utils/util");
 Page({
   /**
@@ -48,6 +48,19 @@ Page({
       let materialPlanInfo = mergeData(res.data.data.material_info_data, {
         mainRule: ["material_name", "material_id"],
       });
+      res.data.data.product_info_data = mergeData(
+        res.data.data.product_info_data,
+        {
+          mainRule: [
+            "product_code",
+            "secondary_category_name",
+            "category_name",
+            "image_data",
+            "system_code",
+            "product_id",
+          ],
+        }
+      );
 
       // 计算总价
       materialPlanInfo.forEach((item) => {
@@ -79,26 +92,26 @@ Page({
         total_number,
         total_price,
       });
-		});
-		
-		wxReq(
+    });
+
+    wxReq(
       {
         url: "/order/detail",
         method: "GET",
         data: {
-          id: wx.getStorageSync('productionPlanDetail').top_order_id,
+          id: wx.getStorageSync("productionPlanDetail").top_order_id,
         },
       },
       "/billingManagement/productionPlan/productionPlanDetail&id=" +
         this.data.id
     ).then((res) => {
-			this.setData({
-				orderInfo:res.data.data
-			})
-		})
+      this.setData({
+        orderInfo: res.data.data,
+      });
+    });
   },
 
-	openCheckDetail() {
+  openCheckDetail() {
     this.setData({
       showCheckDetail: true,
     });
@@ -155,7 +168,7 @@ Page({
         this.data.id
     ).then((res) => {
       if (res.data.status) {
-				wx.setStorageSync('isDo', true)
+        wx.setStorageSync("isDo", true);
         wx.lin.showMessage({
           type: "success",
           duration: 2000,
@@ -202,9 +215,9 @@ Page({
     this.setData({
       showImage: false,
     });
-	},
-	
-	showDetailPro(e) {
+  },
+
+  showDetailPro(e) {
     const { item } = e.currentTarget.dataset;
     wxReq(
       {
@@ -219,8 +232,8 @@ Page({
     ).then((res) => {
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
-				.join(",");
-			res.data.data.desc =res.data.data.desc || "无";
+        .join(",");
+      res.data.data.desc = res.data.data.desc || "无";
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },
@@ -237,11 +250,11 @@ Page({
       showImage1: false,
       showPro: true,
     });
-	},
-	
-	closePro(){
-		this.setData({
+  },
+
+  closePro() {
+    this.setData({
       showPro: false,
     });
-	}
+  },
 });

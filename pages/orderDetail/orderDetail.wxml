@@ -420,13 +420,20 @@
 	<!-- 产品费用 -->
 	<van-popup show="{{ showProductPopup }}" round>
 		<view class="bold pb10" style="border-bottom:1px solid #eeeeee ;">产品费用</view>
-		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw85">
+		<view style="max-height: 60vh;overflow-y: scroll; overflow-x: hidden;" class="vw85 pb10">
 			<view wx:for="{{financialInfo.product}}" wx:for-item="itemPro" wx:key="itemPro" wx:for-index="indexPro">
 				<view class="color27A2 mt10">{{itemPro.product_code || '未填写'}}</view>
 				<view class="mt10">{{itemPro.total_number || 0}}件</view>
 				<view class="mt10 flex jcsb">
 					<view>均价 {{itemPro.pre_price || 0}} 元</view>
 					<view>{{itemPro.total_price || 0}} 元</view>
+				</view>
+				<view wx:if="{{itemPro.quote_info}}" class="mt10 bold">报价费用</view>
+				<view wx:if="{{itemPro.quote_info}}" class="mt10 flex jcsb">
+					<view>均价 {{itemPro.quote_info.price}} 元</view>
+					<view>{{itemPro.quote_info.total_price}} 元</view>
+				</view>
+				<view wx:if="{{itemPro.quote_info}}" class="{{itemPro.quote_info.class}} mt10">{{itemPro.quote_info.change}}
 				</view>
 				<view class="flex jcsb fz25 color91 mt10" wx:for="{{itemPro.detail}}" wx:for-item="itemProDetail"
 					wx:key="itemProDetail" wx:for-index="indexProDetail">
@@ -484,6 +491,15 @@
 					<view class="mt10">{{financialInfo.material.material.gather.pre_number||0}}g</view>
 				</view>
 			</view>
+			<view wx:if="{{financialInfo.material.material.gather.quote_info}}" class="mt10 bold">报价费用</view>
+			<view wx:if="{{financialInfo.material.material.gather.quote_info}}">
+				<view class="mt10">计划合计费用 {{financialInfo.material.material.gather.quote_info.quote_total_price}} 元</view>
+				<view class="mt10">产品实际平均单价 {{financialInfo.material.material.gather.quote_info.pre_product_price}} 元</view>
+				<view class="mt10">产品平均克重 {{financialInfo.material.material.gather.quote_info.number}} g</view>
+				<view class="{{financialInfo.material.material.gather.quote_info.class}} mt10">
+					{{financialInfo.material.material.gather.quote_info.change}}</view>
+			</view>
+			<view class="line"></view>
 			<view wx:for="{{financialInfo.material.material.detail.material_order}}" wx:for-item="itemMaterialOrder"
 				wx:key="itemMaterialOrder" wx:for-index="indexMaterialOrder">
 				<view class="flex mt10 flexWarp aic">
@@ -669,6 +685,14 @@
 					<view class="mt10">{{financialInfo.material.decorate.gather.product_pre_price||0}}元</view>
 				</view>
 			</view>
+			<view wx:if="{{financialInfo.material.decorate.gather.quote_info}}" class="mt10 bold">报价费用</view>
+			<view wx:if="{{financialInfo.material.decorate.gather.quote_info}}">
+				<view class="mt10">计划合计费用 {{financialInfo.material.decorate.gather.quote_info.quote_total_price}} 元</view>
+				<view class="mt10">产品实际平均单价 {{financialInfo.material.decorate.gather.quote_info.pre_product_price}} 元</view>
+				<view class="{{financialInfo.material.decorate.gather.quote_info.class}} mt10">
+					{{financialInfo.material.decorate.gather.quote_info.change}}</view>
+			</view>
+			<view class="line"></view>
 			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.material.decorate.detail.material_order}}"
 				wx:for-item="itemOrder" wx:key="itemOrder" wx:for-index="indexOrder">
 				<view class="flex flexWarp aic">
@@ -832,6 +856,14 @@
 					<view class="mt10">{{financialInfo.pack.gather.product_pre_price||0}}元</view>
 				</view>
 			</view>
+			<view wx:if="{{financialInfo.pack.gather.quote_info}}" class="mt10 bold">报价费用</view>
+			<view wx:if="{{financialInfo.pack.gather.quote_info}}">
+				<view class="mt10">计划合计费用 {{financialInfo.pack.gather.quote_info.quote_total_price}} 元</view>
+				<view class="mt10">产品实际平均单价 {{financialInfo.pack.gather.quote_info.pre_product_price}} 元</view>
+				<view class="{{financialInfo.pack.gather.quote_info.class}} mt10">
+					{{financialInfo.pack.gather.quote_info.change}}</view>
+			</view>
+			<view class="line"></view>
 			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.pack.detail}}" wx:for-item="itemOrder" wx:key="itemOrder"
 				wx:for-index="indexOrder">
 				<view class="flex flexWarp aic">
@@ -912,6 +944,14 @@
 					<view class="mt10">{{financialInfo.weave[indexweave].product_pre_price||0}}元</view>
 				</view>
 			</view>
+			<view wx:if="{{financialInfo.weave[indexweave].quote_info}}" class="mt10 bold">报价费用</view>
+			<view wx:if="{{financialInfo.weave[indexweave].quote_info}}">
+				<view class="mt10">计划合计费用 {{financialInfo.weave[indexweave].quote_info.quote_total_price}} 元</view>
+				<view class="mt10">产品实际平均单价 {{financialInfo.weave[indexweave].quote_info.pre_product_price}} 元</view>
+				<view class="{{financialInfo.weave[indexweave].quote_info.class}} mt10">
+					{{financialInfo.weave[indexweave].quote_info.change}}</view>
+			</view>
+			<view class="line"></view>
 			<view class="mt10 pl10 pr10" wx:for="{{financialInfo.weave[indexweave].detail}}" wx:for-item="itemWeave"
 				wx:key="itemWeave" wx:for-index="indexWeave">
 				<view class="flex flexWarp aic">

@@ -623,8 +623,8 @@ Page({
         this.data.productList[index]["material_data"][itemindex].material_name =
           e.detail.value[2].text;
         this.data.productList[index]["material_data"][itemindex].material_id =
-					e.detail.value[2].id;
-					
+          e.detail.value[2].id;
+
         if (e.detail.value[0].text === "纱线") {
           this.data.productList[index]["material_data"][itemindex].unit = "g";
         } else if (e.detail.value[0].text === "面料") {
@@ -901,6 +901,17 @@ Page({
     });
   },
 
+  deleteAssist(e) {
+    let { index, itemindex } = e.currentTarget.dataset;
+    this.data.productList[index].assist_material_data[itemindex].material_name =
+      "";
+    this.data.productList[index].assist_material_data[itemindex].material_id =
+      "";
+    this.setData({
+      productList: this.data.productList,
+    });
+  },
+
   // 计算产品总价
   getProductTotalPrice(e) {
     const { index, itemindex, type, itemtype } = e.currentTarget.dataset;
@@ -1084,7 +1095,7 @@ Page({
 
     // 没填佣金百分比
     if (!this.data.commission_percentage) {
-			this.data.commission_percentage = 0
+      this.data.commission_percentage = 0;
       // wx.lin.showMessage({
       //   type: "error",
       //   duration: 3000,
@@ -1096,7 +1107,7 @@ Page({
 
     // 没填预计税率百分比
     if (!this.data.rate_taxation) {
-			this.data.rate_taxation = 0
+      this.data.rate_taxation = 0;
       // wx.lin.showMessage({
       //   type: "error",
       //   duration: 3000,
@@ -1107,7 +1118,7 @@ Page({
     }
 
     if (!this.data.profit_percentage) {
-			this.data.profit_percentage = 0
+      this.data.profit_percentage = 0;
       // wx.lin.showMessage({
       //   type: "error",
       //   duration: 3000,
