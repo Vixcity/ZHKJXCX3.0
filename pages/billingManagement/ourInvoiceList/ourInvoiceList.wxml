@@ -9,9 +9,12 @@
 	<view class="bgColorWhite">
 		<l-input bind:lininput="changeParams" data-type="code" value="{{code}}" placeholder="票据编号" hide-label="{{true}}" />
 		<view class="flex aic">
-			<l-input class="w90" bind:lininput="changeParams" data-type="order_code" value="{{order_code}}" placeholder="订单号"
+			<l-input class="w80" bind:lininput="changeParams" data-type="order_code" value="{{order_code}}" placeholder="订单号"
 				hide-label="{{true}}" />
-			<view class="w10 color27A2" bindtap="openPopup">筛选</view>
+				<view class="w20 color6 flex aic" bindtap="openPopup">
+					<view>筛选</view>
+					<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
+				</view>
 		</view>
 
 		<view class="flex jcsb" style="padding: 10px;">
