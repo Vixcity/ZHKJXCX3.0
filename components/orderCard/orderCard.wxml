@@ -60,7 +60,7 @@
 			<view wx:if="{{showPrice}}" class="poa fz25 color27A2" style="right:0;bottom:24%">￥{{detailInfo.price}}</view>
 			<view class="flex jcsb">
 				<view wx:if="{{detailInfo.date}}">{{detailInfo.date}}</view>
-				<view wx:if="{{detailInfo.systemPrice}}">系统报价：<text class="color27A2">{{detailInfo.systemPrice}}{{detailInfo.unit}}</text></view>
+				<view wx:if="{{detailInfo.systemPrice}}">系统报价：<text class="color27A2">￥{{detailInfo.systemPrice}}<!-- {{detailInfo.unit}} --></text></view>
 				<view wx:if="{{detailInfo.reimbursementPrice}}">￥{{detailInfo.reimbursementPrice}}</view>
 			</view>
 			<view wx:if="{{detailInfo.productLen && !notShowProLen}}" class="poa fz25" style="right:0;bottom:25%">

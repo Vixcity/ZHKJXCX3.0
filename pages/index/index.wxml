@@ -33,17 +33,17 @@
 	<view class="tab-bar" style="overflow:unset">
 		<view class="tab-bar-border"></view>
 		<view class="tab-bar-item">
-			<cover-image src="https://file.zwyknit.com/%E9%A6%96%E9%A1%B5-01.png"></cover-image>
-			<cover-view class="color27A2">首页</cover-view>
+			<image style="width: 27px;" src="https://file.zwyknit.com/%E9%A6%96%E9%A1%B5-01.png"></image>
+			<view class="color27A2">首页</view>
 		</view>
 		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
 			<van-icon name="scan" size="50px" class="color91"
 				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" />
 		</view>
 		<view class="tab-bar-item" bindtap="toManage">
-			<cover-image src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86%EF%BC%88%E7%81%B0%E8%89%B2%EF%BC%89-01.png">
-			</cover-image>
-			<cover-view class="color91">管理</cover-view>
+			<image style="width: 27px;" src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86%EF%BC%88%E7%81%B0%E8%89%B2%EF%BC%89-01.png">
+			</image>
+			<view class="color91">管理</view>
 		</view>
 	</view>
 </view>

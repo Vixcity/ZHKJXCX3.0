@@ -2,27 +2,18 @@
 <view id="sampleOrder">
 	<nav-content showBack="{{false}}">
 		<view slot="after">
-			<input wx:if="{{isLogin}}" class="fz25"
-				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="confirmData" data-type="keyword" placeholder="筛选样单/样品/样品编号" />
-			<input wx:else disabled class="fz25"
-				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%"
-				type="text" bindinput="confirmData" data-type="keyword" placeholder="筛选样单/样品/样品编号" />
+			样单列表
 		</view>
 	</nav-content>
 
-	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '公司'}}
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">{{group_name || '小组'}}
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">{{user_name || '创建人'}}
-			<van-icon class="ml5 pt5" name="arrow-down" />
-		</view>
-		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">{{status_name || '状态'}}
-			<van-icon class="ml5 pt5" name="arrow-down" />
+	<view class="bgColorWhite">
+		<view class="flex aic">
+			<l-input class="w80" bind:lininput="confirmData" data-type="keyword" placeholder="筛选样单/样品/样品编号"
+				hide-label="{{true}}" />
+			<view class="w20 color6 flex aic" bindtap="openPopup">
+				<view>筛选</view>
+				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
+			</view>
 		</view>
 	</view>
 
@@ -111,13 +102,106 @@
 	</scroll-view>
 
 	<l-message content="{{content}}" />
-	<!-- 下拉 -->
-	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
-		showDialog="{{showStatus}}"></picker>
-	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
-		showDialog="{{showClient}}"></picker>
-	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
-		showDialog="{{showGroup}}"></picker>
-	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
-		showDialog="{{showUser}}"></picker>
+
+	<!-- 筛选 -->
+	<van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="right">
+		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
+			<view class="vh12"></view>
+			<scroll-view>
+				<van-cell title="下单公司" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '全部'}}" />
+				<view wx:if="{{client_id}}" class="line"></view>
+				<view wx:if="{{client_id}}">公司联系人：</view>
+				<view wx:if="{{client_id}}" class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="contacts">
+						<label class="radio" wx:for="{{contactsList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>创建人：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="user">
+						<label class="radio" wx:for="{{userList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>负责小组：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="group">
+						<label class="radio" wx:for="{{groupList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>审核状态：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="status">
+						<label class="radio" wx:for="{{statusList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="line"></view>
+				<view>创建时间：</view>
+				<view class="flex">
+					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="date">
+						<label class="radio" wx:for="{{dateList}}" wx:key="key">
+							<view>
+								<view class="label">{{item.text}}</view>
+								<radio value="{{index}}" checked="{{item.checked}}" />
+							</view>
+						</label>
+					</radio-group>
+				</view>
+				<view class="vh8"></view>
+			</scroll-view>
+			<view class="submit small" style="position: sticky;bottom:5%;left:50%;z-index: 2;">
+				<view class="flex jcsa">
+					<van-button type="primary" size="small" bindtap="reset">重置</van-button>
+					<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="confirmData">确认</van-button>
+				</view>
+			</view>
+		</view>
+	</van-popup>
+
+	<!-- 筛选子选项 -->
+	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
+		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
+			<view class="vh12"></view>
+			<scroll-view>
+				<view class="mt20" wx:for="{{clientList}}">
+					<view class="mb20 bold">{{item.text}}</view>
+					<van-collapse value="{{ activeName }}" bind:change="changeCollapse">
+						<van-collapse-item wx:for="{{item.children}}" wx:for-item="secondClient" title="{{secondClient.text}}"
+							name="{{secondClient.id}}">
+							<view class="flex flexWarp">
+								<van-button class="mt10 ml10" wx:for="{{secondClient.children}}" wx:for-item="thirdClient"
+									bind:click="checkClient" data-item="{{thirdClient}}">
+									{{thirdClient.text}}
+								</van-button>
+							</view>
+							<view class="tc" wx:if="{{secondClient.children.length === 0}}">暂无数据</view>
+						</van-collapse-item>
+					</van-collapse>
+				</view>
+				<view class="vh8"></view>
+			</scroll-view>
+		</view>
+	</van-popup>
 </view>

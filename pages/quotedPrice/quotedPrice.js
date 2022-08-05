@@ -7,6 +7,7 @@ const {
   getChineseStatus,
   getUserList,
   getClientList,
+  getGroupList,
   getSomeDateList,
   isHasPermissions,
 } = require("../../utils/util");
@@ -16,24 +17,7 @@ Page({
    */
   data: {
     userList: [],
-    statusList: [
-      {
-        text: "全部",
-        id: "",
-      },
-      {
-        text: "待审核",
-        id: 0,
-      },
-      {
-        text: "已审核",
-        id: 1,
-      },
-      {
-        text: "已驳回",
-        id: 2,
-      },
-    ],
+    statusList: [],
     clientList: [],
     someDateList: [],
     orderList: [],
@@ -47,11 +31,17 @@ Page({
     showLoading: false,
     noData: false,
     hasCreateModule: false,
-    status: "",
+    is_check: "",
     status_name: "",
     user_name: "",
     date_name: "",
     client_name: "",
+    start_time: "",
+    end_time: "",
+    group_id: "",
+    contacts_id: "",
+    min_price: "",
+    max_price: "",
   },
 
   /**
@@ -64,7 +54,23 @@ Page({
       isLogin,
     });
 
+    this.getScreen();
+  },
+
+  onShow() {
+    this.setData({
+      orderList: [],
+      isEnd: false,
+      noData: false,
+      page: 1,
+      hasCreateModule: isHasPermissions("1-1"),
+    });
+    this.getList();
+  },
+
+  getScreen() {
     getUserList("/quotedPrice/quotedPrice");
+    getGroupList("/quotedPrice/quotedPrice");
     getClientList("/quotedPrice/quotedPrice");
 
     let arr = [
@@ -81,19 +87,27 @@ Page({
     this.setData({
       clientList: arr.concat(wx.getStorageSync("clientList").slice(0, 2)),
       userList: wx.getStorageSync("userList"),
-      someDateList: wx.getStorageSync("someDateList"),
+      dateList: wx.getStorageSync("someDateList"),
+      groupList: wx.getStorageSync("groupList"),
+      statusList: [
+        {
+          text: "全部",
+          id: "",
+        },
+        {
+          text: "待审核",
+          id: 0,
+        },
+        {
+          text: "已审核",
+          id: 1,
+        },
+        {
+          text: "已驳回",
+          id: 2,
+        },
+      ],
     });
-  },
-
-  onShow() {
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-      page: 1,
-      hasCreateModule: isHasPermissions('1-1'),
-    });
-    this.getList();
   },
 
   getList() {
@@ -111,16 +125,16 @@ Page({
         method: "GET",
         data: {
           keyword: this.data.keyword,
-          is_check: this.data.status,
+          is_check: this.data.is_check,
           user_id: this.data.user_id,
           client_id: this.data.client_id,
           page: this.data.page,
-          group_id: "",
-          contacts_id: "",
-          min_price: "",
-          max_price: "",
-          start_time: this.data.chooseDate[0],
-          end_time: this.data.chooseDate[1],
+          group_id: this.data.group_id,
+          contacts_id: this.data.contacts_id,
+          min_price: this.data.min_price,
+          max_price: this.data.max_price,
+          start_time: this.data.start_time,
+          end_time: this.data.end_time,
           limit: 10,
         },
       },
@@ -149,7 +163,7 @@ Page({
           date: item.created_at,
           systemPrice: item.system_total_price,
           customer: item.title || "暂无标题",
-          unit: item.settle_unit,
+          unit: "元",
           user: item.user_name,
           imgSrc:
             item.product_data[0].image[0] ||
@@ -165,106 +179,136 @@ Page({
     });
   },
 
-  // 打开选择器
-  openPicker(e) {
-    const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.setData({
-        showStatus: true,
-      });
+  // 打开选择框
+  openPopup() {
+    this.setData({
+      showPopup: true,
+    });
+  },
+
+  // 关闭选择框
+  closePopup() {
+    this.setData({
+      showPopup: false,
+    });
+  },
+
+  // 打开子选择框
+  openPopupSon(e) {
+    this.setData({
+      showPopupSon: true,
+      showPopup: false,
+    });
+  },
+
+  // 关闭子选择框
+  closePopupSon() {
+    this.setData({
+      showPopupSon: false,
+      showPopup: true,
+    });
+  },
+
+  // 子选择框取消
+  cancelPopupSon() {
+    this.setData({
+      client_id: "",
+      client_name: "",
+    });
+    this.closePopupSon();
+  },
+
+  // 打开折叠面板
+  changeCollapse(e) {
+    this.setData({
+      activeName: e.detail,
+    });
+  },
+
+  // 选择公司
+  checkClient(e) {
+    const { text, id } = e.currentTarget.dataset.item;
+    if (text === "全部") {
+      this.setData({ client_name: "", client_id: "", contactsList: [] });
+			this.closePopupSon();
+			return 
     }
+    wxReq(
+      {
+        url: "/client/detail",
+        data: { id },
+        method: "GET",
+      },
+      "/pages/quotedPrice/quotedPrice"
+    ).then((res) => {
+      let contactsList = res.data.data.contacts_data.map((item) => {
+        return { id: item.id, text: item.station };
+      });
+      this.setData({ client_name: text, client_id: id, contactsList });
+    });
+    this.closePopupSon();
+  },
+
+  // 更改选择
+  bindPickerChangeAge(e) {
+    const { type } = e.currentTarget.dataset;
+    let index = e.detail.value;
 
     if (type === "user") {
       this.setData({
-        showUser: true,
+        user_id: this.data.userList[index].id,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        group_id: this.data.groupList[index].id,
+      });
+    }
+
+    if (type === "status") {
+      this.setData({
+        is_check: this.data.statusList[index].id,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        contacts_id: this.data.contactsList[index].id,
+      });
+    }
+
+    if (type === "order_type") {
+      this.setData({
+        order_type: this.data.orderType[index].id,
       });
     }
 
     if (type === "date") {
       this.setData({
-        showDate: true,
+        start_time: this.data.dateList[index].id[0],
+        end_time: this.data.dateList[index].id[1],
       });
     }
 
-    if (type === "client") {
+    if (type === "orderTypes") {
       this.setData({
-        showClient: true,
+        order_types: this.data.orderTypes[index].id,
       });
     }
   },
 
-  // 关闭选择器
-  closeShowPicker(e) {
+  // 输入价格
+  inputPrice(e) {
     const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.setData({
-        showStatus: false,
-      });
-    }
+    let obj = {};
+    obj[type] = e.detail.value;
 
-    if (type === "user") {
-      this.setData({
-        showUser: false,
-      });
-    }
-
-    if (type === "date") {
-      this.setData({
-        showDate: false,
-      });
-    }
-
-    if (type === "client") {
-      this.setData({
-        showClient: false,
-      });
-    }
+    this.setData(obj);
   },
 
   // 选择器提交
   confirmData(e) {
-    const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.data.status = e.detail.value[0].id;
-      this.setData({
-        status_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
-    if (type === "user") {
-      this.data.user_id = e.detail.value[0].id;
-      this.setData({
-        user_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
-    if (type === "date") {
-      this.data.chooseDate = e.detail.value[0].id;
-      this.setData({
-        date_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
-    if (type === "client") {
-      if (!e.detail.value[2]) {
-        wx.lin.showMessage({
-          type: "error",
-          duration: 3000,
-          content: "当前没有选中公司，请重新选择",
-          top: getApp().globalData.navH,
-        });
-        return;
-      }
-      this.data.client_id = e.detail.value[2].id;
-      this.setData({
-        client_name:
-          e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
-      });
-    }
-
     this.data.page = 1;
     this.setData({
       orderList: [],
@@ -272,7 +316,25 @@ Page({
       noData: false,
     });
     this.reqOrder();
-    this.closeShowPicker(e);
+    this.closePopup();
+  },
+
+  // 重置
+  reset() {
+    this.getScreen();
+    this.setData({
+      min_price: "",
+      max_price: "",
+      client_id: "",
+      client_name: "",
+      user_id: "",
+      group_id: "",
+      is_check: "",
+      start_time: "",
+      end_time: "",
+      contacts_id: "",
+      contactsList: [],
+    });
   },
 
   onSearch(e) {

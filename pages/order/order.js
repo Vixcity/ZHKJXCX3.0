@@ -14,20 +14,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    statusList: [
-      { text: "全部", id: "" },
-      { text: "待审核", id: "0" },
-      { text: "已审核", id: "1" },
-      { text: "已驳回", id: "2" },
-    ],
+    statusList: [],
     orderStatusList: [],
     groupList: [],
     userList: [],
     clientList: [],
     orderList: [],
     is_check: "",
+    status: "",
     group_id: "",
     user_id: "",
+    contacts_id: "",
+    start_time: "",
+    end_time: "",
     client_id: "",
     keyword: "",
     page: 1,
@@ -40,8 +39,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-		const isLogin = isIfLogin();
+    const isLogin = isIfLogin();
 
+    this.setData({
+      isLogin,
+      orderList: [],
+      isEnd: false,
+      noData: false,
+      page: 1,
+		});
+		
+		this.getScreen()
+    this.getList();
+  },
+
+	getScreen() {
     getGroupList("/order/order");
     getUserList("/order/order");
     getClientList("/order/order");
@@ -67,20 +79,21 @@ Page({
           },
         ],
       },
-    ];
-
+		];
+		
     this.setData({
-      isLogin,
       groupList: wx.getStorageSync("groupList"),
       userList: wx.getStorageSync("userList"),
-      clientList: arr.concat(wx.getStorageSync("clientList").splice(0, 2)),
-      orderList: [],
-      isEnd: false,
-      noData: false,
-      page: 1,
-      orderStatusList,
+			clientList: arr.concat(wx.getStorageSync("clientList").splice(0, 2)),
+			dateList: wx.getStorageSync("someDateList"),
+			orderStatusList,
+			statusList: [
+				{ text: "全部", id: "" },
+				{ text: "待审核", id: "0" },
+				{ text: "已审核", id: "1" },
+				{ text: "已驳回", id: "2" },
+			]
     });
-    this.getList();
   },
 
   getList() {
@@ -97,11 +110,15 @@ Page({
           page: this.data.page,
           limit: 10,
           order_type: 1,
-          client_id: this.data.client_id,
-          user_id: this.data.user_id,
           keyword: this.data.keyword,
-          status: this.data.is_check,
+          client_id: this.data.client_id,
+					contacts_id: this.data.contacts_id,
+          user_id: this.data.user_id,
           group_id: this.data.group_id,
+					status: this.data.status,
+					is_check: this.data.is_check,
+					start_time: this.data.start_time,
+					end_time: this.data.end_time
         },
         method: "GET",
       },
@@ -133,58 +150,127 @@ Page({
     this.getList();
   }, 1000),
 
-  // 打开选择器
-  openPicker(e) {
-    const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.setData({
-        showStatus: true,
-      });
-    }
-
-    if (type === "user") {
-      this.setData({
-        showUser: true,
-      });
-    }
-
-    if (type === "group") {
-      this.setData({
-        showGroup: true,
-      });
-    }
-
-    if (type === "client") {
-      this.setData({
-        showClient: true,
-      });
-    }
+  // 打开选择框
+  openPopup() {
+    this.setData({
+      showPopup: true,
+    });
   },
 
-  // 关闭选择器
-  closeShowPicker(e) {
-    const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.setData({
-        showStatus: false,
-      });
+  // 关闭选择框
+  closePopup() {
+    this.setData({
+      showPopup: false,
+    });
+  },
+
+  // 打开子选择框
+  openPopupSon(e) {
+    this.setData({
+      showPopupSon: true,
+      showPopup: false,
+    });
+  },
+
+  // 关闭子选择框
+  closePopupSon() {
+    this.setData({
+      showPopupSon: false,
+      showPopup: true,
+    });
+  },
+
+  // 子选择框取消
+  cancelPopupSon() {
+    this.setData({
+      client_id: "",
+      client_name: "",
+    });
+    this.closePopupSon();
+  },
+
+  // 打开折叠面板
+  changeCollapse(e) {
+    this.setData({
+      activeName: e.detail,
+    });
+  },
+
+  // 选择公司
+  checkClient(e) {
+		const { text, id } = e.currentTarget.dataset.item;
+		if (text === "全部") {
+      this.setData({ client_name: "", client_id: "", contactsList: [] });
+			this.closePopupSon();
+			return 
     }
+    wxReq(
+      {
+        url: "/client/detail",
+        data: { id },
+        method: "GET",
+      },
+      "/pages/quotedPrice/quotedPrice"
+    ).then((res) => {
+      let contactsList = res.data.data.contacts_data.map((item) => {
+        return { id: item.id, text: item.station };
+      });
+      this.setData({ client_name: text, client_id: id, contactsList });
+    });
+    this.closePopupSon();
+  },
+
+  // 更改选择
+  bindPickerChangeAge(e) {
+    const { type } = e.currentTarget.dataset;
+    let index = e.detail.value;
 
     if (type === "user") {
       this.setData({
-        showUser: false,
+        user_id: this.data.userList[index].id,
       });
     }
 
     if (type === "group") {
       this.setData({
-        showGroup: false,
+        group_id: this.data.groupList[index].id,
       });
     }
 
-    if (type === "client") {
+    if (type === "status") {
       this.setData({
-        showClient: false,
+        is_check: this.data.statusList[index].id,
+      });
+    }
+		
+		if (type === "orderstatus") {
+      this.setData({
+        status: this.data.orderStatusList[index].id,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        contacts_id: this.data.contactsList[index].id,
+      });
+    }
+
+    if (type === "order_type") {
+      this.setData({
+        order_type: this.data.orderType[index].id,
+      });
+    }
+
+    if (type === "date") {
+      this.setData({
+        start_time: this.data.dateList[index].id[0],
+        end_time: this.data.dateList[index].id[1],
+      });
+    }
+
+    if (type === "orderTypes") {
+      this.setData({
+        order_types: this.data.orderTypes[index].id,
       });
     }
   },
@@ -192,49 +278,8 @@ Page({
   // 选择器提交
   confirmData(e) {
     const { type } = e.currentTarget.dataset;
-    if (type === "status") {
-      this.data.is_check = e.detail.value[0].id;
-      this.setData({
-        status_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
-    if (type === "user") {
-      this.data.user_id = e.detail.value[0].id;
-      this.setData({
-        user_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
     if (type === "keyword") {
       this.data.keyword = e.detail.value;
-    }
-
-    if (type === "group") {
-      this.data.group_id = e.detail.value[0].id;
-      this.setData({
-        group_name:
-          e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
-      });
-    }
-
-    if (type === "client") {
-      if (!e.detail.value[2]) {
-        wx.lin.showMessage({
-          type: "error",
-          duration: 3000,
-          content: "当前没有选中公司，请重新选择",
-          top: getApp().globalData.navH,
-        });
-        return;
-      }
-      this.data.client_id = e.detail.value[2].id;
-      this.setData({
-        client_name:
-          e.detail.value[2].text !== "全部" ? e.detail.value[2].text : "",
-      });
     }
 
     this.data.page = 1;
@@ -244,7 +289,7 @@ Page({
       noData: false,
     });
     this.reqOrder();
-    this.closeShowPicker(e);
+    this.closePopup();
   },
 
   toDetail(e) {

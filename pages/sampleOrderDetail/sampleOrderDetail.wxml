@@ -167,8 +167,9 @@
 						</view>
 					</view>
 					<view class="overfh mt10" style="height:{{isShow?'auto':0}}px">
-						<view class="mt20" wx:for="{{item.materialDetail}}" wx:for-item="itemMaterialDetail"
+						<view class="mt10" wx:for="{{item.materialDetail}}" wx:for-item="itemMaterialDetail"
 							wx:key="itemMaterialDetail" wx:for-index="indexMaterialDetail">
+							<view class="mb10">{{itemMaterialDetail.plan_code}}</view>
 							<view wx:for="{{itemMaterialDetail.data}}" wx:for-item="itemChild" wx:for-index="indexChild">
 								<view class="flex jcsb" style="background: rgba(0,0,0,0.1);">
 									<view>{{itemChild.material_name}}</view>
