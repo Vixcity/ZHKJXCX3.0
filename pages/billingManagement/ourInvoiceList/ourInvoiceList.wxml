@@ -43,8 +43,16 @@
 				<view>{{item.client.name}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
+				<view class="title w32">创建日期：</view>
+				<view>{{item.created_at}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
 				<view class="title w32">开票金额：</view>
-				<view>{{item.price}}</view>
+				<view class="color03d0">{{item.price}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">开票金额：</view>
+				<view class="color03d0">{{item.priceChinese}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">发票号码 ：</view>

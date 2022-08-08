@@ -12,6 +12,15 @@ Page({
     list: [],
   },
 
+  onShareAppMessage: function () {
+    return {
+      title: "纺织业领先的协同制造云平台",
+			path: "/pages/index/index", // 路径，传递参数到指定页面。
+			imageUrl:
+        "https://file.zwyknit.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%86%E4%BA%AB%E5%9B%BE-1.png",
+    };
+  },
+
   onShow() {
     const isLogin = isIfLogin();
 
@@ -186,15 +195,19 @@ Page({
     wx.scanCode({
       scanType: "qrCode",
       success: (res) => {
-        if (
-          res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
-        ) {
-          let { company_id, hash, id } = urlParams(res.result);
-          console.log(company_id, hash, id);
+				console.log(res.result)
+				wx.navigateTo({
+					url: res.result,
+				})
+        // if (
+        //   res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
+        // ) {
+        //   let { company_id, hash, id } = urlParams(res.result);
+        //   console.log(company_id, hash, id);
 
-          // this.toOutsourcingAcceptance1(company_id, hash, id);
-        } else {
-        }
+        //   // this.toOutsourcingAcceptance1(company_id, hash, id);
+        // } else {
+        // }
       },
       fail: (res) => {
         console.log(res);

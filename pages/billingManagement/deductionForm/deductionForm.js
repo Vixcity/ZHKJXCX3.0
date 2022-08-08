@@ -1,6 +1,6 @@
 // pages/billingManagement/deductionForm/deductionForm.js
 const {
-  getBillingList,
+  convertCurrency,
   wxReq,
   debounce,
   getUserList,
@@ -270,6 +270,10 @@ Page({
           showLoading: false,
         });
       }
+
+			res.data.data.items.forEach(item => {
+				item.priceChinese = convertCurrency(item.price)
+			});
 
       let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;

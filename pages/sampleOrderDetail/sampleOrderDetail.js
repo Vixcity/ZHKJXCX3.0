@@ -18,6 +18,8 @@ Page({
     showWeavePopup: false,
     showCheJianPopup: false,
     isShow: false,
+    showCheckDetail: false,
+    is_checkDetail: "",
     indexweave: 0,
     indexpro: 0,
     chooseStatusList: [],
@@ -109,9 +111,9 @@ Page({
           return total + cur.total_price;
         },
         0
-			);
-			
-			res.data.data.product.forEach((item) => {
+      );
+
+      res.data.data.product.forEach((item) => {
         if (item.quote_info) {
           if (item.quote_info.change.indexOf("上浮") !== -1) {
             item.quote_info.class = "colorE800";
@@ -120,8 +122,8 @@ Page({
           }
         }
       });
-			
-			res.data.data.weave.forEach((item) => {
+
+      res.data.data.weave.forEach((item) => {
         if (item.quote_info) {
           if (item.quote_info.change.indexOf("上浮") !== -1) {
             item.quote_info.class = "colorE800";
@@ -137,19 +139,19 @@ Page({
             "上浮"
           ) !== -1
         ) {
-					console.log(1)
+          console.log(1);
           res.data.data.material.material.gather.quote_info.class = "colorE800";
         } else if (
           res.data.data.material.material.gather.quote_info.change.indexOf(
             "下降"
           ) !== -1
         ) {
-					console.log(2)
+          console.log(2);
           res.data.data.material.material.gather.quote_info.class = "color03d0";
         }
       }
-			
-			if (res.data.data.material.decorate.gather.quote_info) {
+
+      if (res.data.data.material.decorate.gather.quote_info) {
         if (
           res.data.data.material.decorate.gather.quote_info.change.indexOf(
             "上浮"
@@ -163,23 +165,19 @@ Page({
         ) {
           res.data.data.material.decorate.gather.quote_info.class = "color03d0";
         }
-			}
-			
-			if(res.data.data.pack.gather.quote_info){
-				if (
-          res.data.data.pack.gather.quote_info.change.indexOf(
-            "上浮"
-          ) !== -1
+      }
+
+      if (res.data.data.pack.gather.quote_info) {
+        if (
+          res.data.data.pack.gather.quote_info.change.indexOf("上浮") !== -1
         ) {
           res.data.data.pack.gather.quote_info.class = "colorE800";
         } else if (
-          res.data.data.pack.gather.quote_info.change.indexOf(
-            "下降"
-          ) !== -1
+          res.data.data.pack.gather.quote_info.change.indexOf("下降") !== -1
         ) {
           res.data.data.pack.gather.quote_info.class = "color03d0";
         }
-			}
+      }
 
       this.setData({
         financialInfo: res.data.data,
@@ -190,6 +188,21 @@ Page({
   changeIsShow() {
     this.setData({
       isShow: !this.data.isShow,
+    });
+  },
+
+  watchCheck(e) {
+    const { item } = e.currentTarget.dataset;
+    this.setData({
+      is_checkDetail: item.is_check,
+      showCheckDetail: true,
+      showPid: item.id,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
     });
   },
 

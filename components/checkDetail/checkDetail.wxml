@@ -44,6 +44,7 @@
 		<view wx:if="{{reasonList.length === 0 && is_check != 3 && is_check != 4}}" class="tc color9E pb30">暂无数据</view>
 		<view wx:if="{{is_check == 3 || is_check == 4}}">
 			<view class="bold">单据异常处理</view>
+			<view class="mt10">{{content}}</view>
 			<view class="mt10">情况一：由于【计划原料数量】发生了修改。该原料采购单已变为异常状态。以下为异常单据处理办法：</view>
 			<view class="mt10">1. 修改此原料订购单，同步最新的原料数量。注意：已采购的原料不能删除，但可以将数量改为0。实际已入库的原料，可以在原料出入库页面进行结余操作。</view>
 			<view class="mt10">2. 如果该单据没有后续加工单、入库单，您也可以删除该单据再新建一张。</view>

@@ -174,6 +174,10 @@ Page({
         }
 			}
 
+			res.data.data.production_inspection.forEach(itme => {
+				itme.total_price = +(itme.total_price.toFixed(2))
+			})
+
       this.setData({
         financialInfo: res.data.data,
       });

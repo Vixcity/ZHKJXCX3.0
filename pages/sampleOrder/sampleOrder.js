@@ -201,7 +201,7 @@ Page({
       "/pages/quotedPrice/quotedPrice"
     ).then((res) => {
       let contactsList = res.data.data.contacts_data.map((item) => {
-        return { id: item.id, text: item.station };
+        return { id: item.id, text: item.name };
       });
       this.setData({ client_name: text, client_id: id, contactsList });
     });

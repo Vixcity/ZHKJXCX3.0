@@ -161,9 +161,13 @@ Page({
           title: item.code,
           quoteCode: item.client_name,
           date: item.created_at,
-          systemPrice: item.system_total_price,
+          dollor: (
+            ((item.system_total_price || 0) / item.exchange_rate) *
+            100
+          ).toFixed(2),
+          systemPrice: item.system_total_price || '0',
           customer: item.title || "暂无标题",
-          unit: "元",
+          unit: item.settle_unit,
           user: item.user_name,
           imgSrc:
             item.product_data[0].image[0] ||
@@ -230,8 +234,8 @@ Page({
     const { text, id } = e.currentTarget.dataset.item;
     if (text === "全部") {
       this.setData({ client_name: "", client_id: "", contactsList: [] });
-			this.closePopupSon();
-			return 
+      this.closePopupSon();
+      return;
     }
     wxReq(
       {
@@ -242,7 +246,7 @@ Page({
       "/pages/quotedPrice/quotedPrice"
     ).then((res) => {
       let contactsList = res.data.data.contacts_data.map((item) => {
-        return { id: item.id, text: item.station };
+        return { id: item.id, text: item.name };
       });
       this.setData({ client_name: text, client_id: id, contactsList });
     });

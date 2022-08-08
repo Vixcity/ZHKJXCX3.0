@@ -44,7 +44,25 @@ Page({
       "/billingManagement/productionPlan/productionPlanDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = formatDate(res.data.data.created_at);
+			res.data.data.created_at = formatDate(res.data.data.created_at);
+			
+			let total_number = res.data.data.product_info_data.reduce(
+        (total, item) => {
+          console.log(item);
+          return total + Number(item.number);
+        },
+        0
+      );
+
+      let total_price = res.data.data.product_info_data.reduce(
+        (total, item) => {
+          return (
+            total + Number(Number(item.price).toFixed(2) * Number(item.number))
+          );
+        },
+        0
+      );
+
       let materialPlanInfo = mergeData(res.data.data.material_info_data, {
         mainRule: ["material_name", "material_id"],
       });
@@ -69,22 +87,6 @@ Page({
           0
         );
       });
-
-      let total_number = res.data.data.product_info_data.reduce(
-        (total, item) => {
-          return total + Number(item.number);
-        },
-        0
-      );
-
-      let total_price = res.data.data.product_info_data.reduce(
-        (total, item) => {
-          return (
-            total + Number(Number(item.price).toFixed(2) * Number(item.number))
-          );
-        },
-        0
-      );
 
       this.setData({
         info: res.data.data,

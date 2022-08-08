@@ -4,8 +4,8 @@ const {
   isIfLogin,
   wxReq,
   formatDate,
-	getStatusImage,
-	isHasPermissions,
+  getStatusImage,
+  isHasPermissions,
 } = require("../../utils/util");
 
 Page({
@@ -69,8 +69,8 @@ Page({
 
     this.setData({
       isLogin,
-			id: options.id,
-			hasCreateModule: isHasPermissions('1-2'),
+      id: options.id,
+      hasCreateModule: isHasPermissions("1-2"),
     });
 
     this.getDetail();
@@ -128,6 +128,18 @@ Page({
     this.setData({
       showPopup: true,
       clickImg: e.currentTarget.dataset.img,
+    });
+  },
+
+  openCheckDetail() {
+    this.setData({
+      showCheckDetail: true,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
     });
   },
 
@@ -238,7 +250,7 @@ Page({
   },
 
   toOrderDetail(e) {
-    const { type } = e.currentTarget.dataset;
+		const { type } = e.currentTarget.dataset;
     if (type == 1) {
       wx.redirectTo({
         url: "/pages/orderDetail/orderDetail?id=" + e.currentTarget.dataset.id,

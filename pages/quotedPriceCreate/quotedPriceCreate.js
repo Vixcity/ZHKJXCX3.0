@@ -20,6 +20,8 @@ Page({
     showClient: false,
     client_id: "",
     client_name: "",
+    group_id: "",
+    group_name: "",
     tree_data: [],
     clientList: [],
     // 联系人信息
@@ -29,8 +31,6 @@ Page({
     concatList: [],
     // 小组信息
     showGroup: false,
-    group_name: "",
-    group_id: "",
     groupList: [],
     // 币种汇率
     exchange_rate: 100,
@@ -321,7 +321,12 @@ Page({
       this.setData({
         searchPickerList: arr,
       });
-    });
+		});
+		
+		this.setData({
+			group_name: wx.getStorageSync('userInfo').group_name,
+			group_id: wx.getStorageSync('userInfo').group_id,
+		})
 
     if (isUpdate) {
       this.setData({ isUpdate, id });
@@ -581,7 +586,7 @@ Page({
     if (type === "searchModele") {
       Dialog.confirm({
         title: "提示",
-        message: "选择模版后，会替换当前已选的工序和输入的价格，是否继续？",
+        message: "选择模版后，会替换当前已选的工序和输入的内容，是否继续？",
         zIndex: 11601,
       })
         .then(() => {

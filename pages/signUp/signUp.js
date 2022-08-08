@@ -54,6 +54,15 @@ Page({
     wx.hideHomeButton();
   },
 
+  onShareAppMessage: function () {
+    return {
+      title: "纺织业领先的协同制造云平台",
+			path: "/pages/signUp/signUp", // 路径，传递参数到指定页面。
+			imageUrl:
+        "https://file.zwyknit.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%86%E4%BA%AB%E5%9B%BE-1.png",
+    };
+  },
+
   bindKeyInput: function (e) {
     if (e.currentTarget.dataset.type === 1) {
       this.setData({

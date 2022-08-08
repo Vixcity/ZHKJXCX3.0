@@ -143,9 +143,7 @@ Page({
           quoteCode:
             item.name + "-" + (item.group || "无小组") ||
             "暂无报销人员小组信息",
-          date: item.reviewer.name
-            ? "审核人：" + item.reviewer.name
-            : "暂未审核",
+          date: '创建时间：'+item.created_at.slice(0,10),
           reimbursementPrice: item.amount,
           unit: item.settle_unit,
           user: item.user.name || "无创建人信息",

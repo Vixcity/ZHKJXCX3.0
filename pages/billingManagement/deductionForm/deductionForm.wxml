@@ -26,7 +26,7 @@
 		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view>扣款金额</view>
-			<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
+			<view class="colorE800 bold">{{additional.total_price || 0}} 万元</view>
 		</view>
 	</view>
 
@@ -56,8 +56,16 @@
 				<view>{{item.client_name}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
+				<view class="title w32">创建日期：</view>
+				<view>{{item.create_time}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
 				<view class="title w32">扣款金额：</view>
-				<view>{{item.price}}</view>
+				<view class="colorE800">{{item.price}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">扣款金额：</view>
+				<view class="colorE800">{{item.priceChinese}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">扣款原因：</view>

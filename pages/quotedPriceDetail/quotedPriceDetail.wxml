@@ -30,7 +30,8 @@
 			<view class="color6 w30">系统报价</view>
 			<view>
 				<text wx:if="{{detailData.system_total_price}}">
-					<text class="color27A2">{{detailData.system_total_price}}</text>元
+					<text class="color27A2">{{detailData.system_total_price}}元 | </text>
+					<text class="color27A2" wx:if="{{detailData.settle_unit==='美元'}}">{{realTotalPriceChange}}美元</text>
 				</text>
 				<text wx:else>
 					<text>无</text>
@@ -50,7 +51,7 @@
 				当前选择: {{date}}
 			</view>
 		</picker>
-		<van-image style="position: absolute;right:0;top:10%" width="130" height="94"
+		<van-image style="position: absolute;right:0;top:10%" width="130" height="94" bindtap="openCheckDetail"
 			src="{{statusList[detailData.is_check]}}" />
 	</view>
 	<view class="card">
@@ -67,7 +68,7 @@
 				<view class="flex fdc jcsa ml10 w100">
 					<view class="flex jcsb">
 						<view>{{item.category_name || '无'}}/{{item.secondary_category || '无'}}</view>
-						<view wx:if="{{item.rel_order_info.order_id}}" data-type="{{irem.rel_order_info.order_type}}"
+						<view wx:if="{{item.rel_order_info.order_id}}" data-type="{{item.rel_order_info.order_type}}"
 							class="color27A2" bindtap="toOrderDetail" data-id="{{item.rel_order_info.order_id}}">
 							{{item.rel_order_info.order_code}}
 						</view>
@@ -352,4 +353,6 @@
 			</view>
 		</view>
 	</van-popup>
+	<check-detail show="{{showCheckDetail}}" pid="{{id}}" is_check="{{detailData.is_check}}" check_type="5"
+		bind:cancel="closeCheckDetail"></check-detail>
 </view>

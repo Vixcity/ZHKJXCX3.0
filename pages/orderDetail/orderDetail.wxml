@@ -62,7 +62,7 @@
 		</view>
 		<view>
 			<view style="color: #666666;">备注信息</view>
-			<view class="mt10" style="color: #333333;">{{orderDetail.desc||'无'}}</view>
+			<rich-text class="mt10" style="color: #333333;" nodes="{{orderDetail.desc||'无'}}"></rich-text>
 		</view>
 	</view>
 
@@ -182,13 +182,6 @@
 							<view>{{itemTransfer.number}}</view>
 						</view>
 					</view>
-					<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_transfer.length === 0}}">
-						<view class="bgColorD8 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-							调
-						</view>
-						<view class="w90 tc color9E">无调取信息</view>
-					</view>
 
 					<!-- 采 -->
 					<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.material_order}}" wx:for-item="itemMaterialOrder"
@@ -200,13 +193,6 @@
 							<view>{{itemMaterialOrder.material_color}}</view>
 							<view>{{itemMaterialOrder.number}}{{itemMaterialOrder.unit}}</view>
 						</view>
-					</view>
-					<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_order.length === 0}}">
-						<view class="bgColorD8 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-							采
-						</view>
-						<view class="w90 tc color9E">无订购信息</view>
 					</view>
 
 					<!-- 加 -->
@@ -220,13 +206,6 @@
 							<view>{{itemMaterialProcess.number}}{{itemMaterialProcess.unit}}</view>
 						</view>
 					</view>
-					<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.material_process.length === 0}}">
-						<view class="bgColorD8 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-							加
-						</view>
-						<view class="w90 tc color9E">无加工信息</view>
-					</view>
 
 					<!-- 入 -->
 					<view class="flex jcsb mt10 mb20" wx:for="{{itemChild.final_push}}" wx:for-item="itemMaterialPush"
@@ -234,16 +213,9 @@
 						<text class="bgColor27A2 colorWhite tc"
 							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">入</text>
 						<view class="w90 flex jcsb aic">
-							<view>{{itemMaterialPush.client_name}}</view>
-							<view>{{itemMaterialPush.number}}{{itemMaterialPush.unit}}</view>
+							<view>{{itemMaterialPush.store}}</view>
+							<view>{{itemMaterialPush.number}}</view>
 						</view>
-					</view>
-					<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.final_push.length === 0}}">
-						<view class="bgColorD8 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-							入
-						</view>
-						<view class="w90 tc color9E">无入库信息</view>
 					</view>
 
 					<!-- 出 -->
@@ -256,12 +228,9 @@
 							<view>{{itemMaterialPop.number}}{{itemMaterialPop.unit}}</view>
 						</view>
 					</view>
-					<view class="flex jcsb mt10 mb20" wx:if="{{itemChild.final_pop.length === 0}}">
-						<view class="bgColorD8 colorWhite tc"
-							style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
-							出
-						</view>
-						<view class="w90 tc color9E">无出库信息</view>
+
+					<view class="flex jcsb mt10 mb20" wx:if="{{ itemChild.material_transfer.length === 0 && itemChild.material_order.length === 0 && itemChild.material_process.length === 0 && itemChild.final_push.length === 0 && itemChild.final_pop.length === 0}}">
+						<view class="w90 tc color9E">暂无原料信息</view>
 					</view>
 				</view>
 			</view>
