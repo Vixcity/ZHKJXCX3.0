@@ -18,19 +18,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // id塞进去
+		// id塞进去
     this.setData(options);
     this.getDetail();
   },
 
   getDetail() {
-    this.setData({
-      info: wx.getStorageSync("workshopSettlementLogDetail"),
-      id: wx.getStorageSync("workshopSettlementLogDetail").id,
-    });
+    wxReq(
+      {
+        url: "/production/inspection/index",
+        data: { id: this.data.id },
+        method: "GET",
+      },
+      "/pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail&id=" +
+        this.data.id
+    ).then(res => {
+			this.setData({
+				info: res.data.data,
+			});
+		});
   },
 
-	openCheckDetail() {
+  openCheckDetail() {
     this.setData({
       showCheckDetail: true,
     });
@@ -94,8 +103,7 @@ Page({
           top: getApp().globalData.navH,
         });
         this.data.info.is_check = this.data.current;
-				wx.setStorageSync("workshopSettlementLogDetail", this.data.info);
-				wx.setStorageSync("isDo", true);
+        wx.setStorageSync("isDo", true);
         this.getDetail();
         this.setData({
           showShenHe: false,
@@ -105,8 +113,8 @@ Page({
   },
 
   showDetailPro(e) {
-		const { item } = e.currentTarget.dataset;
-		console.log(item)
+    const { item } = e.currentTarget.dataset;
+    console.log(item);
     wxReq(
       {
         url: "/product/detail",

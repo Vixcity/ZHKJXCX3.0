@@ -5,6 +5,7 @@
 			报销单详情
 		</view>
 	</nav-content>
+
 	<view class="card por">
 		<view class="title">报销信息</view>
 		<view class="flex">
@@ -61,7 +62,8 @@
 		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<view class="flex jcsa">
 				<van-button wx:if="{{hasCreateModule}}" type="primary" size="small" bindtap="update">修改报销单</van-button>
-				<van-button class="{{hasCreateModule?'ml20':''}}" type="primary" size="small" bindtap="openCheck">审核报销单</van-button>
+				<van-button class="{{hasCreateModule?'ml20':''}}" type="primary" size="small" bindtap="openCheck">审核报销单
+				</van-button>
 			</view>
 		</view>
 	</view>
@@ -110,4 +112,11 @@
 			</view>
 		</view>
 	</van-popup>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

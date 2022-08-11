@@ -23,8 +23,9 @@
 					<text style="color: #e23;vertical-align: middle;">* </text>报销内容{{index+1}}
 				</text>
 				<view class="flex aic w70">
-					<l-textarea auto-height="{{true}}" placeholder="点击输入" border="{{false}}" hide-label="{{true}}" type="text" value="{{item.name}}"
-						bind:lininput="changeInput" data-type="name" style="width: 60%;" data-index="{{index}}" />
+					<l-textarea auto-height="{{true}}" placeholder="点击输入" border="{{false}}" hide-label="{{true}}" type="text"
+						value="{{item.name}}" bind:lininput="changeInput" data-type="name" style="width: 60%;"
+						data-index="{{index}}" />
 					<view class="w40 flex">
 						<view class="mr10 color27A2" bindtap="add">添加</view>|
 						<view class="ml10 colorRed" bindtap="delete" data-index="{{index}}">删除</view>
@@ -72,4 +73,11 @@
 		<van-picker columns="{{ columns }}" show-toolbar title="{{title || '请选择'}}" bind:cancel="closeShowPicker"
 			bind:confirm="onConfirm" />
 	</van-popup>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

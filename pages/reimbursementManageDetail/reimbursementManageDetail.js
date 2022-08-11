@@ -199,5 +199,11 @@ Page({
 
   checkBoxChange(e) {
     this.setData({ result: e.detail });
+	},
+	
+	toPrev() {
+    wx.redirectTo({
+      url: "/pages/reimbursementManage/reimbursementManage",
+    });
   },
 });

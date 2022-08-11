@@ -53,9 +53,13 @@ Page({
       },
       "/sampleOrderDetail/sampleOrderDetail&id=" + id
     ).then((res) => {
+      let order_id = res.data.data.time_data[0].id;
+
       this.setData({
         sampleOrderDetail: res.data.data,
+        order_id,
         id,
+        has_check: wx.getStorageSync("userInfo").has_check === 1,
       });
 
       this.data.sampleOrderDetail.time_data.forEach((item) => {
@@ -205,6 +209,12 @@ Page({
       showCheckDetail: false,
     });
   },
+
+	toOrderList(){
+		wx.redirectTo({
+			url: '/pages/sampleOrder/sampleOrder',
+		})
+	},
 
   openStatusChoose(e) {
     const { index, indexpro, status_choose } = e.currentTarget.dataset;
@@ -417,6 +427,10 @@ Page({
         showCheJianPopup: true,
         indexpro,
       });
+    } else if (type === "showOrderLog") {
+      this.setData({
+        showOrderLog: true,
+      });
     }
   },
 
@@ -451,8 +465,11 @@ Page({
     });
   },
 
-  // 查看关联单据
-  showAssociatedDocument(e) {},
+  closeShowOrderLog() {
+    this.setData({
+      showOrderLog: false,
+    });
+  },
 
   showDetailPro(e) {
     const { item } = e.currentTarget.dataset;

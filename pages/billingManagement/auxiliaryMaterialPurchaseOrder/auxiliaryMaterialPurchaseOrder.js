@@ -314,8 +314,6 @@ Page({
 	},
 	
 	toDetail(e) {
-		const { item } = e.currentTarget.dataset;
-		wx.setStorageSync('auxiliaryMaterialPurchaseOrderDetail', item)
     wx.navigateTo({
       url: "./auxiliaryMaterialPurchaseOrderDetail?id=" + item.id,
     });

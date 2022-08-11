@@ -263,10 +263,8 @@ Page({
   },
 
   toDetail(e) {
-    const { item } = e.currentTarget.dataset;
-    wx.setStorageSync("workshopSettlementLogDetail", item);
     wx.navigateTo({
-      url: "./workshopSettlementLogDetail",
+      url: "./workshopSettlementLogDetail?id=" + e.currentTarget.dataset.item.id,
     });
   },
 });

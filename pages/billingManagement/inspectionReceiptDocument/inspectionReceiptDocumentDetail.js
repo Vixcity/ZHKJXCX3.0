@@ -36,8 +36,6 @@ Page({
       "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocumentDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = res.data.data.created_at;
-
       this.setData({ info: res.data.data });
 
       wxReq(

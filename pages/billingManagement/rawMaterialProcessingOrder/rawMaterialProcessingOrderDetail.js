@@ -39,8 +39,6 @@ Page({
       "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrderDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = res.data.data.created_at;
-
       res.data.data.info_data.forEach((item) => {
         item.material_name =
           item.material_order_name || item.material_transfer_name;

@@ -18,7 +18,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    // id塞进去
+		// id塞进去
+		console.log(options)
     this.setData(options);
     this.getDetail();
   },
@@ -35,12 +36,6 @@ Page({
       "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrderDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = res.data.data.created_at;
-      let transportationDeliveryOrderDetail = wx.getStorageSync(
-        "transportationDeliveryOrderDetail"
-      );
-      res.data.data.is_check = transportationDeliveryOrderDetail.is_check;
-
       this.setData({ info: res.data.data });
     });
   },
@@ -110,8 +105,6 @@ Page({
         });
 
         wx.setStorageSync("isDo", true);
-        this.data.info.is_check = this.data.current;
-        wx.setStorageSync("transportationDeliveryOrderDetail", this.data.info);
 
         this.getDetail();
         this.setData({

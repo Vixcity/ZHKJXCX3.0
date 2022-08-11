@@ -620,7 +620,7 @@ const getOrderStatusList = function () {
     { id: 3, text: "已完成", color: "color03d3" },
     { id: 4, text: "已结算", color: "color03d3" },
     { id: 5, text: "已取消", color: "color6" },
-    { id: 6, text: "已逾期", color: "colorRed" },
+    { id: 6, text: "已逾期", color: "colorE800" },
   ];
 };
 

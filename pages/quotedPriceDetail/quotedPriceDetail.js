@@ -262,5 +262,11 @@ Page({
           e.currentTarget.dataset.id,
       });
     }
-  },
+	},
+	
+	toQuotePrice(){
+		wx.redirectTo({
+			url: '/pages/quotedPrice/quotedPrice',
+		})
+	},
 });

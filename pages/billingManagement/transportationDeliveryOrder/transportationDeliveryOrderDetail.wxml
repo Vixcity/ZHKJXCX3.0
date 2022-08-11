@@ -73,7 +73,7 @@
 		<view class="flex mt10">
 			<view class="w30 color6">运输单价</view>
 			<view class="w70">
-				{{info.price}}元/m³
+				{{info.price || 0}}元/m³
 			</view>
 		</view>
 		<view class="flex mt10">
@@ -85,7 +85,7 @@
 		<view class="flex mt10">
 			<view class="w30 color6">额外费用</view>
 			<view class="w70">
-				{{info.others_fee}}元
+				{{info.others_fee || 0}}元
 			</view>
 		</view>
 		<view class="flex mt10">
@@ -97,7 +97,7 @@
 		<view class="flex mt10">
 			<view class="w30 color6">运输地址</view>
 			<view class="w70">
-				{{info.address}}
+				{{info.address || "无"}}
 			</view>
 		</view>
 	</view>

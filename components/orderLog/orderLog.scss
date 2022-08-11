@@ -1,0 +1,7 @@
+/* components/orderLog/orderLog.wxss */
+@import "../../app.wxss";
+
+#orderLog{
+	max-height: 60vh;
+	overflow: scroll;
+}

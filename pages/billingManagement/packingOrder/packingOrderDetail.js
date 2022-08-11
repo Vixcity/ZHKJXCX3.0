@@ -34,12 +34,6 @@ Page({
       },
       "/billingManagement/packingOrder/packingOrderDetail&id=" + this.data.id
     ).then((res) => {
-      res.data.data.created_at = res.data.data.created_at;
-
-      let packingOrderDetail = wx.getStorageSync("packingOrderDetail");
-      res.data.data.is_check = packingOrderDetail.is_check;
-      res.data.data.order_code = packingOrderDetail.order_code;
-
       this.setData({ info: res.data.data });
     });
   },
@@ -107,8 +101,6 @@ Page({
           top: getApp().globalData.navH,
         });
         wx.setStorageSync("isDo", true);
-        this.data.info.is_check = this.data.current;
-        wx.setStorageSync("packingOrderDetail", this.data.info);
 
         this.getDetail();
         this.setData({

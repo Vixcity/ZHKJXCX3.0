@@ -101,7 +101,7 @@ Page({
         url: "/order/detail",
         method: "GET",
         data: {
-          id: wx.getStorageSync("productionPlanDetail").top_order_id,
+          id: this.data.top_order_id,
         },
       },
       "/billingManagement/productionPlan/productionPlanDetail&id=" +

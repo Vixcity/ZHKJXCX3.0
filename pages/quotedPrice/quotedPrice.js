@@ -390,5 +390,11 @@ Page({
     wx.navigateTo({
       url: "/pages/quotedPriceCreate/quotedPriceCreate",
     });
-  },
+	},
+	
+	toIndex(){
+		wx.reLaunch({
+			url: '/pages/index/index',
+		})
+	},
 });

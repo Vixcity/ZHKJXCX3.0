@@ -334,5 +334,11 @@ Page({
     this.setData({
       type: event.detail,
     });
-  },
+	},
+	
+	toPrev(){
+		wx.redirectTo({
+			url: '/pages/ourFactory/ourFactory?type=2',
+		})
+	},
 });

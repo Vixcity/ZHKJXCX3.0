@@ -1,0 +1,410 @@
+<!--components/orderLog/orderLog.wxml-->
+<view id="orderLog">
+	<van-popup show="{{ show }}" round>
+		<view style="max-height:60vh;overflow-y:scroll;" class="pb10">
+			<!-- 产品工艺单 -->
+			<view>
+				<view class="bold">产品工艺单</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.craft_list.length===0}}">暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.craft_list}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">工艺单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 产品报价单 -->
+			<view>
+				<view class="bold mt10">产品报价单</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.quote.length===0}}">暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.quote}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">报价单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toQuotePriceDetail" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 原料计划 -->
+			<view>
+				<view class="bold mt10">原料计划</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.material_plan.length===0}}">暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material_plan}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">原料计划单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toRawPlan" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 物料管理 -->
+			<view>
+				<view class="bold mt10">物料管理</view>
+				<view class="color9 tc mt10"
+					wx:if="{{orderLogInfo.material.order.length===0 && orderLogInfo.material.transfer.length===0 && orderLogInfo.material.sup.length===0 && orderLogInfo.material.process.length===0 && orderLogInfo.decorate.length === 0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material.order}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">原料订购单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toRawOrder" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material.transfer}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">原料调取单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toRawTransfer" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material.sup}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">原料补纱单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toRawSupplement" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material.process}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">原料加工单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toRawProcess" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.decorate}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">辅料订购单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toAuxiliary" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 原料出入库 -->
+			<view>
+				<view class="bold mt10">原料出入库</view>
+				<view class="color9 tc mt10"
+					wx:if="{{orderLogInfo.material_push.transfer_push.length===0 && orderLogInfo.material_push.order_push.length===0 && orderLogInfo.material_push.production_pop.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material_push.transfer_push}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">调取最终入库</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material_push.order_push}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">订购最终入库</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.material_push.production_pop}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">生产最终出库</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 生产管理 -->
+			<view>
+				<view class="bold mt10">生产管理</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.weave_plan.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.weave_plan}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">生产日志</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3 color27A2" bindtap="toWeaveDetail" data-id="{{item.id}}">{{item.code}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 检验收发 -->
+			<view>
+				<view class="bold mt10">检验收发</view>
+				<view class="color9 tc mt10"
+					wx:if="{{orderLogInfo.inspection.push.length===0 && orderLogInfo.inspection.pop.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.inspection.push}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color27A2" bindtap='toInspectionDetail'>检验入库</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.inspection.pop}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">生产出库</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 车间管理 -->
+			<view>
+				<view class="bold mt10">车间管理</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.production_inspection.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.production_inspection}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color27A2" bindtap='toWorkDetail' data-id="{{item.id}}">结算日志</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 包装管理 -->
+			<view>
+				<view class="bold mt10">包装管理</view>
+				<view class="color9 tc mt10"
+					wx:if="{{orderLogInfo.pack.plan.length===0 && orderLogInfo.pack.order.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.pack.plan}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">包装计划单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="color3">{{item.code || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+				<view class="mt10" wx:for="{{orderLogInfo.pack.order}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">包装订购单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="{{item.code?'color27A2':'color9'}}" bindtap="toPack" data-id="{{item.id}}">{{item.code || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+
+			<!-- 发货管理 -->
+			<view>
+				<view class="bold mt10">发货管理</view>
+				<view class="color9 tc mt10" wx:if="{{orderLogInfo.transport.length===0}}">
+					暂未创建</view>
+				<view class="mt10" wx:for="{{orderLogInfo.transport}}">
+					<view class="flex">
+						<view class="color6 w30">单据类型</view>
+						<view class="color3">运输发货单</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">单据编号</view>
+						<view class="{{item.code?'color27A2':'color9'}}" bindtap="toTransfer" data-id="{{item.id}}">{{item.code || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建人</view>
+						<view class="color3">{{item.user_name || '无'}}</view>
+					</view>
+					<view class="flex mt10">
+						<view class="color6 w30">创建时间</view>
+						<view class="color3">{{item.created_at || '无'}}</view>
+					</view>
+					<view class="line"></view>
+				</view>
+			</view>
+		</view>
+		<view style="height: 3vh;line-height: 3vh;border-top: 1px solid #eeeeee;" class="tc pt10"
+			bindtap='closeCheckDetail'>关闭
+		</view>
+	</van-popup>
+</view>

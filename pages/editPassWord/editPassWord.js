@@ -142,5 +142,11 @@ Page({
         });
       }
     });
-  },
+	},
+	
+	toManage(){
+		wx.reLaunch({
+			url: '/pages/manage/manage',
+		})
+	},
 });

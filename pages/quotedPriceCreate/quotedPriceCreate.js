@@ -1238,5 +1238,11 @@ Page({
         }, 0);
       }
     });
-  },
+	},
+	
+	toQuotePrice(){
+		wx.redirectTo({
+			url: '/pages/quotedPrice/quotedPrice',
+		})
+	},
 });

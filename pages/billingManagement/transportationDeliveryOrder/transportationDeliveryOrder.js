@@ -298,8 +298,6 @@ Page({
   toDetail(e) {
     const { item } = e.currentTarget.dataset;
 
-    wx.setStorageSync("transportationDeliveryOrderDetail", item);
-
     wx.navigateTo({
       url: "./transportationDeliveryOrderDetail?id=" + item.id,
     });

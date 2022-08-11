@@ -55,10 +55,17 @@ Page({
         });
       });
 
+      let order_id = res.data.data.time_data[0].id;
+      this.setData({
+        order_id,
+        id,
+        has_check: wx.getStorageSync("userInfo").has_check === 1,
+      });
+
       wxReq(
         {
           url: "/order/material/info/new",
-          data: { order_id: res.data.data.time_data[0].id },
+          data: { order_id },
           method: "GET",
         },
         "/orderDetail/orderDetail&id=" + id
@@ -113,8 +120,8 @@ Page({
           }
         }
       });
-			
-			res.data.data.weave.forEach((item) => {
+
+      res.data.data.weave.forEach((item) => {
         if (item.quote_info) {
           if (item.quote_info.change.indexOf("上浮") !== -1) {
             item.quote_info.class = "colorE800";
@@ -130,19 +137,19 @@ Page({
             "上浮"
           ) !== -1
         ) {
-					console.log(1)
+          console.log(1);
           res.data.data.material.material.gather.quote_info.class = "colorE800";
         } else if (
           res.data.data.material.material.gather.quote_info.change.indexOf(
             "下降"
           ) !== -1
         ) {
-					console.log(2)
+          console.log(2);
           res.data.data.material.material.gather.quote_info.class = "color03d0";
         }
       }
-			
-			if (res.data.data.material.decorate.gather.quote_info) {
+
+      if (res.data.data.material.decorate.gather.quote_info) {
         if (
           res.data.data.material.decorate.gather.quote_info.change.indexOf(
             "上浮"
@@ -156,27 +163,23 @@ Page({
         ) {
           res.data.data.material.decorate.gather.quote_info.class = "color03d0";
         }
-			}
-			
-			if(res.data.data.pack.gather.quote_info){
-				if (
-          res.data.data.pack.gather.quote_info.change.indexOf(
-            "上浮"
-          ) !== -1
+      }
+
+      if (res.data.data.pack.gather.quote_info) {
+        if (
+          res.data.data.pack.gather.quote_info.change.indexOf("上浮") !== -1
         ) {
           res.data.data.pack.gather.quote_info.class = "colorE800";
         } else if (
-          res.data.data.pack.gather.quote_info.change.indexOf(
-            "下降"
-          ) !== -1
+          res.data.data.pack.gather.quote_info.change.indexOf("下降") !== -1
         ) {
           res.data.data.pack.gather.quote_info.class = "color03d0";
         }
-			}
+      }
 
-			res.data.data.production_inspection.forEach(itme => {
-				itme.total_price = +(itme.total_price.toFixed(2))
-			})
+      res.data.data.production_inspection.forEach((itme) => {
+        itme.total_price = +itme.total_price.toFixed(2);
+      });
 
       this.setData({
         financialInfo: res.data.data,
@@ -188,7 +191,13 @@ Page({
     this.setData({
       isShow: !this.data.isShow,
     });
-  },
+	},
+	
+	toOrderList(){
+		wx.redirectTo({
+			url: '/pages/order/order',
+		})
+	},
 
   changeIsShow2() {
     this.setData({
@@ -283,6 +292,10 @@ Page({
         showCheJianPopup: true,
         indexpro,
       });
+    } else if (type === "showOrderLog") {
+      this.setData({
+        showOrderLog: true,
+      });
     }
   },
 
@@ -317,14 +330,17 @@ Page({
     });
   },
 
+  closeShowOrderLog() {
+    this.setData({
+      showOrderLog: false,
+    });
+  },
+
   closeShowPackPopup() {
     this.setData({
       showPackPopup: false,
     });
   },
-
-  // 查看关联单据
-  showAssociatedDocument(e) {},
 
   toQuotePriceDetail(e) {
     if (isHasPermissions("1-3")) {

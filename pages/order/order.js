@@ -47,13 +47,13 @@ Page({
       isEnd: false,
       noData: false,
       page: 1,
-		});
-		
-		this.getScreen()
+    });
+
+    this.getScreen();
     this.getList();
   },
 
-	getScreen() {
+  getScreen() {
     getGroupList("/order/order");
     getUserList("/order/order");
     getClientList("/order/order");
@@ -79,20 +79,20 @@ Page({
           },
         ],
       },
-		];
-		
+    ];
+
     this.setData({
       groupList: wx.getStorageSync("groupList"),
       userList: wx.getStorageSync("userList"),
-			clientList: arr.concat(wx.getStorageSync("clientList").splice(0, 2)),
-			dateList: wx.getStorageSync("someDateList"),
-			orderStatusList,
-			statusList: [
-				{ text: "全部", id: "" },
-				{ text: "待审核", id: "0" },
-				{ text: "已审核", id: "1" },
-				{ text: "已驳回", id: "2" },
-			]
+      clientList: arr.concat(wx.getStorageSync("clientList").splice(0, 2)),
+      dateList: wx.getStorageSync("someDateList"),
+      orderStatusList,
+      statusList: [
+        { text: "全部", id: "" },
+        { text: "待审核", id: "0" },
+        { text: "已审核", id: "1" },
+        { text: "已驳回", id: "2" },
+      ],
     });
   },
 
@@ -112,13 +112,13 @@ Page({
           order_type: 1,
           keyword: this.data.keyword,
           client_id: this.data.client_id,
-					contacts_id: this.data.contacts_id,
+          contacts_id: this.data.contacts_id,
           user_id: this.data.user_id,
           group_id: this.data.group_id,
-					status: this.data.status,
-					is_check: this.data.is_check,
-					start_time: this.data.start_time,
-					end_time: this.data.end_time
+          status: this.data.status,
+          is_check: this.data.is_check,
+          start_time: this.data.start_time,
+          end_time: this.data.end_time,
         },
         method: "GET",
       },
@@ -198,11 +198,11 @@ Page({
 
   // 选择公司
   checkClient(e) {
-		const { text, id } = e.currentTarget.dataset.item;
-		if (text === "全部") {
+    const { text, id } = e.currentTarget.dataset.item;
+    if (text === "全部") {
       this.setData({ client_name: "", client_id: "", contactsList: [] });
-			this.closePopupSon();
-			return 
+      this.closePopupSon();
+      return;
     }
     wxReq(
       {
@@ -242,8 +242,8 @@ Page({
         is_check: this.data.statusList[index].id,
       });
     }
-		
-		if (type === "orderstatus") {
+
+    if (type === "orderstatus") {
       this.setData({
         status: this.data.orderStatusList[index].id,
       });
@@ -297,6 +297,12 @@ Page({
 
     wx.navigateTo({
       url: "/pages/orderDetail/orderDetail?id=" + item.id,
+    });
+  },
+
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/index/index",
     });
   },
 });

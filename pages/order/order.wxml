@@ -21,20 +21,20 @@
 		<view class="card fz25" wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index"
 			data-item="{{item}}" bindtap="toDetail">
 			<view class="flex w100 jcsb">
-				<view class="bold fz30">{{item.code || '未填写'}}</view>
-				<view>
+				<view class="bold fz30 w80">{{item.code || '未填写'}}</view>
+				<view class="w20 colorWhite tc">
 					<view wx:if="{{item.status === 1}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColorOrange">已创建</view>
+						class="pl10 pr10 pt5 pb5 bgColorOrange">已创建</view>
 					<view wx:if="{{item.status === 2}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColor27A2">进行中</view>
+						class="pl10 pr10 pt5 pb5 bgColor27A2">进行中</view>
 					<view wx:if="{{item.status === 3}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColor03d0">已完成</view>
+						class="pl10 pr10 pt5 pb5 bgColor03d0">已完成</view>
 					<view wx:if="{{item.status === 4}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColor03d0">已结算</view>
+						class="pl10 pr10 pt5 pb5 bgColor03d0">已结算</view>
 					<view wx:if="{{item.status === 5}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColorRed">已逾期</view>
+						class="pl10 pr10 pt5 pb5 bgColorRed">已逾期</view>
 					<view wx:if="{{item.status === 6}}" style="border-radius: 500px;"
-						class="pl10 pr10 pt5 pb5 colorWhite bgColorRed">已取消</view>
+						class="pl10 pr10 pt5 pb5 bgColorRed">已取消</view>
 				</view>
 			</view>
 			<view>{{item.client_name || '未填写'}}</view>
@@ -248,4 +248,11 @@
 			</scroll-view>
 		</view>
 	</van-popup>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

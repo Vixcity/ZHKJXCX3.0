@@ -342,9 +342,8 @@ Page({
 
   toDetail(e) {
     const { item } = e.currentTarget.dataset;
-    wx.setStorageSync("productionPlanDetail", item);
     wx.navigateTo({
-      url: "./productionPlanDetail?id=" + item.id,
+      url: "./productionPlanDetail?id=" + item.id +'&top_order_id=' + item.top_order_id,
     });
   },
 });

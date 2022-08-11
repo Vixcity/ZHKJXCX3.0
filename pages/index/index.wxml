@@ -6,8 +6,8 @@
 		</view>
 	</nav-content>
 	<view class="flex flexWarp jcsb pl10 pr10">
-		<view wx:if="{{isLogin}}" wx:if="{{item.show}}" class="card tc" wx:for="{{list}}" wx:for-item="item" wx:key="item" wx:for-index="index"
-			data-src="{{item.src}}" bindtap="toDetailPage" style="width: calc(50vw - 15px);">
+		<view wx:if="{{isLogin}}" wx:if="{{item.show}}" class="card tc" wx:for="{{list}}" wx:for-item="item" wx:key="item"
+			wx:for-index="index" data-src="{{item.src}}" bindtap="toDetailPage" style="width: calc(50vw - 15px);">
 			<view class="vh8">
 				<image src="{{item.icon}}" style="width: 7vh;height: 7vh;"></image>
 			</view>
@@ -37,11 +37,15 @@
 			<view class="color27A2">首页</view>
 		</view>
 		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
-			<van-icon name="scan" size="50px" class="color91"
-				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" />
+			<image src="https://file.zwyknit.com/%E6%89%AB.png"
+				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;width: 34px;transform: scale(1.2);">
+			</image>
+			<!-- <van-icon name="scan" size="50px" class="color91"
+				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" /> -->
 		</view>
 		<view class="tab-bar-item" bindtap="toManage">
-			<image style="width: 27px;" src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86%EF%BC%88%E7%81%B0%E8%89%B2%EF%BC%89-01.png">
+			<image style="width: 27px;"
+				src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86%EF%BC%88%E7%81%B0%E8%89%B2%EF%BC%89-01.png">
 			</image>
 			<view class="color91">管理</view>
 		</view>

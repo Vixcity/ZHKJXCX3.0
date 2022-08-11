@@ -35,17 +35,38 @@ Page({
       "/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrderDetail&id=" +
         this.data.id
     ).then((res) => {
-      res.data.data.created_at = res.data.data.created_at;
-      let infoData = wx.getStorageSync("auxiliaryMaterialPurchaseOrderDetail");
-      res.data.data.total_number = +infoData.total_number;
-      res.data.data.total_price = infoData.total_price.toFixed(2);
-      res.data.data.total_push_number = +infoData.total_push_number;
-      res.data.data.total_push_price = infoData.total_push_price.toFixed(2);
+      res.data.data.total_number = res.data.data.info_data.reduce(function (
+        total_number,
+        cur
+      ) {
+        return total_number + Number(cur.number);
+      },
+      0);
+      res.data.data.total_price = res.data.data.info_data.reduce(function (
+        total_price,
+        cur
+      ) {
+        return total_price + Number(cur.price);
+      },
+      0).toFixed(2);
+      res.data.data.total_push_number = res.data.data.info_data.reduce(
+        function (total_push_number, cur) {
+          return total_push_number + Number(cur.final_push_number);
+        },
+        0
+      );
+      res.data.data.total_push_price = res.data.data.info_data.reduce(function (
+        total_push_price,
+        cur
+      ) {
+        return total_push_price + Number(cur.final_push_number)*Number(cur.price);
+      },
+      0).toFixed(2);
       this.setData({ info: res.data.data });
     });
   },
 
-	openCheckDetail() {
+  openCheckDetail() {
     this.setData({
       showCheckDetail: true,
     });

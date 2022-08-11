@@ -293,5 +293,11 @@ Page({
     wx.navigateTo({
       url: "/pages/sampleOrderDetail/sampleOrderDetail?id=" + item.id,
     });
-  },
+	},
+	
+	toIndex(){
+		wx.reLaunch({
+			url: '/pages/index/index',
+		})
+	},
 });

@@ -25,4 +25,10 @@ Page({
       url: "/pages" + item.path,
     });
   },
+
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/index/index",
+    });
+  },
 });

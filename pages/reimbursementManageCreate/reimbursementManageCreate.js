@@ -306,5 +306,11 @@ Page({
       staff_id: e.detail.value[1].id,
     });
     this.closeShowPicker();
+	},
+	
+  toPrev() {
+    wx.redirectTo({
+      url: "/pages/reimbursementManage/reimbursementManage",
+    });
   },
 });

@@ -229,7 +229,8 @@
 						</view>
 					</view>
 
-					<view class="flex jcsb mt10 mb20" wx:if="{{ itemChild.material_transfer.length === 0 && itemChild.material_order.length === 0 && itemChild.material_process.length === 0 && itemChild.final_push.length === 0 && itemChild.final_pop.length === 0}}">
+					<view class="flex jcsb mt10 mb20"
+						wx:if="{{ itemChild.material_transfer.length === 0 && itemChild.material_order.length === 0 && itemChild.material_process.length === 0 && itemChild.final_push.length === 0 && itemChild.final_pop.length === 0}}">
 						<view class="w90 tc color9E">暂无原料信息</view>
 					</view>
 				</view>
@@ -301,13 +302,15 @@
 								</view>
 								<view class="w50 flex mt10">
 									<view class="color91">半次/全次</view>
-									<view class="pr10 ml10">{{itemChild.data.part_shoddy_number||0}}/{{itemChild.data.shoddy_number||0}}
+									<view class="pr10 ml10 colorE800">
+										{{itemChild.data.part_shoddy_number||0}}/{{itemChild.data.shoddy_number||0}}
 									</view>
 								</view>
 								<view class="w50 flex mt10">
 									<view class="color91">次品率</view>
-									<view class="pr10 ml10">{{itemChild.data.shoddy_pre}}%</view>
+									<view class="pr10 ml10 colorE800">{{itemChild.data.shoddy_pre}}%</view>
 								</view>
+								<view class="line" wx:if="{{index !== itemClient.data.length-1}}"></view>
 							</view>
 						</view>
 					</view>
@@ -323,8 +326,15 @@
 
 	<!-- 财务概览 -->
 	<view class="card">
-		<view class="title">财务概览</view>
-		<view class="mt10 colorOrange">点击具体费用表格可查看详情</view>
+		<view class="title" style="margin-top: unset;">
+			财务流程汇总仅管理员可见
+		</view>
+	</view>
+	<view class="card" wx:if="{{has_check}}">
+		<view class="flex">
+			<view class="bold">财务概览</view>
+			<view class="ml10 color6">点击具体费用表格查看详情</view>
+		</view>
 		<view class="tc">
 			<view class="flex">
 				<view class="w50 pt10 pb10" style="border: 1px solid rgba(0,0,0,0.1);" bindtap='showFinancialPopup'
@@ -379,12 +389,12 @@
 		</view>
 	</view>
 
-	<view class="vh5"></view>
-	<!-- <view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+	<view class="vh12"></view>
+	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 		<view class="flex jcsa">
-			<van-button type="primary" size="small" bindtap="showAssociatedDocument">查看关联单据</van-button>
+			<van-button type="primary" size="small" data-type="showOrderLog" bindtap="showFinancialPopup">查看关联单据</van-button>
 		</view>
-	</view> -->
+	</view>
 
 	<!-- 弹窗层 -->
 	<!-- 产品费用 -->
@@ -1052,6 +1062,8 @@
 		<view style="height: 5vh;border-top: 1px solid #eeeeee;" class="flex aic jcc" bindtap='closeShowCheJianPopup'>关闭
 		</view>
 	</van-popup>
+	<order-log show="{{showOrderLog}}" order_id="{{order_id}}" top_id="{{id}}" bind:cancel="closeShowOrderLog">
+	</order-log>
 
 	<l-message content="{{content}}" />
 	<van-dialog id="van-dialog" />
@@ -1125,4 +1137,11 @@
 	</van-popup>
 	<t-image-viewer visible="{{showImage}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
 		bind:close="closeShowImage" />
+		
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toOrderList"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

@@ -409,5 +409,11 @@ Page({
     wx.navigateTo({
       url: "/pages/outsourcingAcceptance/outsourcingAcceptance?isCodeIn=true",
     });
-  },
+	},
+	
+	toIndex(){
+		wx.reLaunch({
+			url: '/pages/index/index',
+		})
+	},
 });

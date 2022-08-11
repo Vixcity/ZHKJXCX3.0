@@ -18,7 +18,7 @@
 					<van-radio-group value="{{ type }}" bind:change="onChange">
 						<van-radio name="{{1}}">半成品检验入库</van-radio>
 						<van-radio name="{{2}}">半成品加工出库</van-radio>
-						<van-radio name="{{3}}">成品加工出库</van-radio>	
+						<van-radio name="{{3}}">成品加工出库</van-radio>
 					</van-radio-group>
 				</view>
 				<view class="flex pt10 pb10">
@@ -116,4 +116,11 @@
 	<l-message content="{{content}}" />
 	<van-action-sheet show="{{ chooseDate }}" z-index="{{166666667}}" actions="{{ dateList }}" bind:select="selectDate"
 		bind:cancel="closePickDate" bind:click-overlay="closePickDate" cancel-text="取消" />
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

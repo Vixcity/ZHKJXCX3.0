@@ -143,7 +143,7 @@ Page({
           quoteCode:
             item.name + "-" + (item.group || "无小组") ||
             "暂无报销人员小组信息",
-          date: '创建时间：'+item.created_at.slice(0,10),
+          date: "创建时间：" + item.created_at.slice(0, 10),
           reimbursementPrice: item.amount,
           unit: item.settle_unit,
           user: item.user.name || "无创建人信息",
@@ -300,6 +300,12 @@ Page({
   toCreate() {
     wx.navigateTo({
       url: "/pages/reimbursementManageCreate/reimbursementManageCreate",
+    });
+  },
+
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/index/index",
     });
   },
 });

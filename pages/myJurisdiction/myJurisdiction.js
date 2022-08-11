@@ -28,5 +28,11 @@ Page({
     this.setData({
       selfModule: this.data.selfModule,
     });
-  },
+	},
+	
+	toManage(){
+		wx.reLaunch({
+			url: '/pages/manage/manage',
+		})
+	},
 });
