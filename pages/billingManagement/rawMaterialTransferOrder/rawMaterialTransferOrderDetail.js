@@ -1,8 +1,5 @@
 // pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail.js
-const {
-  wxReq,
-  getStatusImage,
-} = require("../../../utils/util");
+const { wxReq, getStatusImage } = require("../../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -38,16 +35,16 @@ Page({
       "/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail&id=" +
         this.data.id
     ).then((res) => {
-			let item = wx.getStorageSync('rawMaterialTransferOrderDetail')
-			res.data.data.total_number = item.total_number
-			res.data.data.total_price = item.total_price
-			res.data.data.total_push_number = item.total_push_number
-			res.data.data.total_push_price = item.total_push_price
+      let item = wx.getStorageSync("rawMaterialTransferOrderDetail");
+      res.data.data.total_number = item.total_number;
+      res.data.data.total_price = item.total_price;
+      res.data.data.total_push_number = item.total_push_number;
+      res.data.data.total_push_price = item.total_push_price;
       this.setData({ info: res.data.data });
     });
-	},
-	
-	openCheckDetail() {
+  },
+
+  openCheckDetail() {
     this.setData({
       showCheckDetail: true,
     });
@@ -115,6 +112,13 @@ Page({
           showShenHe: false,
         });
       }
+    });
+  },
+
+  toPrev() {
+    wx.redirectTo({
+      url:
+        "/pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrder",
     });
   },
 });

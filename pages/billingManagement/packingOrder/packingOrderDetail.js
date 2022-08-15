@@ -38,7 +38,7 @@ Page({
     });
   },
 
-	openCheckDetail() {
+  openCheckDetail() {
     this.setData({
       showCheckDetail: true,
     });
@@ -107,6 +107,13 @@ Page({
           showShenHe: false,
         });
       }
+    });
+  },
+
+  toPrev() {
+    wx.redirectTo({
+      url:
+        "/pages/billingManagement/packingOrder/packingOrder",
     });
   },
 });

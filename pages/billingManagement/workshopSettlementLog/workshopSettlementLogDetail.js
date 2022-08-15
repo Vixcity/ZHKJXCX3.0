@@ -152,5 +152,12 @@ Page({
     this.setData({
       showPro: false,
     });
+	},
+	
+	toPrev() {
+    wx.redirectTo({
+      url:
+        "/pages/billingManagement/workshopSettlementLog/workshopSettlementLog",
+    });
   },
 });

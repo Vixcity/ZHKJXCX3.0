@@ -136,5 +136,12 @@ Page({
         });
       }
     });
+	},
+	
+	toPrev() {
+    wx.redirectTo({
+      url:
+        "/pages/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrder",
+    });
   },
 });

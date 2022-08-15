@@ -273,5 +273,11 @@ Page({
         additional,
       });
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

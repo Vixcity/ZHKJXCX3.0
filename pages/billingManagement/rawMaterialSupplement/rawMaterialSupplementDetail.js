@@ -120,5 +120,11 @@ Page({
         });
       }
     });
-  },
+	},
+
+	toPrev(){
+		wx.redirectTo({
+			url: '/pages/billingManagement/rawMaterialSupplement/rawMaterialSupplement',
+		})
+	},
 });

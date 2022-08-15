@@ -82,5 +82,9 @@
     background: transparent;
     border-radius: 10rpx;
     content: "";
+	}
+	
+	.widthCalc {
+    width: calc(100% - 35px);
   }
 }

@@ -301,5 +301,11 @@ Page({
     this.setData({
       showPopup: false,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

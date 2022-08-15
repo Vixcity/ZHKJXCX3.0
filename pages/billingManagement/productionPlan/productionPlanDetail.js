@@ -258,5 +258,11 @@ Page({
     this.setData({
       showPro: false,
     });
-  },
+	},
+	
+	toPrev(){
+		wx.redirectTo({
+			url: '/pages/billingManagement/productionPlan/productionPlan',
+		})
+	},
 });

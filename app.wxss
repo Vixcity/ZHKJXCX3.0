@@ -740,6 +740,7 @@ page {
 .w61 {
 	width: 61%;
 }
+
 .w60 {
 	width: 60%;
 }
@@ -1306,6 +1307,45 @@ page {
 	padding: 18px 0;
 }
 
+.reset .van-button {
+	background-color: unset;
+	color: #FA9036 !important;
+	border: none;
+	width: 80vw;
+	border: 1px solid #FA9036;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
+.confirm .van-button {
+	background-color: #27a2fd;
+	color: white !important;
+	border: none;
+	width: 80vw;
+	border: 1px solid #27a2fd;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
+.confirmHalf .van-button {
+	background-color: #27a2fd;
+	color: white !important;
+	border: none;
+	width: 50vw;
+	border: 1px solid #27a2fd;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
+.resetHalf .van-button {
+	background-color: unset;
+	color: #666666 !important;
+	border: none;
+	width: 50vw;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
 .half .van-button {
 	color: #ffffff !important;
 	border: none;
@@ -1433,8 +1473,8 @@ page {
 	color: transparent;
 }
 
-.movable-area{
-	pointer-events:none;
+.movable-area {
+	pointer-events: none;
 	z-index: 100;
 	width: 100%;
 	height: 100%;
@@ -1444,8 +1484,9 @@ page {
 	right: 0;
 	bottom: 0;
 }
-.movable-view{ 
-	pointer-events:auto;
+
+.movable-view {
+	pointer-events: auto;
 	height: 50px;
 	width: 40px;
 }

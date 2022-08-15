@@ -39,7 +39,7 @@
 			</view>
 		</view>
 		<van-image wx:if="{{info.is_check !== 4 && info.is_check !== 3}}" style="position: absolute;right:0;top:0%"
-			width="130" height="94" src="{{statusImageList[info.is_check]}}" bindtap="openCheckDetail"/>
+			width="130" height="94" src="{{statusImageList[info.is_check]}}" bindtap="openCheckDetail" />
 		<view wx:else class="colorRed bold" style="position: absolute;right:5%;top:5%" bindtap="openCheckDetail">单据异常</view>
 	</view>
 
@@ -234,7 +234,8 @@
 				<view class="flex mt10">
 					<view class="w30 color6">大身尺码</view>
 					<view class="w70">
-						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g {{item.size_info}}
+						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g
+							{{item.size_info}}
 						</view>
 					</view>
 				</view>
@@ -253,5 +254,13 @@
 	</van-popup>
 	<t-image-viewer visible="{{showImage}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
 		bind:close="closeShowImage" />
-	<check-detail show="{{showCheckDetail}}" pid="{{id}}" is_check="{{info.is_check}}" check_type="13" bind:cancel="closeCheckDetail"></check-detail>
+	<check-detail show="{{showCheckDetail}}" pid="{{id}}" is_check="{{info.is_check}}" check_type="13"
+		bind:cancel="closeCheckDetail"></check-detail>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

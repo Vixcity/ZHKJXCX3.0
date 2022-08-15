@@ -42,6 +42,8 @@ Page({
     contacts_id: "",
     min_price: "",
     max_price: "",
+    activeTab: 0,
+    vtabs: [],
   },
 
   /**
@@ -49,6 +51,9 @@ Page({
    */
   onLoad(options) {
     const isLogin = isIfLogin();
+    const titles = ["价格区间", "创建人", "负责小组", "审核状态", "创建时间"];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ vtabs });
 
     this.setData({
       isLogin,
@@ -165,7 +170,7 @@ Page({
             ((item.system_total_price || 0) / item.exchange_rate) *
             100
           ).toFixed(2),
-          systemPrice: item.system_total_price || '0',
+          systemPrice: item.system_total_price || "0",
           customer: item.title || "暂无标题",
           unit: item.settle_unit,
           user: item.user_name,
@@ -181,6 +186,135 @@ Page({
         orderList: this.data.orderList,
       });
     });
+  },
+
+  // 打开选择器
+  openPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "date") {
+      this.setData({
+        showDate: true,
+      });
+    }
+
+    if (type === "user") {
+      this.setData({
+        showUser: true,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: true,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: true,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        showContacts: true,
+      });
+    }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: true,
+      });
+    }
+  },
+
+  // 关闭选择器
+  closeShowPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "date") {
+      this.setData({
+        showDate: false,
+      });
+    }
+
+    if (type === "user") {
+      this.setData({
+        showUser: false,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: false,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: false,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        showContacts: false,
+      });
+    }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: false,
+      });
+    }
+  },
+
+  // 选择器提交
+  confirmData(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "date") {
+      console.log(e.detail.value);
+      this.data.start_time = e.detail.value[0].id[0];
+      this.data.end_time = e.detail.value[0].id[1];
+    }
+
+    if (type === "user") {
+      this.data.user_id = e.detail.value[0].id;
+    }
+
+    if (type === "group") {
+      this.data.group_id = e.detail.value[0].id;
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        contacts_id: e.detail.value[0].id,
+        contacts_name: e.detail.value[0].text,
+      });
+    }
+
+    if (type === "client") {
+      if (!e.detail.value[2]) {
+        wx.lin.showMessage({
+          type: "error",
+          duration: 3000,
+          content: "当前没有选中公司，请重新选择",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+      this.data.client_id = e.detail.value[2].id;
+      this.checkClient(e.detail.value[2]);
+    }
+
+    this.data.page = 1;
+    this.setData({
+      orderList: [],
+      isEnd: false,
+      noData: false,
+    });
+    this.reqOrder();
+    this.closePopup();
+    this.closeShowPicker(e);
   },
 
   // 打开选择框
@@ -231,10 +365,15 @@ Page({
 
   // 选择公司
   checkClient(e) {
-    const { text, id } = e.currentTarget.dataset.item;
+    const { text, id } = e;
     if (text === "全部") {
-      this.setData({ client_name: "", client_id: "", contactsList: [] });
-      this.closePopupSon();
+      this.setData({
+        client_name: "",
+        client_id: "",
+        contactsList: [],
+        contacts_id: "",
+        contacts_name: "",
+      });
       return;
     }
     wxReq(
@@ -248,9 +387,14 @@ Page({
       let contactsList = res.data.data.contacts_data.map((item) => {
         return { id: item.id, text: item.name };
       });
-      this.setData({ client_name: text, client_id: id, contactsList });
+      this.setData({
+        client_name: text,
+        client_id: id,
+        contacts_id: "",
+        contacts_name: "",
+        contactsList,
+      });
     });
-    this.closePopupSon();
   },
 
   // 更改选择
@@ -312,16 +456,16 @@ Page({
   },
 
   // 选择器提交
-  confirmData(e) {
-    this.data.page = 1;
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-    });
-    this.reqOrder();
-    this.closePopup();
-  },
+  // confirmData(e) {
+  //   this.data.page = 1;
+  //   this.setData({
+  //     orderList: [],
+  //     isEnd: false,
+  //     noData: false,
+  //   });
+  //   this.reqOrder();
+  //   this.closePopup();
+  // },
 
   // 重置
   reset() {
@@ -390,11 +534,21 @@ Page({
     wx.navigateTo({
       url: "/pages/quotedPriceCreate/quotedPriceCreate",
     });
-	},
-	
-	toIndex(){
-		wx.reLaunch({
-			url: '/pages/index/index',
-		})
-	},
+  },
+
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/index/index",
+    });
+  },
+
+  onTabCLick(e) {
+    const index = e.detail.index;
+    console.log("tabClick", index);
+  },
+
+  onChange(e) {
+    const index = e.detail.index;
+    console.log("change", index);
+  },
 });

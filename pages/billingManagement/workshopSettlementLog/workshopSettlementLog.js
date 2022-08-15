@@ -266,5 +266,11 @@ Page({
     wx.navigateTo({
       url: "./workshopSettlementLogDetail?id=" + e.currentTarget.dataset.item.id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

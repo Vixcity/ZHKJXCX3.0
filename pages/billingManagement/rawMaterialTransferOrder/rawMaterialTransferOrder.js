@@ -278,5 +278,11 @@ Page({
     wx.navigateTo({
       url: "./rawMaterialTransferOrderDetail?id=" + item.id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

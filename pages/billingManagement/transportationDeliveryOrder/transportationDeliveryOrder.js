@@ -301,5 +301,11 @@ Page({
     wx.navigateTo({
       url: "./transportationDeliveryOrderDetail?id=" + item.id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

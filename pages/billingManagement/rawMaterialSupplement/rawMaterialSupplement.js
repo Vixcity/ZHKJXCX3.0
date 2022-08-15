@@ -223,17 +223,13 @@ Page({
 
       let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;
-      additional.total_number = (
-        additional.total_number / 1000
-      ).toFixed(2);
+      additional.total_number = (additional.total_number / 1000).toFixed(2);
 
       additional.self_client_price = (
         additional.self_client_price / 10000
-			).toFixed(2);
-			
-      additional.client_price = (
-        additional.client_price / 10000
       ).toFixed(2);
+
+      additional.client_price = (additional.client_price / 10000).toFixed(2);
 
       this.data.page += 1;
       this.setData({
@@ -253,6 +249,12 @@ Page({
     const { item } = e.currentTarget.dataset;
     wx.navigateTo({
       url: "./rawMaterialSupplementDetail?id=" + item.id,
+    });
+  },
+
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
     });
   },
 });

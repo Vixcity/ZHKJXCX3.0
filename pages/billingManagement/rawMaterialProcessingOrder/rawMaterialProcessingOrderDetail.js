@@ -135,5 +135,11 @@ Page({
         });
       }
     });
-  },
+	},
+	
+	toPrev(){
+		wx.redirectTo({
+			url: '/pages/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder',
+		})
+	},
 });

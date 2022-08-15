@@ -153,5 +153,12 @@ Page({
     this.setData({
       showPro: false,
     });
+	},
+	
+	toPrev() {
+    wx.redirectTo({
+      url:
+        "/pages/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
+    });
   },
 });

@@ -52,12 +52,12 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">关联订单号：</view>
-				<view class="flex aic">
+				<view class="flex aic w68">
 					<view wx:if="{{item.order_type === 1}}" class="colorWhite bgColorOrange tc mr10 fz28"
 						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">订</view>
 					<view wx:if="{{item.order_type === 2}}" class="colorWhite bgColor27A2 tc mr10 fz28"
 						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">样</view>
-					{{item.order_code || '无'}}
+					<view class="widthCalc">{{item.order_code || '无'}}</view>
 				</view>
 			</view>
 			<view class="w100 flex aic mt10">
@@ -202,4 +202,11 @@
 			</view>
 		</view>
 	</van-popup>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

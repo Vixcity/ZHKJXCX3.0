@@ -162,5 +162,11 @@ Page({
         });
       }
     });
-  },
+	},
+	
+	toPrev(){
+		wx.redirectTo({
+			url: '/pages/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument',
+		})
+	},
 });

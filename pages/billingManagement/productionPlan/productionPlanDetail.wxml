@@ -115,7 +115,8 @@
 						{{itemProDetail.size_name}}/{{itemProDetail.color_name}}
 					</view>
 				</view>
-				<view class="flex mt10" wx:for="{{itemProDetail.rel_component}}" wx:for-item="itemPart" wx:for-index="indexPart">
+				<view class="flex mt10" wx:for="{{itemProDetail.rel_component}}" wx:for-item="itemPart"
+					wx:for-index="indexPart">
 					<view class="w30 color6">产品部位</view>
 					<view class="w70">
 						{{itemProDetail.part_name}}
@@ -304,4 +305,11 @@
 		bind:close="closeShowImage" />
 	<check-detail show="{{showCheckDetail}}" pid="{{id}}" is_check="{{info.is_check}}" check_type="4"
 		bind:cancel="closeCheckDetail"></check-detail>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
 </view>

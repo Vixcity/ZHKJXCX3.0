@@ -1,5 +1,5 @@
 <!--pages/quotedPrice/quotedPrice.wxml-->
-<view id="quotedPrice">
+<view id="quotedPrice" catchtouchmove='false'>
 	<!-- <nav-content showBack="{{false}}"> -->
 	<nav-content showBack="{{false}}">
 		<view slot="after">
@@ -15,6 +15,90 @@
 				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
 			</view>
 		</view>
+		<view wx:if="{{showPopup}}">
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
+				class="pof vh100" bindtap='closePopup'>
+			</view>
+			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
+				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
+					<mp-vtabs-content tabIndex="{{0}}">
+						<view class="title">价格区间</view>
+						<view class="pl10 pr10">
+							<view class="flex mt10 fz28 aic">
+								<input type="digit" placeholder="请填写最低价格" value="{{min_price}}" bindblur="inputPrice"
+									data-type="min_price" class="pt5 pl10 pr10 pb5 mr10"
+									style="border: 1px solid #ccc; border-radius: 10rpx;" />~
+								<input type="digit" placeholder="请填写最高价格" value="{{max_price}}" bindblur="inputPrice"
+									data-type="max_price" class="pt5 pl10 pr10 pb5 ml10"
+									style="border: 1px solid #ccc; border-radius: 10rpx;" />
+							</view>
+						</view>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{1}}">
+						<view class="title">创建人</view>
+						<radio-group class="radio-label flex flexWarp pl10 pr10" bindchange="bindPickerChangeAge" data-type="user">
+							<label class="radio" wx:for="{{userList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">负责小组</view>
+						<radio-group class="radio-label flex flexWarp pl10 pr10" bindchange="bindPickerChangeAge" data-type="group">
+							<label class="radio" wx:for="{{groupList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{3}}">
+						<view class="title">审核状态</view>
+						<radio-group class="radio-label flex flexWarp pl10 pr10" bindchange="bindPickerChangeAge"
+							data-type="status">
+							<label class="radio" wx:for="{{statusList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{4}}">
+						<view class="title">创建时间</view>
+						<radio-group class="radio-label flex flexWarp pl10 pr10" bindchange="bindPickerChangeAge" data-type="date">
+							<label class="radio" wx:for="{{dateList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+				</mp-vtabs>
+				<view class="flex jcsa bgColorWhite pt10">
+					<view class="resetHalf">
+						<van-button type="primary" size="small" bindtap="reset">重置</van-button>
+					</view>
+					<view class="confirmHalf">
+						<van-button type="primary" size="small" bindtap="confirmData">确认</van-button>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '询价客户'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" wx:if="{{client_id}}" bindtap="openPicker" data-type="contacts">
+				{{contacts_name || '联系人'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+		</view>
 	</view>
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="getList">
@@ -28,7 +112,7 @@
 		<view class="vh60" wx:if="{{showLoading && orderList.length === 0}}"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view style="height: 8vh;"></view>
+		<view style="height: 10vh;"></view>
 	</scroll-view>
 
 	<view wx:if="{{!isLogin}}">
@@ -49,9 +133,11 @@
 	</van-popup>
 
 	<!-- 筛选 -->
-	<van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="right">
-		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
-			<view class="vh12"></view>
+	<!-- <van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="top">
+		
+		
+
+		<view class="vh60 vw100" style="overflow: scroll;">
 			<scroll-view>
 				<van-cell title="询价客户" is-link border="{{false}}" bind:click="openPopupSon" value="{{client_name || '全部'}}" />
 				<view wx:if="{{client_id}}" class="line"></view>
@@ -69,8 +155,10 @@
 				<view class="line"></view>
 				<view>价格区间：</view>
 				<view class="flex mt10 fz28 aic">
-					<input type="digit" placeholder="请填写最低价格" value="{{min_price}}" bindblur="inputPrice" data-type="min_price" class="pt5 pl10 pr10 pb5 mr10" style="border: 1px solid #ccc; border-radius: 10rpx;"/>~
-					<input type="digit" placeholder="请填写最高价格" value="{{max_price}}" bindblur="inputPrice" data-type="max_price" class="pt5 pl10 pr10 pb5 ml10" style="border: 1px solid #ccc; border-radius: 10rpx;"/>
+					<input type="digit" placeholder="请填写最低价格" value="{{min_price}}" bindblur="inputPrice" data-type="min_price"
+						class="pt5 pl10 pr10 pb5 mr10" style="border: 1px solid #ccc; border-radius: 10rpx;" />~
+					<input type="digit" placeholder="请填写最高价格" value="{{max_price}}" bindblur="inputPrice" data-type="max_price"
+						class="pt5 pl10 pr10 pb5 ml10" style="border: 1px solid #ccc; border-radius: 10rpx;" />
 				</view>
 				<view class="line"></view>
 				<view>创建人：</view>
@@ -129,7 +217,7 @@
 				</view>
 			</view>
 		</view>
-	</van-popup>
+	</van-popup> -->
 
 	<!-- 筛选子选项 -->
 	<van-popup show="{{ showPopupSon }}" bind:close="closePopupSon" bind:click-overlay="closePopupSon" position="right">
@@ -155,6 +243,11 @@
 			</scroll-view>
 		</view>
 	</van-popup>
+
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{contactsList}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="contacts"
+		showDialog="{{showContacts}}"></picker>
 
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>

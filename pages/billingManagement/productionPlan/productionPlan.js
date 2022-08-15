@@ -345,5 +345,11 @@ Page({
     wx.navigateTo({
       url: "./productionPlanDetail?id=" + item.id +'&top_order_id=' + item.top_order_id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

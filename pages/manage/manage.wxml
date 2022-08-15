@@ -72,8 +72,11 @@
 			<view class="color91">首页</view>
 		</view>
 		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
-			<van-icon name="scan" size="50px" class="color91"
-				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" />
+			<image src="https://file.zwyknit.com/%E6%89%AB.png"
+				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;width: 34px;transform: scale(1.2);">
+			</image>
+			<!-- <van-icon name="scan" size="50px" class="color91"
+				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;" /> -->
 		</view>
 		<view class="tab-bar-item">
 			<image style="width: 27px;" src="https://file.zwyknit.com/%E7%AE%A1%E7%90%86-01.png">

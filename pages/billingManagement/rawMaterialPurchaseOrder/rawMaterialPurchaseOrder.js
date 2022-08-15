@@ -339,5 +339,11 @@ Page({
     wx.navigateTo({
       url: "./rawMaterialPurchaseOrderDetail?id=" + item.id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });

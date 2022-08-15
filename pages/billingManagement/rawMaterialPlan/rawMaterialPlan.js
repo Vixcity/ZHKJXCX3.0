@@ -253,5 +253,11 @@ Page({
     wx.navigateTo({
       url: "./rawMaterialPlanDetail?id=" + item.id,
     });
+	},
+	
+	toIndex() {
+    wx.reLaunch({
+      url: "/pages/billingManagement/index",
+    });
   },
 });
