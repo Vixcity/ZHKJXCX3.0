@@ -1001,6 +1001,18 @@ page {
 	height: 60vh;
 }
 
+.vh65 {
+	height: 65vh;
+}
+
+.vh67 {
+	height: 67vh;
+}
+
+.vh68 {
+	height: 68vh;
+}
+
 .vh70 {
 	height: 70vh;
 }
