@@ -16,8 +16,6 @@ Page({
    */
   data: {
     showPopup: false,
-    showPopupSon: false,
-    showPopupProcess: false,
     showLoading: false,
     noData: false,
     isEnd: false,
@@ -43,7 +41,9 @@ Page({
 
   onLoad(options) {
     this.getScreenList();
-    this.setData({ list: [] });
+    const titles = ["创建人", "负责小组", "订单/样单", "审核状态", "创建时间"];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ list: [], vtabs });
     this.confirmData();
   },
 
@@ -60,6 +60,36 @@ Page({
   },
   // 拿到筛选列表
   getScreenList() {
+    let arr = [
+      {
+        text: "全部",
+        id: "",
+        children: [
+          {
+            text: "全部",
+            id: "",
+            children: [
+              {
+                text: "全部",
+                id: "",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    let arrs = [
+      {
+        text: "全部",
+        id: "",
+        children: [
+          {
+            text: "全部",
+            id: "",
+          },
+        ],
+      },
+    ];
     getUserList("/billingManagement/productionPlan/productionPlan");
     getGroupList("/billingManagement/productionPlan/productionPlan");
     getClientList("/billingManagement/productionPlan/productionPlan");
@@ -76,7 +106,7 @@ Page({
         };
       }),
       process_name: "",
-      processList: wx.getStorageSync("processList"),
+      processList: arrs.concat(wx.getStorageSync("processList")),
       group_id: "",
       groupList: wx.getStorageSync("groupList").map((item) => {
         return {
@@ -110,30 +140,166 @@ Page({
       ],
       client_name: "",
       client_id: "",
-      clientList: wx.getStorageSync("clientList").slice(6, 8),
+      clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
     });
+  },
+
+  // 打开选择器
+  openPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "date") {
+      this.setData({
+        showDate: true,
+      });
+    }
+
+    if (type === "user") {
+      this.setData({
+        showUser: true,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: true,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: true,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        showContacts: true,
+      });
+    }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: true,
+      });
+		}
+		
+		if (type === "process") {
+      this.setData({
+        showProcess: true,
+      });
+    }
+  },
+
+  // 关闭选择器
+  closeShowPicker(e) {
+    const { type } = e.currentTarget.dataset;
+    if (type === "date") {
+      this.setData({
+        showDate: false,
+      });
+    }
+
+    if (type === "user") {
+      this.setData({
+        showUser: false,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        showGroup: false,
+      });
+    }
+
+    if (type === "client") {
+      this.setData({
+        showClient: false,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        showContacts: false,
+      });
+    }
+
+    if (type === "status") {
+      this.setData({
+        showStatus: false,
+      });
+		}
+		
+    if (type === "process") {
+      this.setData({
+        showProcess: false,
+      });
+    }
+  },
+
+  // 选择器提交
+  confirmData(e) {
+    let type;
+    if (e?.currentTarget) {
+      type = e.currentTarget.dataset.type;
+    }
+
+    if (type === "date") {
+      this.data.start_time = e.detail.value[0].id[0];
+      this.data.end_time = e.detail.value[0].id[1];
+    }
+
+    if (type === "keyword") {
+      this.data.keyword = e.detail.value;
+    }
+
+    if (type === "user") {
+      this.data.user_id = e.detail.value[0].id;
+    }
+
+    if (type === "group") {
+      this.data.group_id = e.detail.value[0].id;
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        contacts_id: e.detail.value[0].id,
+        contacts_name: e.detail.value[0].text,
+      });
+    }
+
+    if (type === "client") {
+      if (!e.detail.value[2]) {
+        wx.lin.showMessage({
+          type: "error",
+          duration: 3000,
+          content: "当前没有选中公司，请重新选择",
+          top: getApp().globalData.navH,
+        });
+        return;
+      }
+      this.data.client_id = e.detail.value[2].id;
+      this.checkClient(e.detail.value[2]);
+    }
+
+    if (type === "process") {
+			this.checkProcess(e.detail.value[1])
+    }
+
+    this.data.page = 1;
+    this.setData({
+      list: [],
+      isEnd: false,
+      noData: false,
+    });
+    this.reqOrder();
+    this.closePopup();
+    this.closeShowPicker(e);
   },
 
   // 打开选择框
   openPopup() {
     this.setData({
       showPopup: true,
-    });
-  },
-
-  // 打开子选择框
-  openPopupSon(e) {
-    this.setData({
-      showPopupSon: true,
-      showPopup: false,
-    });
-  },
-
-  // 打开工序选择框
-  openPopupProcess(e) {
-    this.setData({
-      showPopupProcess: true,
-      showPopup: false,
     });
   },
 
@@ -144,56 +310,22 @@ Page({
     });
   },
 
-  // 关闭子选择框
-  closePopupSon() {
-    this.setData({
-      showPopupSon: false,
-      showPopup: true,
-    });
-  },
-
-  // 关闭子选择框
-  closePopupProcess() {
-    this.setData({
-      showPopupProcess: false,
-      showPopup: true,
-    });
-  },
-
-  // 子选择框取消
-  cancelPopupSon() {
-    this.setData({
-      client_id: "",
-      client_name: "",
-    });
-    this.closePopupSon();
-  },
-
-  // 工序选择框取消
-  cancelPopupProcess() {
-    this.setData({
-      process_name: "",
-    });
-    this.closePopupProcess();
-  },
-
-  // 打开折叠面板
-  changeCollapse(e) {
-    this.setData({
-      activeName: e.detail,
-    });
-  },
-
   // 选择公司
   checkClient(e) {
-    const { text, id } = e.currentTarget.dataset.item;
-    this.setData({ client_name: text, client_id: id });
-    this.closePopupSon();
+    const { text, id } = e;
+    if (text === "全部") {
+      this.setData({
+        client_name: "",
+        client_id: "",
+      });
+    } else {
+      this.setData({ client_name: text, client_id: id });
+    }
   },
 
   // 选择工序
   checkProcess(e) {
-    const { text, id } = e.currentTarget.dataset.item;
+    const { text } = e;
     this.setData({ process_name: text });
     this.closePopupProcess();
   },
@@ -233,18 +365,6 @@ Page({
         end_time: this.data.dateList[index].id[1],
       });
     }
-  },
-
-  // 提交
-  confirmData() {
-    this.data.list = [];
-    this.setData({
-      isEnd: false,
-      page: 1,
-      noData: false,
-    });
-    this.reqOrder();
-    this.closePopup();
   },
 
   // 更改关键字
@@ -343,11 +463,15 @@ Page({
   toDetail(e) {
     const { item } = e.currentTarget.dataset;
     wx.navigateTo({
-      url: "./productionPlanDetail?id=" + item.id +'&top_order_id=' + item.top_order_id,
+      url:
+        "./productionPlanDetail?id=" +
+        item.id +
+        "&top_order_id=" +
+        item.top_order_id,
     });
-	},
-	
-	toIndex() {
+  },
+
+  toIndex() {
     wx.reLaunch({
       url: "/pages/billingManagement/index",
     });
