@@ -34,8 +34,10 @@ Page({
   },
 
   onLoad(options) {
-    this.getScreenList();
-    this.setData({ list: [] });
+		this.getScreenList();
+		const titles = ["创建人", "负责小组", "审核状态", "创建时间"];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ list: [], vtabs });
     this.confirmData();
   },
 
@@ -238,11 +240,6 @@ Page({
         additional,
       });
     });
-  },
-
-  // 查看原因
-  checkReason(e) {
-    Toast(e.currentTarget.dataset.item.desc || "无");
   },
 
   toDetail(e) {

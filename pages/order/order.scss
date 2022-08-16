@@ -83,5 +83,14 @@
 	.van-cell {
     padding: 0;
     font-size: unset;
-  }
+	}
+	
+	.title{
+		padding: 10px;
+		padding-bottom: 0;
+	}
+
+	.resetHalf .van-button {
+		border-bottom: unset;
+	}
 }

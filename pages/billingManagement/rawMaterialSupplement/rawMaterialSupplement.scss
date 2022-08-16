@@ -81,5 +81,14 @@
 	
 	.widthCalc {
     width: calc(100% - 35px);
-  }
+	}
+	
+	.title{
+		padding: 10px;
+		padding-bottom: 0;
+	}
+
+	.resetHalf .van-button {
+		border-bottom: unset;
+	}
 }

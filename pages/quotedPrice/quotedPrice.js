@@ -406,6 +406,10 @@ Page({
       this.setData({
         user_id: this.data.userList[index].id,
       });
+		}
+		
+		if (type === "keyword") {
+      this.data.keyword = e.detail.value;
     }
 
     if (type === "group") {

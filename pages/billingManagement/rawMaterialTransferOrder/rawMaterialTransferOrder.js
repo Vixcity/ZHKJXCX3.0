@@ -38,7 +38,16 @@ Page({
    */
   onShow(options) {
     this.getScreenList();
-    this.setData({ list: [] });
+    const titles = [
+      "筛选仓库",
+      "创建人",
+      "负责小组",
+      "订单类型",
+      "审核状态",
+      "创建时间",
+    ];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ list: [], vtabs });
     this.confirmData();
   },
 
@@ -144,8 +153,8 @@ Page({
         is_check: this.data.statusList[index].id,
       });
     }
-		
-		if (type === "order_type") {
+
+    if (type === "order_type") {
       this.setData({
         order_type: this.data.orderType[index].id,
       });
@@ -278,9 +287,9 @@ Page({
     wx.navigateTo({
       url: "./rawMaterialTransferOrderDetail?id=" + item.id,
     });
-	},
-	
-	toIndex() {
+  },
+
+  toIndex() {
     wx.reLaunch({
       url: "/pages/billingManagement/index",
     });

@@ -14,6 +14,78 @@
 				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
 			</view>
 		</view>
+		<view wx:if="{{showPopup}}">
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
+				class="pof vh100" bindtap='closePopup'>
+			</view>
+			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
+				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
+					<mp-vtabs-content tabIndex="{{0}}">
+						<view class="title">创建人</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="user">
+							<label class="radio" wx:for="{{userList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{1}}">
+						<view class="title">负责小组</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="group">
+							<label class="radio" wx:for="{{groupList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">订单/样单</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="order_type">
+							<label class="radio" wx:for="{{orderType}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{3}}">
+						<view class="title">审核状态</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="status">
+							<label class="radio" wx:for="{{statusList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{4}}">
+						<view class="title">创建时间</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="date">
+							<label class="radio" wx:for="{{dateList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+				</mp-vtabs>
+				<view class="flex jcsa bgColorWhite pt10">
+					<view class="resetHalf">
+						<van-button type="primary" size="small" bindtap="getScreenList">重置</van-button>
+					</view>
+					<view class="confirmHalf">
+						<van-button type="primary" size="small" bindtap="confirmData">确认</van-button>
+					</view>
+				</view>
+			</view>
+		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view class="w33">
 				<view>生产数</view>
@@ -32,7 +104,7 @@
 		</view>
 	</view>
 
-	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+	<scroll-view scroll-y class="vh72" bindscrolltolower="reqOrder">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex" bindtap="toDetail" data-item="{{item}}">
 			<view class="w100 flex aic">
@@ -83,79 +155,6 @@
 	</scroll-view>
 
 	<l-message content="{{content}}" />
-	<van-popup show="{{ showPopup }}" bind:close="closePopup" bind:click-overlay="closePopup" position="right">
-		<view class="vh100 vw90 pl20 pr20" style="box-sizing: border-box;">
-			<view class="vh12"></view>
-			<scroll-view>
-				<view>创建人：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="user">
-						<label class="radio" wx:for="{{userList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
-				<view>负责小组：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="group">
-						<label class="radio" wx:for="{{groupList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
-				<view>审核状态：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="status">
-						<label class="radio" wx:for="{{statusList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
-				<view>订单/样单：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="order_type">
-						<label class="radio" wx:for="{{orderType}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="line"></view>
-				<view>创建时间：</view>
-				<view class="flex">
-					<radio-group class="radio-label flex flexWarp" bindchange="bindPickerChangeAge" data-type="date">
-						<label class="radio" wx:for="{{dateList}}" wx:key="key">
-							<view>
-								<view class="label">{{item.text}}</view>
-								<radio value="{{index}}" checked="{{item.checked}}" />
-							</view>
-						</label>
-					</radio-group>
-				</view>
-				<view class="vh8"></view>
-			</scroll-view>
-			<view class="submit" style="position: sticky;bottom:5%;left:50%;z-index: 2;">
-				<view class="flex jcsa">
-					<van-button type="primary" size="small" bindtap="getScreenList">重置</van-button>
-					<van-button style="margin-left: 20px;" type="primary" size="small" bindtap="confirmData">确认</van-button>
-				</view>
-			</view>
-		</view>
-	</van-popup>
 
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>

@@ -35,7 +35,9 @@ Page({
 
   onLoad(options) {
     this.getScreenList();
-    this.setData({ list: [] });
+    const titles = ["创建人", "负责小组", "订单/样单", "审核状态", "创建时间"];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ list: [], vtabs });
     this.confirmData();
   },
 
@@ -159,7 +161,8 @@ Page({
       page: 1,
       noData: false,
     });
-    this.reqOrder();
+		this.reqOrder();
+		this.closePopup();
   },
 
   // 更改关键字
@@ -229,12 +232,12 @@ Page({
         });
       }
 
-			let list = this.data.list.concat(res.data.data.items);
+      let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;
       additional.total_production_number = (
         additional.total_production_number / 10000
-			).toFixed(2);
-			
+      ).toFixed(2);
+
       additional.total_material_number = (
         additional.total_material_number / 1000
       ).toFixed(2);
@@ -253,9 +256,9 @@ Page({
     wx.navigateTo({
       url: "./rawMaterialPlanDetail?id=" + item.id,
     });
-	},
-	
-	toIndex() {
+  },
+
+  toIndex() {
     wx.reLaunch({
       url: "/pages/billingManagement/index",
     });

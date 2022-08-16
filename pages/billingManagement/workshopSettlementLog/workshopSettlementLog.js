@@ -37,7 +37,15 @@ Page({
 
   onLoad(options) {
     this.getScreenList();
-    this.setData({ list: [] });
+    const titles = [
+			"创建人",
+      "负责小组",
+      "审核状态",
+      "筛选员工",
+      "创建时间",
+    ];
+    const vtabs = titles.map((item) => ({ title: item }));
+    this.setData({ list: [], vtabs });
     this.confirmData();
   },
 
@@ -177,7 +185,8 @@ Page({
       page: 1,
       noData: false,
     });
-    this.reqOrder();
+		this.reqOrder();
+		this.closePopup()
   },
 
   // 更改关键字
