@@ -6,7 +6,7 @@
 		</view>
 	</nav-content>
 
-	<view class="bgColorWhite">
+	<view class="bgColorWhite" catchtouchmove='false'>
 		<view class="flex aic">
 			<l-input class="w80" bind:lininput="changeParams" value="{{code}}" placeholder="订购单号/订单号" hide-label="{{true}}" />
 			<view class="w20 color6 flex aic" bindtap="openPopup">
@@ -105,7 +105,7 @@
 		<view class="flex jcsb" style="padding: 10px;">
 			<view class="w25">
 				<view>订购数</view>
-				<view class="mt10 color03d0 bold">{{additional.total_order_number || 0}} 吨或千米</view>
+				<view class="mt10 color03d0 bold">{{additional.total_order_number || 0}} 吨|千米</view>
 			</view>
 			<view class="w25">
 				<view>订购金额</view>
@@ -115,7 +115,7 @@
 			</view>
 			<view class="w25">
 				<view>入库数</view>
-				<view class="mt10 color03d0 bold">{{ additional.total_push_number || 0 }} 吨或千米</view>
+				<view class="mt10 color03d0 bold">{{ additional.total_push_number || 0 }} 吨|千米</view>
 			</view>
 			<view class="w25">
 				<view>入库金额</view>

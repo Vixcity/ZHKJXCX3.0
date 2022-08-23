@@ -15,8 +15,15 @@ Page({
   onLoad(options) {
     this.setData({
       tabList: getBillingList(),
-    });
-  },
+		});
+	},
+	
+	onShow(){
+		console.log(1)
+		this.setData({
+			y: wx.getStorageSync('Y') || 500,
+		})
+	},
 
   toOtherBillingPage(e) {
     let item = e.currentTarget.dataset.item;

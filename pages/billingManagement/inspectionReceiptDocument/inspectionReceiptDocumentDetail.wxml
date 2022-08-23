@@ -223,7 +223,7 @@
 	</view>
 	
 	<!-- 生产出库日志 -->
-	<view class="card fz28">
+	<!-- <view class="card fz28">
 		<view class="title">生产出库日志</view>
 		<view wx:for="{{productOutList}}">
 			<view class="flex mt10">
@@ -294,10 +294,10 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</view> -->
 
 	<!-- 成品入库日志 -->
-	<view class="card fz28">
+	<!-- <view class="card fz28">
 		<view class="title">成品入库日志</view>
 		<view wx:for="{{overPushList}}">
 			<view class="flex mt10">
@@ -362,7 +362,7 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</view> -->
 
 	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 		<view class="flex jcsa">

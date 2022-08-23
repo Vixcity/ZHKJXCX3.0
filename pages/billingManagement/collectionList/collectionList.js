@@ -44,7 +44,10 @@ Page({
    */
   onLoad(options) {
     this.getScreenList();
-    this.getList();
+		this.getList();
+		this.setData({
+			y: wx.getStorageSync('Y') || 500,
+		})
   },
   // 拿到筛选列表
   getScreenList() {
@@ -115,7 +118,11 @@ Page({
       client_id: "",
       clientList: arr.concat(wx.getStorageSync("clientList").slice(0, 2)),
     });
-  },
+	},
+	
+	getY(e){
+		wx.setStorageSync('Y', e.detail.y)
+	},
 
 	// 打开选择器
   openPicker(e) {
