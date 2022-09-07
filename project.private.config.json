@@ -109,6 +109,16 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "模板消息",
+					"pathName": "pages/billingManagement/index",
+					"query": "doc_type=2&doc_order_id=1966&doc_order_time_id=&doc_id=1926",
+					"launchMode": "default",
+					"scene": 1043,
+					"referrerInfo": {
+						"appId": "wx729453f234aa3b55"
+					}
 				}
 			]
 		}

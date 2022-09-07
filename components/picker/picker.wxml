@@ -28,7 +28,7 @@
 			</view>
 		</view>
 	</view>
-	<van-picker wx:if="{{!showWhite}}" show-toolbar title="{{title || '请选择'}}" value="{{ deptId }}"
+	<van-picker wx:if="{{!showWhite}}" show-toolbar title="{{title || ' '}}" value="{{ deptId }}"
 		columns="{{ columns }}" bind:change="supplyChange" bind:confirm="supplyAreaConfirm"
 		bind:cancel="supplyAreaCancel" />
 </van-popup>

@@ -62,10 +62,6 @@
 			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
 		</order-card>
 	</view>
-	<view wx:if="{{ type === '2' && isLogin }}" class="pof bgColor27A2 colorWhite tc"
-		style="right:10%;bottom:10%;width:30px;height: 30px; line-height:32px;border-radius:200px;" bindtap="GetSandCode">
-		<van-icon name="scan" size="18px" />
-	</view>
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
 
 	<!-- 下拉 -->

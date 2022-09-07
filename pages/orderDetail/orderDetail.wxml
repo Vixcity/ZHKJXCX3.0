@@ -64,6 +64,10 @@
 			<view style="color: #666666;">备注信息</view>
 			<rich-text class="mt10" style="color: #333333;" nodes="{{orderDetail.desc||'无'}}"></rich-text>
 		</view>
+		<van-image wx:if="{{orderDetail.time_data[0].is_check !== 4 && orderDetail.time_data[0].is_check !== 3}}"
+			style="position: absolute;right:0;top:0%" width="130" height="94"
+			src="{{statusImageList[orderDetail.time_data[0].is_check]}}" bindtap="openCheckDetail" />
+		<view wx:else class="colorRed bold" style="position: absolute;right:5%;top:5%" bindtap="openCheckDetail">单据异常</view>
 	</view>
 
 	<view class="card">
@@ -142,7 +146,7 @@
 	</view>
 
 	<!-- 物料汇总 -->
-	<view class="card">
+	<view class="card" wx:if="{{check !== 'true'}}">
 		<view class="title">物料汇总信息</view>
 		<view class="mt10">入库进度</view>
 		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
@@ -244,7 +248,7 @@
 	</view>
 
 	<!-- 生产汇总 -->
-	<view class="card">
+	<view class="card" wx:if="{{check !== 'true'}}">
 		<view class="title">生产汇总信息</view>
 		<view class="mt10">生产织造进度</view>
 		<view class="mt10 bgColorB9 colorWhite por" style="border-radius: 1000px;width:100%;overflow: hidden;">
@@ -392,7 +396,10 @@
 	<view class="vh12"></view>
 	<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
 		<view class="flex jcsa">
-			<van-button type="primary" size="small" data-type="showOrderLog" bindtap="showFinancialPopup">查看关联单据</van-button>
+			<van-button wx:if="{{check !== 'true'}}" type="primary" size="small" data-type="showOrderLog"
+				bindtap="showFinancialPopup">查看关联单据</van-button>
+			<van-button wx:if="{{check === 'true' && orderDetail.time_data[0].is_check === 0}}" type="primary" size="small"
+				data-type="showOrderLog" bindtap="openCheck">审核订单</van-button>
 		</view>
 	</view>
 
@@ -1137,11 +1144,48 @@
 	</van-popup>
 	<t-image-viewer visible="{{showImage}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
 		bind:close="closeShowImage" />
-		
+
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
 			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toOrderList"
 				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
 		</movable-view>
 	</movable-area>
+
+	<l-mask show="{{showShenHe}}" center>
+		<view class='card' style="padding-bottom:0;max-height: 70vh;padding-top:0">
+			<view class="flex pt10">
+				<view class="bold w25">审核结果</view>
+				<view class="w70">
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{1}}">通过</l-radio>
+						<l-radio key="{{2}}" style="margin-left: 10px;">驳回</l-radio>
+					</l-radio-group>
+				</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex mt10" wx:if="{{current === 2}}">
+				<view class="bold w25">驳回理由</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputReason" />
+				</view>
+			</view>
+			<view class="flex mt10">
+				<view class="bold w25 pt10 pb10">备注信息</view>
+				<view class="w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputDesc" />
+				</view>
+			</view>
+			<view class="line" style="margin-bottom: 0;"></view>
+			<view class="flex" style="margin-top: 0;">
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
+			</view>
+		</view>
+	</l-mask>
+
+	<check-detail show="{{showCheckDetail}}" pid="{{id}}" is_check="{{info.is_check}}" check_type="1"
+		bind:cancel="closeCheckDetail"></check-detail>
 </view>

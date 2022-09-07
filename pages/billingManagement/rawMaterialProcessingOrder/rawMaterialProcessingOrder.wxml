@@ -147,7 +147,7 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">加工数量：</view>
-				<view>{{item.total_price}}</view>
+				<view>{{item.total_number}}</view>
 			</view>
 		</view>
 		<view wx:if="{{noData}}" class="vh60"></view>

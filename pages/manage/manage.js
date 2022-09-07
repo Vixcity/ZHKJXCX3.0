@@ -1,6 +1,6 @@
 // manages.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-import { wxReq, isIfLogin } from "../../utils/util";
+import { wxReq, isIfLogin, urlParams } from "../../utils/util";
 
 Page({
   data: {
@@ -84,7 +84,7 @@ Page({
       url: "/wechat/wxacode",
       data: {
         path:
-          "pages/addWorkShop/addWorkShop?uuid=" + uuid + "&time=" + Date.now(),
+          "/pages/addWorkShop/addWorkShop?uuid=" + uuid + "&time=" + Date.now(),
         width: 430,
         auto_color: false,
         line_color: {
@@ -217,30 +217,38 @@ Page({
           });
         });
     } else if (this.data.userInfo.bind_wechat === 2) {
-      wx.login({
+      wx.getUserInfo({
         success: (res) => {
-          if (res.code) {
-            wxReq(
-              {
-                url: "/wechat/bind/user",
-                data: {
-                  code: res.code,
-                },
-                method: "POST",
-              },
-              "/pages/manage/manage"
-            ).then((res) => {
-              if (res.data.status) {
-                wx.lin.showMessage({
-                  type: "success",
-                  duration: 3000,
-                  content: "绑定成功",
-                  top: getApp().globalData.navH,
+          let iv = res.iv;
+          let encryptedData = res.encryptedData;
+          wx.login({
+            success: (res) => {
+              if (res.code) {
+                wxReq(
+                  {
+                    url: "/wechat/bind/user",
+                    data: {
+                      code: res.code,
+                      iv,
+                      encryptedData,
+                    },
+                    method: "POST",
+                  },
+                  "/pages/manage/manage"
+                ).then((res) => {
+                  if (res.data.status) {
+                    wx.lin.showMessage({
+                      type: "success",
+                      duration: 3000,
+                      content: "绑定成功",
+                      top: getApp().globalData.navH,
+                    });
+                    this.getUserInfo();
+                  }
                 });
-                this.getUserInfo();
               }
-            });
-          }
+            },
+          });
         },
       });
     }
@@ -276,15 +284,24 @@ Page({
           res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
         ) {
           let { company_id, hash, id } = urlParams(res.result);
-          console.log(company_id, hash, id);
 
-          // this.toOutsourcingAcceptance1(company_id, hash, id);
+          this.toOutsourcingAcceptance1(company_id, hash, id);
         } else {
+          wx.navigateTo({
+            url: res.result,
+          });
         }
       },
       fail: (res) => {
         console.log(res);
       },
+    });
+  },
+
+  toOutsourcingAcceptance1(company_id, hash, id) {
+    wx.setStorageSync("isCodeIn", { company_id, hash, id });
+    wx.navigateTo({
+      url: "/pages/outsourcingAcceptance/outsourcingAcceptance?isCodeIn=true",
     });
   },
 

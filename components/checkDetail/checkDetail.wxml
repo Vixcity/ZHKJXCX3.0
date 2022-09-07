@@ -26,7 +26,7 @@
 						{{item.check_time}}
 					</view>
 				</view>
-				<view class="mt10 flex">
+				<view class="mt10 flex" wx:if="{{item.is_check !== 1}}">
 					<view class="w30 color6">驳回理由</view>
 					<view class="w70">
 						{{item.check_desc || '无'}}

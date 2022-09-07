@@ -1,6 +1,5 @@
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
-  urlParams,
   formatDate,
   isIfLogin,
   wxReq,
@@ -321,13 +320,13 @@ Page({
             customer: item.code,
             productLen: item.product_info.length,
             imgSrc:
-              item.product_info[0].image_data !== null &&
-              item.product_info[0].image_data.length > 0
+              item.product_info[0]?.image_data !== null &&
+              item.product_info[0]?.image_data.length > 0
                 ? item.product_info[0].image_data[0]
                 : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
 
             display: 0,
-            processName: item.process_name,
+            processName: ((((item.total_real_number - (item.total_number || 0)) / item.total_number) * 100) || 0).toFixed(0)+'%',
             item: item,
           });
         });
@@ -346,25 +345,6 @@ Page({
       }
     });
   }, 1000),
-
-  GetSandCode() {
-    wx.scanCode({
-      scanType: "qrCode",
-      success: (res) => {
-        if (
-          res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
-        ) {
-          let { company_id, hash, id } = urlParams(res.result);
-
-          this.toOutsourcingAcceptance1(company_id, hash, id);
-        } else {
-        }
-      },
-      fail: (res) => {
-        console.log(res);
-      },
-    });
-  },
 
   toLogin(e) {
     if (e) {

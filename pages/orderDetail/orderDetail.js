@@ -5,6 +5,7 @@ const {
   dateDiff,
   getDay,
   isHasPermissions,
+  getStatusImage,
 } = require("../../utils/util");
 
 Page({
@@ -13,10 +14,12 @@ Page({
    */
   data: {
     id: "",
+    current: 1,
     isShow: false,
     isShow2: false,
     orderDetail: {},
     productList: [],
+    statusImageList: getStatusImage(),
   },
 
   /**
@@ -24,7 +27,7 @@ Page({
    */
   onLoad(options) {
     const { id } = options;
-
+    this.setData(options);
     this.load(id);
   },
 
@@ -191,13 +194,86 @@ Page({
     this.setData({
       isShow: !this.data.isShow,
     });
-	},
-	
-	toOrderList(){
-		wx.redirectTo({
-			url: '/pages/order/order',
-		})
-	},
+  },
+
+  openCheck() {
+    this.setData({
+      showShenHe: true,
+    });
+  },
+
+  closeCheck() {
+    this.setData({
+      showShenHe: false,
+    });
+  },
+
+  openCheckDetail() {
+    this.setData({
+      showCheckDetail: true,
+    });
+  },
+
+  closeCheckDetail() {
+    this.setData({
+      showCheckDetail: false,
+    });
+  },
+
+	inputDesc(e) {
+    this.setData({
+      textInputDesc: e.detail.value,
+    });
+  },
+
+  inputReason(e) {
+    this.setData({
+      textInputReason: e.detail.value,
+    });
+  },
+
+  changeRadio(e) {
+    this.setData({ current: +e.detail.currentKey });
+  },
+
+  confirmCheck(e) {
+    wxReq(
+      {
+        url: "/doc/check",
+        method: "POST",
+        data: {
+          check_type: 1,
+          pid: this.data.orderDetail.time_data[0].id,
+          check_desc: this.data.current === 1 ? "" : this.data.textInputReason,
+          is_check: this.data.current,
+          desc: this.data.textInputDesc,
+        },
+      },
+      "/pages/orderDetail/orderDetail&id=" + this.data.id + this.data.check === "true"
+        ? "&check=true"
+        : ""
+    ).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 2000,
+          content: "审核成功",
+          top: getApp().globalData.navH,
+        });
+
+        this.load(this.data.id);
+        this.setData({
+          showShenHe: false,
+        });
+      }
+    });
+  },
+
+  toOrderList() {
+    wx.redirectTo({
+      url: "/pages/order/order",
+    });
+  },
 
   changeIsShow2() {
     this.setData({

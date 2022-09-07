@@ -1630,7 +1630,7 @@ const systemModule = [
 // 判断是否有权限
 const isHasPermissions = (id) => {
 	const moduleId = wx.getStorageSync('userInfo').module_info
-	// if(!moduleId) return false
+	if(!moduleId) return false
 	return moduleId.includes(id)
 }
 

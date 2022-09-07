@@ -74,8 +74,6 @@
 		"mp-vtabs-content": "@miniprogram-component-plus/vtabs-content",
 		"t-image-viewer": "tdesign-miniprogram/image-viewer/image-viewer",
 		"t-icon": "tdesign-miniprogram/icon/icon",
-		"t-picker": "tdesign-miniprogram/picker/picker",
-		"t-picker-item": "tdesign-miniprogram/picker/picker-item",
 		"van-action-sheet": "@vant/weapp/action-sheet/index",
 		"van-button": "@vant/weapp/button/index",
 		"van-cell": "@vant/weapp/cell/index",

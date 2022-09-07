@@ -37,7 +37,7 @@
 			<view class="color27A2">首页</view>
 		</view>
 		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
-			<image src="https://file.zwyknit.com/%E6%89%AB.png"
+			<image src="https://file.zwyknit.com/%E6%89%AB.svg"
 				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;width: 34px;transform: scale(1.2);">
 			</image>
 			<!-- <van-icon name="scan" size="50px" class="color91"

@@ -15,8 +15,8 @@ Page({
   onShareAppMessage: function () {
     return {
       title: "纺织业领先的协同制造云平台",
-			path: "/pages/index/index", // 路径，传递参数到指定页面。
-			imageUrl:
+      path: "/pages/index/index", // 路径，传递参数到指定页面。
+      imageUrl:
         "https://file.zwyknit.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%86%E4%BA%AB%E5%9B%BE-1.png",
     };
   },
@@ -44,30 +44,38 @@ Page({
         message: "开启后，会收到平台系统消息通知",
       })
         .then(() => {
-          wx.login({
+          wx.getUserInfo({
             success: (res) => {
-              if (res.code) {
-                wxReq(
-                  {
-                    url: "/wechat/bind/user",
-                    data: {
-                      code: res.code,
-                    },
-                    method: "POST",
-                  },
-                  "/pages/index/index"
-                ).then((res) => {
-                  if (res.data.status) {
-                    wx.lin.showMessage({
-                      type: "success",
-                      duration: 3000,
-                      content: "绑定成功",
-                      top: getApp().globalData.navH,
+              let iv = res.iv;
+              let encryptedData = res.encryptedData;
+              wx.login({
+                success: (res) => {
+                  if (res.code) {
+                    wxReq(
+                      {
+                        url: "/wechat/bind/user",
+                        data: {
+                          code: res.code,
+                          iv,
+                          encryptedData,
+                        },
+                        method: "POST",
+                      },
+                      "/pages/index/index"
+                    ).then((res) => {
+                      if (res.data.status) {
+                        wx.lin.showMessage({
+                          type: "success",
+                          duration: 3000,
+                          content: "绑定成功",
+                          top: getApp().globalData.navH,
+                        });
+                        this.getUserInfo();
+                      }
                     });
-                    this.getUserInfo();
                   }
-                });
-              }
+                },
+              });
             },
           });
         })
@@ -195,23 +203,29 @@ Page({
     wx.scanCode({
       scanType: "qrCode",
       success: (res) => {
-				console.log(res.result)
-				wx.navigateTo({
-					url: res.result,
-				})
-        // if (
-        //   res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
-        // ) {
-        //   let { company_id, hash, id } = urlParams(res.result);
-        //   console.log(company_id, hash, id);
+        console.log(res.result);
+        if (
+          res.result.slice(0, 40) === "https://knit-m-api.zwyknit.com/bindOrder"
+        ) {
+          let { company_id, hash, id } = urlParams(res.result);
 
-        //   // this.toOutsourcingAcceptance1(company_id, hash, id);
-        // } else {
-        // }
+          this.toOutsourcingAcceptance1(company_id, hash, id);
+        } else {
+          wx.navigateTo({
+            url: res.result,
+          });
+        }
       },
       fail: (res) => {
         console.log(res);
       },
+    });
+  },
+
+  toOutsourcingAcceptance1(company_id, hash, id) {
+    wx.setStorageSync("isCodeIn", { company_id, hash, id });
+    wx.navigateTo({
+      url: "/pages/outsourcingAcceptance/outsourcingAcceptance?isCodeIn=true",
     });
   },
 

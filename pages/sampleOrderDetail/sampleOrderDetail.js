@@ -1,6 +1,6 @@
 // pages/sampleOrder/sampleOrderDetail/sampleOrderDetail.js
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
-const { wxReq, isHasPermissions } = require("../../utils/util");
+const { wxReq, isHasPermissions, getStatusImage } = require("../../utils/util");
 
 Page({
   /**
@@ -22,6 +22,7 @@ Page({
     is_checkDetail: "",
     indexweave: 0,
     indexpro: 0,
+    current: 1,
     chooseStatusList: [],
     statusList: [
       "https://file.zwyknit.com/waiting.png",
@@ -31,6 +32,7 @@ Page({
       "https://file.zwyknit.com/error.png",
     ],
     financialInfo: {},
+    statusImageList: getStatusImage(),
   },
 
   /**
@@ -38,7 +40,7 @@ Page({
    */
   onLoad(options) {
     const { id } = options;
-
+    this.setData(options);
     this.load(id);
   },
 
@@ -204,17 +206,97 @@ Page({
     });
   },
 
+  openCheck() {
+    Dialog.confirm({
+      title: "提示",
+      message: "是否审核第" + (this.data.activeNumber + 1) + "次打样信息",
+      confirmButtonColor: "#27A2fd",
+    })
+      .then(() => {
+        this.setData({
+          showShenHe: true,
+        });
+      })
+      .catch(() => {
+        // on cancel
+      });
+  },
+
+  closeCheck() {
+    this.setData({
+      showShenHe: false,
+    });
+  },
+
+  inputDesc(e) {
+    this.setData({
+      textInputDesc: e.detail.value,
+    });
+  },
+
+  inputReason(e) {
+    this.setData({
+      textInputReason: e.detail.value,
+    });
+  },
+
+  changeRadio(e) {
+    this.setData({ current: +e.detail.currentKey });
+  },
+
+  chanegActive(e) {
+    this.setData({
+      activeNumber: e.detail.index,
+    });
+  },
+
+  confirmCheck(e) {
+    wxReq(
+      {
+        url: "/doc/check",
+        method: "POST",
+        data: {
+          check_type: 17,
+          pid: this.data.sampleOrderDetail.time_data[this.data.activeNumber].id,
+          check_desc: this.data.current === 1 ? "" : this.data.textInputReason,
+          is_check: this.data.current,
+          desc: this.data.textInputDesc,
+        },
+      },
+      "/pages/sampleOrderDetail/sampleOrderDetail&id=" +
+        this.data.id +
+        this.data.check ===
+        "true"
+        ? "&check=true"
+        : ""
+    ).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 2000,
+          content: "审核成功",
+          top: getApp().globalData.navH,
+        });
+
+        this.load(this.data.id);
+        this.setData({
+          showShenHe: false,
+        });
+      }
+    });
+  },
+
   closeCheckDetail() {
     this.setData({
       showCheckDetail: false,
     });
   },
 
-	toOrderList(){
-		wx.redirectTo({
-			url: '/pages/sampleOrder/sampleOrder',
-		})
-	},
+  toOrderList() {
+    wx.redirectTo({
+      url: "/pages/sampleOrder/sampleOrder",
+    });
+  },
 
   openStatusChoose(e) {
     const { index, indexpro, status_choose } = e.currentTarget.dataset;

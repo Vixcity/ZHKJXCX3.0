@@ -212,7 +212,7 @@
 		<view class="vh55" wx:if="{{showLoading && orderList.length === 0}}"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view class="vh3"></view>
+		<view class="vh5"></view>
 	</scroll-view>
 
 	<l-message content="{{content}}" />

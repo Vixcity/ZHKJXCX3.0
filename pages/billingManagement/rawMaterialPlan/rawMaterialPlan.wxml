@@ -109,7 +109,7 @@
 		<view wx:for="{{list}}" class="card flex" bindtap="toDetail" data-item="{{item}}">
 			<view class="w100 flex aic">
 				<view class="title w32">计划单号：</view>
-				<view>{{item.code}}</view>
+				<view class="w32">{{item.code}}</view>
 				<view class="ml40 colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px;"
 					wx:if="{{item.is_check === 0}}">待审核</view>
 				<view class="ml40 colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px;"
