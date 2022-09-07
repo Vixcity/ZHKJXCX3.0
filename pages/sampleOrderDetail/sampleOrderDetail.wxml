@@ -985,7 +985,7 @@
 	</van-popup>
 	<t-image-viewer visible="{{showImage1}}" background-color='rgba(0, 0, 0, 0.6)' images="{{productInfo.image_data}}"
 		bind:close="closeShowImage" />
-	<check-detail show="{{showCheckDetail}}" pid="{{showPid}}" is_check="{{is_checkDetail}}" check_type="1"
+	<check-detail show="{{showCheckDetail}}" pid="{{showPid}}" is_check="{{is_checkDetail}}" check_type="17"
 		bind:cancel="closeCheckDetail"></check-detail>
 
 	<l-mask show="{{showShenHe}}" center>

@@ -38,6 +38,7 @@ Component({
           data: { pid, check_type },
           method: "GET",
         }).then((res) => {
+					res.data.data.reverse()
           _this.setData({ reasonList: res.data.data });
         });
       } else if (a) {

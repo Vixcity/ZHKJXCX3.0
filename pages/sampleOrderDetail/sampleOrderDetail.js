@@ -20,6 +20,7 @@ Page({
     isShow: false,
     showCheckDetail: false,
     is_checkDetail: "",
+    check: "true",
     indexweave: 0,
     indexpro: 0,
     current: 1,
@@ -209,12 +210,12 @@ Page({
   openCheck() {
     Dialog.confirm({
       title: "提示",
-      message: "是否审核第" + (this.data.activeNumber + 1) + "次打样信息",
+      message: "是否审核第" + ((this.data.activeNumber + 1) || 1) + "次打样信息",
       confirmButtonColor: "#27A2fd",
     })
       .then(() => {
         this.setData({
-          showShenHe: true,
+					showShenHe: true,
         });
       })
       .catch(() => {
@@ -245,12 +246,15 @@ Page({
   },
 
   chanegActive(e) {
+		console.log(e.detail.index)
     this.setData({
-      activeNumber: e.detail.index,
+			activeNumber: e.detail.index,
+			showPid: this.data.sampleOrderDetail.time_data[e.detail.index].id,
     });
   },
 
   confirmCheck(e) {
+		console.log(this.data.activeNumber)
     wxReq(
       {
         url: "/doc/check",

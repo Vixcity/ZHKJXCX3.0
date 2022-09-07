@@ -55,8 +55,8 @@
 		<view class="flexTitle">
 			<view class="w30">特殊要求</view>
 			<view class="w70 flex" style="color: #FA9036;">
-				<view>{{orderDetail.time_data[0].is_send===1?'产前寄送样':''}}</view>
-				<view>{{orderDetail.time_data[0].is_before_confirm===1?'产前确认':''}}</view>
+				<view>{{orderDetail.time_data[0].is_send===1?'产前寄送样':''}}</view><view wx:if="{{orderDetail.time_data[0].is_before_confirm===1}}">，</view>
+				<view>{{orderDetail.time_data[0].is_before_confirm===1?'产前确认':''}}</view><view wx:if="{{orderDetail.time_data[0].is_urgent===1}}">，</view>
 				<view>{{orderDetail.time_data[0].is_urgent===1?'加急':''}}</view>
 			</view>
 		</view>
