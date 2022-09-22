@@ -92,13 +92,32 @@
 					<view wx:for="{{item.material_data}}" class="bgColorChange" wx:for-item="itemMaterial"
 						wx:for-index="indexMaterial" wx:key="material-{{indexMaterial}}">
 						<view class="flex aic">
-							<view class="bgColorOrange colorWhite tc"
+							<view class="bgColorOrange colorWhite tc" wx:if="{{itemMaterial.tree_data[0] == 1}}"
+								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+								纱
+							</view>
+							<view class="bgColorOrange colorWhite tc" wx:elif="{{itemMaterial.tree_data[0] == 2}}"
+								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
+								面
+							</view>
+							<view class="bgColorOrange colorWhite tc" wx:else="{{itemMaterial.tree_data[0] == 2}}"
 								style="border-radius: 500px;width:25px;height: 25px;line-height: 25px;">
 								原
 							</view>
 							<view class="ml20">{{itemMaterial.material_name || '无'}}</view>
 						</view>
-						<view class="mt10 flex jcsb">
+						<view class="mt10 flex jcsb" wx:if="{{itemMaterial.tree_data[0] == 1}}">
+							<view style="flex: 1;">{{itemMaterial.weight || 0}}{{itemMaterial.unit || 'g'}}</view>
+							<view style="flex: 1;">{{itemMaterial.loss || 0}}%</view>
+							<view style="flex: 1;">{{itemMaterial.price || 0}}元</view>
+							<view style="flex: 1;">{{itemMaterial.total_price || 0}}元</view>
+						</view>
+						<view class="mt10 flex jcsb" wx:elif="{{itemMaterial.tree_data[0] == 2}}">
+							<view style="flex: 2;">{{itemMaterial.desc || '无面料说明'}}</view>
+							<view style="flex: 1;">{{itemMaterial.price || 0}}元</view>
+							<view style="flex: 1;">{{itemMaterial.total_price || 0}}元</view>
+						</view>
+						<view class="mt10 flex jcsb" wx:else>
 							<view style="flex: 1;">{{itemMaterial.weight || 0}}{{itemMaterial.unit || 'g'}}</view>
 							<view style="flex: 1;">{{itemMaterial.loss || 0}}%</view>
 							<view style="flex: 1;">{{itemMaterial.price || 0}}元</view>

@@ -47,7 +47,9 @@
 		"pages/staffList/staffList",
 		"pages/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrderDetail",
 		"pages/myJurisdiction/myJurisdiction",
-		"pages/editPassWord/editPassWord"
+		"pages/editPassWord/editPassWord",
+		"pages/staffCreate/staffCreate",
+		"pages/ourFactoryDetail/ourFactoryDetail"
 	],
 	"window": {
 		"navigationStyle": "custom",

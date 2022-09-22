@@ -1,5 +1,4 @@
 // pages/order/orderDetail/orderDetail.js
-import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 const {
   wxReq,
   dateDiff,

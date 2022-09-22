@@ -1,10 +1,71 @@
 <!--pages/staffList/staffList.wxml-->
 <view id="staffList">
-	<nav-content showHome="{{false}}">
+	<nav-content showBack="{{false}}">
 		<view slot="after">
-			<view class="tc vh4">员工管理</view>
+			<input
+				style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 20rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:85%;font-size: 25rpx;"
+				type="text" bindinput="onSearch" placeholder="员工编号/姓名搜索" />
 		</view>
 	</nav-content>
 
-	<list-card cardInfoData="{{cardInfoData}}"></list-card>
+	<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="department">{{department_name || "所属部门"}}
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="status">{{status_name || "在职状态"}}
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="type">{{type_name || "所属工种"}}
+			<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+	</view>
+
+	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex" bindtap="toEdit" data-id="{{item.id}}">
+			<view class="title w100 flex">
+				<view>{{item.name}} - {{item.code}}</view>
+			</view>
+			<view class="flex mt10 jcsb w100 aic">
+				<view class="flex">
+					<view>{{item.department}}</view>-<view>{{item.typeName}}</view>
+				</view>
+				<view wx:if="{{item.status == 1}}" class="bgColor27A2 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 5px;">
+					在职</view>
+				<view wx:if="{{item.status == 2}}" class="bgColorFDA9 pl10 pr10 pt5 pb5 colorWhite" style="border-radius: 5px;">
+					离职</view>
+			</view>
+			<view class="mt10 w100 flex jcsb">
+				<view>手机号：{{item.phone || '无'}}</view>
+				<view>本月：{{item.total_price}}</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && list.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh8"></view>
+	</scroll-view>
+
+	<view wx:if="{{hasCreateModule}}">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+			<van-button type="primary" size="small" bindtap="toCreate">添加员工</van-button>
+		</view>
+	</view>
+
+	<!-- 下拉 -->
+	<picker values="{{departmentList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="department"
+		showDialog="{{showDepartment}}"></picker>
+	<picker values="{{statusList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="status"
+		showDialog="{{showStatus}}"></picker>
+	<picker values="{{typeList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="type"
+		showDialog="{{showType}}"></picker>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<l-message content="{{content}}" />
 </view>

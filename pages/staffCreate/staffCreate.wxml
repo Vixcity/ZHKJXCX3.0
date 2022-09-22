@@ -1,0 +1,207 @@
+<!--pages/staffCreate/staffCreate.wxml-->
+<view id="staffCreate">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			添加员工
+		</view>
+	</nav-content>
+
+	<view class="card">
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;">* </text>员工姓名
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="name" value="{{staffInfo.name}}"
+				bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;">* </text>所属部门
+			</text>
+			<view class="h100 flex aic pl25r" bindtap="openPicker" data-type="department">{{staffInfo.department || '所属部门'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;">* </text>员工工种
+			</text>
+			<view class="flex aic w70 ml15">
+				<l-radio-group placement="row" current="{{staffInfo.type}}" bind:linchange="changeInput" data-type="type">
+					<l-radio key="1" class="color3 fz28">临时工</l-radio>
+					<l-radio key="2" class="ml20 color3 fz28">合同工</l-radio>
+				</l-radio-group>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>入职日期
+			</text>
+			<view class="w70">
+				<view wx:if="{{!staffInfo.entry_time}}" class="pl25r color91" bindtap="openPicker" data-type="entry_time">
+					请选择入职日期</view>
+				<view wx:if="{{staffInfo.entry_time}}" class="pl25r" bindtap="openPicker" data-type="entry_time">
+					{{staffInfo.entry_time}}</view>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>离职日期
+			</text>
+			<view class="w70">
+				<view wx:if="{{!staffInfo.resign_time}}" class="pl25r color91" bindtap="openPicker" data-type="resign_time">
+					请选择离职日期</view>
+				<view wx:if="{{staffInfo.resign_time}}" class="pl25r" bindtap="openPicker" data-type="resign_time">
+					{{staffInfo.resign_time}}</view>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>手机号
+			</text>
+			<l-input type="number" class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="phone"
+				value="{{staffInfo.phone}}" bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>负责工序
+			</text>
+			<view class="w70 mb10">
+				<view class="flex flexWarp">
+					<view wx:for="{{processList}}" wx:for-item="item" wx:for-index="index">
+						<button style="border: 1px solid;"
+							class="{{item.active?'active':'bgColor9T20 borderColor9T20'}} fz28 ml10 mt10" bindtap="clickBtn"
+							data-index="{{index}}">{{item.text}}</button>
+					</view>
+				</view>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+	</view>
+	<view class="card">
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>年龄
+			</text>
+			<l-input class="w70" hide-label="{{true}}" type='number' placeholder="点击输入" data-type="age"
+				value="{{staffInfo.age}}" bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>性别
+			</text>
+			<view class="flex aic w70 ml15">
+				<l-radio-group placement="row" current="{{staffInfo.sex}}" bind:linchange="changeInput" data-type="sex">
+					<l-radio key="2" class="color3 fz28">男</l-radio>
+					<l-radio key="1" class="ml20 color3 fz28">女</l-radio>
+				</l-radio-group>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>身份证号码
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="id_number"
+				value="{{staffInfo.id_number}}" bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>民族
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="nation" value="{{staffInfo.nation}}"
+				bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>学历
+			</text>
+			<view class="w70">
+				<view wx:if="{{!staffInfo.education}}" class="pl25r color91" bindtap="openPicker" data-type="education">请选择学历
+				</view>
+				<view wx:if="{{staffInfo.education}}" class="pl25r" bindtap="openPicker" data-type="education">
+					{{staffInfo.education}}</view>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>健康状况
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="health" value="{{staffInfo.health}}"
+				bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>工资卡银行
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="bank" value="{{staffInfo.bank}}"
+				bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>银行卡号
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="card_number"
+				value="{{staffInfo.card_number}}" bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>缴纳社保
+			</text>
+			<view class="flex aic w70 ml15">
+				<l-radio-group placement="row" current="{{staffInfo.social_security}}" bind:linchange="changeInput"
+					data-type="social_security">
+					<l-radio key="2" class="color3 fz28">是</l-radio>
+					<l-radio key="1" class="ml20 color3 fz28">否</l-radio>
+				</l-radio-group>
+			</view>
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+		<view class="flex aic por fz28 color3">
+			<text class="flex aic pl25r borderBox" style="width: 30%;justify-content: flex-start;height: 88rpx;">
+				<text style="color: #e23;vertical-align: middle;"></text>备注
+			</text>
+			<l-input class="w70" hide-label="{{true}}" placeholder="点击输入" data-type="desc" value="{{staffInfo.desc}}"
+				bind:lininput="changeInput" />
+			<view class="poa bgColorF3" style="bottom: 0;right: 0;height: 2rpx;width: 730rpx;"></view>
+		</view>
+	</view>
+
+	<view>
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index: 1;">
+			<van-button type="primary" size="small" bindtap="saveStaff">{{staffInfo.id === ''?'确认添加':'保存修改'}}</van-button>
+		</view>
+	</view>
+	<view class="vh8"></view>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<picker values="{{departmentList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="department"
+		showDialog="{{showDepartment}}"></picker>
+	<picker values="{{educationList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="education"
+		showDialog="{{showEducation}}"></picker>
+	<van-popup show="{{showDate}}" bindtap="closeShowPicker" custom-class="noBgColor" round position="bottom">
+		<van-datetime-picker type="date" data-type="showDate" value="{{ currentDate }}" min-date="{{ minDate }}"
+			max-date="{{ maxDate }}" bind:confirm="confirmData" />
+	</van-popup>
+
+	<l-message content="{{content}}" />
+</view>

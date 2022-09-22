@@ -15,33 +15,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orderList: [],
-    cardInfoData: {
-      cardTitle: [
-        {
-          title: "产品",
-          width: 20,
-        },
-        {
-          title: "尺码颜色",
-          width: 23,
-        },
-        {
-          title: "下单/下机数量",
-          width: 30,
-        },
-        {
-          title: "生产进度",
-          width: 27,
-        },
-      ],
-      cardData: [],
-    },
+    list: [],
     clientList: [],
     processList: [],
     groupList: [],
     userList: [],
-    searchType: 1,
+    addStatusList: [
+      { id: "", text: "全部" },
+      { id: "0", text: "待添加" },
+      { id: "1", text: "已添加" },
+    ],
+    orderTypeList: [
+      { id: "", text: "全部" },
+      { id: "1", text: "订单" },
+      { id: "2", text: "样单" },
+    ],
     showSearch: false,
     showLoading: false,
     isEnd: false,
@@ -49,36 +37,49 @@ Page({
     page: 1,
     limit: 10,
     process_name: "",
+    has_weave_plan: "",
     client_id: "",
     group_id: "",
     user_id: "",
-    keyWord: "",
+    keyword: "",
     group_name: "",
     user_name: "",
+    order_type: "",
+    start_time: "",
+    end_time: "",
     showUser: false,
     showGroup: false,
     showProcess: false,
     showClient: false,
-    // type: "2",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const isLogin = isIfLogin();
-    // let isLogin = true
+    const titles = ["创建人", "单据类型", "负责小组", "添加状态", "创建时间"];
+    const vtabs = titles.map((item) => ({ title: item }));
+
     let { type } = options;
 
     this.setData({
-      isLogin,
       type,
+      vtabs,
+      isEnd: false,
+      noData: false,
+      page: 1,
+      list: [],
     });
 
-    getClientList("/ourFactory/ourFactory&type=" + (type || 2));
-    getProcessList("/ourFactory/ourFactory&type=" + (type || 2));
-    getGroupList("/ourFactory/ourFactory&type=" + (type || 2));
-    getUserList("/ourFactory/ourFactory&type=" + (type || 2));
+    this.getScreen();
+    this.reqOrder();
+  },
+
+  getScreen() {
+    getClientList("/ourFactory/ourFactory");
+    getProcessList("/ourFactory/ourFactory");
+    getGroupList("/ourFactory/ourFactory");
+    getUserList("/ourFactory/ourFactory");
 
     let arr = [
       {
@@ -99,12 +100,83 @@ Page({
     ];
 
     this.setData({
-      clientList: arr.concat(wx.getStorageSync("clientList").slice(6, 8)),
+      clientList: arr.concat(wx.getStorageSync("clientList").slice(0, 2)),
       processList: arr1.concat(wx.getStorageSync("processList")),
       groupList: wx.getStorageSync("groupList"),
       userList: wx.getStorageSync("userList"),
+      dateList: wx.getStorageSync("someDateList"),
     });
-    this.reqOrder();
+  },
+
+  // 更改选择
+  bindPickerChangeAge(e) {
+    const { type } = e.currentTarget.dataset;
+    let index = e.detail.value;
+
+    if (type === "user") {
+      this.setData({
+        user_id: this.data.userList[index].id,
+      });
+    }
+
+    if (type === "group") {
+      this.setData({
+        group_id: this.data.groupList[index].id,
+      });
+    }
+
+    if (type === "addstatus") {
+      this.setData({
+        has_weave_plan: this.data.addStatusList[index].id,
+      });
+    }
+
+    if (type === "ordertype") {
+      this.setData({
+        order_type: this.data.orderTypeList[index].id,
+      });
+    }
+
+    if (type === "contacts") {
+      this.setData({
+        contacts_id: this.data.contactsList[index].id,
+      });
+    }
+
+    if (type === "date") {
+      this.setData({
+        start_time: this.data.dateList[index].id[0],
+        end_time: this.data.dateList[index].id[1],
+      });
+    }
+  },
+
+  reset() {
+    this.getScreen();
+    this.setData({
+      client_id: "",
+      user_id: "",
+      is_check: "",
+      group_id: "",
+      contacts_id: "",
+      start_time: "",
+      end_time: "",
+      status: "",
+    });
+  },
+
+  // 打开选择框
+  openPopup() {
+    this.setData({
+      showPopup: true,
+    });
+  },
+
+  // 关闭选择框
+  closePopup() {
+    this.setData({
+      showPopup: false,
+    });
   },
 
   // 打开选择器
@@ -188,6 +260,12 @@ Page({
       });
     }
 
+    if (type === "keyword") {
+      this.setData({
+        keyword: e.detail.value,
+      });
+    }
+
     if (type === "client") {
       if (!e.detail.value[2]) {
         wx.lin.showMessage({
@@ -207,11 +285,12 @@ Page({
 
     this.data.page = 1;
     this.setData({
-      orderList: [],
+      list: [],
       isEnd: false,
       noData: false,
     });
     this.reqOrder();
+    this.closePopup();
     this.closeShowPicker(e);
   },
 
@@ -219,7 +298,7 @@ Page({
     this.data.keyWord = e.detail.value;
     this.data.page = 1;
     this.setData({
-      orderList: [],
+      list: [],
       isEnd: false,
       noData: false,
     });
@@ -239,7 +318,7 @@ Page({
     });
     this.data.page = 1;
     this.setData({
-      orderList: [],
+      list: [],
       isEnd: false,
       noData: false,
     });
@@ -255,42 +334,31 @@ Page({
       showLoading: true,
     });
 
-    let orderList = this.data.orderList;
-
-    let params = {};
-    if (this.data.searchType === 1) {
-      params = {
-        page: this.data.page,
-        limit: this.data.limit,
-        process_name: this.data.process_name,
-        client_id: this.data.client_id,
-        group_id: this.data.group_id,
-        user_id: this.data.user_id,
-        order_code: this.data.keyWord,
-      };
-    } else if (this.data.searchType === 2) {
-      params = {
-        page: this.data.page,
-        limit: this.data.limit,
-        process_name: this.data.process_name,
-        client_id: this.data.client_id,
-        group_id: this.data.group_id,
-        user_id: this.data.user_id,
-        code: this.data.keyWord,
-      };
-    }
+    let list = this.data.list;
 
     wxReq(
       {
-        url: "/weave/plan/lists",
+        url: "/order/lists",
         method: "GET",
-        data: params,
+        data: {
+          page: this.data.page,
+          limit: this.data.limit,
+          is_draft: 2,
+          order_type: this.data.order_type,
+          keyword: this.data.keyword,
+          client_id: this.data.client_id,
+          has_weave_plan: this.data.has_weave_plan,
+          start_time: this.data.start_time,
+          end_time: this.data.end_time,
+          user_id: this.data.user_id,
+          group_id: this.data.group_id,
+        },
       },
       "/ourFactory/ourFactory&type=" + (this.data.type || 2)
     ).then((res) => {
       if (res.data.code === 200) {
         if (this.data.page === 1) {
-          orderList = [];
+          list = [];
         }
 
         if (this.data.page === 1 && res.data.data.items.length === 0) {
@@ -307,35 +375,12 @@ Page({
         }
 
         this.data.page += 1;
-
-        let arr = [];
-        res.data.data.items.forEach((item, index) => {
-          arr.push({
-            id: item.id,
-            customer: item.client_name,
-            title: item.client_name,
-            time: formatDate(item.end_time),
-            nowNumber: item.total_real_number,
-            allNumber: item.total_number,
-            customer: item.code,
-            productLen: item.product_info.length,
-            imgSrc:
-              item.product_info[0]?.image_data !== null &&
-              item.product_info[0]?.image_data.length > 0
-                ? item.product_info[0].image_data[0]
-                : "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-
-            display: 0,
-            processName: ((((item.total_real_number - (item.total_number || 0)) / item.total_number) * 100) || 0).toFixed(0)+'%',
-            item: item,
-          });
-        });
-        orderList = orderList.concat(arr);
+        list = list.concat(res.data.data.items);
 
         this.setData({
           showLoading: false,
-					orderList,
-					total:res.data.data.total
+          list,
+          total: res.data.data.total,
         });
       }
 
@@ -346,54 +391,26 @@ Page({
     });
   }, 1000),
 
-  toLogin(e) {
-    if (e) {
-      this.toSignUp();
+  toDetail(e) {
+    const item = e.currentTarget.dataset.item;
+    if (item.has_weave_plan.status === 1) {
+      const id = item.id;
+      wx.navigateTo({
+        url: "/pages/ourFactoryDetail/ourFactoryDetail?id=" + id,
+      });
     } else {
-      Dialog.confirm({
-        title: "您还未登录",
-        message: "点击确认前往登录界面",
-        zIndex: 11601,
-      })
-        .then(() => {
-          this.toSignUp();
-        })
-        .catch(() => {
-          wx.lin.showMessage({
-            type: "error",
-            duration: 4000,
-            content: "您已取消，请登录以获取更好的用户体验",
-            top: getApp().globalData.navH,
-          });
-        });
-    }
+			wx.lin.showMessage({
+				type: "warning",
+				duration: 3000,
+				content: "请先添加生产计划",
+				top: getApp().globalData.navH,
+			});
+		}
   },
 
-  toSignUp() {
-    wx.navigateTo({
-      url: "/pages/signUp/signUp?path=ourFactory&params1=type%3D2",
+  toIndex() {
+    wx.reLaunch({
+      url: "/pages/index/index",
     });
   },
-
-  toOutsourcingAcceptance(e) {
-    wx.setStorageSync("outsourcing", {
-      selectCardInfo: this.data.orderList[e.currentTarget.dataset.index],
-    });
-    wx.navigateTo({
-      url: "/pages/outsourcingAcceptance/outsourcingAcceptance",
-    });
-  },
-
-  toOutsourcingAcceptance1(company_id, hash, id) {
-    wx.setStorageSync("isCodeIn", { company_id, hash, id });
-    wx.navigateTo({
-      url: "/pages/outsourcingAcceptance/outsourcingAcceptance?isCodeIn=true",
-    });
-	},
-	
-	toIndex(){
-		wx.reLaunch({
-			url: '/pages/index/index',
-		})
-	},
 });

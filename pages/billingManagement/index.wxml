@@ -6,9 +6,6 @@
 		</view>
 	</nav-content>
 
-	<!-- <view class="bgColor03d0 colorWhite mt10 pt10 pb10" wx:for="{{tabList}}" bindtap='toOtherBillingPage' data-item="{{item}}">
-		{{item.name}}
-	</view> -->
 	<view class="card" wx:for="{{tabList}}" wx:if="{{item.show}}" bindtap='toOtherBillingPage' data-item="{{item}}">
 		{{item.name}}
 	</view>
@@ -20,4 +17,6 @@
 				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
 		</movable-view>
 	</movable-area>
+
+	<l-message content="{{content}}"/>
 </view>

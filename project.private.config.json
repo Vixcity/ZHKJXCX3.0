@@ -6,16 +6,9 @@
 		"miniprogram": {
 			"list": [
 				{
-					"name": "本厂生产中",
+					"name": "检验收发",
 					"pathName": "pages/ourFactory/ourFactory",
-					"query": "type=1",
-					"launchMode": "default",
-					"scene": null
-				},
-				{
-					"name": "外协进行中",
-					"pathName": "pages/ourFactory/ourFactory",
-					"query": "type=2",
+					"query": "",
 					"launchMode": "default",
 					"scene": null
 				},
@@ -113,12 +106,19 @@
 				{
 					"name": "模板消息",
 					"pathName": "pages/billingManagement/index",
-					"query": "doc_type=2&doc_order_id=1966&doc_order_time_id=&doc_id=1926",
+					"query": "doc_type=2&doc_order_id=1966&doc_order_time_id=&doc_id=292",
 					"launchMode": "default",
 					"scene": 1043,
 					"referrerInfo": {
 						"appId": "wx729453f234aa3b55"
 					}
+				},
+				{
+					"name": "员工管理",
+					"pathName": "pages/staffList/staffList",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

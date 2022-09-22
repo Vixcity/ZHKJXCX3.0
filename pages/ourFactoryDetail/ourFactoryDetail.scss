@@ -1,0 +1,94 @@
+/* pages/ourFactoryDetail/ourFactoryDetail.wxss */
+#ourFactoryDetail {
+  .active {
+    color: #27a2fd;
+    border-bottom: 2px solid #27a2fd;
+    padding-bottom: 10px;
+  }
+
+  .image {
+    border-radius: 0;
+    overflow: hidden;
+    width: 144rpx;
+    height: 114rpx;
+    border-radius: 8rpx;
+  }
+
+  .circleGreen {
+    border: 1px solid #03d0a2;
+    border-radius: 30em;
+    width: 1em;
+    line-height: 1em;
+		padding: 5px;
+		color: #03d0a2;
+  }
+
+  .circleGary {
+    border: 1px solid #999999;
+    border-radius: 30em;
+    width: 1em;
+    line-height: 1em;
+    padding: 5px;
+    color: #999999;
+  }
+
+  .card {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 95vw;
+	}
+	
+	.van-tabs__line {
+    background-color: #27a2fd;
+  }
+
+  .van-tab--active {
+    color: #27a2fd;
+  }
+
+  .van-tabs__nav--complete {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .van-tabs__scroll--card {
+    margin: 0;
+    width: 100%;
+    border-color: #27a2fd;
+  }
+
+  .van-tab {
+    color: #27a2fd;
+  }
+
+  .van-tab.van-tab--active {
+    background-color: #27a2fd;
+    color: #fff;
+  }
+  .van-tabs__nav--card .van-tab {
+    border-right-color: #27a2fd;
+	}
+	
+	.van-cell{
+		padding: unset;
+		padding-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	.border{
+		border: 1px solid #999999;
+		border-radius: 5px;
+		color: #666666;
+	}
+
+	.activeBorder{
+		border-color: #27a2fd;
+		background-color: #27a0fd33;
+		color: #27a2fd;
+	}
+
+	.noPadBorder{
+		padding: 3px;
+		border: unset;
+	}
+}

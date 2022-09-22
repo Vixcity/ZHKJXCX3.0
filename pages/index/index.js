@@ -22,7 +22,7 @@ Page({
   },
 
   onShow() {
-    const isLogin = isIfLogin();
+		const isLogin = isIfLogin();
 
     this.setData({
       isLogin,
@@ -92,7 +92,7 @@ Page({
         // },
         {
           title: "检验收发",
-          src: "/pages/ourFactory/ourFactory?type=2",
+          src: "/pages/ourFactory/ourFactory",
           show: isHasPermissions("9-3"),
           icon:
             "https://file.zwyknit.com/%E5%A4%96%E5%8D%8F%E7%BB%91%E5%AE%9A.png",
@@ -133,10 +133,13 @@ Page({
           icon:
             "https://file.zwyknit.com/%E5%8D%95%E6%8D%AE%E7%AE%A1%E7%90%86.png",
         },
-        // {
-        //   title: "检验管理",
-        //   src: "/pages/ourFactory/ourFactory?type=3",
-        // },
+        {
+          title: "员工管理",
+          src: "/pages/staffList/staffList",
+          show: isHasPermissions('17-3'),
+          icon:
+            "https://file.zwyknit.com/%E5%91%98%E5%B7%A5%E7%AE%A1%E7%90%86.png",
+        },
       ],
     });
   },

@@ -23,7 +23,10 @@
 		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view>收款金额</view>
-			<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
+			<view class="flex">
+				<view class="color03d0 bold">{{additional.total_price_rmb || 0}} 万元 /</view>
+				<view class="color03d0 bold">{{additional.total_price_usd || 0}} 万美元</view>
+			</view>
 		</view>
 	</view>
 
@@ -60,7 +63,7 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">备注信息：</view>
-				<view>{{item.desc}}</view>
+				<view>{{item.desc || '无'}}</view>
 			</view>
 		</view>
 		<view wx:if="{{noData}}" class="vh60"></view>

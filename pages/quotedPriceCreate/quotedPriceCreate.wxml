@@ -118,7 +118,7 @@
 							<van-icon class="ml5 pt5" name="arrow-down" />
 						</view>
 					</view>
-					<!-- 原料 -->
+					<!-- 纱线原料 -->
 					<view class="mt10 {{materialItem.show?'animated':''}}" style="transition: all .5s;"
 						wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
 						wx:for-item="materialItem">
@@ -126,12 +126,13 @@
 							<view class="flex fz25 aic w80">
 								<view class="flex aic">
 									<view class="bgColorOrange colorWhite flex aic jcc"
-										style="border-radius: 500px;width:24px;height: 24px;">原
+										style="border-radius: 500px;width:24px;height: 24px;">纱
 									</view>
 									<view class="ml10">{{materialItem.material_name || '暂未选择'}}</view>
 								</view>
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
-									data-itemtype="materialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更</view>
+									data-itemtype="materialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更
+								</view>
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -179,6 +180,52 @@
 							</view>
 						</view>
 					</view>
+					<!-- 面料原料 -->
+					<view class="mt10 {{materialItem.show?'animated':''}}" style="transition: all .5s;"
+						wx:for="{{item.mian_material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
+						wx:for-item="materialItem">
+						<view class="flex jcsb aic">
+							<view class="flex fz25 aic w80">
+								<view class="flex aic">
+									<view class="bgColorOrange colorWhite flex aic jcc"
+										style="border-radius: 500px;width:24px;height: 24px;">面
+									</view>
+									<view class="ml10">{{materialItem.material_name || '暂未选择'}}</view>
+								</view>
+								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
+									data-itemtype="mianMaterialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更
+								</view>
+							</view>
+							<view class="flex fz25">
+								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
+									data-index="{{index}}" data-itemindex="{{materialIndex}}" data-type="mian_material_data">添加</view>
+								<view wx:if="{{materialIndex !== 0}}" class="colorE800 pl5" bindtap="deleteProductType"
+									data-index="{{index}}" data-type="mian_material_data" data-itemIndex="{{materialIndex}}">删除</view>
+							</view>
+						</view>
+						<view class="flex flexWarp jcsb mb20">
+							<view class="bgColorF5 w100 tc mt20 pl10 pr10 pt10 pb10">
+								<view class="mb10">
+									面料说明
+								</view>
+								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
+									data-itemIndex="{{materialIndex}}" data-itemType="mian_material_data" value="{{materialItem.desc}}"
+									placeholder="点击输入面料说明" />
+							</view>
+							<view class="bgColorF5 w45 tc mt20 pl10 pt10 pb10">
+								<view class="tc mb10">单价</view>
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
+									data-itemIndex="{{materialIndex}}" data-itemType="mian_material_data" value="{{materialItem.price}}"
+									placeholder="单价" />
+							</view>
+							<view class="bgColorF5 w45 tc mt20 pl10 pt10 pb10">
+								<view class="mb10">小计</view>
+								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
+									data-itemIndex="{{materialIndex}}" data-itemType="mian_material_data" value="{{materialItem.total_price}}"
+									placeholder="小计" />
+							</view>
+						</view>
+					</view>
 					<!-- 辅料 -->
 					<view class="mt10 {{assistItem.show?'animated':''}}" style="transition: all .5s;"
 						wx:for="{{item.assist_material_data}}" wx:key="assistItem" wx:for-index="assistIndex"
@@ -205,19 +252,13 @@
 							</view>
 						</view>
 						<view class="flex flexWarp jcsb mb20">
-							<view class="bgColorF5 w45 tc mt20 pl10 pt10 pb10">
-								<view class="mb10">预计数量</view>
-								<input type="number" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="number"
-									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.number}}"
-									placeholder="预计数量" />
+							<view class="bgColorF5 w100 mt20 tc pl10 pt10 pb10">
+								<view class="mb10">辅料说明</view>
+								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
+									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data"
+									value="{{assistItem.desc}}" placeholder="点击输入" />
 							</view>
-							<view class="bgColorF5 w45 mt20 tc pl10 pt10 pb10">
-								<view class="mb10">预计损耗</view>
-								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="loss"
-									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" maxlength="3"
-									value="{{assistItem.loss}}" placeholder="预计损耗" />
-							</view>
-							<view class="bgColorF5 w45 tc mt20 pl10 pt10 pb10">
+							<view class="bgColorF5 w45 tc mt20 pl10 pt10">
 								<view class="mb10">单价</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="price"
 									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.price}}"
@@ -567,9 +608,12 @@
 		data-type="concat" showDialog="{{showConcat}}"></picker>
 	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
 		showDialog="{{showGroup}}"></picker>
-	<!-- 原料 -->
-	<picker values="{{yarnType}}" level="3" data-type="productSon" data-itemtype="materialItemShow"
+	<!-- 纱线原料 -->
+	<picker values="{{yarnType[0].children}}" level="2" data-type="productSon" data-itemtype="materialItemShow"
 		bind:cancel="closeShowPicker" bind:confirm="confirmData" showDialog="{{materialItemShow}}"></picker>
+	<!-- 面料原料 -->
+	<picker values="{{yarnType[1].children}}" level="2" data-type="productSon" data-itemtype="mianMaterialItemShow"
+		bind:cancel="closeShowPicker" bind:confirm="confirmData" showDialog="{{mianMaterialItemShow}}"></picker>
 	<!-- 辅料 -->
 	<picker values="{{assistList}}" data-type="productSon" data-itemtype="assistItemShow" bind:cancel="closeShowPicker"
 		bind:confirm="confirmData" showDialog="{{assistItemShow}}"></picker>

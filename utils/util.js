@@ -41,19 +41,99 @@ const wxReq = (data, path) => {
         if (result.data.code === 200) {
           resolve(result);
         } else if (result.data.code === 401) {
-          wx.redirectTo({
-            url: path
-              ? "/pages/signUp/signUp?path=" + path
-              : "/pages/signUp/signUp?path=" +
-                getApp().globalData.homePage.slice(7).split("/")[0],
-          });
-          // 未登录，返回登录界面
-          wx.lin.showMessage({
-            type: "error",
-            duration: 3000,
-            content: result.data.msg,
-            top: getApp().globalData.navH,
-          });
+          // 未登录
+          if (
+            wx.getStorageSync("user_name") !== "" &&
+            wx.getStorageSync("password") !== ""
+          ) {
+            // 隐形登录
+            wx.request({
+              url: getApp().globalData.api.slice(0, -4) + "/api/auth/login",
+              data: {
+                password: wx.getStorageSync("password"),
+                user_name: wx.getStorageSync("user_name"),
+              },
+              method: "POST",
+              success: (res) => {
+                if (!res.data.status) {
+                  wx.lin.showMessage({
+                    type: "error",
+                    duration: 3000,
+                    content: res.data.msg,
+                    top: getApp().globalData.navH,
+                  });
+
+                  return;
+                } else {
+                  wx.setStorageSync("isLogin", true);
+                  wx.setStorageSync("loginTime", new Date());
+
+                  if (res.data.status) {
+                    var cookie = res.header["Set-Cookie"];
+                    if (cookie != null) {
+                      wx.setStorageSync("sessionid", res.header["Set-Cookie"]); //服务器返回的 Set-Cookie，保存到本地
+                    }
+                  }
+
+                  wx.request({
+                    url:
+                      getApp().globalData.api.slice(0, -4) + "/api/auth/info",
+                    method: "POST",
+                    header: {
+                      cookie: res.header["Set-Cookie"],
+                    },
+                    success: (ress) => {
+                      if (ress.data.status) {
+                        ress.data.data.quanxianLen = ress.data.data.module_info.filter(
+                          (item) => {
+                            return typeof item !== "number";
+                          }
+                        ).length;
+                        getClientList();
+                        getProcessList();
+                        getGroupList();
+                        getUserList();
+                        getStoreList();
+                        getStaffList();
+                        wx.setStorageSync("userInfo", ress.data.data);
+                        resolve(wxReq(data, path));
+                      }
+                    },
+                  });
+                }
+              },
+              // 跳转登录页
+              fail: () => {
+                wx.redirectTo({
+                  url: path
+                    ? "/pages/signUp/signUp?path=" + path
+                    : "/pages/signUp/signUp?path=" +
+                      getApp().globalData.homePage.slice(7).split("/")[0],
+                });
+                // 未登录，返回登录界面
+                wx.lin.showMessage({
+                  type: "error",
+                  duration: 3000,
+                  content: result.data.msg,
+                  top: getApp().globalData.navH,
+                });
+              },
+            });
+          } else {
+            wx.redirectTo({
+              url: path
+                ? "/pages/signUp/signUp?path=" + path
+                : "/pages/signUp/signUp?path=" +
+                  getApp().globalData.homePage.slice(7).split("/")[0],
+            });
+            // 未登录，返回登录界面
+            wx.lin.showMessage({
+              type: "error",
+              duration: 3000,
+              content: result.data.msg,
+              top: getApp().globalData.navH,
+            });
+          }
         } else if (result.data.code === 406) {
           wx.lin.showMessage({
             type: "error",
@@ -114,6 +194,15 @@ function verifyTel(tel) {
     return true;
   }
   return false;
+}
+
+function checkIdCardNumber(idCardNumber) {
+  // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+  let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+  if (reg.test(idCardNumber) === false) {
+    return false;
+  }
+  return true;
 }
 
 // 获取时间戳
@@ -611,6 +700,60 @@ const getStoreList = function (path) {
   });
 };
 
+// 获取部门列表
+const getDepartmentList = function (path) {
+  wxReq(
+    {
+      url: "/staff/department/list",
+      method: "GET",
+    },
+    path
+  ).then((res) => {
+    let arr = [
+      {
+        text: "全部",
+        id: "",
+      },
+    ];
+    res.data.data.forEach((item) => {
+      arr.push({
+        text: item.name,
+        id: item.id,
+        item,
+      });
+    });
+    wx.setStorageSync("departmentList", arr);
+  });
+};
+// 异步获取部门列表
+const getDepartmentListSync = function (path) {
+  return new Promise((resolve, reject) => {
+    wxReq(
+      {
+        url: "/staff/department/list",
+        method: "GET",
+      },
+      path
+    ).then((res) => {
+      let arr = [
+        {
+          text: "全部",
+          id: "",
+        },
+      ];
+      res.data.data.forEach((item) => {
+        arr.push({
+          text: item.name,
+          id: item.id,
+          item,
+        });
+      });
+      wx.setStorageSync("departmentList", arr);
+      resolve(arr);
+    });
+  });
+};
+
 // 获取订单进行状态
 const getOrderStatusList = function () {
   return [
@@ -745,104 +888,104 @@ const getBillingList = function () {
     {
       path: "/billingManagement/rawMaterialPlan/rawMaterialPlan",
       name: "原料计划单",
-			id: "tab" + 0,
-			show: isHasPermissions('21-1'),
+      id: "tab" + 0,
+      show: isHasPermissions("21-1"),
     },
     {
       path: "/billingManagement/rawMaterialSupplement/rawMaterialSupplement",
       name: "原料补充单",
-			id: "tab" + 1,
-			show: isHasPermissions('21-2'),
+      id: "tab" + 1,
+      show: isHasPermissions("21-2"),
     },
     {
       path:
         "/billingManagement/rawMaterialPurchaseOrder/rawMaterialPurchaseOrder",
-			name: "原料订购单",
-			show: isHasPermissions('21-3'),
+      name: "原料订购单",
+      show: isHasPermissions("21-3"),
       id: "tab" + 2,
     },
     {
       path:
         "/billingManagement/rawMaterialTransferOrder/rawMaterialTransferOrder",
-			name: "原料调取单",
-			show: isHasPermissions('21-4'),
+      name: "原料调取单",
+      show: isHasPermissions("21-4"),
       id: "tab" + 3,
     },
     {
       path:
         "/billingManagement/rawMaterialProcessingOrder/rawMaterialProcessingOrder",
-			name: "原料加工单",
-			show: isHasPermissions('21-5'),
+      name: "原料加工单",
+      show: isHasPermissions("21-5"),
       id: "tab" + 4,
     },
     {
       path: "/billingManagement/productionPlan/productionPlan",
       name: "生产计划单",
-			id: "tab" + 5,
-			show: isHasPermissions('21-6'),
+      id: "tab" + 5,
+      show: isHasPermissions("21-6"),
     },
     {
       path:
         "/billingManagement/inspectionReceiptDocument/inspectionReceiptDocument",
-			name: "检验入库单据",
-			show: isHasPermissions('21-15'),
+      name: "检验入库单据",
+      show: isHasPermissions("21-15"),
       id: "tab" + 6,
     },
     {
       path: "/billingManagement/workshopSettlementLog/workshopSettlementLog",
       name: "车间结算日志",
-			id: "tab" + 7,
-			show: isHasPermissions('21-7'),
+      id: "tab" + 7,
+      show: isHasPermissions("21-7"),
     },
     {
       path:
         "/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrder",
-			name: "辅料订购单",
-			show: isHasPermissions('21-8'),
+      name: "辅料订购单",
+      show: isHasPermissions("21-8"),
       id: "tab" + 8,
     },
     {
       path: "/billingManagement/packingOrder/packingOrder",
       name: "包装订购单",
-			id: "tab" + 9,
-			show: isHasPermissions('21-9'),
+      id: "tab" + 9,
+      show: isHasPermissions("21-9"),
     },
     {
       path:
         "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
-			name: "运输出库单",
-			show: isHasPermissions('21-10'),
+      name: "运输出库单",
+      show: isHasPermissions("21-10"),
       id: "tab" + 10,
     },
     {
       path: "/billingManagement/deductionForm/deductionForm",
       name: "我方扣款单据",
-			id: "tab" + 11,
-			show: isHasPermissions('21-11'),
+      id: "tab" + 11,
+      show: isHasPermissions("21-11"),
     },
     {
       path: "/billingManagement/ourInvoiceList/ourInvoiceList",
       name: "我方发票单据",
-			id: "tab" + 12,
-			show: isHasPermissions('21-12'),
+      id: "tab" + 12,
+      show: isHasPermissions("21-12"),
     },
     {
       path: "/billingManagement/oppositeInvoicing/oppositeInvoicing",
       name: "对方发票单据",
-			id: "tab" + 13,
-			show: isHasPermissions('21-16'),
+      id: "tab" + 13,
+      show: isHasPermissions("21-16"),
     },
     {
       path: "/billingManagement/collectionList/collectionList",
       name: "收款单据",
-			id: "tab" + 14,
-			show: isHasPermissions('21-13'),
+      id: "tab" + 14,
+      show: isHasPermissions("21-13"),
     },
     {
       path: "/billingManagement/paymentDocument/paymentDocument",
       name: "付款单据",
-			id: "tab" + 15,
-			show: isHasPermissions('21-14'),
+      id: "tab" + 15,
+      show: isHasPermissions("21-14"),
     },
   ];
 };
@@ -1629,97 +1772,110 @@ const systemModule = [
 
 // 判断是否有权限
 const isHasPermissions = (id) => {
-	const moduleId = wx.getStorageSync('userInfo').module_info
-	if(!moduleId) return false
-	return moduleId.includes(id)
-}
+  const moduleId = wx.getStorageSync("userInfo").module_info;
+  if (!moduleId) return false;
+  return moduleId.includes(id);
+};
 
 // 数字金额转换中文汉字金额
-function convertCurrency (money) {
-	//汉字的数字
-	var cnNums = new Array('零', '一', '二', '三', '四', '五', '六', '七', '八', '九');
-	//基本单位
-	var cnIntRadice = new Array('', '十', '百', '千');
-	//对应整数部分扩展单位
-	var cnIntUnits = new Array('', '万', '亿', '兆');
-	//对应小数部分单位
-	var cnDecUnits = new Array('角', '分', '毫', '厘');
-	//整数金额时后面跟的字符
-	var cnInteger = '';
-	//整型完以后的单位
-	var cnIntLast = '';
-	//最大处理的数字
-	var maxNum = 999999999999999.9999;
-	//金额整数部分
-	var integerNum;
-	//金额小数部分
-	var decimalNum;
-	//输出的中文金额字符串
-	var chineseStr = '';
-	//分离金额后用的数组，预定义
-	var parts;
-	if (money == '') { return ''; }
-	money = parseFloat(money);
-	if (money >= maxNum) {
-			//超出最大处理数字
-			return '';
-	}
-	if (money == 0) {
-			chineseStr = cnNums[0] + cnIntLast + cnInteger;
-			return chineseStr;
-	}
-	//转换为字符串
-	money = money.toString();
-	if (money.indexOf('.') == -1) {
-			integerNum = money;
-			decimalNum = '';
-	} else {
-			parts = money.split('.');
-			integerNum = parts[0];
-			decimalNum = parts[1].substr(0, 4);
-	}
-	//获取整型部分转换
-	if (parseInt(integerNum, 10) > 0) {
-			var zeroCount = 0;
-			var IntLen = integerNum.length;
-			for (var i = 0; i < IntLen; i++) {
-					var n = integerNum.substr(i, 1);
-					var p = IntLen - i - 1;
-					var q = p / 4;
-					var m = p % 4;
-					if (n == '0') {
-							zeroCount++;
-					} else {
-							if (zeroCount > 0) {
-									chineseStr += cnNums[0];
-							}
-							//归零
-							zeroCount = 0;
-							chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
-					}
-					if (m == 0 && zeroCount < 4) {
-							chineseStr += cnIntUnits[q];
-					}
-			}
-			chineseStr += cnIntLast + "元";
-	}
-	//小数部分
-	if (decimalNum != '') {
-			var decLen = decimalNum.length;
-			for (var i = 0; i < decLen; i++) {
-					var n = decimalNum.substr(i, 1);
-					if (n != '0') {
-							chineseStr += cnNums[Number(n)] + cnDecUnits[i];
-					} else if (n == '0') {
-							chineseStr += cnNums[Number(n)];
-					}
-			}
-	}
-	if (chineseStr == '') {
-			chineseStr += cnNums[0] + cnIntLast + cnInteger;
-	}
+function convertCurrency(money) {
+  //汉字的数字
+  var cnNums = new Array(
+    "零",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六",
+    "七",
+    "八",
+    "九"
+  );
+  //基本单位
+  var cnIntRadice = new Array("", "十", "百", "千");
+  //对应整数部分扩展单位
+  var cnIntUnits = new Array("", "万", "亿", "兆");
+  //对应小数部分单位
+  var cnDecUnits = new Array("角", "分", "毫", "厘");
+  //整数金额时后面跟的字符
+  var cnInteger = "";
+  //整型完以后的单位
+  var cnIntLast = "";
+  //最大处理的数字
+  var maxNum = 999999999999999.9999;
+  //金额整数部分
+  var integerNum;
+  //金额小数部分
+  var decimalNum;
+  //输出的中文金额字符串
+  var chineseStr = "";
+  //分离金额后用的数组，预定义
+  var parts;
+  if (money == "") {
+    return "";
+  }
+  money = parseFloat(money);
+  if (money >= maxNum) {
+    //超出最大处理数字
+    return "";
+  }
+  if (money == 0) {
+    chineseStr = cnNums[0] + cnIntLast + cnInteger;
+    return chineseStr;
+  }
+  //转换为字符串
+  money = money.toString();
+  if (money.indexOf(".") == -1) {
+    integerNum = money;
+    decimalNum = "";
+  } else {
+    parts = money.split(".");
+    integerNum = parts[0];
+    decimalNum = parts[1].substr(0, 4);
+  }
+  //获取整型部分转换
+  if (parseInt(integerNum, 10) > 0) {
+    var zeroCount = 0;
+    var IntLen = integerNum.length;
+    for (var i = 0; i < IntLen; i++) {
+      var n = integerNum.substr(i, 1);
+      var p = IntLen - i - 1;
+      var q = p / 4;
+      var m = p % 4;
+      if (n == "0") {
+        zeroCount++;
+      } else {
+        if (zeroCount > 0) {
+          chineseStr += cnNums[0];
+        }
+        //归零
+        zeroCount = 0;
+        chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+      }
+      if (m == 0 && zeroCount < 4) {
+        chineseStr += cnIntUnits[q];
+      }
+    }
+    chineseStr += cnIntLast + "元";
+  }
+  //小数部分
+  if (decimalNum != "") {
+    var decLen = decimalNum.length;
+    for (var i = 0; i < decLen; i++) {
+      var n = decimalNum.substr(i, 1);
+      if (n != "0") {
+        chineseStr += cnNums[Number(n)] + cnDecUnits[i];
+      } else if (n == "0") {
+        chineseStr += cnNums[Number(n)];
+      }
+    }
+  }
+  if (chineseStr == "") {
+    chineseStr += cnNums[0] + cnIntLast + cnInteger;
+  }
 
-	return chineseStr;
+  return chineseStr;
 }
 
 module.exports = {
@@ -1744,6 +1900,8 @@ module.exports = {
   getGroupList,
   getUserList,
   getStoreList,
+  getDepartmentList,
+  getDepartmentListSync,
   getProductTypeList,
   getOrderStatusList,
   getDay,
@@ -1757,8 +1915,9 @@ module.exports = {
   getBillingList,
   mergeData,
   getDataType,
-	systemModule,
-	isHasPermissions,
-	clone,
-	convertCurrency,
+  systemModule,
+  isHasPermissions,
+  clone,
+  convertCurrency,
+  checkIdCardNumber,
 };

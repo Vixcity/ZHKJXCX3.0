@@ -57,8 +57,21 @@ Page({
           tree_data: "",
           unit: "g",
           weight: "",
-        },
-      ],
+        }
+			],
+			mian_material_data: [
+        {
+          id: "",
+          loss: "",
+          material_id: "",
+          material_name: "",
+          price: "",
+          total_price: "",
+          tree_data: "",
+          unit: "米",
+          weight: "",
+        }
+			],
       assist_material_data: [
         {
           id: "",
@@ -137,7 +150,8 @@ Page({
       ],
     },
     // 原料
-    yarnType: [],
+		yarnType: [],
+		// 纱线
     materialObj: {
       id: "",
       loss: "",
@@ -148,7 +162,19 @@ Page({
       tree_data: "",
       unit: "g",
       weight: "",
-    },
+		},
+		// 面料
+		mianMaterialObj:{
+			id: "",
+			loss: "",
+			material_id: "",
+			material_name: "",
+			price: "",
+			total_price: "",
+			tree_data: "",
+			unit: "米",
+			weight: "",
+		},
     // 辅料
     assistList: [],
     assistObj: {
@@ -321,12 +347,12 @@ Page({
       this.setData({
         searchPickerList: arr,
       });
-		});
-		
-		this.setData({
-			group_name: wx.getStorageSync('userInfo').group_name,
-			group_id: wx.getStorageSync('userInfo').group_id,
-		})
+    });
+
+    this.setData({
+      group_name: wx.getStorageSync("userInfo").group_name,
+      group_id: wx.getStorageSync("userInfo").group_id,
+    });
 
     if (isUpdate) {
       this.setData({ isUpdate, id });
@@ -372,10 +398,21 @@ Page({
 
         // console.log(data);
         product_data.forEach((item) => {
+					item.mian_material_data = item.mian_material_data || []
           item.type = [item.category_id, item.secondary_category_id];
           item.image_data.forEach((img, index) => {
             item.image_data[index] = { name: "load" + index, url: img };
-          });
+					});
+					
+					item.material_data.forEach(itemMat => {
+						if(itemMat.tree_data[0] == 2) {
+							item.mian_material_data.push(itemMat)
+						}
+					})
+
+					item.material_data = item.material_data.filter(itemMat => {
+						return itemMat.tree_data[0] == 1
+					})
 
           item.desc = item.desc ? contentHtml(item.desc) : "";
         });
@@ -613,7 +650,7 @@ Page({
             productList: this.data.productList,
           });
         })
-        .catch(() => {
+        .catch((e) => {
           wx.lin.showMessage({
             duration: 1500,
             content: "已取消",
@@ -623,25 +660,34 @@ Page({
     }
 
     if (type === "productSon") {
-      // 原料
+      // 纱线原料
       if (itemtype === "materialItemShow") {
         this.data.productList[index]["material_data"][itemindex].material_name =
-          e.detail.value[2].text;
+          e.detail.value[1].text;
         this.data.productList[index]["material_data"][itemindex].material_id =
-          e.detail.value[2].id;
-
-        if (e.detail.value[0].text === "纱线") {
-          this.data.productList[index]["material_data"][itemindex].unit = "g";
-        } else if (e.detail.value[0].text === "面料") {
-          this.data.productList[index]["material_data"][itemindex].unit = "米";
-        }
+          e.detail.value[1].id;
 
         this.data.productList[index]["material_data"][itemindex].tree_data =
+          1 +
+          "," +
           e.detail.value[0].id +
           "," +
-          e.detail.value[1].id +
+          e.detail.value[1].id;
+      }
+			
+			// 面料原料
+      if (itemtype === "mianMaterialItemShow") {
+        this.data.productList[index]["mian_material_data"][itemindex].material_name =
+          e.detail.value[1].text;
+        this.data.productList[index]["mian_material_data"][itemindex].material_id =
+          e.detail.value[1].id;
+
+        this.data.productList[index]["mian_material_data"][itemindex].tree_data =
+          2 +
           "," +
-          e.detail.value[2].id;
+          e.detail.value[0].id +
+          "," +
+          e.detail.value[1].id;
       }
 
       // 辅料
@@ -810,7 +856,11 @@ Page({
       this.data.productList[index].material_data.push(
         jsonClone(this.data.materialObj)
       );
-    } else if (type === "assist_material_data") {
+    } else if (type === "mian_material_data") {
+			this.data.productList[index].mian_material_data.push(
+        jsonClone(this.data.mianMaterialObj)
+      );
+		} else if (type === "assist_material_data") {
       this.data.productList[index].assist_material_data.push(
         jsonClone(this.data.assistObj)
       );
@@ -887,15 +937,6 @@ Page({
           data.price
         ).toFixed(2);
       }
-    }
-
-    if (itemtype === "assist_material_data" && type !== "total_price") {
-      let data = this.data.productList[index].assist_material_data[itemindex];
-      data.total_price = +(
-        data.number *
-        (1 + data.loss / 100) *
-        data.price
-      ).toFixed(2);
     }
 
     this.getProductTotalPrice(e);
@@ -1101,42 +1142,20 @@ Page({
     // 没填佣金百分比
     if (!this.data.commission_percentage) {
       this.data.commission_percentage = 0;
-      // wx.lin.showMessage({
-      //   type: "error",
-      //   duration: 3000,
-      //   content: "请填写佣金百分比",
-      //   top: getApp().globalData.navH,
-      // });
-      // return;
     }
 
     // 没填预计税率百分比
     if (!this.data.rate_taxation) {
       this.data.rate_taxation = 0;
-      // wx.lin.showMessage({
-      //   type: "error",
-      //   duration: 3000,
-      //   content: "请填写预计税率百分比",
-      //   top: getApp().globalData.navH,
-      // });
-      // return;
     }
 
     if (!this.data.profit_percentage) {
       this.data.profit_percentage = 0;
-      // wx.lin.showMessage({
-      //   type: "error",
-      //   duration: 3000,
-      //   content: "请填写预计利润百分比",
-      //   top: getApp().globalData.navH,
-      // });
-      // return;
     }
 
     // 没填运费、产品品类、原料
     let isContinueTrans = true;
     let isContinueType = true;
-    let isContinueMat = true;
 
     this.data.productList.forEach((item, index) => {
       // 运费
@@ -1162,22 +1181,8 @@ Page({
         });
         return;
       }
-
-      // 原料
-      item.material_data.forEach((itemMat) => {
-        if (!itemMat.material_id && isContinueMat) {
-          isContinueMat = false;
-          wx.lin.showMessage({
-            type: "error",
-            duration: 3000,
-            content: "请选择产品" + (index + 1) + "原料",
-            top: getApp().globalData.navH,
-          });
-          return;
-        }
-      });
     });
-    if (!isContinueTrans || !isContinueType || !isContinueMat) return;
+    if (!isContinueTrans || !isContinueType) return;
 
     this.data.productList.forEach((item) => {
       item.image_data.forEach((img, index) => {
@@ -1185,7 +1190,11 @@ Page({
       });
     });
 
-    const { iscaogao } = e.currentTarget.dataset;
+		const { iscaogao } = e.currentTarget.dataset;
+		this.data.productList.forEach(itemPro => {
+			itemPro.material_data = itemPro.material_data.concat(itemPro.mian_material_data?jsonClone(itemPro.mian_material_data):[])
+			itemPro.mian_material_data = undefined
+		})
 
     // return;
     let data = {
@@ -1205,8 +1214,8 @@ Page({
       rate_taxation: this.data.rate_taxation,
       real_quote_price: this.data.real_quote_price,
       settle_unit: this.data.settle_unit,
-      title: this.data.title,
       system_total_price: this.data.system_total_price,
+      title: this.data.title,
       total_cost_price: this.data.total_cost_price,
       total_number: this.data.productList.length,
       tree_data: this.data.tree_data.toString(),
@@ -1224,12 +1233,6 @@ Page({
         : "/quotedPriceCreate/quotedPriceCreate"
     ).then((res) => {
       if (res.data.status) {
-        // wx.lin.showMessage({
-        //   type: "success",
-        //   duration: 3000,
-        //   content: "保存成功，三秒后跳转详情页",
-        //   top: getApp().globalData.navH,
-        // });
         setTimeout(function () {
           wx.redirectTo({
             url:
@@ -1238,11 +1241,11 @@ Page({
         }, 0);
       }
     });
-	},
-	
-	toQuotePrice(){
-		wx.redirectTo({
-			url: '/pages/quotedPrice/quotedPrice',
-		})
-	},
+  },
+
+  toQuotePrice() {
+    wx.redirectTo({
+      url: "/pages/quotedPrice/quotedPrice",
+    });
+  },
 });

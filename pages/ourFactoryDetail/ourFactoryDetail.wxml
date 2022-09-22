@@ -1,0 +1,444 @@
+<!--pages/ourFactoryDetail/ourFactoryDetail.wxml-->
+<view id="ourFactoryDetail" bindtap='closeBox'>
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			<view>
+				检验收发详情
+			</view>
+		</view>
+	</nav-content>
+
+	<!-- tab栏 -->
+	<view class="flex pl10 pt10 pb10 pr10 bgColorWhite fz28">
+		<view bindtap='changeActive' data-type="1" class="{{active == 1?'active':''}}">基础信息</view>
+		<view bindtap='changeActive' data-type="2" class="{{active == 2?'active':''}} ml15">产品信息</view>
+		<view bindtap='changeActive' data-type="3" class="{{active == 3?'active':''}} ml15">检验收发</view>
+		<view bindtap='changeActive' data-type="4" class="{{active == 4?'active':''}} ml15">生产出库</view>
+		<view bindtap='changeActive' data-type="5" class="{{active == 5?'active':''}} ml15">成品入库</view>
+	</view>
+
+	<!-- 基础信息 -->
+	<view class="card" wx:if="{{active == 1}}">
+		<view class="flex aic jcsb">
+			<view class="bold">{{info.client_name}}</view>
+		</view>
+		<view class="flex mt10 aic">
+			<view wx:if="{{info.order_type == 1}}" style="width: 1em; line-height: 1em;border-radius: 20em;"
+				class="bgColorFDA9 pt5 pb5 pr5 pl5 colorWhite">订</view>
+			<view wx:if="{{info.order_type == 2}}" style="width: 1em; line-height: 1em;border-radius: 20em;"
+				class="bgColor27A2 pt5 pb5 pr5 pl5 colorWhite">样</view>
+			<view class="ml10">{{info.code}}</view>
+			<view class="colorE800 ml10">{{info.status == 5?'已取消':''}}</view>
+		</view>
+		<view class="flex mt10">
+			<image style="align-self: flex-end;"
+				src="{{info.time_data[0].batch_data[0].product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+				class="image" />
+			<view class="ml10 w100 flex fdc jcsb">
+				<view class="flex jcsb w100">
+					<view>{{info.user_name}}</view>
+					<view>{{info.group_name}}</view>
+				</view>
+				<view class="flex jcsb w100">
+					<view>下单总数：{{info.total_number}}件/{{info.time_data[0].total_style}}款</view>
+				</view>
+			</view>
+		</view>
+	</view>
+	<!-- 产品信息 -->
+	<view class="card" wx:if="{{active == 2}}">
+		<view class="title">
+			产品信息
+		</view>
+		<view wx:for="{{productList}}" class="mt10">
+			<view class="flex aic">
+				<view class="w30 flex aic">
+					<view style="width: 1em;border-radius: 30em;line-height: 1em;"
+						class="colorWhite tc bgColor27A2 pt5 pb5 pl5 pr5">
+						{{index + 1}}</view>
+					<image
+						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+						class="image ml10" />
+				</view>
+				<view class="ml10 flex fdc w100">
+					<view class="color27A2">{{item.name || '无产品名称'}}</view>
+					<view>{{item.product_code}}</view>
+					<view class="flex jcsb mt10">
+						<view>{{item.category || '无'}} / {{item.secondary_category}}</view>
+						<view class="flex">
+							<view class="{{item.craft_list_id?'circleGreen':'circleGary'}}">工</view>
+							<view class="{{item.rel_quote_info.quote_id?'circleGreen':'circleGary'}} ml10">报</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view wx:for="{{item.product_info}}" wx:for-item="itemProInfo" class="flex jcsb color6 mt10">
+				<view>{{itemProInfo.size_name}}/{{itemProInfo.color_name}}</view>
+				<view>{{itemProInfo.weight}},{{itemProInfo.size_info}}</view>
+				<view>{{itemProInfo.number}}</view>
+			</view>
+		</view>
+	</view>
+	<!-- 检验收发日志 -->
+	<view class="card" wx:if="{{active == 3}}">
+		<view class="bold">检验收发日志</view>
+		<view class="fz28">
+			<view class="flex mt10">
+				<view class="w25">单据编号</view>
+				<view class="w5"></view>
+				<view class="w15">操作时间</view>
+				<view class="w5"></view>
+				<view class="w20">产品信息</view>
+				<view class="w5"></view>
+				<view class="w10">数量</view>
+				<view class="w5"></view>
+				<view class="w10">操作人</view>
+			</view>
+			<view wx:for="{{inspectionList}}">
+				<view wx:if="{{item.type===1}}" class="mt10 flex" bindtap="openCheck" data-index="{{index}}">
+					<view class="w25" style="word-break: break-all;">{{item.product_code}}</view>
+					<view class="w5"></view>
+					<view class="w15" style="word-break: break-all;">{{item.complete_time}}</view>
+					<view class="w5"></view>
+					<view class="w20" style="word-break: break-all;">{{item.product_code}}/{{item.part_name}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.number}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.user_name}}</view>
+				</view>
+				<view class="line" wx:if="{{item.type===1}}"></view>
+			</view>
+		</view>
+	</view>
+	<!-- 生产出库日志 -->
+	<view class="card" wx:if="{{active == 4}}">
+		<view class="bold">生产出库日志</view>
+		<view class="fz28">
+			<view class="flex mt10">
+				<view class="w25">单据编号</view>
+				<view class="w5"></view>
+				<view class="w15">操作时间</view>
+				<view class="w5"></view>
+				<view class="w20">产品信息</view>
+				<view class="w5"></view>
+				<view class="w10">数量</view>
+				<view class="w5"></view>
+				<view class="w10">操作人</view>
+			</view>
+			<view wx:for="{{inspectionList}}">
+				<view wx:if="{{item.type===2}}" class="mt10 flex" bindtap="openCheck" data-index="{{index}}">
+					<view class="w25" style="word-break: break-all;">{{item.product_code}}</view>
+					<view class="w5"></view>
+					<view class="w15" style="word-break: break-all;">{{item.complete_time}}</view>
+					<view class="w5"></view>
+					<view class="w20" style="word-break: break-all;">{{item.product_code}}/{{item.part_name}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.number}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.user_name}}</view>
+				</view>
+				<view class="line" wx:if="{{item.type===2}}"></view>
+			</view>
+		</view>
+	</view>
+	<!-- 成品入库日志 -->
+	<view class="card" wx:if="{{active == 5}}">
+		<view class="bold">成品入库日志</view>
+		<view class="fz28">
+			<view class="flex mt10">
+				<view class="w25">单据编号</view>
+				<view class="w5"></view>
+				<view class="w15">操作时间</view>
+				<view class="w5"></view>
+				<view class="w20">产品信息</view>
+				<view class="w5"></view>
+				<view class="w10">数量</view>
+				<view class="w5"></view>
+				<view class="w10">操作人</view>
+			</view>
+			<view wx:for="{{inspectionList}}">
+				<view wx:if="{{item.type===3}}" class="mt10 flex" bindtap="openCheck" data-index="{{index}}">
+					<view class="w25" style="word-break: break-all;">{{item.product_code}}</view>
+					<view class="w5"></view>
+					<view class="w15" style="word-break: break-all;">{{item.complete_time}}</view>
+					<view class="w5"></view>
+					<view class="w20" style="word-break: break-all;">{{item.product_code}}/{{item.part_name}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.number}}</view>
+					<view class="w5"></view>
+					<view class="w10" style="word-break: break-all;">{{item.user_name}}</view>
+				</view>
+				<view class="line" wx:if="{{item.type===3}}"></view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 生产单列表 -->
+	<view class="card">
+		<view class="title mb10">生产单列表</view>
+		<van-tabs type="card" z-index="{{0}}" active="{{ 0 }}" bind:change="changeTabs" animated swipeable>
+			<van-tab title="{{item.process_name}}" wx:for="{{productionPlanMergeList}}" wx:for-item="item"
+				wx:for-index="index" wx:key="product2-{{index}}">
+				<view wx:for="{{item.childrenMergeInfo}}" wx:for-item="itemMerge" wx:for-index="indexMerge">
+					<view class="flex jcsb aic por">
+						<view class="bold mt10">{{itemMerge.code}}</view>
+						<view class="bold mt10 bgColor27A2 colorWhite tc" style="width: 1em;line-height: 1em;padding: 3px;"
+							catchtap="showBox" data-index="{{index}}" data-indexmerge="{{indexMerge}}">+</view>
+						<view wx:if="{{itemMerge.boxShow}}" class="poa bgColorWhite pt5 pb5 pl10 pr10"
+							style="border: 1px solid rgba(153, 153, 153, 0.3);border-radius:5px;right:0;top: 2em;">
+							<view catchtap="openInOutBox" class="color27A2" data-type="{{1}}">检验入库</view>
+							<view class="line"></view>
+							<view catchtap="openInOutBox" class="color27A2" data-type="{{2}}">生产出库</view>
+						</view>
+					</view>
+					<view class="mt10 flex jcsb">
+						<view>{{itemMerge.client_name}}</view>
+						<view class="flex">
+							<view>{{itemMerge.end_time}}</view>
+							<view class="{{itemMerge.hasTime?'color03d0':'colorE800'}}">
+								({{itemMerge.hasTime?'还剩：':'逾期：'}}{{itemMerge.timeDate}}天)</view>
+						</view>
+					</view>
+					<view wx:for="{{itemMerge.product_info_data}}" wx:for-item="itemPro" wx:for-index="indexPro" class="mt10">
+						<view class="flex jcsb aic">
+							<view class="flex aic">
+								<view style="width: 1em; line-height: 1em;border-radius: 20em;"
+									class="tc bgColor27A2 pt5 pb5 pr5 pl5 colorWhite">{{indexPro+1}}</view>
+								<view class="color27A2 ml10">
+									{{itemPro.product_code}}({{itemPro.category_name || '无'}}/{{itemPro.secondary_category_name || '无'}})
+								</view>
+							</view>
+							<view class="flex">{{itemPro.part_name || '无'}} <view class="color27A2">*{{itemPro.number}}</view>
+							</view>
+						</view>
+						<view class="flex color6 mt10 jcsb">
+							<view>{{itemPro.size_name || '无'}}/{{itemPro.color_name || '无'}}</view>
+							<view class="flex">
+								<view>完 <text class="color27A2">{{itemPro.real_number}}</text> </view>
+								<view class="ml10">入 <text class="color03d0">{{itemPro.inspection_number || 0}}</text> </view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</van-tab>
+		</van-tabs>
+	</view>
+
+	<view class="vh8"></view>
+
+	<!-- 成品入库按钮 -->
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa">
+			<van-button type="primary" size="small" bindtap="openCP">成品入库</van-button>
+		</view>
+	</view>
+
+	<!-- 检验入库弹窗 -->
+	<van-popup show="{{ showIn }}" bind:close="closeInOutBox" catchtap round>
+		<view class="vw95" style="padding: 10px;box-sizing: border-box;max-height: 60vh;overflow-y: scroll;">
+			<view class="bold">检验入库</view>
+			<view class="mt10 flex">
+				<view class="w30">单据编号</view>
+				<view class="w70 color9">{{inInput[0].code}}</view>
+			</view>
+			<view class="mt10 flex">
+				<view class="w30">验收日期</view>
+				<view class="w70" bindtap='checkDate'>{{inInput[0].complete_time || '点击选择'}}</view>
+			</view>
+			<view wx:for="{{inInput}}">
+				<view class="flex jcsb mt10">
+					<view class="color27A2">{{item.doc_info}}</view>
+					<view class="color6">{{item.production_number}}</view>
+				</view>
+				<van-field value="{{ item.number }}" type='digit' clearable label="检验数" placeholder="点击输入"
+					bind:change="changeIn" data-index="{{index}}" data-type="number" />
+				<view class="flex">
+					<van-field value="{{ item.part_shoddy_number }}" type='digit' clearable label="半次品(B品)" placeholder="点击输入"
+						bind:change="changeIn" data-index="{{index}}" data-type="part_shoddy_number" />
+					<van-field class="ml10" value="{{ item.shoddy_number }}" type='digit' clearable label="次品数" placeholder="点击输入"
+						bind:change="changeIn" data-index="{{index}}" data-type="shoddy_number" />
+				</view>
+				<view class="flex">
+					<van-field value="{{ item.deduct_price }}" type='digit' clearable label="扣款金额" placeholder="点击输入"
+						bind:change="changeIn" data-index="{{index}}" data-type="deduct_price" />
+					<view class="flex fz28 aic w75 ml10 color6" style="border-bottom: 1px solid #3232330E">
+						<view class="w60">扣款原因</view>
+						<view class="{{item.shoddy_reason?'':'colorC9'}}" bindtap="chooseReason" data-index="{{index}}">
+							{{ item.shoddy_reason || '点击选择'}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex" style="border: 1px solid rgba(0, 0, 0, 0.1)">
+			<view class="w50 tc" style="height: 2.7em;line-height: 2.7em;" bindtap="closeInOutBox">关闭</view>
+			<view class="w50 tc color27A2" style="height: 2.7em;line-height: 2.7em;border-left: 1px solid rgba(0, 0, 0, 0.1);"
+				bindtap="confirmIn">提交</view>
+		</view>
+	</van-popup>
+	<!-- 生产出库弹窗 -->
+	<van-popup show="{{ showOut }}" bind:close="closeInOutBox" catchtap round>
+		<view class="vw95" style="padding: 10px;box-sizing: border-box;max-height: 60vh;overflow-y: scroll;">
+			<view class="bold">生产出库</view>
+			<view class="mt10 flex">
+				<view class="w30">单据编号</view>
+				<view class="w70 color9">{{outInput[0].code}}</view>
+			</view>
+			<view class="mt10 flex">
+				<view class="w30">出库日期</view>
+				<view class="w70" bindtap='checkDate'>{{outInput[0].complete_time || '点击选择'}}</view>
+			</view>
+			<view wx:for="{{outInput}}">
+				<view class="flex jcsb mt10">
+					<view class="color27A2">{{item.doc_info}}</view>
+					<view class="color6">{{item.production_number}}</view>
+				</view>
+				<van-field value="{{ item.number }}" type='digit' clearable label="出库数" placeholder="点击输入"
+					bind:change="changeOut" data-index="{{index}}" data-type="number" />
+				<view class="flex fz28 aic color6 mt10 pb10" style="border-bottom: 1px solid #3232330E">
+					<view class="w29">出库单位</view>
+					<view wx:if="{{item.client.length === 0}}" class="colorC9 w71" bindtap="chooseClient" data-index="{{index}}">
+						点击选择</view>
+					<view wx:else class="w71 flex" bindtap="chooseClient" data-index="{{index}}">
+						<view wx:for="{{item.client}}" wx:for-item="itemClient" wx:for-index="indexClient">{{itemClient}}<text
+								wx:if="{{indexClient !== item.client.length-1}}">,</text></view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex" style="border: 1px solid rgba(0, 0, 0, 0.1)">
+			<view class="w50 tc" style="height: 2.7em;line-height: 2.7em;" bindtap="closeInOutBox">关闭</view>
+			<view class="w50 tc color27A2" style="height: 2.7em;line-height: 2.7em;border-left: 1px solid rgba(0, 0, 0, 0.1);"
+				bindtap="saveOut">提交</view>
+		</view>
+	</van-popup>
+	<!-- 成品入库弹窗 -->
+	<van-popup show="{{ showCP }}" bind:close="closeInOutBox" catchtap round>
+		<view class="vw95" style="padding: 10px;box-sizing: border-box;max-height: 60vh;overflow-y: scroll;">
+			<view class="bold">成品入库</view>
+			<view wx:for="{{productList}}">
+				<view class="flex mt10">
+					<image style="align-self: flex-end;"
+						src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+						class="image" />
+					<view class="ml10 w100 flex fdc jcsb color6">
+						<view class="w100">{{item.name || '无'}}</view>
+						<view class="w100">{{item.product_code || '无'}}({{item.category || '无'}}/{{item.secondary_category || '无'}})
+						</view>
+					</view>
+				</view>
+				<view class="flex mt10">
+					<view class="w25">尺码/颜色</view>
+					<view class="w25">下单数</view>
+					<view class="w25">已入库数</view>
+					<view class="w25">本次入库数</view>
+				</view>
+				<view wx:for="{{item.product_info}}" wx:for-item="itemPro" wx:for-index="indexPro" class="flex mt10">
+					<view class="w25">
+						{{itemPro.size_name || '无'}}/{{itemPro.color_name || '无'}}
+					</view>
+					<view class="w25">{{itemPro.number}}</view>
+					<view class="w25">{{itemPro.production_push_number}}</view>
+					<view class="w25">
+						<input type="number" placeholder="点击输入" bindinput="CPInputNumber" data-index="{{index}}"
+							data-indexpro="{{indexPro}}" />
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex" style="border: 1px solid rgba(0, 0, 0, 0.1)">
+			<view class="w50 tc" style="height: 2.7em;line-height: 2.7em;" bindtap="closeInOutBox">关闭</view>
+			<view class="w50 tc color27A2" style="height: 2.7em;line-height: 2.7em;border-left: 1px solid rgba(0, 0, 0, 0.1);"
+				bindtap="confirmCP">确认入库</view>
+		</view>
+	</van-popup>
+	<!-- 日志审核弹窗 -->
+	<van-popup show="{{ showCheck }}" bind:close="closeInOutBox" catchtap round>
+		<view class="vw95" style="padding: 10px;box-sizing: border-box;max-height: 60vh;overflow-y: scroll;">
+			<view class="bold" wx:if="{{checkItem.type === 1}}">检验入库详情</view>
+			<view class="bold" wx:if="{{checkItem.type === 2}}">生产出库详情</view>
+			<view class="bold" wx:if="{{checkItem.type === 3}}">成品入库详情</view>
+			<view class="flex jcsb mt10">
+				<view class="color27A2">{{checkItem.doc_code}}</view>
+				<view wx:if="{{checkItem.is_check === 0}}" class="colorFDA9">待审核</view>
+				<view wx:if="{{checkItem.is_check === 1}}" class="color03d0">已审核</view>
+				<view wx:if="{{checkItem.is_check === 2}}" class="colorE800">已驳回</view>
+				<view wx:if="{{checkItem.is_check === 3 || checkItem.is_check === 4}}" class="colorE800">状态异常</view>
+			</view>
+			<view class="flex jcsb mt10 color6">
+				<view>{{checkItem.client_name}}</view>
+				<view wx:if="{{checkItem.type === 1}}">检验 <text class="color27A2">{{checkItem.number}}</text> 件</view>
+			</view>
+			<view class="flex jcsb mt10 color6">
+				<view>{{checkItem.product_code}} / {{checkItem.part_name}}</view>
+				<view>{{checkItem.size || '无'}} / {{checkItem.color || '无'}}</view>
+			</view>
+			<view class="mt10 color6" wx:if="{{checkItem.type === 1}}">半次(B品) <text
+					class="colorFDA9">{{checkItem.part_shoddy_number || 0}}</text> 件,全次
+				<text class="colorE800">{{checkItem.shoddy_number || 0}}</text> 件
+			</view>
+			<view class="flex jcsb mt10" wx:if="{{checkItem.type === 1}}">
+				<view class="color6" flex>
+					扣款 <text class="colorE800">{{checkItem.deduct_price || 0}}</text> 元
+				</view>
+				<view class="color6">
+					{{checkItem.shoddy_reason || '无'}}
+				</view>
+			</view>
+			<view class="color6 mt10" wx:if="{{checkItem.type === 2}}">
+				出库给 <text class="color27A2">{{checkItem.client || '无出库单位'}}</text> <text class="color27A2">
+					{{checkItem.number || 0}}</text> 件
+			</view>
+			<view class="color6 mt10" wx:if="{{checkItem.type === 3}}">
+				入库 <text class="color27A2"> {{checkItem.number || 0}}</text> 件
+			</view>
+			<view class="mt10 color6">{{checkItem.user_name || '无操作人'}} 操作于 {{checkItem.complete_time || '无操作时间'}}</view>
+			<view class="flex mt10 color6">
+				<view class="w30">审核结果</view>
+				<van-radio-group direction="horizontal" value="{{ checkObj.is_check }}" bind:change="inputCheckObjIsCheck">
+					<van-radio name="{{1}}">通过</van-radio>
+					<van-radio name="{{2}}">驳回</van-radio>
+				</van-radio-group>
+			</view>
+			<view class="line"></view>
+			<view class="flex color6 aic">
+				<view class="w30">备注信息</view>
+				<l-textarea l-class='noPadBorder' value="{{checkObj.desc}}" class="w70" indicator="{{false}}" auto-height maxlength="140" placeholder="点击输入" bind:lininput="inputCheckObjDesc"/>
+			</view>
+		</view>
+		<view class="flex" style="border: 1px solid rgba(0, 0, 0, 0.1)">
+			<view class="w50 tc" style="height: 2.7em;line-height: 2.7em;" bindtap="closeInOutBox">关闭</view>
+			<view class="w50 tc color27A2" style="height: 2.7em;line-height: 2.7em;border-left: 1px solid rgba(0, 0, 0, 0.1);"
+				bindtap="confirmCheck">提交审核
+			</view>
+		</view>
+	</van-popup>
+
+	<!-- 日期选择器 -->
+	<van-popup show="{{showDate}}" bindtap="closeShowPicker" custom-class="noBgColor" round position="bottom">
+		<van-datetime-picker type="date" data-type="showDate" value="{{ currentDate }}" min-date="{{ minDate }}"
+			max-date="{{ maxDate }}" bind:confirm="confirmData" />
+	</van-popup>
+	<!-- 原因选择 -->
+	<picker values="{{reasonList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="reason"
+		showDialog="{{showReason}}"></picker>
+	<!-- 单位选择 -->
+	<van-popup show="{{showClient}}" round bindtap="closeShowPicker" closeable position="bottom">
+		<view catchtap class="mt40 flex flexWarp" style="max-height: 30vh;overflow: scroll;align-items:start;">
+			<view catchtap="changeClient" data-index="{{index}}"
+				class="{{item.check?'activeBorder':''}} ml10 mt10 pl10 pt5 pr10 pb5 border" style="height: 1.3em;"
+				wx:for="{{bearClientArr}}">{{item.text}}</view>
+		</view>
+	</van-popup>
+
+	<!-- 上一页 -->
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<van-dialog id="van-dialog" />
+
+	<l-message content="{{content}}" />
+</view>

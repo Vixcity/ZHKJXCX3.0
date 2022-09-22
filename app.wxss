@@ -25,6 +25,10 @@ page {
 	color: #9E9E9E
 }
 
+.colorC9 {
+	color: #C9C9C9
+}
+
 .colorB9 {
 	color: #B9B9B9
 }
@@ -801,6 +805,10 @@ page {
 	width: 30%;
 }
 
+.w29 {
+	width: 29%;
+}
+
 .w28 {
 	width: 28%;
 }
@@ -833,6 +841,10 @@ page {
 	width: 10%;
 }
 
+.w5 {
+	width: 5%;
+}
+
 .vw100 {
 	width: 100vw;
 }
@@ -851,6 +863,10 @@ page {
 
 .vw80 {
 	width: 80vw;
+}
+
+.vw71 {
+	width: 71vw;
 }
 
 .vw70 {
@@ -1023,6 +1039,14 @@ page {
 
 .vh75 {
 	height: 75vh;
+}
+
+.vh78 {
+	height: 78vh;
+}
+
+.vh79 {
+	height: 79vh;
 }
 
 .vh80 {
@@ -1198,6 +1222,18 @@ page {
 
 .bgColor33 {
 	background-color: #333333;
+}
+
+.bgColor3 {
+	background-color: #333333;
+}
+
+.bgColor9 {
+	background-color: #999999;
+}
+
+.bgColorT20 {
+	background-color: rgba(153, 153, 153, 0.2);
 }
 
 .bgColorFDA9 {

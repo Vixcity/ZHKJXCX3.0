@@ -3,6 +3,7 @@ import {
   getProcessList,
   getGroupList,
   getUserList,
+  getStoreList,
   wxReq,
 } from "../../utils/util";
 // index.js
@@ -57,8 +58,8 @@ Page({
   onShareAppMessage: function () {
     return {
       title: "纺织业领先的协同制造云平台",
-			path: "/pages/signUp/signUp", // 路径，传递参数到指定页面。
-			imageUrl:
+      path: "/pages/signUp/signUp", // 路径，传递参数到指定页面。
+      imageUrl:
         "https://file.zwyknit.com/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%86%E4%BA%AB%E5%9B%BE-1.png",
     };
   },
@@ -127,6 +128,7 @@ Page({
                 }
               ).length;
               wx.setStorageSync("userInfo", ress.data.data);
+              wx.setStorageSync("isLogin", true);
 
               wx.lin.showMessage({
                 type: "success",
@@ -139,6 +141,8 @@ Page({
               getProcessList();
               getGroupList();
               getUserList();
+							getStoreList();
+							getStaffList();
 
               setTimeout(function () {
                 _this.toOtherPage();

@@ -1,78 +1,145 @@
 <!--pages/ourFactory/ourFactory.wxml-->
 <view id="ourFactory">
 	<nav-content showBack="{{false}}">
-		<view slot="after" class="fz25">
-			<!-- <van-search value="{{ keyWord }}" placeholder="搜索" bind:change="onSearch" /> -->
-			<view wx:if="{{type === '2' && isLogin}}">
-				<view class="poa"
-					style="left:12%;border-right: 1px solid #eaeaea;padding-right:10rpx;height:35px;line-height:35px;overflow: hidden;"
-					bindtap="showChangeSearch">{{searchType===1?'订单':'计划单'}}</view>
-				<input wx:if="{{isLogin}}"
-					style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 115rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%"
-					type="text" bindinput="onSearch" placeholder="搜索" />
-				<input wx:else disabled
-					style="text-align: left;border:1px solid #eaeaea;padding: 10rpx 0 10rpx 115rpx;border-radius:50rpx;margin:0 0 25rpx 30rpx;width:55%"
-					type="text" bindinput="onSearch" placeholder="搜索" />
-				<view class="poa bgColorWhite tl" wx:if="{{showSearch}}"
-					style="left:8%;top:80%;z-index: 999999;border:1px solid #eaeaea;padding: 0rpx 10rpx;">
-					<view bindtap="changeSearchType" data-index="{{1}}">订单</view>
-					<view class="line" style="margin: 0;"></view>
-					<view bindtap="changeSearchType" data-index="{{2}}">计划单</view>
-				</view>
-			</view>
-			<view wx:if="{{type === '1' && isLogin}}">
-				本厂生产中
+		<view slot="after">
+			<view>
+				检验收发
 			</view>
 		</view>
 	</nav-content>
-	<view wx:if="{{type === '2' && isLogin}}">
-		<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="process">{{process_name || '工序'}}
-				<van-icon class="ml5 pt5" name="arrow-down" />
+
+	<view class="bgColorWhite">
+		<view class="flex aic">
+			<l-input class="w80" bind:lininput="confirmData" data-type="keyword" placeholder="报价/产品/样品编号"
+				hide-label="{{true}}" />
+			<view class="w20 color6 flex aic" bindtap="openPopup">
+				<view>筛选</view>
+				<t-icon name="menu-unfold" size="xl" />
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="group">{{group_name || '小组'}}
-				<van-icon class="ml5 pt5" name="arrow-down" />
+		</view>
+		<view wx:if="{{showPopup}}">
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
+				class="pof vh100" bindtap='closePopup'>
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="user">{{user_name || '创建人'}}
-				<van-icon class="ml5 pt5" name="arrow-down" />
+			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
+				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
+					<mp-vtabs-content tabIndex="{{0}}">
+						<view class="title">创建人</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="user">
+							<label class="radio" wx:for="{{userList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{1}}">
+						<view class="title">单据类型</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="ordertype">
+							<label class="radio" wx:for="{{orderTypeList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">负责小组</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="group">
+							<label class="radio" wx:for="{{groupList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{3}}">
+						<view class="title">添加状态</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="addstatus">
+							<label class="radio" wx:for="{{addStatusList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{4}}">
+						<view class="title">创建时间</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="date">
+							<label class="radio" wx:for="{{dateList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+				</mp-vtabs>
+				<view class="flex jcsa bgColorWhite pt10">
+					<view class="resetHalf">
+						<van-button type="primary" size="small" bindtap="reset">重置</van-button>
+					</view>
+					<view class="confirmHalf">
+						<van-button type="primary" size="small" bindtap="confirmData">确认</van-button>
+					</view>
+				</view>
 			</view>
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '单位'}}
+		</view>
+		<view class="flex jcc fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w100 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '下单公司'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
 		</view>
-		<view class="fz25 tc color91 mt10 mb10">共检索到{{total}}条数据</view>
-		<scroll-view scroll-y="true" bindscrolltolower="reqOrder" style="height:calc(100vh - 200px)">
-			<order-card wx:for="{{orderList}}" data-index="{{index}}" wx:for-item="item" wx:key="item" wx:for-index="index"
-				detailInfo="{{item}}" bindtap="toOutsourcingAcceptance"></order-card>
-			<view style="height: 20px;" wx:if="{{!noData}}"></view>
-			<!-- 第一次查询无数据 -->
-			<view class="flex fdc vh50 color91 w100 jcc aic" wx:if="{{!isLogin || noData}}">
-				<view class="tc size-xl">
-					<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
-					</image>
-					<view class="mt20">没有符合条件的数据</view>
+	</view>
+
+	<scroll-view scroll-y class="vh75" bindscrolltolower="reqOrder">
+		<view class="card" style="margin-left: 10px;margin-right:10px;width: 95vw;" wx:for="{{list}}" bindtap="toDetail"
+			data-item="{{item}}">
+			<view class="flex aic jcsb">
+				<view class="bold">{{item.client_name}}</view>
+				<view wx:if="{{item.has_weave_plan.status == 2}}" class="bgColorFDA9 tc pl10 pr10 pt5 pb5 colorWhite"
+					style="width: 3rem;border-radius:5px">待添加</view>
+				<view wx:else class="bgColor27A2 tc pl10 pr10 pt5 pb5 colorWhite" style="width: 3rem;border-radius:5px">已添加
 				</view>
 			</view>
-			<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
-			<l-loadmore show="{{isEnd && !noData}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		</scroll-view>
-	</view>
-	<view wx:elif="{{ type === '1' && isLogin}}">
-		<order-card detailInfo="{{detailInfo}}">
-			<list-card slot="after" showShort="{{true}}" isSlot="{{true}}" cardInfoData="{{cardInfoData}}"></list-card>
-		</order-card>
-	</view>
-	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+			<view class="flex mt10 aic">
+				<view wx:if="{{item.order_type == 1}}" style="width: 1em; line-height: 1em;border-radius: 20em;"
+					class="bgColorFDA9 pt5 pb5 pr5 pl5 colorWhite">订</view>
+				<view wx:if="{{item.order_type == 2}}" style="width: 1em; line-height: 1em;border-radius: 20em;"
+					class="bgColor27A2 pt5 pb5 pr5 pl5 colorWhite">样</view>
+				<view class="ml10">{{item.code}}</view>
+			</view>
+			<view class="flex mt10">
+				<image style="align-self: flex-end;"
+					src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+					class="image" />
+				<view class="ml10 w100 flex fdc jcsb">
+					<view class="flex jcsb w100">
+						<view>下单总数：{{item.total_number}}</view>
+						<view>{{item.user_name}}</view>
+					</view>
+					<view class="flex jcsb w100">
+						<view>生产检验进度：{{item.inspection_push_progress.progress}}%</view>
+						<view>{{item.group_name}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
 
-	<!-- 下拉 -->
-	<picker values="{{userList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="user"
-		showDialog="{{showUser}}"></picker>
-	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group"
-		showDialog="{{showGroup}}"></picker>
-	<picker values="{{processList}}" level="2" bind:cancel="closeShowPicker" bind:confirm="confirmData"
-		data-type="process" showDialog="{{showProcess}}"></picker>
-	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
-		showDialog="{{showClient}}"></picker>
+		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20 color91">暂无数据</view>
+		</view>
+		<view class="vh55" wx:if="{{showLoading && orderList.length === 0}}"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh2"></view>
+	</scroll-view>
 
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
@@ -82,4 +149,7 @@
 	</movable-area>
 
 	<l-message content="{{content}}" />
+
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
 </view>
