@@ -49,7 +49,8 @@
 		"pages/myJurisdiction/myJurisdiction",
 		"pages/editPassWord/editPassWord",
 		"pages/staffCreate/staffCreate",
-		"pages/ourFactoryDetail/ourFactoryDetail"
+		"pages/ourFactoryDetail/ourFactoryDetail",
+		"pages/workshopManagement/workshopManagement"
 	],
 	"window": {
 		"navigationStyle": "custom",

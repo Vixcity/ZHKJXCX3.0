@@ -2,7 +2,7 @@
 <view id="staffCreate">
 	<nav-content showHome="{{false}}">
 		<view slot="after">
-			添加员工
+			{{id?'修改员工信息':'添加员工'}}
 		</view>
 	</nav-content>
 
@@ -181,7 +181,7 @@
 	</view>
 
 	<view>
-		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index: 1;">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index: 2;">
 			<van-button type="primary" size="small" bindtap="saveStaff">{{staffInfo.id === ''?'确认添加':'保存修改'}}</van-button>
 		</view>
 	</view>
@@ -198,9 +198,10 @@
 		showDialog="{{showDepartment}}"></picker>
 	<picker values="{{educationList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="education"
 		showDialog="{{showEducation}}"></picker>
-	<van-popup show="{{showDate}}" bindtap="closeShowPicker" custom-class="noBgColor" round position="bottom">
+	<van-popup show="{{showDate}}" bind:close="closeShowPicker" data-type="showDate" custom-class="noBgColor" round
+		position="bottom">
 		<van-datetime-picker type="date" data-type="showDate" value="{{ currentDate }}" min-date="{{ minDate }}"
-			max-date="{{ maxDate }}" bind:confirm="confirmData" />
+			max-date="{{ maxDate }}" bind:confirm="confirmData" bind:cancel="closeShowPicker" />
 	</van-popup>
 
 	<l-message content="{{content}}" />

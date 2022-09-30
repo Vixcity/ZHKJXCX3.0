@@ -119,6 +119,13 @@
 					"query": "",
 					"launchMode": "default",
 					"scene": null
+				},
+				{
+					"name": "车间管理",
+					"pathName": "pages/workshopManagement/workshopManagement",
+					"query": "",
+					"launchMode": "default",
+					"scene": null
 				}
 			]
 		}

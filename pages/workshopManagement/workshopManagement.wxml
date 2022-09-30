@@ -1,0 +1,219 @@
+<!--pages/workshopManagement/workshopManagement.wxml-->
+<view id="workshopManagement">
+	<nav-content showBack="{{false}}">
+		<view slot="after" wx:if="{{filterObj.type===1}}" bindtap="changeType" data-totype="{{2}}">
+			计件结算
+			<van-icon name="exchange" />
+		</view>
+		<view slot="after" wx:if="{{filterObj.type===2}}" bindtap="changeType" data-totype="{{1}}">
+			计时结算
+			<van-icon name="exchange" />
+		</view>
+	</nav-content>
+
+	<view class="bgColorWhite">
+		<view class="flex aic">
+			<l-input class="w50" bind:lininput="confirmData" data-type="keyword" value="{{filterObj.keyword}}"
+				placeholder="序号/姓名搜索" hide-label="{{true}}" />
+			<view class="w30 color6 flex aic jcc" bindtap="openPicker" data-type="process">
+				<view>{{filterObj.process_name || '工序筛选'}}</view>
+				<van-icon name="arrow-down" />
+			</view>
+			<view class="w20 color6 flex aic jcc" bindtap="openPopup">
+				<view>筛选</view>
+				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
+			</view>
+		</view>
+		<view wx:if="{{showPopup}}">
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
+				class="pof vh100" bindtap='closePopup'>
+			</view>
+			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
+				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
+					<mp-vtabs-content tabIndex="{{0}}">
+						<view class="title">部门筛选</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="department">
+							<label class="radio" wx:for="{{departmentList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{1}}">
+						<view class="title">年份选择</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="year">
+							<label class="radio" wx:for="{{yearList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">月份选择</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="month">
+							<label class="radio" wx:for="{{monthList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+				</mp-vtabs>
+				<view class="flex jcsa bgColorWhite pt10">
+					<view class="resetHalf">
+						<van-button type="primary" size="small" bindtap="reset">重置</van-button>
+					</view>
+					<view class="confirmHalf">
+						<van-button type="primary" size="small" bindtap="confirmData">确认</van-button>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex jcsb" style="padding: 10px;">
+			<view class="w33">
+				<view>合计完成数量</view>
+				<view class="mt10 color27A2 bold">{{additional.total_number || 0}} 万件</view>
+			</view>
+			<view class="w33">
+				<view>合计额外数量</view>
+				<view class="mt10 color27A2 bold">
+					{{additional.total_extra_number || 0}} 万件
+				</view>
+			</view>
+			<view class="w33">
+				<view>合计结算金额</view>
+				<view class="mt10 color27A2 bold">{{ additional.total_price || 0 }} 万元</view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 计件列表卡片 -->
+	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 1}}">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view bindtap="toDetail" data-item="{{item}}">
+				<view class="w100 flex aic jcsb">
+					<view class="w33">{{item.id}} -
+						{{item.is_check === 0?'审核中':item.is_check === 1?'通过':item.is_check === 2?'驳回':'状态异常'}}</view>
+					<view class="w33">{{item.user_name}}</view>
+					<view class="w33">{{item.total_price || 0}} 元</view>
+				</view>
+				<view class="w100 flex aic mt10">
+					<view class="w33">{{item.code}} - {{item.staff_name}}</view>
+					<view class="w33 color27A2">{{item.process_name}}</view>
+					<view class="w33 color27A2">
+						<view>{{item.order_code}}</view>
+						<view style="word-break:break-all">{{item.product_code}}</view>
+					</view>
+				</view>
+				<view class="w100 flex aic mt10">
+					<view class="w33" style="word-break:break-all">单价:{{item.price || 0}} 元</view>
+					<view class="w33">{{item.size_name || '无'}}/{{item.color_name}}</view>
+					<view class="w33">完成 {{item.number || 0}} 件</view>
+				</view>
+				<view class="w100 flex aic mt10">
+					<view class="w33">额外 {{item.extra_number || 0}} 件</view>
+					<view class="w33">次品 {{item.shoddy_number || 0}} 件</view>
+					<view class="w33 colorFDA9">{{item.shoddy_reason || '无次品原因'}}</view>
+				</view>
+			</view>
+			<view class="w100 mt10 flex jcsb">
+				<view class="colorFDA9">修改</view>
+				<view class="color27A2" bindtap="openCheck" data-index="{{index}}">审核</view>
+				<view class="colorE800" bindtap="deleteItem" data-item="{{item}}">删除</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+	<!-- 计时列表卡片 -->
+	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 2}}">
+		<view style="content: ''; overflow: hidden;"></view>
+		<view wx:for="{{list}}" class="card flex">
+			<view bindtap="toDetail" data-item="{{item}}">
+				<view class="w100 flex aic jcsb">
+					<view class="w33">{{item.id}} -
+						{{item.is_check === 0?'审核中':item.is_check === 1?'通过':item.is_check === 2?'驳回':'状态异常'}}</view>
+					<view class="w33">{{item.user_name}}</view>
+					<view class="w33">{{item.total_price || 0}} 元</view>
+				</view>
+				<view class="w100 flex aic mt10">
+					<view class="w33">{{item.code}} - {{item.staff_name}}</view>
+					<view class="w33 color27A2">{{item.process_name}}</view>
+					<view class="w33">
+						<view>{{item.price}} 元</view>
+						<view style="word-break:break-all">{{item.time_count}}{{item.time_type === '1'?'小时':'天'}}</view>
+					</view>
+				</view>
+				<view class="w100 flex aic mt10">
+					备注：{{item.desc || '无'}}
+				</view>
+			</view>
+			<view class="w100 mt10 flex jcsb">
+				<view class="colorFDA9">修改</view>
+				<view class="color27A2" bindtap="openCheck" data-index="{{index}}">审核</view>
+				<view class="colorE800" bindtap="deleteItem" data-item="{{item}}">删除</view>
+			</view>
+		</view>
+		<view wx:if="{{noData}}" class="vh60"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
+	<!-- 审核弹窗 -->
+	<l-mask show="{{showCheck}}" center>
+		<view class='card' style="padding-bottom:0;max-height: 70vh;padding-top:0">
+			<view class="flex pt10">
+				<view class="bold w25">审核结果</view>
+				<view class="w70">
+					<l-radio-group placement="row" current="{{current}}" none-checked="{{false}}" bind:linchange="changeRadio">
+						<l-radio key="{{1}}">通过</l-radio>
+						<l-radio key="{{2}}" style="margin-left: 10px;">驳回</l-radio>
+					</l-radio-group>
+				</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex" wx:if="{{current == 2}}">
+				<view class="bold w25">驳回理由</view>
+				<van-checkbox-group class="w75" direction="horizontal" value="{{ result }}" bind:change="checkBoxChange">
+					<van-checkbox icon-size="17" wx:for-items="{{reasonList}}" class="mt5" wx:key="{{item.value}}" name="{{item.value}}">
+						{{item.value}}</van-checkbox>
+				</van-checkbox-group>
+			</view>
+			<view class="flex">
+				<view class="bold w25 pt10 pb10">备注信息</view>
+				<view class="fz60 w60">
+					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
+						bind:lininput="inputDesc" />
+				</view>
+			</view>
+			<view class="line" style="margin-bottom: 0;"></view>
+			<view class="flex" style="margin-top: 0;">
+				<view class="w50 tc h100 pt10 pb10" bindtap="closeCheck">关闭</view>
+				<view class="w50 tc h100 pt10 pb10" style="border-left:1px solid #e7e7e7;" bindtap="confirmCheck">提交</view>
+			</view>
+		</view>
+	</l-mask>
+
+	<!-- 工序筛选弹窗 -->
+	<picker values="{{processList}}" level="2" bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="process" showDialog="{{showProcess}}"></picker>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<l-message content="{{content}}" />
+	<van-dialog id="van-dialog" />
+</view>

@@ -22,7 +22,8 @@
 
 	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
 		<view style="content: ''; overflow: hidden;"></view>
-		<view wx:for="{{list}}" class="card flex" bindtap="toEdit" data-id="{{item.id}}">
+		<view wx:for="{{list}}" class="card flex" style="width: 95vw;margin-left: 10px;margin-right:10px" bindtap="toEdit"
+			data-id="{{item.id}}">
 			<view class="title w100 flex">
 				<view>{{item.name}} - {{item.code}}</view>
 			</view>

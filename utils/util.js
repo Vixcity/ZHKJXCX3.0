@@ -196,6 +196,7 @@ function verifyTel(tel) {
   return false;
 }
 
+// 验证身份证号
 function checkIdCardNumber(idCardNumber) {
   // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
   let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -866,6 +867,28 @@ const getDateList = function (day1, day2) {
   dateArr.splice(0, 0, day1);
   dateArr.push(day2);
   return dateArr;
+};
+
+// 拿到年份列表
+const getYearList = function (year1 = 2018, year2 = new Date().getFullYear()) {
+  let smallYear,
+    bigYear = "";
+
+  if (Number(year1) > Number(year2)) {
+    smallYear = Number(year2);
+    bigYear = Number(year1);
+  } else {
+    smallYear = Number(year1);
+    bigYear = Number(year2);
+  }
+
+  let arr = [];
+
+  for (let i = 0; i < bigYear - smallYear + 1; i++) {
+    arr.push({ id: smallYear + i, text: smallYear + i + "年" });
+  }
+
+  return arr;
 };
 
 // 格式化富文本
@@ -1905,6 +1928,7 @@ module.exports = {
   getProductTypeList,
   getOrderStatusList,
   getDay,
+  getYearList,
   doHandleMonth,
   getDateList,
   getChineseStatus,

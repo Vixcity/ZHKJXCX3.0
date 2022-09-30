@@ -1,6 +1,5 @@
 // pages/billingManagement/productionPlan/productionPlan.js
 const {
-  getBillingList,
   wxReq,
   debounce,
   getUserList,
@@ -181,9 +180,9 @@ Page({
       this.setData({
         showStatus: true,
       });
-		}
-		
-		if (type === "process") {
+    }
+
+    if (type === "process") {
       this.setData({
         showProcess: true,
       });
@@ -227,8 +226,8 @@ Page({
       this.setData({
         showStatus: false,
       });
-		}
-		
+    }
+
     if (type === "process") {
       this.setData({
         showProcess: false,
@@ -282,7 +281,7 @@ Page({
     }
 
     if (type === "process") {
-			this.checkProcess(e.detail.value[1])
+      this.checkProcess(e.detail.value[1]);
     }
 
     this.data.page = 1;
@@ -327,7 +326,6 @@ Page({
   checkProcess(e) {
     const { text } = e;
     this.setData({ process_name: text });
-    this.closePopupProcess();
   },
 
   // 更改选择

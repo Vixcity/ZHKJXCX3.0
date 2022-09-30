@@ -4,6 +4,8 @@ import {
   getGroupList,
   getUserList,
   getStoreList,
+  getStaffList,
+  getDepartmentList,
   wxReq,
 } from "../../utils/util";
 // index.js
@@ -141,8 +143,9 @@ Page({
               getProcessList();
               getGroupList();
               getUserList();
-							getStoreList();
-							getStaffList();
+              getStoreList();
+              getStaffList();
+              getDepartmentList();
 
               setTimeout(function () {
                 _this.toOtherPage();
@@ -163,7 +166,7 @@ Page({
   // 去其他界面
   toOtherPage() {
     let url = this.data.path || "/pages/index/index";
-
+    console.log(url);
     wx.redirectTo({
       url,
     });

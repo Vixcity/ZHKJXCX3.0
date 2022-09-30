@@ -3,6 +3,7 @@ const {
   getProcessList,
   getDepartmentList,
   formatDate,
+  dateDiff,
   wxReq,
   verifyTel,
   checkIdCardNumber,
@@ -42,32 +43,16 @@ Page({
         text: "初中",
       },
       {
-        id: "职高",
-        text: "职高",
+        id: "高中/职高",
+        text: "高中/职高",
       },
       {
-        id: "高中",
-        text: "高中",
-      },
-      {
-        id: "大专",
-        text: "大专",
-      },
-      {
-        id: "本科",
-        text: "本科",
+        id: "大学/大专",
+        text: "大学/大专",
       },
       {
         id: "研究生",
         text: "研究生",
-      },
-      {
-        id: "硕士",
-        text: "硕士",
-      },
-      {
-        id: "博士",
-        text: "博士",
       },
     ],
     minDate: new Date(2019, 1, 1).getTime(),
@@ -96,6 +81,7 @@ Page({
     });
 
     if (options.id) {
+      this.setData(options);
       wxReq(
         {
           url: "/staff/detail?id=" + options.id,
@@ -109,14 +95,16 @@ Page({
           data.resign_time = data.resign_time
             ? data.resign_time.slice(0, 10)
             : "";
-          let list = data.process.split("/");
-          list.forEach((item) => {
-            processList.forEach((process) => {
-              if (item === process.text) {
-                process.active = true;
-              }
+          let list = data.process ? data.process.split("/") : "";
+          if (list.length > 0) {
+            list.forEach((item) => {
+              processList.forEach((process) => {
+                if (item === process.text) {
+                  process.active = true;
+                }
+              });
             });
-          });
+          }
 
           this.setData({
             staffInfo: data,
@@ -209,6 +197,12 @@ Page({
 
     if (type === "showDate") {
       this.data.staffInfo[this.data.timeType] = formatDate(e.detail);
+      if (this.data.timeType === "resign_time") {
+        dateDiff(formatDate(new Date()), formatDate(e.detail)) < 0
+          ? (this.data.staffInfo.status = 2)
+          : (this.data.staffInfo.status = 1);
+      }
+      console.log(this.data.staffInfo.status);
     }
 
     this.setData({
@@ -312,6 +306,9 @@ Page({
               content: this.data.staffInfo.id === "" ? "添加成功" : "修改成功",
               top: getApp().globalData.navH,
             });
+            setTimeout(function () {
+              wx.navigateBack();
+            }, 2000);
           }
         });
       }

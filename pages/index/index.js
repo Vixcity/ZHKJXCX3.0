@@ -139,7 +139,14 @@ Page({
           show: isHasPermissions('17-3'),
           icon:
             "https://file.zwyknit.com/%E5%91%98%E5%B7%A5%E7%AE%A1%E7%90%86.png",
-        },
+				},
+				// {
+        //   title: "车间管理",
+        //   src: "/pages/workshopManagement/workshopManagement",
+        //   show: isHasPermissions('19-3') || isHasPermissions('19-5'),
+        //   icon:
+        //     "https://file.zwyknit.com/%E8%BD%A6%E9%97%B4%E7%AE%A1%E7%90%86.png",
+        // },
       ],
     });
   },
