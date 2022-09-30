@@ -202,7 +202,6 @@ Page({
           ? (this.data.staffInfo.status = 2)
           : (this.data.staffInfo.status = 1);
       }
-      console.log(this.data.staffInfo.status);
     }
 
     this.setData({
