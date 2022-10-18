@@ -123,7 +123,7 @@
 						wx:for="{{item.material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
 						wx:for-item="materialItem">
 						<view class="flex jcsb aic">
-							<view class="flex fz25 aic w80">
+							<view class="flex fz25 aic w70">
 								<view class="flex aic">
 									<view class="bgColorOrange colorWhite flex aic jcc"
 										style="border-radius: 500px;width:24px;height: 24px;">纱
@@ -133,6 +133,8 @@
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
 									data-itemtype="materialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更
 								</view>
+							</view>
+							<view class="fz25 color27A2" bindtap="watchQuotePrice" data-id="{{materialItem.material_id}}">查看报价
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -185,7 +187,7 @@
 						wx:for="{{item.mian_material_data}}" wx:key="materialItem" wx:for-index="materialIndex"
 						wx:for-item="materialItem">
 						<view class="flex jcsb aic">
-							<view class="flex fz25 aic w80">
+							<view class="flex fz25 aic w70">
 								<view class="flex aic">
 									<view class="bgColorOrange colorWhite flex aic jcc"
 										style="border-radius: 500px;width:24px;height: 24px;">面
@@ -195,6 +197,8 @@
 								<view class="fz25 color27A2 pl8" bindtap="openPicker" data-type="productSon"
 									data-itemtype="mianMaterialItemShow" data-index="{{index}}" data-itemindex="{{materialIndex}}">点击变更
 								</view>
+							</view>
+							<view class="fz25 color27A2" bindtap="watchQuotePrice" data-id="{{materialItem.material_id}}">查看报价
 							</view>
 							<view class="flex fz25">
 								<view wx:if="{{materialIndex === 0}}" class="color27A2 pr5" bindtap="addProductType"
@@ -221,8 +225,8 @@
 							<view class="bgColorF5 w45 tc mt20 pl10 pt10 pb10">
 								<view class="mb10">小计</view>
 								<input type="digit" bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="total_price"
-									data-itemIndex="{{materialIndex}}" data-itemType="mian_material_data" value="{{materialItem.total_price}}"
-									placeholder="小计" />
+									data-itemIndex="{{materialIndex}}" data-itemType="mian_material_data"
+									value="{{materialItem.total_price}}" placeholder="小计" />
 							</view>
 						</view>
 					</view>
@@ -255,8 +259,8 @@
 							<view class="bgColorF5 w100 mt20 tc pl10 pt10 pb10">
 								<view class="mb10">辅料说明</view>
 								<input bindinput="changeProductTypeDetail" data-index="{{index}}" data-type="desc"
-									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data"
-									value="{{assistItem.desc}}" placeholder="点击输入" />
+									data-itemIndex="{{assistIndex}}" data-itemType="assist_material_data" value="{{assistItem.desc}}"
+									placeholder="点击输入" />
 							</view>
 							<view class="bgColorF5 w45 tc mt20 pl10 pt10">
 								<view class="mb10">单价</view>
@@ -602,6 +606,21 @@
 
 	<l-message content="{{content}}" />
 	<van-dialog id="van-dialog" confirm-button-color="#27A2FD" />
+	<van-popup show="{{ showYarnDetail }}" closeable close-icon-position="top-right" bind:close="closeYarnDetail" round
+		custom-style="min-width:80vw;min-height:10vh;padding-top:4vh">
+		<view class="line"></view>
+		<view class="flex pl10 pr10 bold">
+			<view class="w33">单位名称</view>
+			<view class="w33">报价</view>
+			<view class="w33">备注</view>
+		</view>
+		<view class="flex pl10 pr10 pt10 pb10" wx:for="{{yarnDetail}}" wx:key="item" wx:for-index="index"
+			wx:for-item="item">
+			<view class="w33">{{item.client_name}}</view>
+			<view class="w33">{{item.price}}</view>
+			<view class="w33">{{item.desc || '无备注'}}</view>
+		</view>
+	</van-popup>
 	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
 		showDialog="{{showClient}}"></picker>
 	<picker values="{{concatList}}" reload="{{true}}" bind:cancel="closeShowPicker" bind:confirm="confirmData"

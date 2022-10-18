@@ -34,8 +34,11 @@ Page({
     groupList: [],
     // 币种汇率
     exchange_rate: 100,
-    settle_unit: "元",
-    // 产品
+		settle_unit: "元",
+		// 查看报价
+		showYarnDetail: false,
+		yarnDetail:{},
+		// 产品
     productTypeList: [],
     productList: [],
     productObj: {
@@ -57,9 +60,9 @@ Page({
           tree_data: "",
           unit: "g",
           weight: "",
-        }
-			],
-			mian_material_data: [
+        },
+      ],
+      mian_material_data: [
         {
           id: "",
           loss: "",
@@ -70,8 +73,8 @@ Page({
           tree_data: "",
           unit: "米",
           weight: "",
-        }
-			],
+        },
+      ],
       assist_material_data: [
         {
           id: "",
@@ -150,8 +153,8 @@ Page({
       ],
     },
     // 原料
-		yarnType: [],
-		// 纱线
+    yarnType: [],
+    // 纱线
     materialObj: {
       id: "",
       loss: "",
@@ -162,19 +165,19 @@ Page({
       tree_data: "",
       unit: "g",
       weight: "",
-		},
-		// 面料
-		mianMaterialObj:{
-			id: "",
-			loss: "",
-			material_id: "",
-			material_name: "",
-			price: "",
-			total_price: "",
-			tree_data: "",
-			unit: "米",
-			weight: "",
-		},
+    },
+    // 面料
+    mianMaterialObj: {
+      id: "",
+      loss: "",
+      material_id: "",
+      material_name: "",
+      price: "",
+      total_price: "",
+      tree_data: "",
+      unit: "米",
+      weight: "",
+    },
     // 辅料
     assistList: [],
     assistObj: {
@@ -398,21 +401,34 @@ Page({
 
         // console.log(data);
         product_data.forEach((item) => {
-					item.mian_material_data = item.mian_material_data || []
+          item.mian_material_data = item.mian_material_data || [{
+						id: "",
+						loss: "",
+						material_id: "",
+						material_name: "",
+						price: "",
+						total_price: "",
+						tree_data: "",
+						unit: "米",
+						weight: "",
+					}];
           item.type = [item.category_id, item.secondary_category_id];
           item.image_data.forEach((img, index) => {
             item.image_data[index] = { name: "load" + index, url: img };
-					});
-					
-					item.material_data.forEach(itemMat => {
-						if(itemMat.tree_data[0] == 2) {
-							item.mian_material_data.push(itemMat)
-						}
-					})
+          });
 
-					item.material_data = item.material_data.filter(itemMat => {
-						return itemMat.tree_data[0] == 1
-					})
+          item.material_data.forEach((itemMat) => {
+            if (itemMat.tree_data[0] == 2) {
+              item.mian_material_data.push(itemMat);
+            }
+          });
+
+          item.material_data =
+            item.material_data.length === 0
+              ? []
+              : item.material_data.filter((itemMat) => {
+                  return itemMat.tree_data[0] == 1;
+                });
 
           item.desc = item.desc ? contentHtml(item.desc) : "";
         });
@@ -668,26 +684,22 @@ Page({
           e.detail.value[1].id;
 
         this.data.productList[index]["material_data"][itemindex].tree_data =
-          1 +
-          "," +
-          e.detail.value[0].id +
-          "," +
-          e.detail.value[1].id;
+          1 + "," + e.detail.value[0].id + "," + e.detail.value[1].id;
       }
-			
-			// 面料原料
-      if (itemtype === "mianMaterialItemShow") {
-        this.data.productList[index]["mian_material_data"][itemindex].material_name =
-          e.detail.value[1].text;
-        this.data.productList[index]["mian_material_data"][itemindex].material_id =
-          e.detail.value[1].id;
 
-        this.data.productList[index]["mian_material_data"][itemindex].tree_data =
-          2 +
-          "," +
-          e.detail.value[0].id +
-          "," +
-          e.detail.value[1].id;
+      // 面料原料
+      if (itemtype === "mianMaterialItemShow") {
+        this.data.productList[index]["mian_material_data"][
+          itemindex
+        ].material_name = e.detail.value[1].text;
+        this.data.productList[index]["mian_material_data"][
+          itemindex
+        ].material_id = e.detail.value[1].id;
+
+        this.data.productList[index]["mian_material_data"][
+          itemindex
+        ].tree_data =
+          2 + "," + e.detail.value[0].id + "," + e.detail.value[1].id;
       }
 
       // 辅料
@@ -857,10 +869,10 @@ Page({
         jsonClone(this.data.materialObj)
       );
     } else if (type === "mian_material_data") {
-			this.data.productList[index].mian_material_data.push(
+      this.data.productList[index].mian_material_data.push(
         jsonClone(this.data.mianMaterialObj)
       );
-		} else if (type === "assist_material_data") {
+    } else if (type === "assist_material_data") {
       this.data.productList[index].assist_material_data.push(
         jsonClone(this.data.assistObj)
       );
@@ -915,7 +927,45 @@ Page({
     this.setData({
       productList: this.data.productList,
     });
-  },
+	},
+	
+	// 查看报价
+	watchQuotePrice(e){
+		const { id } = e.currentTarget.dataset
+		if(!id) {
+			wx.lin.showMessage({
+        type: "error",
+        duration: 3000,
+        content: "请先选择产品品类",
+        top: getApp().globalData.navH,
+			});
+			return
+		}
+		wxReq(
+      {
+        url: "/yarn/detail?id="+id,
+        method: "GET",
+      },
+      this.data.isUpdate
+        ? "/quotedPriceCreate/quotedPriceCreate&isUpdate=true&id=" +
+            this.data.id
+        : "/quotedPriceCreate/quotedPriceCreate"
+    ).then((res) => {
+      if (res.data.status) {
+				this.setData({
+					showYarnDetail:true,
+					yarnDetail: res.data.data.rel_price
+				})
+      }
+    });
+	},
+
+	// 关闭查看报价
+	closeYarnDetail(){
+		this.setData({
+			showYarnDetail:false,
+		})
+	},
 
   // 原料辅料输入
   changeProductTypeDetail(e) {
@@ -1190,11 +1240,13 @@ Page({
       });
     });
 
-		const { iscaogao } = e.currentTarget.dataset;
-		this.data.productList.forEach(itemPro => {
-			itemPro.material_data = itemPro.material_data.concat(itemPro.mian_material_data?jsonClone(itemPro.mian_material_data):[])
-			itemPro.mian_material_data = undefined
-		})
+    const { iscaogao } = e.currentTarget.dataset;
+    this.data.productList.forEach((itemPro) => {
+      itemPro.material_data = itemPro.material_data.concat(
+        itemPro.mian_material_data ? jsonClone(itemPro.mian_material_data) : []
+      );
+      itemPro.mian_material_data = undefined;
+    });
 
     // return;
     let data = {
