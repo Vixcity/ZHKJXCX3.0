@@ -1,0 +1,90 @@
+<!--pages/workshopManagementCreate/workshopManagementCreate.wxml-->
+<view id="workshopManagementCreate">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			计时更新
+		</view>
+	</nav-content>
+
+	<view class="bgColorWhite">
+		<view class="card">
+			<view class="flex">
+				<view class="w30">部门</view>
+				<view class="w70 color6" bindtap="openPicker" data-type="department" wx:if="{{department_name === ''}}">请选择部门</view>
+				<view class="w70" bindtap="openPicker" data-type="department" wx:else>{{department_name}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex">
+				<view class="w30">员工</view>
+				<view class="w70 color6" bindtap="openPicker" data-type="staff" wx:if="{{staff_name === ''}}">请选择员工</view>
+				<view class="w70" bindtap="openPicker" data-type="staff" wx:else>{{staff_name}}</view>
+			</view>
+		</view>
+		<view class="card">
+			<view wx:for="{{list}}">
+				<view class="flex">
+					<view class="w30">生产工序 {{index + 1}}</view>
+					<view class="w70 flex jcsb">
+						<view class="w70 color6" bindtap="openPicker" data-type="process" data-index="{{index}}" wx:if="{{item.process_name === ''}}">请选择工序</view>
+						<view class="w70" bindtap="openPicker" data-type="process" data-index="{{index}}" wx:else>{{item.process_name}}</view>
+						<view class="color27A2" bindtap="addList" wx:if="{{index === 0}}">添加工序</view>
+						<view class="colorE800" wx:else bindtap="deleteIndex" data-index="{{index}}">删除</view>
+					</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">工序说明</view>					
+					<view class="w70 color6" bindtap="openPicker" data-type="process_desc" data-index="{{index}}" wx:if="{{item.process_desc === ''}}">请选择工序说明</view>
+					<view class="w70" bindtap="openPicker" data-type="process_desc" data-index="{{index}}" wx:else>{{item.process_desc}}</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">单价</view>
+					<view class="w70 flex jcsb">
+						<input class="w30" type="digit" placeholder="点击输入" value="{{item.price}}" bindinput="changeType" data-type='price' data-index="{{index}}"/>
+						<l-radio-group placement="row" current="{{item.time_type}}" bind:linchange="changeType" data-type='time_type' data-index="{{index}}">
+							<l-radio key="1" class="color3 fz28">每小时</l-radio>
+							<l-radio key="2" class="ml10 color3 fz28">每天</l-radio>
+						</l-radio-group>
+					</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">时长</view>
+					<view class="w70 flex jcsb">
+						<input class="w35" type="number" maxlength="6" placeholder="点击输入" value="{{item.time_count}}" bindinput="changeType" data-type='time_count' data-index="{{index}}"/>
+						<view>共 {{item.total_price || 0}} 元</view>
+					</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">备注</view>
+					<input class="w70" type="text" placeholder="点击输入" value="{{item.desc}}" bindinput="changeType" data-type='desc' data-index="{{index}}"/>
+				</view>
+				<view class="line"></view>
+			</view>
+		</view>
+	</view>
+
+	<view class="vh10"></view>
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index:1">
+		<van-button type="primary" size="small" bindtap="workSave">提交</van-button>
+	</view>
+
+	<l-message content="{{content}}" />
+	<picker values="{{departmentList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="department"
+		showDialog="{{showDepartment}}"></picker>
+	<picker values="{{staffList}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="staff"
+		showDialog="{{showStaff}}"></picker>
+	<picker values="{{processList}}" level='2' reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="process"
+		showDialog="{{showProcess}}"></picker>
+	<picker values="{{list[chooseIndex].processDesc}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="process_desc"
+		showDialog="{{showProcessDesc}}"></picker>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+</view>

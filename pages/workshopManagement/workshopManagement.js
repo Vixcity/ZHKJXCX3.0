@@ -23,7 +23,8 @@ Page({
       year: "",
     },
     current: 1,
-    list: [],
+		list: [],
+		textInputDesc: "",
     reasonList: [
       { value: "物料成本偏低", isChecked: true, disabled: false },
       { value: "织造成本偏低", isChecked: false, disabled: false },
@@ -34,7 +35,7 @@ Page({
       { value: "基本利润偏低", isChecked: false, disabled: false },
       { value: "整体报价偏低", isChecked: false, disabled: false },
     ],
-    result: [],
+    result: [""],
     monthList: [
       { id: "", text: "全部" },
       {
@@ -95,11 +96,24 @@ Page({
    */
   onLoad(options) {
     const titles = ["部门选择", "年份选择", "月份选择"];
-    const vtabs = titles.map((item) => ({ title: item }));
+		const vtabs = titles.map((item) => ({ title: item }));
+		this.setData({
+			vtabs,
+		})
 
-    this.setData({
-      vtabs,
-      orderList: [],
+		this.init()
+	},
+	
+	onShow(){
+		if(!wx.getStorageSync('isDo')) return
+		wx.setStorageSync('isDo',false)
+
+		this.init()
+	},
+
+	init(){
+		this.setData({
+      list: [],
       isEnd: false,
       noData: false,
     });
@@ -107,7 +121,7 @@ Page({
     this.getScreenList();
     this.reset();
     this.reqOrder();
-  },
+	},
 
   // 重置筛选条件
   reset() {
@@ -366,7 +380,24 @@ Page({
         }
       });
     });
-  },
+	},
+	
+	toEdit(e){
+		const {id} = e.currentTarget.dataset
+		let url = ""
+		if(this.data.filterObj.type === 2){
+			url = '../workshopEditByPrice/workshopEditByPrice?id=' + id
+		} 
+		
+		if(this.data.filterObj.type === 1){
+			url = '../workshopEditByThing/workshopEditByThing?id=' + id
+		}
+		
+		if(!url) return
+		wx.navigateTo({
+			url,
+		})
+	},
 
   // 打开审核弹窗
   openCheck(e) {
@@ -378,11 +409,78 @@ Page({
 
   // 关闭审核弹窗
   closeCheck() {
-    this.data.checkIndex = "";
     this.setData({
       showCheck: false,
+      checkIndex: "",
+      textInputDesc: "",
+      current: 1,
+      result: [""],
+    });
+	},
+
+	// 审核备注 
+	inputDesc(e) {
+    this.setData({
+      textInputDesc: e.detail.value,
     });
   },
+
+	// 审核
+  confirmCheck(e) {
+    wxReq(
+      {
+        url: "/doc/check",
+        method: "POST",
+        data: {
+          check_type: 14,
+          pid: this.data.list[this.data.checkIndex].id,
+          check_desc:
+            this.data.current === 1
+              ? ""
+              : this.data.result.toString().replaceAll(",", ";"),
+          is_check: this.data.current,
+          desc: this.data.textInputDesc,
+        },
+      },
+      "/workshopManagement/workshopManagement"
+    ).then((res) => {
+      if (res.data.status) {
+        wx.lin.showMessage({
+          type: "success",
+          duration: 2000,
+          content: "审核成功",
+          top: getApp().globalData.navH,
+        });
+
+        this.data.list[this.data.checkIndex].is_check = this.data.current;
+        this.closeCheck();
+
+        this.setData({
+          list: this.data.list,
+        });
+      }
+    });
+  },
+
+  toCreate() {
+    wx.navigateTo({
+      url: "../workshopManagementCreate/workshopManagementCreate",
+    });
+	},
+	
+	toByThingCreate(e){
+		const {type} = e.currentTarget.dataset
+
+		if(type == 1){
+			wx.navigateTo({
+				url: "../workshopByStaff/workshopByStaff",
+			});
+		} else if(type == 2){
+			wx.navigateTo({
+				url: "../workshopByOrder/workshopByOrder",
+			});
+		}
+	},
 
   toPrev() {
     wx.navigateBack();

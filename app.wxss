@@ -817,6 +817,10 @@ page {
 	width: 25%;
 }
 
+.w23 {
+	width: 23%;
+}
+
 .w20 {
 	width: 20%;
 }
@@ -887,6 +891,14 @@ page {
 
 .vw50 {
 	width: 50vw;
+}
+
+.vw43 {
+	width: 43vw;
+}
+
+.vw42 {
+	width: 42vw;
 }
 
 .vw40 {
@@ -1390,6 +1402,26 @@ page {
 	color: #666666 !important;
 	border: none;
 	width: 50vw;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
+.confirmHalf45 .van-button {
+	background-color: #27a2fd;
+	color: white !important;
+	border: none;
+	width: 45vw;
+	border: 1px solid #27a2fd;
+	font-size: 28rpx;
+	padding: 18px 0;
+}
+
+.resetHalf45 .van-button {
+	background-color: unset;
+	background-image: unset;
+	color: #666666 !important;
+	border: none;
+	width: 45vw;
 	font-size: 28rpx;
 	padding: 18px 0;
 }

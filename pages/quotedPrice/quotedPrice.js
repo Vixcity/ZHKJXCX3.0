@@ -57,20 +57,15 @@ Page({
 
     this.setData({
       isLogin,
+			orderList: [],
+			isEnd: false,
+			noData: false,
+			page: 1,
+			hasCreateModule: isHasPermissions("1-1"),
     });
 
     this.getScreen();
-  },
-
-  onShow() {
-    this.setData({
-      orderList: [],
-      isEnd: false,
-      noData: false,
-      page: 1,
-      hasCreateModule: isHasPermissions("1-1"),
-    });
-    this.getList();
+		this.getList();
   },
 
   getScreen() {

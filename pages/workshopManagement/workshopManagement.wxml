@@ -96,10 +96,12 @@
 	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 1}}">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex">
-			<view bindtap="toDetail" data-item="{{item}}">
+			<view class="w100" bindtap="toDetail" data-item="{{item}}">
 				<view class="w100 flex aic jcsb">
-					<view class="w33">{{item.id}} -
-						{{item.is_check === 0?'审核中':item.is_check === 1?'通过':item.is_check === 2?'驳回':'状态异常'}}</view>
+					<view class="w33">{{item.id}} - <text wx:if="{{item.is_check == 0}}" class="colorFDA9">审核中</text><text
+							wx:elif="{{item.is_check == 1}}" class="color27A2">通过</text><text wx:elif="{{item.is_check == 2}}"
+							class="colorE800">驳回</text><text wx:else class="colorE800">状态异常</text>
+					</view>
 					<view class="w33">{{item.user_name}}</view>
 					<view class="w33">{{item.total_price || 0}} 元</view>
 				</view>
@@ -123,7 +125,7 @@
 				</view>
 			</view>
 			<view class="w100 mt10 flex jcsb">
-				<view class="colorFDA9">修改</view>
+				<view class="colorFDA9" bindtap="toEdit" data-id="{{item.id}}">修改</view>
 				<view class="color27A2" bindtap="openCheck" data-index="{{index}}">审核</view>
 				<view class="colorE800" bindtap="deleteItem" data-item="{{item}}">删除</view>
 			</view>
@@ -137,10 +139,12 @@
 	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 2}}">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex">
-			<view bindtap="toDetail" data-item="{{item}}">
+			<view class="w100" bindtap="toDetail" data-item="{{item}}">
 				<view class="w100 flex aic jcsb">
-					<view class="w33">{{item.id}} -
-						{{item.is_check === 0?'审核中':item.is_check === 1?'通过':item.is_check === 2?'驳回':'状态异常'}}</view>
+					<view class="w33">{{item.id}} - <text wx:if="{{item.is_check == 0}}" class="colorFDA9">审核中</text><text
+							wx:elif="{{item.is_check == 1}}" class="color27A2">通过</text><text wx:elif="{{item.is_check == 2}}"
+							class="colorE800">驳回</text><text wx:else class="colorE800">状态异常</text>
+					</view>
 					<view class="w33">{{item.user_name}}</view>
 					<view class="w33">{{item.total_price || 0}} 元</view>
 				</view>
@@ -157,7 +161,7 @@
 				</view>
 			</view>
 			<view class="w100 mt10 flex jcsb">
-				<view class="colorFDA9">修改</view>
+				<view class="colorFDA9" bindtap="toEdit" data-id="{{item.id}}">修改</view>
 				<view class="color27A2" bindtap="openCheck" data-index="{{index}}">审核</view>
 				<view class="colorE800" bindtap="deleteItem" data-item="{{item}}">删除</view>
 			</view>
@@ -165,8 +169,24 @@
 		<view wx:if="{{noData}}" class="vh60"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view class="vh5"></view>
+		<view class="vh8"></view>
 	</scroll-view>
+
+	<view wx:if="{{filterObj.type===1}}">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+			<view class="flex jcsa vw90">
+				<van-button class="confirmHalf45" type="primary" size="small" bindtap="toByThingCreate" data-type="1">按员工上传数据
+				</van-button>
+				<!-- <van-button class="ml20 confirmHalf45" type="primary" size="small" bindtap="toByThingCreate" data-type="2">按订单上传数据
+				</van-button> -->
+			</view>
+		</view>
+	</view>
+	<view wx:if="{{filterObj.type===2}}">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+			<van-button type="primary" size="small" bindtap="toCreate">上报数据</van-button>
+		</view>
+	</view>
 
 	<!-- 审核弹窗 -->
 	<l-mask show="{{showCheck}}" center>
@@ -184,15 +204,16 @@
 			<view class="flex" wx:if="{{current == 2}}">
 				<view class="bold w25">驳回理由</view>
 				<van-checkbox-group class="w75" direction="horizontal" value="{{ result }}" bind:change="checkBoxChange">
-					<van-checkbox icon-size="17" wx:for-items="{{reasonList}}" class="mt5" wx:key="{{item.value}}" name="{{item.value}}">
+					<van-checkbox icon-size="17" wx:for-items="{{reasonList}}" class="mt5" wx:key="{{item.value}}"
+						name="{{item.value}}">
 						{{item.value}}</van-checkbox>
 				</van-checkbox-group>
 			</view>
 			<view class="flex">
 				<view class="bold w25 pt10 pb10">备注信息</view>
 				<view class="fz60 w60">
-					<l-textarea auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}" maxlength="80"
-						bind:lininput="inputDesc" />
+					<l-textarea value="{{textInputDesc}}" auto-height="{{true}}" l-class="noTopRightLeft" indicator="{{false}}"
+						maxlength="80" bind:lininput="inputDesc" />
 				</view>
 			</view>
 			<view class="line" style="margin-bottom: 0;"></view>

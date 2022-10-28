@@ -50,7 +50,12 @@
 		"pages/editPassWord/editPassWord",
 		"pages/staffCreate/staffCreate",
 		"pages/ourFactoryDetail/ourFactoryDetail",
-		"pages/workshopManagement/workshopManagement"
+		"pages/workshopManagement/workshopManagement",
+		"pages/workshopManagementCreate/workshopManagementCreate",
+		"pages/workshopEditByPrice/workshopEditByPrice",
+		"pages/workshopEditByThing/workshopEditByThing",
+		"pages/workshopByStaff/workshopByStaff",
+		"pages/workshopByOrder/workshopByOrder"
 	],
 	"window": {
 		"navigationStyle": "custom",

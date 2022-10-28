@@ -1,0 +1,210 @@
+<!--pages/workshopByStaff/workshopByStaff.wxml-->
+<view id="workshopByStaff">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			计件更新（按员工）
+		</view>
+	</nav-content>
+
+	<view class="bgColorWhite">
+		<view class="card">
+			<view class="flex">
+				<view class="w30">部门</view>
+				<view class="w70 color6" bindtap="openPicker" data-type="department" wx:if="{{department_name === ''}}">请选择部门
+				</view>
+				<view class="w70" bindtap="openPicker" data-type="department" wx:else>{{department_name}}</view>
+			</view>
+			<view class="line"></view>
+			<view class="flex">
+				<view class="w30">员工</view>
+				<view class="w70 color6" bindtap="openPicker" data-type="staff" wx:if="{{staff_name === ''}}">请选择员工</view>
+				<view class="w70" bindtap="openPicker" data-type="staff" wx:else>{{staff_name}}</view>
+			</view>
+		</view>
+		<view class="card">
+			<view wx:for="{{list}}">
+				<view class="flex">
+					<view class="w30">生产工序 {{index + 1}}</view>
+					<view class="w70 flex jcsb">
+						<view class="w70 color6" bindtap="openPicker" data-type="process" data-index="{{index}}"
+							wx:if="{{item.process_name === ''}}">请选择工序</view>
+						<view class="w70" bindtap="openPicker" data-type="process" data-index="{{index}}" wx:else>
+							{{item.process_name}}</view>
+						<view class="color27A2" bindtap="addList" wx:if="{{index === 0}}">添加工序</view>
+						<view class="colorE800" wx:else bindtap="deleteIndex" data-index="{{index}}">删除</view>
+					</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">工序说明</view>
+					<view class="w70 color6" bindtap="openPicker" data-type="process_desc" data-index="{{index}}"
+						wx:if="{{item.process_desc === ''}}">请选择工序说明</view>
+					<view class="w70" bindtap="openPicker" data-type="process_desc" data-index="{{index}}" wx:else>
+						{{item.process_desc}}</view>
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">结算单价</view>
+					<input type="digit" placeholder="点击输入" value="{{item.price}}" bindinput="changeType" data-type='price'
+						data-index="{{index}}" />
+				</view>
+				<view class="line"></view>
+				<view class="flex">
+					<view class="w30">订单号</view>
+					<view class="w70 color6" bindtap="openPicker" data-type="order" data-index="{{index}}"
+						wx:if="{{item.order_code === ''}}">请选择订单</view>
+					<view class="w70" bindtap="openPicker" data-type="order" data-index="{{index}}" wx:else>{{item.order_code}}
+					</view>
+				</view>
+				<view wx:if="{{item.order_code}}">
+					<view wx:for="{{item.productInfo}}" wx:for-item="itemPro" wx:for-index="indexPro">
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">产品编号</view>
+							<view class="w70 flex jcsb">
+								<view class="w70 color6" bindtap="openPicker" data-type="product" data-indexchild="{{indexPro}}"
+									data-index="{{index}}" wx:if="{{itemPro.product_code === ''}}">请选择产品</view>
+								<view class="w70" bindtap="openPicker" data-type="product" data-indexchild="{{indexPro}}"
+									data-index="{{index}}" wx:else>{{itemPro.product_code}}</view>
+								<view class="color27A2" bindtap="addPro" data-index="{{index}}" wx:if="{{indexPro === 0}}">添加产品</view>
+								<view class="colorE800" wx:else bindtap="deleteIndexPro" data-index="{{index}}"
+									data-indexchild="{{indexPro}}">删除</view>
+							</view>
+						</view>
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">尺码颜色</view>
+							<view class="w70 color6" bindtap="openPicker" data-type="color" data-indexchild="{{indexPro}}"
+								data-index="{{index}}" wx:if="{{itemPro.color_id === ''}}">请选择尺码颜色</view>
+							<view class="w70" bindtap="openPicker" data-type="color" data-indexchild="{{indexPro}}"
+								data-index="{{index}}" wx:else>{{itemPro.size_name}} / {{itemPro.color_name}}</view>
+						</view>
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">完成数量</view>
+							<input type="number" maxlength="6" placeholder="点击输入" value="{{itemPro.number}}" bindinput="changeType"
+								data-type='number' data-index="{{index}}" data-indexchild="{{indexPro}}"/>
+						</view>
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">额外数量</view>
+							<input type="number" maxlength="6" placeholder="点击输入" value="{{itePro.extra_number}}" bindinput="changeType"
+								data-type='extra_number' data-index="{{index}}" data-indexchild="{{indexPro}}"/>
+						</view>
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">次品数量</view>
+							<input type="number" maxlength="6" placeholder="点击输入" value="{{itePro.shoddy_number}}" bindinput="changeType"
+								data-type='shoddy_number' data-index="{{index}}" data-indexchild="{{indexPro}}"/>
+						</view>
+						<view class="line"></view>
+						<view class="flex">
+							<view class="w30">次品原因</view>
+							<input type="text" placeholder="点击输入" value="{{itePro.shoddy_reason}}" bindinput="changeType"
+								data-type='shoddy_reason' data-index="{{index}}" data-indexchild="{{indexPro}}"/>
+						</view>
+					</view>
+				</view>
+				<view class="line"></view>
+			</view>
+		</view>
+	</view>
+
+	<view class="vh10"></view>
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);z-index:2">
+		<van-button type="primary" size="small" bindtap="workSave">提交</van-button>
+	</view>
+
+	<l-message content="{{content}}" />
+	<picker values="{{departmentList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="department"
+		showDialog="{{showDepartment}}"></picker>
+	<picker values="{{staffList}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="staff"
+		showDialog="{{showStaff}}"></picker>
+	<picker values="{{processList}}" level='2' reload bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="process" showDialog="{{showProcess}}"></picker>
+	<picker values="{{list[chooseIndex].processDesc}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData"
+		data-type="process_desc" showDialog="{{showProcessDesc}}"></picker>
+	<van-popup show="{{ showOrder }}" position="bottom" bind:close="closeShowPicker" data-type="order">
+		<view
+			style="display: flex; border: 1px solid #eee; padding: 10px; border-radius: 200px; margin-top:50rpx; margin-left:10px; margin-right: 10px">
+			<van-icon name="search" /><input adjust-position="{{false}}" type="text" value="{{searchText}}"
+				placeholder="输入内容进行搜索" style="width: 80vw;padding-left: 10px;" bindconfirm="searchOrder" />
+			<icon class="icon-small" color="#000" type="cancel" size="23" bindtap="clearInputText"></icon>
+		</view>
+		<view class="pt10 tc color6">订单号/下单公司/下单时间</view>
+
+		<view style="width: 100%;margin-top: 20rpx;border-top: 1px #e7e7e7 solid;"></view>
+		<view style="height: calc(44px + 264px); overflow: scroll; text-align: center;">
+			<view wx:for="{{orderList}}" style="border-bottom: 1px solid #eee; padding: 10px 0;" bindtap="selectOrder"
+				data-item="{{item}}">
+				{{item.code}}/{{item.client_name}}/{{item.created_at}}
+			</view>
+
+			<view style="padding: 200rpx;" class="color9" wx:if="{{orderList.length === 0}}">暂无查询内容</view>
+		</view>
+	</van-popup>
+	<van-popup show="{{ showProPicker }}" position="bottom" bind:close="closeShowPicker" data-type="product">
+		<van-picker columns="{{ list[chooseIndex].produceDetailInfo }}" show-toolbar bind:cancel="closeShowPicker" data-type="product" bind:confirm="changePro"
+		confirm-button-text='确认' cancel-button-text='取消'></van-picker>
+	</van-popup>
+	<van-popup show="{{ showColor }}" position="bottom" bind:close="closeShowPicker" data-type="color">
+		<van-picker columns="{{ list[chooseIndex].productInfo[chooseProIndex].colorInfo }}" show-toolbar bind:cancel="closeShowPicker" data-type="color" bind:confirm="changeColor"
+		confirm-button-text='确认' cancel-button-text='取消'></van-picker>
+	</van-popup>
+	<!-- 只能选订单的时候用 -->
+	<van-popup show="{{ showPro }}" round bind:close="closePro">
+		<view style="min-width: 85vw;min-height:30vh;max-height:70vh" class="pt10 pl10 pr10 pb10 por">
+			<view class="flex aic">
+				<view class="circle27A2" wx:if="{{list[chooseIndex].order_type == 1}}">订</view>
+				<view class="circleFDA9" wx:if="{{list[chooseIndex].order_type == 2}}">样</view>
+				<view class="ml20">{{list[chooseIndex].order_code}}</view>
+			</view>
+			<view wx:for="{{list[chooseIndex].produceDetailInfo}}">
+				<view class="mt20">
+					<view class="flex">
+						<image style="align-self: center;"
+							src="{{item.image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+							class="image" />
+						<view class="flex ml10 jcsb w100 flexWarp">
+							<view class="flex jcsb w100">
+								<view>{{item.name}}</view>
+								<view>
+									<view>{{item.product_code}}</view>
+									<view>({{item.category}} / {{item.secondary_category}})</view>
+								</view>
+							</view>
+							<rich-text class="mt10" nodes="{{item.desc}}"></rich-text>
+						</view>
+					</view>
+					<view class="flex mt10 jcsb">
+						<view class="w25">尺码/颜色</view>
+						<view class="w25">计划生产</view>
+						<view class="w25">检验入库</view>
+					</view>
+					<view wx:for="{{item.product_info}}" wx:for-item="itemColor" wx:for-index="indexColor" class="flex mt10 jcsb">
+						<view class="w25">{{itemColor.size_name}}/{{itemColor.color_name}}</view>
+						<view class="w25">{{itemColor.number}}</view>
+						<view class="w25 flex jcsb">
+							<view>{{itemColor.inspection_number}}</view>
+							<van-checkbox class="ml10" value="{{ itemColor.check }}" data-index="{{index}}"
+								data-indexcolor="{{indexColor}}" bind:change="changeCheckColor"></van-checkbox>
+						</view>
+					</view>
+					<view style="height: 5vh;"></view>
+				</view>
+			</view>
+			<view class="poa flex tc bgColorWhite"
+				style="height:5vh;bottom: 0;border-top:1px solid #dfdfdf;line-height: 5vh;">
+				<view class="vw43" style="border-right: 1px solid #dfdfdf;" bindtap="closePro">关闭</view>
+				<view class="vw42 color27A2" bindtap="confirmColor">确认</view>
+			</view>
+		</view>
+	</van-popup>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+</view>

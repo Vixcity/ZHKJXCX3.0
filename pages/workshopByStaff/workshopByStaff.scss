@@ -1,0 +1,30 @@
+/* pages/workshopByStaff/workshopByStaff.wxss */
+#workshopByStaff{
+	.image {
+    border-radius: 0;
+    overflow: hidden;
+    width: 144rpx;
+    height: 114rpx;
+    border-radius: 8rpx;
+  }
+	
+	.circle27A2 {
+    border: 1px solid #27A2FD;
+    border-radius: 30em;
+    width: 1em;
+    line-height: 1em;
+		padding: 5px;
+		backGround: #27A2FD;
+		color: white;
+	}
+
+  .circleFDA9 {
+    border: 1px solid #FDA947;
+    border-radius: 30em;
+    width: 1em;
+    line-height: 1em;
+    padding: 5px;
+		backGround: #FDA947;
+		color: white;
+  }
+}

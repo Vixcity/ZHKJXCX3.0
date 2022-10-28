@@ -1,0 +1,123 @@
+<!--pages/workshopEditByThing/workshopEditByThing.wxml-->
+<view id="workshopEditByThing">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			修改计件结算日志
+		</view>
+	</nav-content>
+
+	<view class="card">
+		<view class="flex">
+			<view class="w30">序号</view>
+			<view>{{info.id}}</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">添加时间</view>
+			<view>{{info.created_at}}</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">审核状态</view>
+			<view>
+				<text wx:if="{{info.is_check == 0}}" class="colorFDA9">审核中</text>
+				<text wx:elif="{{info.is_check == 1}}" class="color27A2">通过</text>
+				<text wx:elif="{{info.is_check == 2}}" class="colorE800">驳回</text>
+				<text wx:else class="colorE800">状态异常</text>
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">员工信息</view>
+			<view>{{info.simpleStaffCode}} - {{info.staff_name}}</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">工序信息</view>
+			<view class="w70 flex jcsb">
+				<view>{{info.process_name}}</view>
+				<view wx:if="{{info.process_desc}}" class="color27A2" bindtap="watchDesc">查看说明</view>
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">订单号</view>
+			<view class="w70 color27A2">
+				{{info.order_code}}
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">产品信息</view>
+			<view class="w70">
+				{{info.product_code}} - {{info.size_name}} / {{info.color_name}}
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">完成数</view>
+			<view class="w70">
+				<input type="number" bindinput="changeType" data-type='number' value="{{info.number}}"
+					placeholder="请输入完成数" />
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">额外数</view>
+			<view class="w70">
+				<input type="number" bindinput="changeType" data-type='extra_number' value="{{info.extra_number}}"
+					placeholder="请输入额外数" />
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">次品数</view>
+			<view class="w70">
+				<input type="number" bindinput="changeType" data-type='shoddy_number' value="{{info.shoddy_number}}"
+					placeholder="请输入次品数" />
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">次品原因</view>
+			<view class="w70">
+				<input type="number" bindinput="changeType" data-type='shoddy_reason' value="{{info.shoddy_reason}}"
+					placeholder="请输入次品原因" />
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">结算单价</view>
+			<view class="w70">
+				<input type="digit" bindinput="changeType" data-type='price' value="{{info.price}}"
+					placeholder="请输入结算单价" />
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">结算总价</view>
+			<view class="w70">
+				{{info.total_price}}
+			</view>
+		</view>
+	</view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa vw90">
+			<van-button class="resetHalf45" type="primary" size="small" bindtap="toPrev">放弃修改
+			</van-button>
+			<van-button class="ml20 confirmHalf45" type="primary" size="small" bindtap="confirmData">保存修改
+			</van-button>
+		</view>
+	</view>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<van-dialog id="van-dialog" />
+	<l-message content="{{content}}" />
+</view>

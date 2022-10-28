@@ -121,7 +121,7 @@
 		</view>
 	</view>
 	<view wx:if="{{isLogin && hasCreateModule}}">
-		<view class="mt20 submit" style="position: fixed;bottom:5%;left:50%;transform: translateX(-50%);">
+		<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
 			<van-button type="primary" size="small" bindtap="toCreate">创建报价单</van-button>
 		</view>
 	</view>

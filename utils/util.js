@@ -1901,6 +1901,10 @@ function convertCurrency(money) {
   return chineseStr;
 }
 
+function isNumber(obj) {  
+	return obj === +obj  
+}
+
 module.exports = {
   formatTime,
   wxReq,
@@ -1911,7 +1915,8 @@ module.exports = {
   dateDiff,
   urlParams,
   reloadThisPage,
-  isIfLogin,
+	isIfLogin,
+	isNumber,
   debounce,
   formatDate,
   getClientList,

@@ -1,0 +1,78 @@
+<!--pages/workshopEditByPrice/workshopEditByPrice.wxml-->
+<view id="workshopEditByPrice">
+	<nav-content showHome="{{false}}">
+		<view slot="after">
+			修改计时结算日志
+		</view>
+	</nav-content>
+
+	<view class="card">
+		<view class="flex">
+			<view class="w30">序号</view>
+			<view>{{info.id}}</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">审核状态</view>
+			<view>
+				<text wx:if="{{info.is_check == 0}}" class="colorFDA9">审核中</text>
+				<text wx:elif="{{info.is_check == 1}}" class="color27A2">通过</text>
+				<text wx:elif="{{info.is_check == 2}}" class="colorE800">驳回</text>
+				<text wx:else class="colorE800">状态异常</text>
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">员工信息</view>
+			<view>{{info.simpleStaffCode}} - {{info.staff_name}}</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">工序信息</view>
+			<view class="w70 flex jcsb">
+				<view>{{info.process_name}}</view>
+				<view wx:if="{{info.process_desc}}" class="color27A2" bindtap="watchDesc">查看说明</view>
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">单价</view>
+			<view class="w70 flex jcsb">
+				<input class="w30" type="digit" bindinput="changeType" data-type='price' value="{{info.price}}" placeholder="请输入单价"/>
+				<l-radio-group placement="row" current="{{info.time_type}}" bind:linchange="changeType" data-type='time_type'>
+					<l-radio key="{{1}}" class="color3 fz28">每小时</l-radio>
+					<l-radio key="{{2}}" class="ml10 color3 fz28">每天</l-radio>
+				</l-radio-group>
+			</view>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">时长</view>
+			<input type="digit" bindinput="changeType" data-type='time_count' value="{{info.time_count}}" placeholder="请输入时长"/>
+		</view>
+		<view class="line"></view>
+		<view class="flex">
+			<view class="w30">备注</view>
+			<input type="text" bindinput="changeType" data-type='desc' value="{{info.desc}}" placeholder="请输入备注"/>
+		</view>
+	</view>
+
+	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
+		<view class="flex jcsa vw90">
+			<van-button class="resetHalf45" type="primary" size="small" bindtap="toPrev">放弃修改
+			</van-button>
+			<van-button class="ml20 confirmHalf45" type="primary" size="small" bindtap="confirmData">保存修改
+			</van-button>
+		</view>
+	</view>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toPrev"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+
+	<van-dialog id="van-dialog" />
+	<l-message content="{{content}}" />
+</view>
