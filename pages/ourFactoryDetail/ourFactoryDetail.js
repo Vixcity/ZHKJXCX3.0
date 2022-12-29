@@ -189,81 +189,94 @@ Page({
     });
   },
 
-  // 展示检验入库和生产出库按钮
-  showBox(e) {
-    // 把其它的都先关闭一下
-    this.data.productionPlanMergeList.forEach((item) => {
-      item.childrenMergeInfo.forEach((itemMerge) => {
-        itemMerge.boxShow = false;
-      });
-    });
-    this.setData({
-      productionPlanMergeList: this.data.productionPlanMergeList,
-    });
-
+  changeAllCheck(e) {
     const { index, indexmerge } = e.currentTarget.dataset;
     this.data.productionPlanMergeList[index].childrenMergeInfo[
       indexmerge
-    ].boxShow = true;
+    ].checked = e.detail;
+    this.data.productionPlanMergeList[index].childrenMergeInfo[
+      indexmerge
+    ].product_info_data.forEach((itemPro) => {
+      itemPro.checked = e.detail;
+    });
     this.setData({
-      chooseBox: [index, indexmerge],
       productionPlanMergeList: this.data.productionPlanMergeList,
     });
   },
 
-  // 关闭检验入库和生产出库按钮
-  closeBox(e) {
-    if (!this.data.chooseBox) return;
-    const [index, indexmerge] = this.data.chooseBox;
+  changeCheck(e) {
+    const { index, indexmerge, indexpro } = e.currentTarget.dataset;
     this.data.productionPlanMergeList[index].childrenMergeInfo[
       indexmerge
-    ].boxShow = false;
+    ].product_info_data[indexpro].checked = e.detail;
+    
     this.setData({
-      chooseBox: undefined,
       productionPlanMergeList: this.data.productionPlanMergeList,
     });
   },
 
   // 获取到格式化的数据
   formatProData(type) {
-    let proInfo = this.data.productionPlanMergeList[this.data.chooseBox[0]]
-      .childrenMergeInfo[this.data.chooseBox[1]];
-    proInfo.product_info_data.forEach((item) => {
-      let obj = {
-        type: type,
-        shoddy_reason: "",
-        shoddy_number: "",
-        production_number: item.number,
-        part_shoddy_number: "",
-        order_id: proInfo.order_id,
-        number: "",
-        doc_info_id: item.id,
-        doc_info:
-          item.product_code +
-          "/" +
-          item.part_name +
-          "/" +
-          (item.color_name || "无配色") +
-          "/" +
-          (item.size_name || "无尺码"),
-        deduct_price: "",
-        complete_time: formatDate(new Date()),
-        code: proInfo.code,
-        client: [],
-      };
-
-      if (type === 1) {
-        this.data.inInput.push(obj);
-      } else if (type === 2) {
-        this.data.outInput.push(obj);
-      }
-    });
+		this.data.productionPlanMergeList.forEach(item => {
+			item.childrenMergeInfo.forEach(proInfo => {
+				proInfo.product_info_data.forEach((itemPro) => {
+					if(!itemPro.checked) return 
+					let obj = {
+						type: type,
+						shoddy_reason: "",
+						shoddy_number: "",
+						production_number: itemPro.number,
+						part_shoddy_number: "",
+						order_id: proInfo.order_id,
+						number: "",
+						doc_info_id: itemPro.id,
+						doc_info:
+							itemPro.product_code +
+							"/" +
+							itemPro.part_name +
+							"/" +
+							(itemPro.color_name || "无配色") +
+							"/" +
+							(itemPro.size_name || "无尺码"),
+						deduct_price: "",
+						complete_time: formatDate(new Date()),
+						code: proInfo.code,
+						client: [],
+					};
+		
+					if (type === 1) {
+						this.data.inInput.push(obj);
+					} else if (type === 2) {
+						this.data.outInput.push(obj);
+					}
+				});
+			})
+		})
+    
     if (type === 1) {
+			if(this.data.inInput.length === 0){
+				wx.lin.showMessage({
+					content: "请选择产品",
+					type: "error",
+          duration: 2000,
+					top: getApp().globalData.navH,
+				});
+				return
+			}
       this.setData({
         inInput: this.data.inInput,
         showIn: true,
       });
     } else if (type === 2) {
+			if(this.data.outInput.length === 0){
+				wx.lin.showMessage({
+					content: "请选择产品",
+					type: "error",
+          duration: 2000,
+					top: getApp().globalData.navH,
+				});
+				return
+			}
       this.setData({
         outInput: this.data.outInput,
         showOut: true,
@@ -275,7 +288,6 @@ Page({
   openInOutBox(e) {
     const { type } = e.currentTarget.dataset;
     this.formatProData(type);
-    this.closeBox();
   },
 
   // 打开成品入库框

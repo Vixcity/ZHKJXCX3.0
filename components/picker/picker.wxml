@@ -1,14 +1,12 @@
 <!--components/picker.wxml-->
-<van-popup show="{{ showDialog }}" position="bottom" bind:close="supplyAreaCancel">
-	<view wx:if="{{!notSearch}}" style="font-size:28rpx; display: flex; justify-content: center;padding:10px">
-		<view style="display: flex; border: 1px solid #eee; padding: 10px; border-radius: 200px; ">
-			<van-icon name="search" /><input adjust-position="{{false}}" type="text" value="{{inputText}}"
-				placeholder="输入内容进行搜索" style="width: 80vw;padding-left: 10px;" bindconfirm="comfirnData" />
-			<icon class="icon-small" color="#000" type="cancel" size="23" bindtap="clearInputText"></icon>
-		</view>
-	</view>
-	<view style="width: 100%;margin-top: 50rpx;border-top: 1px #e7e7e7 solid;"></view>
-	<view wx:if="{{showWhite}}" style="height: calc(44px + 264px); overflow: scroll; text-align: center;">
+<van-popup show="{{ showDialog }}" position="top" bind:close="supplyAreaCancel">
+	<view style="height: 80px;"></view>
+	<van-picker wx:if="{{!showWhite}}" show-toolbar title="{{title || ' '}}" value="{{ deptId }}"
+		columns="{{ columns }}" bind:change="supplyChange" bind:confirm="supplyAreaConfirm"
+		bind:cancel="supplyAreaCancel" />
+
+	<!-- 搜索结果 -->
+	<scroll-view wx:if="{{showWhite}}" scroll-y	style="max-height: calc(44px + 264px); text-align: center;">
 		<view wx:if="{{level == 2}}">
 			<view wx:for="{{pickerArr}}" style="border-bottom: 1px solid #eee; padding: 10px 0;" bindtap="selectFilter"
 				data-item="{{item}}">
@@ -27,8 +25,13 @@
 				{{item.value[0].text}}
 			</view>
 		</view>
+	</scroll-view>
+	<!-- 搜索 -->
+	<view wx:if="{{!notSearch}}" style="font-size:28rpx; display: flex; justify-content: center;padding:10px">
+		<view style="display: flex; border: 1px solid #eee; padding: 10px; border-radius: 200px; ">
+			<van-icon name="search" /><input adjust-position="{{false}}" type="text" value="{{inputText}}"
+				placeholder="输入内容进行搜索" style="width: 80vw;padding-left: 10px;" bindconfirm="comfirnData" />
+			<icon class="icon-small" color="#000" type="cancel" size="23" bindtap="clearInputText"></icon>
+		</view>
 	</view>
-	<van-picker wx:if="{{!showWhite}}" show-toolbar title="{{title || ' '}}" value="{{ deptId }}"
-		columns="{{ columns }}" bind:change="supplyChange" bind:confirm="supplyAreaConfirm"
-		bind:cancel="supplyAreaCancel" />
 </van-popup>

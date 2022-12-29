@@ -476,9 +476,9 @@ Page({
 				url: "../workshopByStaff/workshopByStaff",
 			});
 		} else if(type == 2){
-			wx.navigateTo({
-				url: "../workshopByOrder/workshopByOrder",
-			});
+			// wx.navigateTo({
+			// 	url: "../workshopByOrder/orderList",
+			// });
 		}
 	},
 

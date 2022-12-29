@@ -182,14 +182,8 @@
 				<view wx:for="{{item.childrenMergeInfo}}" wx:for-item="itemMerge" wx:for-index="indexMerge">
 					<view class="flex jcsb aic por">
 						<view class="bold mt10">{{itemMerge.code}}</view>
-						<view class="bold mt10 bgColor27A2 colorWhite tc" style="width: 1em;line-height: 1em;padding: 3px;"
-							catchtap="showBox" data-index="{{index}}" data-indexmerge="{{indexMerge}}">+</view>
-						<view wx:if="{{itemMerge.boxShow}}" class="poa bgColorWhite pt5 pb5 pl10 pr10"
-							style="border: 1px solid rgba(153, 153, 153, 0.3);border-radius:5px;right:0;top: 2em;">
-							<view catchtap="openInOutBox" class="color27A2" data-type="{{1}}">检验入库</view>
-							<view class="line"></view>
-							<view catchtap="openInOutBox" class="color27A2" data-type="{{2}}">生产出库</view>
-						</view>
+						<van-checkbox value="{{ itemMerge.checked }}" bind:change="changeAllCheck" data-index="{{index}}"
+							data-indexmerge="{{indexMerge}}">全选</van-checkbox>
 					</view>
 					<view class="mt10 flex jcsb">
 						<view>{{itemMerge.client_name}}</view>
@@ -202,8 +196,8 @@
 					<view wx:for="{{itemMerge.product_info_data}}" wx:for-item="itemPro" wx:for-index="indexPro" class="mt10">
 						<view class="flex jcsb aic">
 							<view class="flex aic">
-								<view style="width: 1em; line-height: 1em;border-radius: 20em;"
-									class="tc bgColor27A2 pt5 pb5 pr5 pl5 colorWhite">{{indexPro+1}}</view>
+								<van-checkbox value="{{ itemPro.checked }}" bind:change="changeCheck" data-indexpro="{{indexPro}}"
+									data-index="{{index}}" data-indexmerge="{{indexMerge}}"></van-checkbox>
 								<view class="color27A2 ml10">
 									{{itemPro.product_code}}({{itemPro.category_name || '无'}}/{{itemPro.secondary_category_name || '无'}})
 								</view>
@@ -228,8 +222,10 @@
 
 	<!-- 成品入库按钮 -->
 	<view class="mt20 submit" style="position: fixed;bottom:3%;left:50%;transform: translateX(-50%);">
-		<view class="flex jcsa">
+		<view class="flex jcsa half30">
 			<van-button type="primary" size="small" bindtap="openCP">成品入库</van-button>
+			<van-button class="ml10" bindtap="openInOutBox" data-type="{{1}}" type="primary" size="small">检验入库</van-button>
+			<van-button class="ml10" bindtap="openInOutBox" data-type="{{1}}" type="primary" size="small">生产出库</van-button>
 		</view>
 	</view>
 
@@ -402,7 +398,8 @@
 			<view class="line"></view>
 			<view class="flex color6 aic">
 				<view class="w30">备注信息</view>
-				<l-textarea l-class='noPadBorder' value="{{checkObj.desc}}" class="w70" indicator="{{false}}" auto-height maxlength="140" placeholder="点击输入" bind:lininput="inputCheckObjDesc"/>
+				<l-textarea l-class='noPadBorder' value="{{checkObj.desc}}" class="w70" indicator="{{false}}" auto-height
+					maxlength="140" placeholder="点击输入" bind:lininput="inputCheckObjDesc" />
 			</view>
 		</view>
 		<view class="flex" style="border: 1px solid rgba(0, 0, 0, 0.1)">

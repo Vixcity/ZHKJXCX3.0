@@ -1,0 +1,231 @@
+<!--pages/workshopByOrder/orderList.wxml-->
+<view id="orderList" catchtouchmove='false'>
+	<nav-content showBack="{{false}}">
+		<view slot="after">
+			订单列表
+		</view>
+	</nav-content>
+
+	<view class="bgColorWhite">
+		<view class="flex aic">
+			<l-input class="w80" bind:lininput="confirmData" data-type="keyword" placeholder="单据编号/产品编号/产品名"
+				hide-label="{{true}}" />
+			<view class="w20 color6 flex aic" bindtap="openPopup">
+				<view>筛选</view>
+				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
+			</view>
+		</view>
+		<view wx:if="{{showPopup}}">
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
+				class="pof vh100" bindtap='closePopup'>
+			</view>
+			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
+				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
+					<mp-vtabs-content tabIndex="{{0}}">
+						<view class="title">创建人</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="user">
+							<label class="radio" wx:for="{{userList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{1}}">
+						<view class="title">负责小组</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="group">
+							<label class="radio" wx:for="{{groupList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">订单状态</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="orderstatus">
+							<label class="radio" wx:for="{{orderStatusList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{3}}">
+						<view class="title">审核状态</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="status">
+							<label class="radio" wx:for="{{statusList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{4}}">
+						<view class="title">创建时间</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="date">
+							<label class="radio" wx:for="{{dateList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+				</mp-vtabs>
+				<view class="flex jcsa bgColorWhite pt10">
+					<view class="resetHalf">
+						<van-button type="primary" size="small" bindtap="reset">重置</van-button>
+					</view>
+					<view class="confirmHalf">
+						<van-button type="primary" size="small" bindtap="confirmData">确认</van-button>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="flex jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '询价客户'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w25 h100 flex aic jcc" wx:if="{{client_id}}" bindtap="openPicker" data-type="contacts">
+				{{contacts_name || '联系人'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+		</view>
+	</view>
+
+	<scroll-view scroll-y class="vh80" bindscrolltolower="reqOrder">
+		<view class="card fz25" wx:for="{{orderList}}" wx:for-item="item" wx:key="item" wx:for-index="index"
+			data-item="{{item}}" bindtap="toDetail">
+			<view class="flex w100 jcsb">
+				<view class="bold fz30 w80">{{item.code || '未填写'}}</view>
+				<view class="w20 colorWhite tc">
+					<view wx:if="{{item.status === 1}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColorOrange">已创建</view>
+					<view wx:if="{{item.status === 2}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColor27A2">进行中</view>
+					<view wx:if="{{item.status === 3}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColor03d0">已完成</view>
+					<view wx:if="{{item.status === 4}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColor03d0">已结算</view>
+					<view wx:if="{{item.status === 5}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColorRed">已逾期</view>
+					<view wx:if="{{item.status === 6}}" style="border-radius: 500px;"
+						class="pl10 pr10 pt5 pb5 bgColorRed">已取消</view>
+				</view>
+			</view>
+			<view>{{item.client_name || '未填写'}}</view>
+			<view class="flex mt10">
+				<image style="align-self: flex-end;"
+					src="{{item.product_data[0].image_data[0] || 'https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png'}}"
+					class="image" />
+				<view class="pl10 w100 flex fdc jcsb">
+					<view class="flex aic jcsb">
+						<view>{{item.group_name || '未填写'}}</view>
+						<view style="transform: translateY(-15%)">
+							<view class="w100 flex jcsa">
+								<!-- 报 -->
+								<view wx:if="{{item.has_quote.status===1}}" class="ml5 iconfont icon-baojiadan1 color03d0 fz40"></view>
+								<view wx:if="{{item.has_quote.status===2}}" class="ml5 iconfont icon-baojiadan1 color9E fz40"></view>
+								<view wx:if="{{item.has_quote.status===3}}" class="ml5 iconfont icon-baojiadan1 colorOrange fz40">
+								</view>
+								<!-- 计 -->
+								<view wx:if="{{item.has_material_plan.status===1}}"
+									class="ml5 iconfont icon-yuanliaojihua1 color03d0 fz40"></view>
+								<view wx:if="{{item.has_material_plan.status===2}}"
+									class="ml5 iconfont icon-yuanliaojihua1 color9E fz40">
+								</view>
+								<view wx:if="{{item.has_material_plan.status===3}}"
+									class="ml5 iconfont icon-yuanliaojihua1 colorOrange fz40"></view>
+								<!-- 采 -->
+								<view wx:if="{{item.has_material_order.status===1}}"
+									class="ml5 iconfont icon-yuanliaocaigou1 color03d0 fz40"></view>
+								<view wx:if="{{item.has_material_order.status===2}}"
+									class="ml5 iconfont icon-yuanliaocaigou1 color9E fz40"></view>
+								<!-- 入 -->
+								<view wx:if="{{item.push_progress.progress===100||item.push_progress.progress>100}}"
+									class="ml5 iconfont icon-yuanliaoruku1 color03d0 fz40"></view>
+								<view wx:if="{{item.push_progress.progress>0 && item.push_progress.progress<100}}"
+									class="ml5 iconfont icon-yuanliaoruku1 colorOrange fz40"></view>
+								<view wx:if="{{!item.push_progress.progress}}" class="ml5 iconfont icon-yuanliaoruku1 color9E fz40">
+								</view>
+								<!-- 出 -->
+								<view wx:if="{{item.pop_progress.progress===100||item.pop_progress.progress>100}}"
+									class="ml5 iconfont icon-yuanliaochuku1 color03d0 fz40"></view>
+								<view wx:if="{{item.pop_progress.progress>0 && item.pop_progress.progress<100}}"
+									class="ml5 iconfont icon-yuanliaochuku1 colorOrange fz40"></view>
+								<view wx:if="{{!item.pop_progress.progress}}" class="ml5 iconfont icon-yuanliaochuku1 color9E fz40">
+								</view>
+							</view>
+							<view class="w100 flex jcsa mt5">
+								<!-- 产 -->
+								<view wx:if="{{item.has_weave_plan.status===1}}"
+									class="ml5 iconfont icon-shengchanjihua3 color03d0 fz40"></view>
+								<view wx:if="{{item.has_weave_plan.status===2}}" class="ml5 iconfont icon-shengchanjihua3 color9E fz40">
+								</view>
+								<!-- 检 -->
+								<view
+									wx:if="{{item.inspection_push_progress.progress===100||item.inspection_push_progress.progress>100}}"
+									class="ml5 iconfont icon-jianyanchuku color03d0 fz40"></view>
+								<view wx:if="{{item.inspection_push_progress.progress>0 && item.inspection_push_progress.progress<100}}"
+									class="ml5 iconfont icon-jianyanchuku colorOrange fz40"></view>
+								<view wx:if="{{!item.inspection_push_progress.progress}}"
+									class="ml5 iconfont icon-jianyanchuku color9E fz40"></view>
+								<!-- 包 -->
+								<view wx:if="{{item.has_pack_order.status===1}}"
+									class="ml5 iconfont icon-baozhuangcaigou1 color03d0 fz40"></view>
+								<view wx:if="{{item.has_pack_order.status===2}}"
+									class="ml5 iconfont icon-baozhuangcaigou1 color9E fz40">
+								</view>
+								<!-- 箱 -->
+								<view wx:if="{{item.transport_progress>=100}}"
+									class="ml5 iconfont icon-zhuangxiangchuku1 color03d0 fz40"></view>
+								<view wx:if="{{item.transport_progress>0&&item.transport_progress<100}}"
+									class="ml5 iconfont icon-zhuangxiangchuku1 colorOrange fz40"></view>
+								<view wx:if="{{item.transport_progress===0}}" class="ml5 iconfont icon-zhuangxiangchuku1 color9E fz40">
+								</view>
+								<!-- 票 -->
+								<view wx:if="{{item.has_invoice.status===1}}" class="ml5 iconfont icon-caiwukaipiao1 color03d0 fz40">
+								</view>
+								<view wx:if="{{item.has_invoice.status===2}}" class="ml5 iconfont icon-caiwukaipiao1 color9E fz40">
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="flex jcsb">
+						<view>下单总数：{{item.total_number}}</view>
+						<view>￥{{item.total_price}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<view wx:if="{{noData}}" class="flex aic fdc jcc vh60">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20 color91">暂无数据</view>
+		</view>
+		<view class="vh55" wx:if="{{showLoading && orderList.length === 0}}"></view>
+		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
+		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
+		<view class="vh5"></view>
+	</scroll-view>
+
+	<l-message content="{{content}}" />
+
+	<picker values="{{clientList}}" level="3" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="client"
+		showDialog="{{showClient}}"></picker>
+	<picker values="{{contactsList}}" reload bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="contacts"
+		showDialog="{{showContacts}}"></picker>
+
+	<movable-area class="movable-area">
+		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex"
+				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+		</movable-view>
+	</movable-area>
+</view>

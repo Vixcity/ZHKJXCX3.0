@@ -1437,6 +1437,17 @@ page {
 	margin: 0 auto;
 }
 
+.submit .half30 .van-button {
+	color: #ffffff !important;
+	border: none;
+	width: 30vw;
+	border-top-left-radius: 37rpx;
+	border-top-right-radius: 37rpx;
+	border-bottom-left-radius: 37rpx;
+	border-bottom-right-radius: 37rpx;
+	margin: 0 auto;
+}
+
 .half .van-button.submit {
 	background-image: linear-gradient(#52C0FF, #008AD8);
 }

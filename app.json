@@ -55,7 +55,8 @@
 		"pages/workshopEditByPrice/workshopEditByPrice",
 		"pages/workshopEditByThing/workshopEditByThing",
 		"pages/workshopByStaff/workshopByStaff",
-		"pages/workshopByOrder/workshopByOrder"
+		"pages/workshopByOrder/workshopByOrder",
+		"pages/workshopByOrder/orderList"
 	],
 	"window": {
 		"navigationStyle": "custom",
