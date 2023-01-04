@@ -37,6 +37,7 @@ Page({
     page: 1,
     status: "",
     group_name: "",
+    group_id: "",
     client_id: "",
     keyword: "",
     chooseDate: [
@@ -111,7 +112,7 @@ Page({
         data: {
           keyword: this.data.keyword,
           status: this.data.status,
-          group: this.data.group_name,
+          group_id: this.data.group_id,
           page: this.data.page,
           start_time: this.data.chooseDate[0] + " 00:00:00",
           end_time: this.data.chooseDate[1] + " 23:59:59",
@@ -227,6 +228,8 @@ Page({
       this.setData({
         group_name:
           e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+        group_id:
+          e.detail.value[0].text !== "全部" ? e.detail.value[0].id : "",
       });
     }
 

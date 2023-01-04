@@ -75,7 +75,7 @@
 		</view>
 	</view>
 	<view class="flex jcsb fz25 bgColorWhite" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-		<view class="w100 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '订购公司'}}
+		<view class="w100 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '订购单位'}}
 			<van-icon class="ml5 pt5" name="arrow-down" />
 		</view>
 	</view>

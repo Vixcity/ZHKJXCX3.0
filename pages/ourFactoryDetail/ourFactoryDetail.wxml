@@ -74,7 +74,38 @@
 			</view>
 			<view wx:for="{{item.product_info}}" wx:for-item="itemProInfo" class="flex jcsb color6 mt10">
 				<view>{{itemProInfo.size_name}}/{{itemProInfo.color_name}}</view>
-				<view>{{itemProInfo.weight}},{{itemProInfo.size_info}}</view>
+				<view wx:if="{{!item.isTable}}">{{itemProInfo.weight}},{{itemProInfo.size_info}}</view>
+				<view wx:else>
+					<scroll-view 	scroll-x="{{true}}">
+						<view style="min-width: 60vw;max-width: 60vw;white-space: nowrap;">
+							<view style="display: inline-block;vertical-align: top;" class="vw35">子款号</view>
+							<view style="display: inline-block;vertical-align: top;" class="vw35 ml10">条码号码</view>
+							<view style="display: inline-block;vertical-align: top;" class="vw20 ml10">尺码</view>
+							<view style="display: inline-block;vertical-align: top;" class="vw20 ml10">克重</view>
+							<view style="display: inline-block;" class="ml10">
+								尺寸
+								<view class="flex">
+									<view class="{{index === 0 ? '' : 'ml10'}} vw20" wx:for="{{itemProInfosize_arr}}">
+										{{item.name}}
+									</view>
+								</view>
+							</view>
+						</view>
+						<view style="min-width: 60vw;max-width: 60vw;white-space: nowrap;">
+							<view style="display: inline-block;" class="vw35">{{itemProInfo.child_style_code}}</view>
+							<view style="display: inline-block;" class="vw35 ml10">{{itemProInfo.brcode_number}}</view>
+							<view style="display: inline-block;" class="vw20 ml10">{{itemProInfo.size_name}}</view>
+							<view style="display: inline-block;" class="vw20 ml10">{{itemProInfo.weight}}</view>
+							<view style="display: inline-block;" class="ml10">
+								<view class="flex">
+									<view class="{{index === 0?'':'ml10'}} vw20" wx:for="{{itemProInfo.size_arr}}">
+										{{item.value}}
+									</view>
+								</view>
+							</view>
+						</view>
+					</scroll-view>
+				</view>
 				<view>{{itemProInfo.number}}</view>
 			</view>
 		</view>

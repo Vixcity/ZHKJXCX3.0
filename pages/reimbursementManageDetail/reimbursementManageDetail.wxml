@@ -18,7 +18,7 @@
 		</view>
 		<view class="flex">
 			<view class="w30">所属小组</view>
-			<view>{{detailData.group || '无'}}</view>
+			<view>{{detailData.group.name || '无'}}</view>
 		</view>
 		<view class="flex">
 			<view class="w30">创建人</view>

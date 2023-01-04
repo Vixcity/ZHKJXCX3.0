@@ -51,7 +51,7 @@
 		"useStaticServer": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.19.4",
+	"libVersion": "2.17.0",
 	"appid": "wx729453f234aa3b55",
 	"projectname": "ZHKJXCX3.0",
 	"condition": {

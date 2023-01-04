@@ -13,12 +13,8 @@
 
 	<view class="bgColorWhite">
 		<view class="flex aic">
-			<l-input class="w50" bind:lininput="confirmData" data-type="keyword" value="{{filterObj.keyword}}"
+			<l-input class="w80" bind:lininput="confirmData" data-type="keyword" value="{{filterObj.keyword}}"
 				placeholder="序号/姓名搜索" hide-label="{{true}}" />
-			<view class="w30 color6 flex aic jcc" bindtap="openPicker" data-type="process">
-				<view>{{filterObj.process_name || '工序筛选'}}</view>
-				<van-icon name="arrow-down" />
-			</view>
 			<view class="w20 color6 flex aic jcc" bindtap="openPopup">
 				<view>筛选</view>
 				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
@@ -74,6 +70,15 @@
 				</view>
 			</view>
 		</view>
+		<view class="flex bgColorWhite jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
+			<view class="w30 h100 flex aic jcc" bindtap="openPicker" data-type="group">{{filterObj.group_name || "小组"}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
+			<view class="w30 flex aic jcc" bindtap="openPicker" data-type="process">
+				<view>{{filterObj.process_name || '工序筛选'}}</view>
+				<van-icon name="arrow-down" />
+			</view>
+		</view>
 		<view class="flex jcsb" style="padding: 10px;">
 			<view class="w33">
 				<view>合计完成数量</view>
@@ -93,7 +98,7 @@
 	</view>
 
 	<!-- 计件列表卡片 -->
-	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 1}}">
+	<scroll-view scroll-y class="vh65" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 1}}">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex">
 			<view class="w100" bindtap="toDetail" data-item="{{item}}">
@@ -102,7 +107,7 @@
 							wx:elif="{{item.is_check == 1}}" class="color27A2">通过</text><text wx:elif="{{item.is_check == 2}}"
 							class="colorE800">驳回</text><text wx:else class="colorE800">状态异常</text>
 					</view>
-					<view class="w33">{{item.user_name}}</view>
+					<view class="w33">{{item.group_name || '无'}} - {{item.user_name}}</view>
 					<view class="w33">{{item.total_price || 0}} 元</view>
 				</view>
 				<view class="w100 flex aic mt10">
@@ -133,10 +138,10 @@
 		<view wx:if="{{noData}}" class="vh60"></view>
 		<l-loadmore show="{{showLoading}}" line="{{true}}" loading-text="努力加载中~"></l-loadmore>
 		<l-loadmore show="{{isEnd && orderList.length !== 0}}" type="end" line="{{true}}" end-text="我也是有底线的"></l-loadmore>
-		<view class="vh5"></view>
+		<view class="vh12"></view>
 	</scroll-view>
 	<!-- 计时列表卡片 -->
-	<scroll-view scroll-y class="vh70" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 2}}">
+	<scroll-view scroll-y class="vh65" bindscrolltolower="reqOrder" wx:if="{{filterObj.type === 2}}">
 		<view style="content: ''; overflow: hidden;"></view>
 		<view wx:for="{{list}}" class="card flex">
 			<view class="w100" bindtap="toDetail" data-item="{{item}}">
@@ -145,7 +150,7 @@
 							wx:elif="{{item.is_check == 1}}" class="color27A2">通过</text><text wx:elif="{{item.is_check == 2}}"
 							class="colorE800">驳回</text><text wx:else class="colorE800">状态异常</text>
 					</view>
-					<view class="w33">{{item.user_name}}</view>
+					<view class="w33">{{item.group_name || '无'}} - {{item.user_name}}</view>
 					<view class="w33">{{item.total_price || 0}} 元</view>
 				</view>
 				<view class="w100 flex aic mt10">
@@ -224,9 +229,10 @@
 		</view>
 	</l-mask>
 
-	<!-- 工序筛选弹窗 -->
+	<!-- 下拉 -->
 	<picker values="{{processList}}" level="2" bind:cancel="closeShowPicker" bind:confirm="confirmData"
 		data-type="process" showDialog="{{showProcess}}"></picker>
+	<picker values="{{groupList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="group" showDialog="{{showGroup}}"></picker>
 
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>

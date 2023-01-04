@@ -4,7 +4,8 @@ const {
   debounce,
   wxReq,
   getDepartmentList,
-  getYearList,
+	getYearList,
+	getGroupList,
 } = require("../../utils/util");
 
 // pages/workshopManagement/workshopManagement.js
@@ -15,7 +16,9 @@ Page({
   data: {
     filterObj: {
       keyword: "",
-      department: "",
+			department: "",
+			group_name: "",
+    	group_id: "",
       type: 1,
       page: 1,
       limit: 10,
@@ -86,6 +89,19 @@ Page({
         id: 12,
         text: "12月",
       },
+		],
+		groupList: [],
+		processList: [
+      {
+        text: "全部",
+        id: "",
+        children: [
+          {
+            text: "全部",
+            id: "",
+          },
+        ],
+      },
     ],
     isEnd: false,
     noData: false,
@@ -140,6 +156,7 @@ Page({
 
   // 拿到筛选条件
   getScreenList() {
+		console.log(123)
     let arr = [
       {
         text: "全部",
@@ -152,13 +169,15 @@ Page({
         ],
       },
     ];
-    let arr2 = [{ id: "", text: "全部" }];
+		let arr2 = [{ id: "", text: "全部" }];
+		getGroupList("/workshopManagement/workshopManagement");
     getDepartmentList("/workshopManagement/workshopManagement");
     getProcessList("/workshopManagement/workshopManagement");
 
     this.setData({
       processList: arr.concat(wx.getStorageSync("processList")),
-      departmentList: wx.getStorageSync("departmentList"),
+			departmentList: wx.getStorageSync("departmentList"),
+			groupList: wx.getStorageSync("groupList"),
       yearList: arr2.concat(getYearList(2018, new Date().getFullYear())),
     });
   },
@@ -246,6 +265,12 @@ Page({
         showProcess: true,
       });
     }
+		
+		if (type === "group") {
+      this.setData({
+        showGroup: true,
+      });
+    }
   },
 
   // 关闭选择器
@@ -255,6 +280,12 @@ Page({
     if (type === "process") {
       this.setData({
         showProcess: false,
+      });
+		}
+		
+		if (type === "group") {
+      this.setData({
+        showGroup: false,
       });
     }
   },
@@ -272,6 +303,11 @@ Page({
 
     if (type === "process") {
       this.data.filterObj.process_name = e.detail.value[1].id;
+    }
+		
+		if (type === "group") {
+      this.data.filterObj.group_name = e.detail.value[0].text !== "全部" ? e.detail.value[0].text : "",
+      this.data.filterObj.group_id = e.detail.value[0].id;
     }
 
     this.data.filterObj.page = 1;

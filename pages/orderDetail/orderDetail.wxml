@@ -1123,10 +1123,41 @@
 				</view>
 				<view class="flex mt10">
 					<view class="w30 color6">大身尺码</view>
-					<view class="w70">
+					<view class="w70" wx:if="{{!productInfo.isTable}}">
 						<view class="mt10" wx:for="{{productInfo.size_data}}">{{index+1}}. {{item.name}} {{item.weight}}g
 							{{item.size_info}}
 						</view>
+					</view>
+					<view wx:else>
+						<scroll-view 	scroll-x="{{true}}">
+							<view style="min-width: 60vw;max-width: 60vw;white-space: nowrap;">
+								<view style="display: inline-block;vertical-align: top;" class="vw35">子款号</view>
+								<view style="display: inline-block;vertical-align: top;" class="vw35 ml10">条码号码</view>
+								<view style="display: inline-block;vertical-align: top;" class="vw20 ml10">尺码</view>
+								<view style="display: inline-block;vertical-align: top;" class="vw20 ml10">克重</view>
+								<view style="display: inline-block;" class="ml10">
+									尺寸
+									<view class="flex">
+										<view class="{{index === 0?'':'ml10'}} vw20" wx:for="{{productInfo.size_data[0].size_arr}}">
+											{{item.name}}
+										</view>
+									</view>
+								</view>
+							</view>
+							<view wx:for="{{productInfo.size_data}}" wx:for-item="item" style="min-width: 60vw;max-width: 60vw;white-space: nowrap;">
+								<view style="display: inline-block;" class="vw35">{{item.child_style_code}}</view>
+								<view style="display: inline-block;" class="vw35 ml10">{{item.brcode_number}}</view>
+								<view style="display: inline-block;" class="vw20 ml10">{{item.name}}</view>
+								<view style="display: inline-block;" class="vw20 ml10">{{item.weight}}</view>
+								<view style="display: inline-block;" class="ml10">
+									<view class="flex">
+										<view class="{{index === 0?'':'ml10'}} vw20" wx:for="{{item.size_arr}}">
+											{{item.value}}
+										</view>
+									</view>
+								</view>
+							</view>
+						</scroll-view>
 					</view>
 				</view>
 			</view>

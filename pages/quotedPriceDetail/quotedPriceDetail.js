@@ -13,36 +13,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    listCard: [
-      {
-        showContent: false,
-        urls: [
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        ],
-      },
-      {
-        showContent: false,
-        urls: [
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        ],
-      },
-      {
-        showContent: false,
-        urls: [
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        ],
-      },
-      {
-        showContent: false,
-        urls: [
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-          "https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220211103236.png",
-        ],
-      },
-    ],
     reasonList: [
       { value: "物料成本偏低", isChecked: true, disabled: false },
       { value: "织造成本偏低", isChecked: false, disabled: false },
@@ -233,16 +203,6 @@ Page({
           });
         });
     }
-  },
-
-  showShort(e) {
-    this.data.listCard[e.detail.id].showContent = false;
-    this.setData({ listCard: this.data.listCard });
-  },
-
-  showBig(e) {
-    this.data.listCard[e.detail.id].showContent = true;
-    this.setData({ listCard: this.data.listCard });
   },
 
   checkBoxChange(e) {

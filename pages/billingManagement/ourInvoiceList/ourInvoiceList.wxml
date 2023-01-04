@@ -20,10 +20,23 @@
 			<view class="w50 h100 flex aic jcc" bindtap="openPicker" data-type="date">{{dateName || '创建时间'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
+			<view class="w50 h100 flex aic jcc" bindtap="openPicker" data-type="order_or_other">{{typeName || '发票类型'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
 		</view>
 		<view class="flex jcsb" style="padding: 10px;">
-			<view>开票金额</view>
-			<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
+			<view class="w30">
+				<view>开票金额</view>
+				<view class="color03d0 bold">{{additional.total_price || 0}} 万元</view>
+			</view>
+			<view class="w30">
+				<view>不含税金额</view>
+				<view class="color03d0 bold">{{additional.total_price_no_tax || 0}} 万元</view>
+			</view>
+			<view class="w30">
+				<view>税额合计</view>
+				<view class="color03d0 bold">{{additional.total_price_tax || 0}} 万元</view>
+			</view>
 		</view>
 	</view>
 
@@ -33,6 +46,10 @@
 			<view class="w100 flex aic">
 				<view class="title w32">票据编号：</view>
 				<view>{{item.code}}</view>
+			</view>
+			<view class="w100 flex aic">
+				<view class="title w32">发票类型：</view>
+				<view>{{item.order_or_other === 1 ? '订单开票' : item.order_or_other === 2 ? '其它开票' : '未知开票类型'}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">关联订单号：</view>
@@ -52,11 +69,19 @@
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">开票金额：</view>
-				<view class="color03d0">{{item.price}}</view>
+				<view class="color03d0">{{item.price || '0.00'}}元</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">开票金额：</view>
 				<view class="color03d0">{{item.priceChinese}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">不含税金额：</view>
+				<view class="color03d0">{{item.price_no_tax || '0.00'}}元</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="title w32">税额：</view>
+				<view class="color03d0">{{item.price_tax || '0.00'}}元</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">发票号码 ：</view>
@@ -79,6 +104,8 @@
 		showDialog="{{showClient}}"></picker>
 	<picker values="{{dateList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="date"
 		showDialog="{{showDate}}"></picker>
+	<picker values="{{typeList}}" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="order_or_other"
+		showDialog="{{showOrderType}}"></picker>
 
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>

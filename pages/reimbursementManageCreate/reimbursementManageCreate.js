@@ -92,6 +92,7 @@ Page({
           name,
           staff_id,
           group,
+          group_id,
           certificate,
           amount,
           receipt_contents,
@@ -107,6 +108,7 @@ Page({
           name,
           staff_id,
           group,
+          group_id,
           certificate,
           amount,
           staff_departments: receipt_contents,
@@ -254,6 +256,7 @@ Page({
           name: this.data.name,
           staff_id: this.data.staff_id,
           group: this.data.group,
+          group_id: this.data.group_id,
           certificate: certificate,
           amount: this.data.amount,
           id: this.data.id || "",
@@ -302,6 +305,7 @@ Page({
   onConfirm(e) {
     this.setData({
       group: e.detail.value[0].text,
+      group_id: e.detail.value[0].id,
       name: e.detail.value[1].text,
       staff_id: e.detail.value[1].id,
     });

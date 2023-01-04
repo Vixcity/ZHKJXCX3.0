@@ -1905,6 +1905,29 @@ function isNumber(obj) {
 	return obj === +obj  
 }
 
+/**
+ *判断是否为JSON字符串
+ *@method isJSON
+ *@str {string} 字符串
+ *@return {boolean} 返回布尔值
+*/
+function isJSON(str) {
+  if (typeof str == 'string') {
+		try {
+				var obj=JSON.parse(str);
+				if(typeof obj == 'object' && obj ){
+						return true;
+				}else{
+						return false;
+				}
+
+		} catch(e) {
+				// console.log('error：'+str+'!!!'+e);
+				return false;
+		}
+	}
+}
+
 module.exports = {
   formatTime,
   wxReq,
@@ -1917,6 +1940,7 @@ module.exports = {
   reloadThisPage,
 	isIfLogin,
 	isNumber,
+	isJSON,
   debounce,
   formatDate,
   getClientList,

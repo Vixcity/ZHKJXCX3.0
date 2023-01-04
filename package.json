@@ -12,7 +12,7 @@
     "@miniprogram-component-plus/vtabs": "^1.0.0",
     "@miniprogram-component-plus/vtabs-content": "^1.0.0",
     "@vant/weapp": "^1.10.2",
-    "lin-ui": "^0.9.8",
+    "lin-ui": "^0.9.12",
     "tdesign-miniprogram": "^0.10.0"
   }
 }

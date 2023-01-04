@@ -1,5 +1,5 @@
 // pages/billingManagement/workshopSettlementLog/workshopSettlementLogDetail.js
-const { wxReq, getStatusImage } = require("../../../utils/util");
+const { wxReq, getStatusImage, isJSON } = require("../../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -129,7 +129,13 @@ Page({
       res.data.data.style_data = res.data.data.style_data
         .map((item) => item.name)
         .join(",");
-      res.data.data.desc = res.data.data.desc || "无";
+			res.data.data.desc = res.data.data.desc || "无";
+			res.data.data.isTable = isJSON(res.data.data.size_data[0].size_info)
+			res.data.data.size_data.forEach(item => {
+				if(res.data.data.isTable) {
+					item.size_arr = JSON.parse(item.size_info)
+				}
+			})
       this.setData({ productInfo: res.data.data, showPro: true });
     });
   },

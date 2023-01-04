@@ -88,7 +88,7 @@
 			</view>
 		</view>
 		<view class="flex jcsb fz25" style="height: 48px;border-bottom: 1px solid #eaeaea;">
-			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '询价客户'}}
+			<view class="w25 h100 flex aic jcc" bindtap="openPicker" data-type="client">{{client_name || '下单客户'}}
 				<van-icon class="ml5 pt5" name="arrow-down" />
 			</view>
 			<view class="w25 h100 flex aic jcc" wx:if="{{client_id}}" bindtap="openPicker" data-type="contacts">

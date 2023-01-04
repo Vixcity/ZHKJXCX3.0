@@ -349,7 +349,9 @@ Page({
 
       let list = this.data.list.concat(res.data.data.items);
       let additional = res.data.data.additional;
-      additional.total_price = (additional.total_price / 10000).toFixed(2);
+			additional.total_price = (additional.total_price / 10000).toFixed(2);
+			additional.total_price_no_tax = (additional.total_price_no_tax / 10000).toFixed(2);
+      additional.total_price_tax = (additional.total_price_tax / 10000).toFixed(2);
 
       this.data.page += 1;
       this.setData({

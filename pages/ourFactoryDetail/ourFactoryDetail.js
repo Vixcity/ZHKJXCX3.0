@@ -1,4 +1,4 @@
-const { wxReq, mergeData, dateDiff, formatDate } = require("../../utils/util");
+const { wxReq, mergeData, dateDiff, formatDate, isJSON } = require("../../utils/util");
 import Dialog from "../../miniprogram_npm/@vant/weapp/dialog/dialog";
 // pages/ourFactoryDetail/ourFactoryDetail.js
 Page({
@@ -175,7 +175,16 @@ Page({
       itemTime.batch_data.forEach((itemBatch) => {
         productList = productList.concat(itemBatch.product_data);
       });
-    });
+		});
+		
+		productList.forEach(item => {
+			item.isTable = isJSON(item.size_data[0].size_info)
+			item.product_info.forEach(itemPro => {
+				if(item.isTable) {
+					itemPro.size_arr = JSON.parse(itemPro.size_info)
+				}
+			})
+		})
 
     this.setData({
       productList,
