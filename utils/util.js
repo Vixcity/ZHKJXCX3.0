@@ -956,21 +956,27 @@ const getBillingList = function () {
     },
     {
       path: "/billingManagement/workshopSettlementLog/workshopSettlementLog",
-      name: "车间结算日志",
+      name: "结算日志-计件",
       id: "tab" + 7,
       show: isHasPermissions("21-7"),
+		},
+		{
+      path: "/billingManagement/workshopSettlementLogTime/workshopSettlementLogTime",
+      name: "结算日志-计时",
+      id: "tab" + 8,
+      show: isHasPermissions("21-22"),
     },
     {
       path:
         "/billingManagement/auxiliaryMaterialPurchaseOrder/auxiliaryMaterialPurchaseOrder",
       name: "辅料订购单",
       show: isHasPermissions("21-8"),
-      id: "tab" + 8,
+      id: "tab" + 9,
     },
     {
       path: "/billingManagement/packingOrder/packingOrder",
       name: "包装订购单",
-      id: "tab" + 9,
+      id: "tab" + 10,
       show: isHasPermissions("21-9"),
     },
     {
@@ -978,36 +984,36 @@ const getBillingList = function () {
         "/billingManagement/transportationDeliveryOrder/transportationDeliveryOrder",
       name: "运输出库单",
       show: isHasPermissions("21-10"),
-      id: "tab" + 10,
+      id: "tab" + 11,
     },
     {
       path: "/billingManagement/deductionForm/deductionForm",
       name: "我方扣款单据",
-      id: "tab" + 11,
+      id: "tab" + 12,
       show: isHasPermissions("21-11"),
     },
     {
       path: "/billingManagement/ourInvoiceList/ourInvoiceList",
       name: "我方发票单据",
-      id: "tab" + 12,
+      id: "tab" + 13,
       show: isHasPermissions("21-12"),
     },
     {
       path: "/billingManagement/oppositeInvoicing/oppositeInvoicing",
       name: "对方发票单据",
-      id: "tab" + 13,
+      id: "tab" + 14,
       show: isHasPermissions("21-16"),
     },
     {
       path: "/billingManagement/collectionList/collectionList",
       name: "收款单据",
-      id: "tab" + 14,
+      id: "tab" + 15,
       show: isHasPermissions("21-13"),
     },
     {
       path: "/billingManagement/paymentDocument/paymentDocument",
       name: "付款单据",
-      id: "tab" + 15,
+      id: "tab" + 16,
       show: isHasPermissions("21-14"),
     },
   ];

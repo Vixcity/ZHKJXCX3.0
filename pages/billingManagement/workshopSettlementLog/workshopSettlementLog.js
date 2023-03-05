@@ -214,7 +214,7 @@ Page({
     });
 
     let {
-      is_check,
+			is_check,
       user_id,
       group_id,
       code,
@@ -228,7 +228,8 @@ Page({
         url: "/production/inspection/lists",
         method: "GET",
         data: {
-          is_check,
+					is_check,
+					type: 1,
           user_id,
           group_id,
           staff_id,

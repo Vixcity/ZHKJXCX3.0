@@ -2,21 +2,22 @@
 <view id="workshopSettlementLog">
 	<nav-content>
 		<view slot="after">
-			<view>结算日志-计件</view>
+			<view>结算日志-计时</view>
 		</view>
 	</nav-content>
 
 	<view class="bgColorWhite" catchtouchmove='false'>
 		<view class="flex aic">
-			<l-input class="w80" bind:lininput="changeParams" value="{{code}}" placeholder="订单号/产品编号" hide-label="{{true}}" />
+			<view class="w80 h100 flex aic jcc" bindtap="openPicker" data-type="process">{{process_name || '工序筛选'}}
+				<van-icon class="ml5 pt5" name="arrow-down" />
+			</view>
 			<view class="w20 color6 flex aic" bindtap="openPopup">
 				<view>筛选</view>
 				<t-icon name="menu-unfold" size="xl" bind:click="someFunction" />
 			</view>
 		</view>
 		<view wx:if="{{showPopup}}">
-			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;"
-				class="pof vh100" bindtap='closePopup'>
+			<view style="background-color: rgba(0, 0, 0, 0.5); top: 19vh; bottom: 0; left: 0; right: 0; z-index: 98;" class="pof vh100" bindtap='closePopup'>
 			</view>
 			<view class="vh60 pof bgColorWhite" style="z-index: 99;left:0 ;right: 0">
 				<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" tabActiveTextColor="#27A2fd" tabLineColor="#27A2fd">
@@ -43,6 +44,17 @@
 						</radio-group>
 					</mp-vtabs-content>
 					<mp-vtabs-content tabIndex="{{2}}">
+						<view class="title">计时方式</view>
+						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="time_type">
+							<label class="radio" wx:for="{{timeTypeList}}" wx:key="key">
+								<view>
+									<view class="label">{{item.text}}</view>
+									<radio value="{{index}}" checked="{{item.checked}}" />
+								</view>
+							</label>
+						</radio-group>
+					</mp-vtabs-content>
+					<mp-vtabs-content tabIndex="{{3}}">
 						<view class="title">审核状态</view>
 						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="status">
 							<label class="radio" wx:for="{{statusList}}" wx:key="key">
@@ -53,7 +65,7 @@
 							</label>
 						</radio-group>
 					</mp-vtabs-content>
-					<mp-vtabs-content tabIndex="{{3}}">
+					<mp-vtabs-content tabIndex="{{4}}">
 						<view class="title">筛选员工</view>
 						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="staff">
 							<label class="radio" wx:for="{{staffList}}" wx:key="key">
@@ -64,7 +76,7 @@
 							</label>
 						</radio-group>
 					</mp-vtabs-content>
-					<mp-vtabs-content tabIndex="{{4}}">
+					<mp-vtabs-content tabIndex="{{5}}">
 						<view class="title">创建时间</view>
 						<radio-group class="radio-label flex flexWarp ml10" bindchange="bindPickerChangeAge" data-type="date">
 							<label class="radio" wx:for="{{dateList}}" wx:key="key">
@@ -86,61 +98,74 @@
 				</view>
 			</view>
 		</view>
-		<view class="flex jcsb" style="padding: 10px;">
-			<view class="w25">
-				<view>完成数</view>
-				<view class="mt10 color03d0 bold">{{ additional.total_number || 0 }} 万件</view>
-			</view>
-			<view class="w25">
-				<view>完成金额</view>
-				<view class="mt10 color03d0 bold">{{ additional.total_price || 0 }} 万元</view>
-			</view>
+		<view class="flex jcsb aic" style="padding: 10px;">
+			<view>完成金额</view>
+			<view class="mt10 color03d0 bold">{{ additional.total_price || 0 }} 万元</view>
 		</view>
 	</view>
 
-	<scroll-view scroll-y class="vh72" bindscrolltolower="reqOrder">
+	<scroll-view scroll-y class="vh75" bindscrolltolower="reqOrder">
 		<view style="content: ''; overflow: hidden;"></view>
-		<view wx:for="{{list}}" class="card flex" bindtap="toDetail" data-item="{{item}}">
+		<!-- <view wx:for="{{list}}" class="card flex" bindtap="toDetail" data-item="{{item}}"> -->
+		<view wx:for="{{list}}" class="card flex" data-item="{{item}}">
 			<view class="w100 flex aic">
 				<view class="title w32">序号：</view>
 				<view>{{item.id}}</view>
-				<view class="colorWhite bgColorOrange pl10 pr10 pt5 pb5"
-					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:if="{{item.is_check === 0}}">待审核</view>
-				<view class="colorWhite bgColor27A2 pl10 pr10 pt5 pb5"
-					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 1}}">已审核
+				<view class="colorWhite bgColorOrange pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:if="{{item.is_check === 0}}">待审核</view>
+				<view class="colorWhite bgColor27A2 pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 1}}">已审核
 				</view>
-				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5"
-					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 2}}">已驳回
+				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:elif="{{item.is_check === 2}}">已驳回
 				</view>
-				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5"
-					style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:else>单据异常</view>
-			</view>
-			<view class="w100 flex aic mt10">
-				<view class="title w32">关联订单号：</view>
-				<view class="flex aic w68">
-					<view wx:if="{{item.order_type === 1}}" class="colorWhite bgColorOrange tc mr10 fz28"
-						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">订</view>
-					<view wx:if="{{item.order_type === 2}}" class="colorWhite bgColor27A2 tc mr10 fz28"
-						style="width: 25px;height: 25px;line-height: 25px;border-radius: 500px;">样</view>
-					<view class="widthCalc">{{item.order_code || '无'}}</view>
-				</view>
+				<view class="colorWhite bgColorRed pl10 pr10 pt5 pb5" style="border-radius: 500px; position: absolute;right: 5%;top: 5%;" wx:else>单据异常</view>
 			</view>
 			<view class="w100 flex aic mt10">
 				<view class="title w32">创建人：</view>
 				<view>{{item.user_name}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
+				<view class="title w32">创建时间：</view>
+				<view>{{item.created_at}}</view>
+			</view>
+			<view class="w100 flex aic mt10">
 				<view class="title w32">员工姓名：</view>
 				<view>{{item.staff_name}}</view>
 			</view>
 			<view class="w100 flex aic mt10">
+				<view class="w100 flex">
+					<view class="title w32">生产工序：</view>
+					<view>{{item.process_name || '无'}}</view>
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w100 flex">
+					<view class="title w32">工序说明：</view>
+					<view>{{item.process_desc || '无'}}</view>
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
 				<view class="w50 flex">
-					<view class="title w65">完成数量：</view>
-					<view>{{item.number}}</view>
+					<view class="title w65">时长：</view>
+					<view>{{item.time_count}}{{time_type == 1 ? '小时' : '天'}}</view>
 				</view>
 				<view class="w50 flex ml10">
-					<view class="title w55">结算金额：</view>
+					<view class="title w55">结算单价：</view>
+					<view>{{item.price}}</view>
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w50 flex">
+					<view class="title w65">负责小组：</view>
+					<view>{{item.group_name || '无'}}</view>
+				</view>
+				<view class="w50 flex ml10">
+					<view class="title w55">结算总价：</view>
 					<view>{{item.total_price}}</view>
+				</view>
+			</view>
+			<view class="w100 flex aic mt10">
+				<view class="w100 flex">
+					<view class="title w32">备注信息：</view>
+					<view>{{item.desc || '无'}}</view>
 				</view>
 			</view>
 		</view>
@@ -225,10 +250,11 @@
 		</view>
 	</van-popup> -->
 
+	<picker values="{{processList}}" level="2" bind:cancel="closeShowPicker" bind:confirm="confirmData" data-type="process" showDialog="{{showProcess}}"></picker>
+
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
-			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex"
-				style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
+			<view class="pof bgColorWhite pt5 pr10 pb5 pl10 color27A2" bindtap="toIndex" style="border: 1px solid #008df96b; border-radius:5px 0 0 5px;border-right: none;">上一页</view>
 		</movable-view>
 	</movable-area>
 </view>
