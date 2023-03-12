@@ -36,7 +36,7 @@
 			<image style="width: 27px;" src="https://file.zwyknit.com/%E9%A6%96%E9%A1%B5-01.png"></image>
 			<view class="color27A2">首页</view>
 		</view>
-		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="showSM">
+		<view class="tab-bar-item" style="transform: translateY(-50%);" bindtap="GetSandCode">
 			<image src="https://file.zwyknit.com/%E6%89%AB.svg"
 				style="background-color: white; border-top: 1px solid rgba(0, 0, 0, 0.33);padding: 10px; border-radius: 500px;width: 34px;transform: scale(1.2);">
 			</image>
@@ -51,10 +51,3 @@
 		</view>
 	</view>
 </view>
-<van-popup show="{{ SM }}" closeable bind:close="closeSM" class="tc">
-	<view style="margin: 80rpx 0 20rpx;border-top: 1px solid #a7a7a7;"></view>
-	<view style="margin: 0 auto;width: 80vw;box-sizing: border-box;">扫码收件</view>
-	<view style="margin: 0 auto;width: 80vw;box-sizing: border-box;">完成更新数量</view>
-	<view style="margin: 0 auto;width: 80vw;box-sizing: border-box;">扫码发件</view>
-	<view style="margin-top: 20rpx;"></view>
-</van-popup>
