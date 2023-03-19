@@ -13,7 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const moduleArr = jsonClone(this.data.userInfo.module_info);
+    const moduleArr = jsonClone(wx.getStorageSync("userInfo").module_info);
     const systemModuleArr = systemModule;
     systemModuleArr.forEach((item) => {
       if (moduleArr.indexOf(item.id) !== -1) {
