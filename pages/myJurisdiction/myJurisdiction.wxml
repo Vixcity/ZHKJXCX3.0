@@ -17,6 +17,13 @@
 			</view>
 		</view>
 	</view>
+	<view class="flex fdc vh60 color91 w100 jcc aic" wx:if="{{selfModule.length === 0}}">
+		<view class="tc size-xl">
+			<image class="image" src="https://file.zwyknit.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220216112643.png">
+			</image>
+			<view class="mt20">您暂无权限，请联系管理员添加权限</view>
+		</view>
+	</view>
 	<view class="vh3"></view>
 	<movable-area class="movable-area">
 		<movable-view class="movable-view" direction="vertical" x="10000000000" y='500'>
